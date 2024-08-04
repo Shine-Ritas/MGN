@@ -19,7 +19,7 @@ type NavigateMenu = {
     [key: string]: MenuItem;
 };
 
-interface ComicType {
+export interface ComicType {
   id: number;
   title: string;
 };

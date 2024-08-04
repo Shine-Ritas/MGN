@@ -8,4 +8,4 @@ export type Category = {
 }
 
 // take id and title from Category
-export type ComicCategory =  Pick<Category, 'id' | 'title'>;
+export type ComicCategory =  Pick<Category, 'id' | 'title' | "mogous_count">;

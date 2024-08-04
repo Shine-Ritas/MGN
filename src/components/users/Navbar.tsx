@@ -18,6 +18,8 @@ const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
 const Navbar = () => {
 
+    
+
     const { setTheme } = useTheme();
 
     const { safeContent, toggleSafeContent } = useSafeContent();

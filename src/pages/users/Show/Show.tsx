@@ -5,6 +5,7 @@ import { ChapterTable } from "./ChapterTable";
 import { useParams } from "react-router-dom";
 import Goback from "@/components/goback-btn";
 import { lazy, Suspense, useEffect } from "react";
+import useAdsRef from "@/hooks/useAdsRef";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -12,36 +13,43 @@ const Show = () => {
 
     const { slug } = useParams<{ slug: string }>();
 
-
     const { data: mogous, isLoading, isFetching } = useQuery(`users/mogous/${slug}`);
 
+    const { reAds } = useAdsRef({ adsOn: true });
 
     useEffect(() => {
-        // smooth scroll to top
 
-       !isFetching && window.scrollTo({
+        !isFetching && window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
 
-    },[isFetching])
+        !isFetching && reAds();
 
-    if(!isLoading && mogous?.mogou == null){
+
+    }, [isFetching])
+
+
+    if (!isLoading && mogous?.mogou == null) {
         return <div>
             notFound
         </div>
+    }
+
+    if (isLoading) {
+        return <div>Loading...</div>
     }
 
     return (
         <div className=" px-6 md:px-24 flex flex-col">
             <div className="flex items-center gap-4 mb-10">
                 <Goback
-                size={"sm"}
-                 to={'/'} />
+                    size={"sm"}
+                    to={'/'} />
                 <h1 className="flex-1 shrink-0 lg:whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                     {mogous?.mogou?.title}
                 </h1>
-           
+
             </div>
 
 
@@ -59,7 +67,7 @@ const Show = () => {
                             <RelatedMogou slug={mogous?.mogou.slug} />
                         </Suspense>
                     }
-                 
+
                 </div>
             </div>
 
