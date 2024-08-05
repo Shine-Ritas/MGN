@@ -1,7 +1,8 @@
 import { lazy } from "react";
 import { AppRouteInterface } from "./type";
-import { adminRouteCollection  } from "@/constants/constants.ts";
+import { adminRouteCollection } from "@/constants/constants.ts";
 import Apps from "@/pages/admin/apps/index.tsx";
+
 
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
@@ -13,10 +14,12 @@ const CategoryIndex = lazy(() => import('../pages/admin/Category/CategoryIndex.t
 const SubscriptionIndex = lazy(() => import('../pages/admin/Subscription/SubscriptionIndex.tsx'));
 const SubscriptionCreateEdit = lazy(() => import('../pages/admin/Subscription/SubscriptionCreateEdit.tsx'));
 const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
+const BannerSetting = lazy(() => import('../pages/admin/Settings/BannerSetting.tsx'));
+const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting.tsx'));
 
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
- 
+
   {
     path: adminRouteCollection.dashboard,
     element: (
@@ -32,6 +35,21 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         <Setting />
       </AdminLayout>
     ),
+    children: [
+      {
+        path: adminRouteCollection.generalSetting,
+        element: (
+          <GeneralSetting />
+        ),
+        index : true,
+      },
+      {
+        path: adminRouteCollection.generalBanner,
+        element: (
+          <BannerSetting />
+        ),
+      }
+    ]
   },
   {
     path: adminRouteCollection.comics,
@@ -77,7 +95,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
     path: adminRouteCollection.editSubscription,
     element: (
       <AdminLayout title="Editing Subscription">
-        <SubscriptionCreateEdit isEdit={true}/>
+        <SubscriptionCreateEdit isEdit={true} />
       </AdminLayout>
     ),
   },
@@ -101,7 +119,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
     path: adminRouteCollection.apps,
     element: (
       <AdminLayout title="Apps">
-          <Apps />
+        <Apps />
       </AdminLayout>
     ),
   }

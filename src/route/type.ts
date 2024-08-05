@@ -4,7 +4,8 @@ import React from 'react';
 interface AppRoute {
     [x: string]: any;
     path: string,
-    element: React.ReactNode
+    element: React.ReactNode,
+    children?: AppRoute[]
 }
 
 // Export the interface with an alias

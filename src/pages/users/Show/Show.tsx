@@ -26,7 +26,6 @@ const Show = () => {
 
         !isFetching && reAds();
 
-
     }, [isFetching])
 
 
@@ -42,6 +41,8 @@ const Show = () => {
 
     return (
         <div className=" px-6 md:px-24 flex flex-col">
+
+            <div id="popoverhe"></div>
             <div className="flex items-center gap-4 mb-10">
                 <Goback
                     size={"sm"}
