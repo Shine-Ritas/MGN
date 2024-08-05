@@ -19,12 +19,16 @@ const UserLayout = ({ children}: UserLayoutProps) => {
 
   useEffect(() => {
     dispatch(setCategories(data?.categories.data));
+    
+
   },[data])
 
   return (
     <div className="flex min-h-screen flex-col md:px-0">
 
       <Navbar />
+
+      <div  id="topBanner"></div>
      
 
       <div className="w-full pt-10 min-h-screen">
