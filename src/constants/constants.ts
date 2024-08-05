@@ -26,19 +26,9 @@ export interface ComicType {
 
 export type AppRouteCollectionInterface = Record<string, string>;
 
-export const navigateMenu: NavigateMenu = {
-    dashboard: { Icon: MdHomeFilled, to: "/dashboard", tooltip: "Home", title: "Home" },
-    comics: { Icon: SiBookstack, to: "/comics", tooltip: "comics", title: "Comics" },
-    categories: { Icon: BiCategory, to: "/categories", tooltip: "Manage Categories", title: "Categories" },
-    subscriptions: { Icon: MdSubscriptions, to: "/subscriptions", tooltip: "Manage Subscriptions", title: "Subscriptions" },
-    users: { Icon: FaUsersGear, to: "/users", tooltip: "Manage Users", title: "Users" },
-    apps: { Icon: TbAppsFilled, to: "/apps", tooltip: "Your Apps", title: "Apps" },
-    setting: { Icon: IoSettings, to: "/setting", tooltip: "Customize Your Application", title: "Setting" },
-};
 
 const adminRoutes: AppRouteCollectionInterface = {
     dashboard: "/dashboard",
-    setting: "/setting",
     comics: "/comics",
     comicsActions: "/comics/actions",
     categories: "/categories",
@@ -48,7 +38,21 @@ const adminRoutes: AppRouteCollectionInterface = {
     users: "/users",
     addUser: "/add/user",
     apps: "/apps",
+    setting: "/setting",
+    generalSetting: "/setting/general",
+    generalBanner: "/setting/banner",
 };
+
+export const navigateMenu: NavigateMenu = {
+  dashboard: { Icon: MdHomeFilled, to: adminRoutes.dashboard, tooltip: "Home", title: "Home" },
+  comics: { Icon: SiBookstack, to: adminRoutes.comics, tooltip: "comics", title: "Comics" },
+  categories: { Icon: BiCategory, to: adminRoutes.categories, tooltip: "Manage Categories", title: "Categories" },
+  subscriptions: { Icon: MdSubscriptions, to: adminRoutes.subscriptions, tooltip: "Manage Subscriptions", title: "Subscriptions" },
+  users: { Icon: FaUsersGear, to: adminRoutes.users, tooltip: "Manage Users", title: "Users" },
+  apps: { Icon: TbAppsFilled, to: adminRoutes.apps, tooltip: "Your Apps", title: "Apps" },
+  setting: { Icon: IoSettings, to: adminRoutes.setting, tooltip: "Customize Your Application", title: "Setting" },
+};
+
 
 const userRoutes : AppRouteCollectionInterface = {
   home: "/",
