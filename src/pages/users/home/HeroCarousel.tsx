@@ -3,7 +3,7 @@ import {
   CarouselContent
 } from "@/components/ui/carousel"
 import useQuery from "@/hooks/useQuery";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Mogous } from "./types";
 import HeroCarouselCard from "./HeroCarouselCard";
 import Autoplay from "embla-carousel-autoplay"
