@@ -8,6 +8,7 @@ import useLogout from "@/hooks/useLogout";
 import { prefixRoutes } from "@/route/helper";
 
 const SidebarRaw = () => {
+  console.log('sd rendered')
   const icons = prefixRoutes('/admin',navigateMenu);
   const logout = useLogout();
 
@@ -45,5 +46,9 @@ const SidebarRaw = () => {
   );
 }
 
-const Sidebar = memo(SidebarRaw);
+const isSameSideBar = (prevProps :any, nextProps:any) => {
+  return Object.keys(prevProps).every(key => prevProps[key] === nextProps[key]);
+}
+
+const Sidebar = memo(SidebarRaw, isSameSideBar);
 export default Sidebar;

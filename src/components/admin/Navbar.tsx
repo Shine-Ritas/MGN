@@ -3,6 +3,7 @@ import { lazy, memo } from "react";
 import CommandSearch from "./CommandSearch";
 import Logo from "@/assets/imgs/logo-icon.png";
 import LogoTitle from "@/assets/imgs/logo-title.png";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
 type NavbarProps = {
   title: string
 }
@@ -10,14 +11,13 @@ const MobileDrawer = lazy(() => import('./MobileDrawer'))
 
 const NavbarRaw = ({ title }: NavbarProps) => {
 
-  const windowWidth = window.innerWidth;
-
+  const {isMobile} = useScreenDetector();
 
   return (
     <div className="flex min-w-full justify-between px-4">
       <div className="flex items-center gap-10">
 
-        {windowWidth <= 768 ?(  
+        {!isMobile ?(  
           <div className="flex items-center gap-0">
           <img src={Logo} alt="logo" className="w-12 hover:motion-safe:animate-spin-slow cursor-pointer " />
           <img src={LogoTitle} alt="logo-title" className="w-16  cursor-pointer " />
@@ -41,7 +41,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
         </div>
         
         {
-          windowWidth <= 768 && (
+          isMobile && (
             <MobileDrawer />
           )
         }
