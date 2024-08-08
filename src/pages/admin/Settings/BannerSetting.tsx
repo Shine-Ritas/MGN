@@ -1,6 +1,4 @@
-import { Card  } from '@/components/ui/card'
 
-import BannerTwo from '@/assets/imgs/sexy-game.gif'
 import { Separator } from '@/components/ui/separator'
 import useQuery from '@/hooks/useQuery'
 import ProgressiveBanner from './Banner/ProgressiveBanner'

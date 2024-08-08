@@ -2,7 +2,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { PencilIcon } from 'lucide-react'
-import BannerOne from '@/assets/imgs/bannerSlot.gif'
 import { Card } from '@/components/ui/card'
 import { Banner } from './type'
 
