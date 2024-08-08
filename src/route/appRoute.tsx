@@ -1,17 +1,17 @@
 import { useRoutes } from "react-router-dom"
 
-import {  Suspense } from 'react';
 import { ThemeProvider } from "@/components/theme-provider"
 import useAuth from "@/hooks/useAuth.tsx";
 import guestRoutes from "./guestRoute.tsx";
-import adminAuthenticatedRoutes from "./authenticatedRoute.tsx";
+import adminAuthenticatedRoutes from "./adminRoute.tsx";
 import NotFoundError from "@/pages/errors/not-found.tsx";
 import { userAuthenticatedRoutes } from "./userRoute.tsx";
+
 
 const AppRoute = () => {
 
   const adminIsAuthenticated = useAuth({adminGuard: true});
-  // const userIsAuthenticated = useAuth({adminGuard: false});
+  // const userIsAuthenticated = useAuth({adminGuard: false});p
 
   const commonRoutes = [
     {
@@ -29,13 +29,12 @@ const AppRoute = () => {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Suspense fallback={
-        <p>loading....</p>
-     }>
-
+        
+            {/* <Routes>
+               <Route path="admin/*" element={<AdminLayout />} />
+            </Routes> */}
         {routeCollection}
 
-      </Suspense>
     </ThemeProvider>
   )
 }
