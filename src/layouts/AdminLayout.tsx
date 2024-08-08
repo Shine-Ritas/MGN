@@ -4,32 +4,31 @@ import Navbar from "@/components/admin/Navbar";
 import useQuery from "@/hooks/useQuery";
 import { setCategories } from "@/redux/slices/category-slice";
 import { useAppDispatch } from "@/redux/hooks";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { Outlet  } from "react-router-dom";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
 
-type AdminLayoutProps = {
-  children: React.ReactNode;
-  title: string;
-};
+const AdminLayout = () => {
 
-const AdminLayout = ({ children, title = "" }: AdminLayoutProps) => {
 
-  const windowWidth = window.innerWidth;
+  const { data } = useQuery('admin/categories?limit=400');
+  const dispatch = useAppDispatch();
 
-    const { data } = useQuery('admin/categories?limit=400');
-    const dispatch = useAppDispatch();
+  const {isMobile} = useScreenDetector();
 
-    useEffect(() => {
-      dispatch(setCategories(data?.categories.data));
-    },[data])
-
+ useEffect(() => {
+    if (data?.categories.data) {
+      dispatch(setCategories(data.categories.data));
+    }
+  }, [data, dispatch]);
   return (
-    <div className="flex max-h-screen md:overflow-scroll ">
+    <div className="flex max-h-screen md:overflow-y-scroll ">
 
       {
-        windowWidth > 768 && (
+        !isMobile && (
           <div className="hidden md:w-[10%] min-w-[160px] md:flex justify-center sticky top-2 left-0 items-center ">
-          <Sidebar />
-        </div>
+            <Sidebar />
+          </div>
         )
       }
 
@@ -37,13 +36,14 @@ const AdminLayout = ({ children, title = "" }: AdminLayoutProps) => {
 
         <div className="flex flex-col gap-8 w-full pt-2">
 
-          <Navbar title={title} />
+          <Navbar title={"something"} />
 
           <div className="flex w-full flex-col ">
 
             <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 ">
-              {children}
-
+              <Suspense fallback={<div>Loading...</div>}>
+                <Outlet />
+              </Suspense>
             </div>
 
           </div>
@@ -55,5 +55,6 @@ const AdminLayout = ({ children, title = "" }: AdminLayoutProps) => {
     </div>
   )
 }
+
 
 export default AdminLayout
