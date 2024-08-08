@@ -19,7 +19,7 @@ const Index = () => {
         <main className=" flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
         <div className="mx-auto flex-1 auto-rows-max gap-4 grid-cols-1">
 
-        <Tabs defaultValue="all" className="w-full justify-between">
+        <Tabs defaultValue="all" className="w-full justify-between bg-sc">
         <div className="flex items-center w-full justify-between">
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>

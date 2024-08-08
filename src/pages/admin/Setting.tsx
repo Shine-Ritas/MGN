@@ -5,6 +5,7 @@ import {
 
 } from "@/components/ui/card"
 import { adminRouteCollection } from "@/constants/constants"
+import { Suspense } from "react"
 
 import { Link, Outlet } from "react-router-dom"
 
@@ -35,7 +36,9 @@ const Setting = () => {
 
             </div>
             <div className="w-full gap-4 col-span-4">
+                <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
+                </Suspense>
             </div>
         </main>
 
