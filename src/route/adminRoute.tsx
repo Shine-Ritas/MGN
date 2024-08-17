@@ -4,7 +4,6 @@ import { adminRouteCollection } from "@/constants/constants.ts";
 import Apps from "@/pages/admin/apps/index.tsx";
 import AdminLayout from "@/layouts/AdminLayout.tsx";
 
-
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Setting = lazy(() => import('../pages/admin/Setting.tsx'));
 const Action = lazy(() => import('../pages/admin/Comics/Action.tsx'));
@@ -43,11 +42,11 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
           ]
         },
         {
-          path: adminRouteCollection.comics,
+          path: adminRouteCollection.mogous,
           element: <ComicIndex />,
         },
         {
-          path: adminRouteCollection.comicsActions,
+          path: adminRouteCollection.mogouAction,
           element: <Action />,
         },
         {
