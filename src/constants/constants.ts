@@ -29,8 +29,9 @@ export type AppRouteCollectionInterface = Record<string, string>;
 
 const adminRoutes: AppRouteCollectionInterface = {
     dashboard: "/dashboard",
-    comics: "/comics",
-    comicsActions: "/comics/actions",
+    mogous: "/mogous",
+    mogouAction: "/mogou/actions",
+    mogouEdit: "/mogou/edit/:slug",
     categories: "/categories",
     subscriptions: "/subscriptions",
     addSubscription: "/subscriptions/add",
@@ -43,15 +44,7 @@ const adminRoutes: AppRouteCollectionInterface = {
     generalBanner: "/setting/banner",
 };
 
-export const navigateMenu: NavigateMenu = {
-  dashboard: { Icon: MdHomeFilled, to: adminRoutes.dashboard, tooltip: "Home", title: "Home" },
-  comics: { Icon: SiBookstack, to: adminRoutes.comics, tooltip: "comics", title: "Comics" },
-  categories: { Icon: BiCategory, to: adminRoutes.categories, tooltip: "Manage Categories", title: "Categories" },
-  subscriptions: { Icon: MdSubscriptions, to: adminRoutes.subscriptions, tooltip: "Manage Subscriptions", title: "Subscriptions" },
-  users: { Icon: FaUsersGear, to: adminRoutes.users, tooltip: "Manage Users", title: "Users" },
-  apps: { Icon: TbAppsFilled, to: adminRoutes.apps, tooltip: "Your Apps", title: "Apps" },
-  setting: { Icon: IoSettings, to: adminRoutes.setting, tooltip: "Customize Your Application", title: "Setting" },
-};
+
 
 
 const userRoutes : AppRouteCollectionInterface = {
@@ -62,6 +55,16 @@ const userRoutes : AppRouteCollectionInterface = {
 
 export const adminRouteCollection = prefixRoutes('/admin', adminRoutes);
 export const userRouteCollection = prefixRoutes('', userRoutes);
+
+export const navigateMenu: NavigateMenu = {
+  dashboard: { Icon: MdHomeFilled, to: adminRouteCollection.dashboard, tooltip: "Home", title: "Home" },
+  comics: { Icon: SiBookstack, to: adminRouteCollection.mogous, tooltip: "comics", title: "Comics" },
+  categories: { Icon: BiCategory, to: adminRouteCollection.categories, tooltip: "Manage Categories", title: "Categories" },
+  subscriptions: { Icon: MdSubscriptions, to: adminRouteCollection.subscriptions, tooltip: "Manage Subscriptions", title: "Subscriptions" },
+  users: { Icon: FaUsersGear, to: adminRouteCollection.users, tooltip: "Manage Users", title: "Users" },
+  apps: { Icon: TbAppsFilled, to: adminRouteCollection.apps, tooltip: "Your Apps", title: "Apps" },
+  setting: { Icon: IoSettings, to: adminRouteCollection.setting, tooltip: "Customize Your Application", title: "Setting" },
+};
 
 interface ComicProgress extends ComicType {};
 

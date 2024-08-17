@@ -5,6 +5,7 @@ import useQuery from "@/hooks/useQuery";
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
+import '../styles/user-global.css';
 
 
 type UserLayoutProps = {

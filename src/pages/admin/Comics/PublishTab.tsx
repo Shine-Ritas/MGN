@@ -67,6 +67,7 @@ const PublishTab = ({
       <div></div>
       <Button variant={currentStatus!.color as any }
       onClick={handleSwitchStatus}
+      type='button'
       className="w-full">
         {
           currentStatus?.label

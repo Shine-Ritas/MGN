@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { Suspense, useEffect } from "react";
 import { Outlet  } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import '../styles/admin-global.css';
 
 const AdminLayout = () => {
 
@@ -20,9 +21,9 @@ const AdminLayout = () => {
     if (data?.categories.data) {
       dispatch(setCategories(data.categories.data));
     }
-  }, [data, dispatch]);
+  }, [data]);
   return (
-    <div className="flex max-h-screen md:overflow-y-scroll ">
+    <div className="flex max-h-screen md:overflow-y-scroll">
 
       {
         !isMobile && (

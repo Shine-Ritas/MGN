@@ -4,7 +4,8 @@ export const comicValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     description: Yup.string().required('Description is required'),
     author: Yup.string().required('Author is required'),
-    // cover: Yup.string().required('Cover Image is required'),
+    // cover is image
+    // cover: Yup.mixed().required('Cover is required'),
     // status: Yup.number().required('Status is required'),
     finish_status: Yup.number().required('Finish Status is required'),
     // legal_age: Yup.boolean().required('Legal Age is required'),
