@@ -50,6 +50,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
           element: <Action />,
         },
         {
+          path: adminRouteCollection.mogouEdit,
+          element: <Action isEdit={true}/>,
+        },
+        {
           path: adminRouteCollection.categories,
           element: <CategoryIndex />,
         },

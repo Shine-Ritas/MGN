@@ -22,6 +22,10 @@ export interface MogousType {
     sub_mogous:      SubMogous[];
 }
 
+export interface MogouWithTotalCount extends MogousType {
+    total_view_count?: number;
+}
+
 export interface Category {
     id:    number;
     title: string;
