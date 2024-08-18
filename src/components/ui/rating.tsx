@@ -30,7 +30,7 @@ interface RatingsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 
 export const Rating = ({
-  rating: initialRating =5,
+  rating: initialRating =1,
   totalStars = 5,
   size = 20,
   fill = true,
@@ -86,7 +86,7 @@ export const Rating = ({
 
   return (
     <div
-      className={cn("flex w-fit flex-col gap-2", { 'pointer-events-none': disabled })}
+      className={cn("flex w-fit flex-col gap-2 cursor-pointer", { 'pointer-events-none': disabled })}
       onMouseLeave={handleMouseLeave}
       {...props}
     >
