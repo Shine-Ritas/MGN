@@ -7,75 +7,51 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import { TablePagination } from "@/components/TablePagination"
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import useQuery from "@/hooks/useQuery"
 import ContentTableRow from "@/components/ui/custom/ContentTableRow"
 import { MogousType } from "./type"
-import ComicTableRow from "./ComicTableRow"
+
+import ComicCard from "./ComicCard"
 
 const ComicTable = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [queryParameters] = useSearchParams();
     const [search] = useState<string>(queryParameters.get('search') ?? "");
 
-    const { data, isLoading, isFetching } = useQuery(`admin/mogous?page=${currentPage}&search=${search}`);
+    const { data, isLoading, isFetching } = useQuery(`admin/mogous?page=${currentPage}&search=${search}&limit=10&mogou_total_count=true`);
 
     return (
-        <Card>
+        <Card className="pb-0 bg-background">
             <CardHeader>
-                <CardTitle>Manga & Manhwas</CardTitle>
+                <CardTitle>
+                    Your Comics
+                </CardTitle>
                 <CardDescription>
-                    Manage your manga and manhwas here.
+                    Manage All your Comics
                 </CardDescription>
             </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="min-w-32 md:w-[100px] sm:table-cell">
-                                <span className="">Cover</span>
-                            </TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead className="hidden md:table-cell">Total Chapters</TableHead>
-                            <TableHead className="hidden md:table-cell">
-                                Total Views
-                            </TableHead>
-                            <TableHead className="hidden md:table-cell">Created at</TableHead>
-                            <TableHead>
-                                <span className="sr-only">Actions</span>
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {
-                            isLoading ? (<ContentTableRow />)
-                                :
-                                (
-                                    data.mogous.data.length === 0 ? <ContentTableRow content="No data Found" /> :
-                                        data.mogous.data.map((sub: MogousType) => {
-                                            return <ComicTableRow key={sub.id} mogous={sub} />
-                                        })
-                                )
-                        }
-
-                    </TableBody>
-                </Table>
+            <CardContent className="">
+                <div className="grid grid-cols-2 gap-x-8 gap-y-12">
+                    {
+                        isLoading ? (<ContentTableRow />)
+                            :
+                            (
+                                data.mogous.data.length === 0 ? <ContentTableRow content="No data Found" /> :
+                                    data.mogous.data.map((mogou: MogousType) => {
+                                        return <ComicCard key={mogou.id} mogous={mogou} />
+                                    })
+                            )
+                    }
+                </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="bg-background flex items-center justify-center">
 
-            {
-                    (data && data.mogous.data.length > 0 ) && <TablePagination url={data.mogous.path} lastPage={data.mogous.last_page} currentPage={currentPage} setCurrentPage={setCurrentPage} isFetching={isFetching} />
-            }
+                {
+                    (data && data.mogous.data.length > 0) && <TablePagination url={data.mogous.path} lastPage={data.mogous.last_page} currentPage={currentPage} setCurrentPage={setCurrentPage} isFetching={isFetching} />
+                }
             </CardFooter>
         </Card>
     )

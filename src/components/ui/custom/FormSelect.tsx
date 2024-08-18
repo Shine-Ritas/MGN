@@ -33,7 +33,7 @@ const FormSelect = ({
 
   return (
     <>
-      <Select onValueChange={(value) => setValue(selectKey, value)} defaultValue={defaultValue}>
+      <Select onValueChange={(value) => setValue(selectKey, value)} defaultValue={defaultValue} value={defaultValue}>
         <SelectTrigger id={selectKey} aria-label="Select Progress">
           <SelectValue placeholder="Select Progress" defaultValue={defaultValue} />
         </SelectTrigger>

@@ -35,7 +35,7 @@ const adminRoutes: AppRouteCollectionInterface = {
     categories: "/categories",
     subscriptions: "/subscriptions",
     addSubscription: "/subscriptions/add",
-    editSubscription: "/subscriptions/edit/:id",
+    editSubscription: "/subscriptions/edit/:slug",
     users: "/users",
     addUser: "/add/user",
     apps: "/apps",

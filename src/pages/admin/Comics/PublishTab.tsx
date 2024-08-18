@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type PublishTabProps = {
     // status will be useRef type
@@ -8,11 +8,17 @@ type PublishTabProps = {
     setStatus : any
 }
 
-const statusContent = [
+type StatusContent = {
+    label : string,
+    value : number,
+    color : string
+}
+
+const statusContent:StatusContent[] = [
     {
         label : "Draft",
         value : 0,
-        color : "ghost"
+        color : "outline"
     },
     {
         label : "Published",
@@ -26,11 +32,16 @@ const statusContent = [
     }
 ]
 
+
 const PublishTab = ({
   status,setStatus
 }:PublishTabProps) => {
 
-    let [currentStatus,setCurrentStatus] = useState(statusContent.find((item) => item.value == status))
+    let [currentStatus,setCurrentStatus] = useState<StatusContent>(statusContent[0])
+
+    useEffect(() => {
+      setCurrentStatus(statusContent.find((item) => item.value == status) !)
+    }, [status]) 
 
     const handleSwitchStatus = useCallback(()=>{
         // loop through the statusContent and find the next status
@@ -52,6 +63,8 @@ const PublishTab = ({
           }
         })
     },[currentStatus])
+
+    
 
   return (
     <Card x-chunk="">
