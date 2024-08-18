@@ -2,8 +2,6 @@ import {
   Upload,
 } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -32,9 +30,16 @@ import ImageCropper from "@/components/ui/image-cropper"
 import { Input } from "@/components/ui/input"
 import InputError from "@/components/ui/input-error"
 import { toast } from "@/components/ui/use-toast"
+import { useParams } from "react-router-dom"
+import useQuery from "@/hooks/useQuery"
+import useEffectAfterMount from "@/hooks/useEffectAfterMount"
 
-const Action = () => {
+interface ActionProps {
+  isEdit?: boolean;
+}
 
+const Action = ({ isEdit = false }: ActionProps) => {
+  const { slug } = useParams<{ slug: string }>();
   const [selectedCategories, setSelectedCategories] = useState<any>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentCover, setCurrentCover] = useState<any>(null);
@@ -46,6 +51,22 @@ const Action = () => {
   });
   const coverImageInput = useRef<HTMLInputElement>(null);
 
+  const { data: mogou, isLoading } = useQuery(isEdit ? `admin/mogous/${slug}` : undefined);
+
+  useEffectAfterMount(() => {
+    mogou && setSelectedCategories(mogou?.mogou?.categories)
+    mogou && setCurrentCover(mogou?.mogou?.cover)
+    mogou && setBindData({
+      status: mogou?.mogou?.status,
+      legal_age: mogou?.mogou?.legal_age,
+      rating: mogou?.mogou?.rating,
+      cover: mogou?.mogou?.cover
+    });
+  }, [
+    mogou,isLoading
+  ])
+
+
   const onSuccessCallback = () => {
     toast({
       title: "New Mogou Created was Successful",
@@ -54,7 +75,7 @@ const Action = () => {
     });
   };
 
-  const [mutate, { isLoading }] = useMutate({ callback: onSuccessCallback });
+  const [mutate, { isLoading: isSubmiting }] = useMutate({ callback: onSuccessCallback });
 
   const {
     register,
@@ -73,16 +94,16 @@ const Action = () => {
     data.cover = bindData.cover;
 
     const formData = new FormData();
-      Object.keys(data).forEach((key) => {
-        if (key === "categories") {
-          data[key].forEach((category: any) => {
-            formData.append("categories[]", category);
-          });
-        }
-        else{
-          formData.append(key, data[key]);
-        }
+    Object.keys(data).forEach((key) => {
+      if (key === "categories") {
+        data[key].forEach((category: any) => {
+          formData.append("categories[]", category);
+        });
       }
+      else {
+        formData.append(key, data[key]);
+      }
+    }
     );
 
     const response = await mutate("admin/mogous", formData);
@@ -102,15 +123,12 @@ const Action = () => {
         <div className="flex items-center gap-4 mb-10">
           <Goback to={-1} />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            Manga Title
+            {isEdit ? "Edit Comic" : "Create Comic"}
           </h1>
-          <Badge variant="outline" className="ml-auto sm:ml-0">
-            Published
-          </Badge>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Goback to={-1} label="Discard" />
             <Button
-              disabled={isLoading}
+              disabled={isSubmiting}
               type="submit" size="sm">Save</Button>
           </div>
         </div>
@@ -126,11 +144,11 @@ const Action = () => {
               <CardContent>
                 <div className="grid gap-6">
                   <div className="grid gap-3 md:grid-cols-2">
-                    <FormInput label="Title" placeholder="Title" register={register('title')} fieldError={errors?.title} />
-                    <FormInput label="Author" placeholder="Author Name" register={register('author')} fieldError={errors?.author} />
+                    <FormInput label="Title" placeholder="Title" defaultValue={mogou?.mogou?.title} register={register('title')} fieldError={errors?.title} />
+                    <FormInput label="Author" placeholder="Author Name" defaultValue={mogou?.mogou?.author} register={register('author')} fieldError={errors?.author} />
                   </div>
                   <div className="grid gap-3">
-                    <FormTextBox label="Description" placeholder="Description" register={register('description')} fieldError={errors?.description} />
+                    <FormTextBox label="Description" placeholder="Description" defaultValue={mogou?.mogou?.description} register={register('description')} fieldError={errors?.description} />
                   </div>
                 </div>
               </CardContent>
@@ -143,8 +161,10 @@ const Action = () => {
                 <CardContent>
                   <div className="grid gap-3">
                     <FormSelect selectKey="mogou_type"
-                    defaultValue="0"
-                    collection={ComicType} setValue={setValue} errors={errors} />
+                      defaultValue={
+                        mogou?.mogou.mogou_type ? `${mogou?.mogou?.mogou_type}` : "0"
+                      }
+                      collection={ComicType} setValue={setValue} errors={errors} />
                   </div>
                 </CardContent>
               </Card>
@@ -155,8 +175,10 @@ const Action = () => {
                 <CardContent>
                   <div className="grid gap-3">
                     <FormSelect selectKey="finish_status"
-                    defaultValue="0"
-                    collection={ComicProgress} setValue={setValue} errors={errors} />
+                      defaultValue={
+                        mogou?.mogou.finish_status ? `${mogou?.mogou?.finish_status}` : "0"
+                      }
+                      collection={ComicProgress} setValue={setValue} errors={errors} />
                   </div>
                 </CardContent>
               </Card>
@@ -182,7 +204,7 @@ const Action = () => {
                   checked={bindData.legal_age}
                   onCheckedChange={(value) => setBindData({
                     ...bindData,
-                    legal_age: value ? "1" : "0"
+                    legal_age: value
                   })} />
               </CardContent>
             </Card>
@@ -198,17 +220,17 @@ const Action = () => {
                   <div className="grid grid-cols-3 gap-2">
                     {
                       currentCover ? <img src={currentCover}
-                      onClick={() => {
-                        coverImageInput.current?.click();
-                      }}
-                       alt="cover" className="flex aspect-auto w-full items-center justify-center rounded-md border
+                        onClick={() => {
+                          coverImageInput.current?.click();
+                        }}
+                        alt="cover" className="flex aspect-auto w-full items-center justify-center rounded-md border
                       min-w-28 object-contain " /> :
                         <button
                           type="button"
                           onClick={() => {
                             coverImageInput.current?.click();
                           }}
-                          className="flex aspect-auto w-full items-center justify-center rounded-md border border-dashed min-h-32 min-w-28">
+                          className="flex aspect-auto w-full bg-background items-center justify-center border-2 rounded-md  border-dashed min-h-32 min-w-28">
                           <Upload className="h-4 w-4 text-muted-foreground" />
                           <span className="sr-only">Upload</span>
                         </button>
@@ -217,7 +239,7 @@ const Action = () => {
                       ref={coverImageInput}
                       onChange={(e) => {
                         console.log(e.target.files);
-                        setCurrentCover(URL.createObjectURL(e.target.files?.[0] !));
+                        setCurrentCover(URL.createObjectURL(e.target.files?.[0]!));
                         setBindData({
                           ...bindData,
                           cover: e.target.files?.[0]
@@ -242,7 +264,9 @@ const Action = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-3">
-                  <Rating rating={1} onRatingChange={handleRating} variant="yellow" />
+                  <Rating rating={
+                    mogou?.mogou.rating
+                  } onRatingChange={handleRating} variant="yellow" />
                 </div>
               </CardContent>
             </Card>
@@ -251,7 +275,9 @@ const Action = () => {
         </div>
         <div className="flex items-center justify-center gap-2 md:hidden mt-4">
           <Goback to="/comics" label="Discard" />
-          <Button type="submit" size="sm" className="flex-1">
+          <Button type="submit"
+            disabled={isSubmiting}
+            size="sm" className="flex-1">
             Save
           </Button>
         </div>
