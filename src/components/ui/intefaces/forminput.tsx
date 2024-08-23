@@ -5,5 +5,6 @@ export interface FormInputProps {
     defaultValue?: string | number;
     fieldError?: { message?: string };
     register: any;
+    divClassName?: string;
   }
   

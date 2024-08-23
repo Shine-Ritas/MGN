@@ -15,7 +15,7 @@ const SubscriptionCreateEdit = lazy(() => import('../pages/admin/Subscription/Su
 const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
 const BannerSetting = lazy(() => import('../pages/admin/Settings/BannerSetting.tsx'));
 const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting.tsx'));
-
+const CreateBot = lazy(() => import('@/pages/admin/apps/create-bot.tsx'));
 
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
@@ -80,6 +80,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         {
           path: adminRouteCollection.apps,
           element: <Apps />,
+        },
+        {
+          path: adminRouteCollection.addBot,
+          element : <CreateBot />
         }
     ]
   },
