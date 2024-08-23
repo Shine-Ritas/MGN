@@ -10,6 +10,9 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { apps } from '@/pages/admin/apps/data'
+import { BotIcon, PlusCircleIcon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { adminRouteCollection } from '@/constants/constants'
 
 const appText = new Map<string, string>([
   ['all', 'All Apps'],
@@ -21,6 +24,8 @@ export default function Apps() {
   const [sort] = useState('ascending')
   const [appType, setAppType] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+
+  const navigate = useNavigate();
 
   const filteredApps = apps
     .sort((a, b) =>
@@ -39,7 +44,9 @@ export default function Apps() {
 
   return (
     <div className='px-4'>
-        <div>
+
+      <div className="flex justify-between">
+      <div>
           <h1 className='text-2xl font-bold tracking-tight'>
             App Integrations
           </h1>
@@ -47,6 +54,18 @@ export default function Apps() {
             Here&apos;s a list of your apps for the integration!
           </p>
         </div>
+
+        <Button
+          onClick={() => navigate(adminRouteCollection.addBot)}
+          variant='default'
+          className='flex items-center gap-2'>
+          <BotIcon />
+        </Button>
+        
+      </div>
+       
+
+
         <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
           <div className='flex flex-col gap-4 sm:my-4 sm:flex-row'>
             <Input
@@ -76,7 +95,7 @@ export default function Apps() {
             >
               <div className='mb-8 flex items-center justify-between'>
                 <div
-                  className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
+                  className={`flex size-10 items-center justify-center rounded-lg bg-blue-500 p-2`}
                 >
                   {app.logo}
                 </div>
