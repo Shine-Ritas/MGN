@@ -19,10 +19,12 @@ type NavigateMenu = {
     [key: string]: MenuItem;
 };
 
-export interface ComicType {
+export interface SelectCollectionType {
   id: number;
   title: string;
 };
+
+export interface ComicType extends SelectCollectionType {};
 
 export type AppRouteCollectionInterface = Record<string, string>;
 
@@ -39,6 +41,7 @@ const adminRoutes: AppRouteCollectionInterface = {
     users: "/users",
     addUser: "/add/user",
     apps: "/apps",
+    addBot:'/apps/add-bot',
     setting: "/setting",
     generalSetting: "/setting/general",
     generalBanner: "/setting/banner",
