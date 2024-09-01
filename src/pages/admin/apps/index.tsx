@@ -91,18 +91,18 @@ export default function Apps() {
           {filteredApps.map((app) => (
             <li
               key={app.name}
-              className='rounded-lg border p-4 hover:shadow-md'
+              className='rounded-lg border p-4 hover:shadow-md shadow-sm  bg-gradient-to-r from-background to-primary-muted'
             >
               <div className='mb-8 flex items-center justify-between'>
                 <div
-                  className={`flex size-10 items-center justify-center rounded-lg bg-blue-500 p-2`}
+                  className={`flex size-10 items-center justify-center rounded-lg ${app.color} p-2`}
                 >
                   {app.logo}
                 </div>
                 <Button
-                  variant='outline'
+                  variant={app.connected ? 'destructive' : 'neon'}
                   size='sm'
-                  className={`${app.connected ? 'border border-blue-300 bg-blue-50 hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900' : ''}`}
+                 
                 >
                   {app.connected ? 'Connected' : 'Connect'}
                 </Button>

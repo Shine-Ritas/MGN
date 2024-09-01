@@ -46,7 +46,7 @@ const CategorySelect = ({ holderCategories, setHolderCategories }: CategorySelec
                         {
                             holderCategories?.map((category: ComicCategory) => {
                                 return (
-                                    <div key={category.id}>
+                                    <div key={category.id! + Math.random()*10}>
                                         <Badge
                                             onClick={() => removeCategory(category)}
                                             className='cursor-pointer'

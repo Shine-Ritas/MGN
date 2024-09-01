@@ -3,11 +3,11 @@ import { SelectCollectionType } from "@/constants/constants";
 
 export const socialMedias : SelectCollectionType[]  = [
     {
-      id: 0,
+      id: 1,
       title: 'Telegram',
     },
     {
-      id:1,
+      id:2,
       title:"Discord"
     }
 ]

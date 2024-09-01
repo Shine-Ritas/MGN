@@ -1,6 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { MogouWithTotalCount } from "./type"
-import placeholder from '@/assets/placeholder.svg'
+import placeholder from '@/assets/imgs/place-holder.png'
 import { CalendarIcon, EyeIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { FaDiscord, FaTelegram } from "react-icons/fa6"
@@ -20,7 +20,7 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
         <div
             onClick={() => navigate(`/admin/mogou/edit/${mogous.slug}`)}
             className=
-                "bg-sub-background h-64 shadow-sm rounded-xl flex shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-2       hover:-translate-x-3     hover:shadow-md hover:shadow-neon-primary  "
+                "bg-popover h-64 shadow flex shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-3 rounded-md hover:-translate-x-1     hover:shadow-md hover:shadow-neon-primary  "
             
         >
             <div className="w-1/4">
@@ -28,7 +28,7 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
                     src={mogous.cover}
                     alt={mogous.title}
                     placeholderSrc={placeholder}
-                    className="w-40 h-64 object-cover rounded-l-xl "
+                    className="w-40 h-64 object-cover rounded-l-md  "
                 />
             </div>
             <div className="w-3/4 p-4 flex flex-col gap-4 ">

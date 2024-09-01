@@ -41,11 +41,10 @@ const SubscriptionIndex = () => {
     })
 
     return (
-        <main className=" flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-            <div className="mx-auto flex-1 auto-rows-max gap-4 grid-cols-1">
+        <main className="h-full flex-1 items-start gap-4 px-4 sm:px-6 sm:py-0 md:gap-8">
+            <div className="mx-auto flex-1 auto-rows-max grid grid-cols-1 gap-3">
 
                 <Tabs defaultValue="all" className="w-full justify-between">
-
                     <div className="flex items-center w-full justify-between">
 
                         <div className="flex items-center gap-4">
@@ -74,9 +73,8 @@ const SubscriptionIndex = () => {
                         </div>
                     </div>
                 </Tabs>
-                
-
-                <div className="mt-8">
+        
+                <div className="mt-8 min-h-full">
                     <SubscriptionTable countBy={countBy} priceBy={priceBy} />
                 </div>
             </div>

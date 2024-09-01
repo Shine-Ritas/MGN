@@ -6,12 +6,13 @@ import guestRoutes from "./guestRoute.tsx";
 import adminAuthenticatedRoutes from "./adminRoute.tsx";
 import NotFoundError from "@/pages/errors/not-found.tsx";
 import { userAuthenticatedRoutes } from "./userRoute.tsx";
+import { Toaster } from "@/components/ui/toaster.tsx";
 
 
 const AppRoute = () => {
 
   const adminIsAuthenticated = useAuth({adminGuard: true});
-  // const userIsAuthenticated = useAuth({adminGuard: false});p
+  // const userIsAuthenticated = useAuth({adminGuard: false});
 
   const commonRoutes = [
     {
@@ -22,7 +23,6 @@ const AppRoute = () => {
   const adminRoutes = adminIsAuthenticated ? adminAuthenticatedRoutes : guestRoutes;
   const userRoutes =  userAuthenticatedRoutes ;
 
-  // const routes = [...guestRoutes, ...authenticatedRoutes,...commonRoutes];
   const routes = [...adminRoutes,  ...userRoutes, ...commonRoutes];
 
   const routeCollection = useRoutes([...routes]);
@@ -35,6 +35,7 @@ const AppRoute = () => {
             </Routes> */}
         {routeCollection}
 
+        <Toaster />
     </ThemeProvider>
   )
 }

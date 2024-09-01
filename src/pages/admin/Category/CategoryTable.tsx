@@ -1,4 +1,4 @@
-import { MoreHorizontal} from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -52,7 +52,7 @@ const CategoryTable = ({
 
     const searchRef = React.useRef<HTMLInputElement>(null);
 
-    const { data: categories, isLoading, isFetching} = useQuery(`admin/categories?page=${currentPage}&search=${search}&order_by_mogous_count=asc`);
+    const { data: categories, isLoading, isFetching } = useQuery(`admin/categories?page=${currentPage}&search=${search}&order_by_mogous_count=asc`);
 
     const submitSearch = () => {
         console.log('worked')
@@ -60,7 +60,7 @@ const CategoryTable = ({
     }
 
     return (
-        <Card>
+        <div className="">
             <CardHeader className="flex flex-row  items-center justify-between">
                 <div className="hidden md:inline">
                     <CardTitle>Category Table</CardTitle>
@@ -72,8 +72,8 @@ const CategoryTable = ({
                     <InputSearch placeholder="Search" value={search} onAction={submitSearch} ref={searchRef} />
                 </div>
             </CardHeader>
-            <CardContent>
-                <Table>
+            <CardContent className="pb-0">
+                <Table >
                     <TableHeader>
                         <TableRow>
                             <TableHead className="">
@@ -94,10 +94,10 @@ const CategoryTable = ({
                             isLoading ? (<ContentTableRow />)
                                 :
                                 (
-                                    categories.categories.data.length === 0 ?<ContentTableRow content="No data Found" /> :
-                                    categories.categories.data.map((cata: Category) => {
-                                        return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setOpen} />
-                                    })
+                                    categories.categories.data.length === 0 ? <ContentTableRow content="No data Found" /> :
+                                        categories.categories.data.map((cata: Category) => {
+                                            return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setOpen} />
+                                        })
                                 )
                         }
 
@@ -107,11 +107,11 @@ const CategoryTable = ({
             <CardFooter>
 
                 {
-                    (categories && categories.categories.data.length > 0 ) && <TablePagination url={categories.categories.path} lastPage={categories.categories.last_page} currentPage={currentPage} setCurrentPage={setCurrentPage} isFetching={isFetching} />
+                    (categories && categories.categories.data.length > 0) && <TablePagination url={categories.categories.path} lastPage={categories.categories.last_page} currentPage={currentPage} setCurrentPage={setCurrentPage} isFetching={isFetching} />
                 }
 
             </CardFooter>
-        </Card>
+        </div>
     )
 }
 
@@ -130,7 +130,7 @@ const CategoryTableRow = ({ category, index, setCategory, setOpen }: {
     const [postCategory] = useMutate({ callback: onSuccessCallback });
 
     const deleteCategory = async (id: number) => {
-         await postCategory(`admin/categories/${id}`) as any;
+        await postCategory(`admin/categories/${id}`) as any;
     }
 
 

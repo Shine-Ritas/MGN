@@ -11,7 +11,7 @@ const SidebarRaw = () => {
   const logout = useLogout();
 
   return (
-    <div className="bg-primary w-[80px] h-[90vh] rounded-3xl sticky">
+    <div className="bg-primary-muted  w-[80px] h-full rounded-3xl">
       <div className="flex flex-col gap-8 pt-6 h-[90%]">
         <div className="flex justify-center">
           <img src={Logo} alt="logo" className="w-12 hover:motion-safe:animate-spin-slow cursor-pointer" />

@@ -24,7 +24,7 @@ const ComicTable = () => {
     const { data, isLoading, isFetching } = useQuery(`admin/mogous?page=${currentPage}&search=${search}&limit=10&mogou_total_count=true`);
 
     return (
-        <Card className="pb-0 bg-background">
+        <Card className="pb-0 ">
             <CardHeader>
                 <CardTitle>
                     Your Comics

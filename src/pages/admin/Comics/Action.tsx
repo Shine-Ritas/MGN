@@ -63,7 +63,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
       cover: mogou?.mogou?.cover
     });
   }, [
-    mogou,isLoading
+    mogou, isLoading
   ])
 
 
@@ -91,7 +91,14 @@ const Action = ({ isEdit = false }: ActionProps) => {
     data.legal_age = bindData.legal_age ? 1 : 0;
     data.rating = bindData.rating;
     data.categories = [...new Set(selectedCategories.map((item: any) => item.id))];
-    data.cover = bindData.cover;
+
+    // check only bindData.cover is file
+    if (isEdit && bindData.cover instanceof File) {
+      data.cover = bindData.cover;
+    }
+    else {
+      delete data.cover;
+    }
 
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
@@ -106,8 +113,9 @@ const Action = ({ isEdit = false }: ActionProps) => {
     }
     );
 
-    const response = await mutate("admin/mogous", formData);
-    console.log(response);
+    const response = !isEdit ? await mutate("admin/mogous", formData) : await mutate(`admin/mogous/${slug}`, formData) as any;
+
+
   };
 
   const handleRating = (value: number) => {
@@ -116,6 +124,11 @@ const Action = ({ isEdit = false }: ActionProps) => {
       rating: value
     });
   };
+
+
+  if (isEdit && isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -162,7 +175,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
                   <div className="grid gap-3">
                     <FormSelect selectKey="mogou_type"
                       defaultValue={
-                        mogou?.mogou.mogou_type ? `${mogou?.mogou?.mogou_type}` : "0"
+                        mogou?.mogou.mogou_type ? `${mogou?.mogou?.mogou_type}` : "0" as string
                       }
                       collection={ComicType} setValue={setValue} errors={errors} />
                   </div>

@@ -55,7 +55,6 @@ const UserLayout = ({ children}: UserLayoutProps) => {
         </div>
       </footer>
 
-      <Toaster />
     </div>
   )
 }

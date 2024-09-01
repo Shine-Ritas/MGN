@@ -14,7 +14,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
   const {isMobile} = useScreenDetector();
 
   return (
-    <div className="flex min-w-full justify-between px-4">
+    <div className="flex min-w-full justify-between px-4 md:h-[6vh]" >
       <div className="flex items-center gap-10">
 
         {!isMobile ?(  
