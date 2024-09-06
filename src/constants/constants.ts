@@ -66,7 +66,7 @@ export const navigateMenu: NavigateMenu = {
   subscriptions: { Icon: MdSubscriptions, to: adminRouteCollection.subscriptions, tooltip: "Manage Subscriptions", title: "Subscriptions" },
   users: { Icon: FaUsersGear, to: adminRouteCollection.users, tooltip: "Manage Users", title: "Users" },
   apps: { Icon: TbAppsFilled, to: adminRouteCollection.apps, tooltip: "Your Apps", title: "Apps" },
-  setting: { Icon: IoSettings, to: adminRouteCollection.setting, tooltip: "Customize Your Application", title: "Setting" },
+  setting: { Icon: IoSettings, to: adminRouteCollection.generalSetting, tooltip: "Customize Your Application", title: "Setting" },
 };
 
 interface ComicProgress extends ComicType {};

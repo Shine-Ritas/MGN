@@ -11,6 +11,8 @@ export interface Banner {
     icon:        string;
     url:         string;
     cover_photo: string;
+    cover_photo_url?: string;
+    meta?: string;
     updated_at:  string;
     created_at:  string;
     id:          number;
