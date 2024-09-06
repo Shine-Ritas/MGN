@@ -9,13 +9,12 @@ import {
 import { useNavigate } from "react-router-dom"
 import { IconType } from "react-icons/lib"
 
-type SidebarIconProps = {
+export type SidebarIconProps = {
     Icon: ElementType | IconType,
     to: string,
     tooltip: string,
     onClick?: () => void
 }
-
 const SidebarIconRaw = ({ Icon, to = "home", tooltip = "Default", onClick }: SidebarIconProps) => {
 
     const navigate = useNavigate();
@@ -28,7 +27,6 @@ const SidebarIconRaw = ({ Icon, to = "home", tooltip = "Default", onClick }: Sid
         else {
             navigate(to);
         }
-
     }, [navigate, onClick, to]);
 
     return (

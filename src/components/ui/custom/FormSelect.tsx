@@ -12,7 +12,7 @@ interface FormSelectProps {
   selectKey: string,
   collection: any[],
   setValue: any,
-  errors: any,
+  errors?: any,
   defaultValue?: string
 }
 const FormSelect = ({
