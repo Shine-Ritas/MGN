@@ -1,4 +1,4 @@
-import { RootState } from './../store';
+import { UserRootState } from '../stores/userStore';
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 
 interface UserGlobal {
@@ -37,4 +37,4 @@ export const userGlobalSlice = createSlice({
 
 export const { setAuth, setUser, setSafeContent } = userGlobalSlice.actions;
 export default userGlobalSlice.reducer;
-export const selectSafeContent = (state : RootState) => state.userGlobal.safeContent;
+export const selectSafeContent = (state : UserRootState) => state.userGlobal.safeContent;
