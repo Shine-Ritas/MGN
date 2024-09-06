@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import BgImg from '@/assets/imgs/bg_03.jpg'
 import Logo from "@/assets/imgs/logo.png"
 
-export function UserLogin() {
+export default function UserLogin() {
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
       <div className="flex items-center justify-center py-12 h-full">

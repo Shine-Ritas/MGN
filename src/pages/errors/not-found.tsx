@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import "@/styles/admin-global.css"
 
 export default function NotFoundError() {
   const navigate = useNavigate()
