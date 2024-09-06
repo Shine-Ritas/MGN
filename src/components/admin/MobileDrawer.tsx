@@ -8,8 +8,11 @@ import {
 import { Button } from "../ui/button"
 import { IoMenu } from "react-icons/io5";
 import { navigateMenu } from "@/constants/constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useCallback, useState } from "react";
+import { SidebarIconProps } from "../ui/SidebarIcon";
+
+
 
 const MobileDrawer = () => {
 
@@ -19,8 +22,8 @@ const MobileDrawer = () => {
 
   const navigate = useNavigate();
 
-  const handleNavigation = useCallback((to: string) => {
-    navigate(to);
+  const handleNavigation = useCallback((menu:SidebarIconProps) => {
+    navigate(menu.to);
     setOpen(false);
   }, [navigate])
 
@@ -44,7 +47,7 @@ const MobileDrawer = () => {
                 const menu = navigateMenuCollection[key];
 
                 return <div key={key} className="grid grid-cols-1 gap-2">
-                  <Button asChild size="icon" onClick={() => handleNavigation(menu.to)} className="w-16 h-16 pt-2 pb-1">
+                  <Button asChild size="icon" onClick={() => handleNavigation(menu)} className="w-16 h-16 pt-2 pb-1">
                     <div className="flex flex-col overflow-hidden gap-1">
                       <menu.Icon className="w-8 h-8" />
                       <span className="text-[10px] text-muted-foreground text-wrap ">{
