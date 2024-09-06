@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/users/Navbar";
 import UserLayoutFooter from "./UserLayoutFooter";
 import useQuery from "@/hooks/useQuery";
@@ -6,22 +5,17 @@ import { useAppDispatch } from "@/redux/hooks";
 import { useEffect } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
 import '../styles/user-global.css';
+import { Outlet } from "react-router-dom";
 
 
-type UserLayoutProps = {
-  children: React.ReactNode;
-};
+const UserLayout = () => {
 
-const UserLayout = ({ children}: UserLayoutProps) => {
-
-  // const windowWidth = window.innerWidth;
   const { data } = useQuery('public/categories?limit=400');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setCategories(data?.categories.data));
     
-
   },[data])
 
   return (
@@ -39,8 +33,7 @@ const UserLayout = ({ children}: UserLayoutProps) => {
           <div className="flex w-full flex-col ">
 
             <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 ">
-              {children}
-
+                <Outlet />
             </div>
 
           </div>
