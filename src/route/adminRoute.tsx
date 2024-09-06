@@ -1,8 +1,8 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { AppRouteInterface } from "./type.ts";
 import { adminRouteCollection } from "@/constants/constants.ts";
-import Apps from "@/pages/admin/apps/index.tsx";
-import AdminLayout from "@/layouts/AdminLayout.tsx";
+import { adminStore } from "@/redux/stores/adminStore.ts";
+import { Provider } from "react-redux";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Setting = lazy(() => import('../pages/admin/Setting.tsx'));
@@ -16,11 +16,18 @@ const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
 const BannerSetting = lazy(() => import('../pages/admin/Settings/BannerSetting.tsx'));
 const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting.tsx'));
 const CreateBot = lazy(() => import('@/pages/admin/apps/create-bot.tsx'));
-
+const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
+const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
-    element: <AdminLayout />,
+    element: 
+    <Provider store={adminStore}>
+      <Suspense fallback={<div></div>}>
+        <AdminLayout />
+      </Suspense>
+    </Provider>
+    ,
     children:[
         {
           path: adminRouteCollection.dashboard,

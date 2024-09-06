@@ -13,7 +13,6 @@ const AppRoute = () => {
 
   const adminIsAuthenticated = useAuth({adminGuard: true});
   // const userIsAuthenticated = useAuth({adminGuard: false});
-
   const commonRoutes = [
     {
       path: "*",
@@ -21,7 +20,7 @@ const AppRoute = () => {
     }];
 
   const adminRoutes = adminIsAuthenticated ? adminAuthenticatedRoutes : guestRoutes;
-  const userRoutes =  userAuthenticatedRoutes ;
+  const userRoutes =  userAuthenticatedRoutes;
 
   const routes = [...adminRoutes,  ...userRoutes, ...commonRoutes];
 
