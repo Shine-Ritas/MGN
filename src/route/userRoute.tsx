@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { AppRouteInterface } from "./type";
 import { userRouteCollection } from "@/constants/constants";
 import { userStore } from "@/redux/stores/userStore";
@@ -15,7 +15,9 @@ export const userAuthenticatedRoutes: AppRouteInterface[] = [
     path: userRouteCollection.home,
     element: (
       <Provider store={userStore}>
+        <Suspense fallback={<div></div>}>
         <UserLayout />
+        </Suspense>
       </Provider>
     ),
     children: [
