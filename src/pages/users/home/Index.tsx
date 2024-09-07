@@ -3,12 +3,18 @@ import HeroCarousel from "./HeroCarousel"
 import MostViewCarousel from "./MostViewCarousel"
 import RecentlyUploaded from "./RecentlyUploaded"
 
-import ShareSection from "./ShareSection"
 import { useCallback } from "react"
 import { Button } from "@/components/ui/button"
+import { useUserAppSelector } from "@/redux/hooks"
+import { selectBanners, selectIsSubscription } from "@/redux/slices/user-global"
+import AdsBanner from "./banners/adsBanner"
 
 const HomePage = () => {
 
+  const isSubscribed = useUserAppSelector(selectIsSubscription);
+  const banners = useUserAppSelector(selectBanners);
+
+  console.log(banners);
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
@@ -22,8 +28,13 @@ const HomePage = () => {
         <HeroCarousel />
       </div>
 
-      <div className="w-full ">
+      {/* <div className="w-full ">
         <ShareSection />
+      </div> */}
+      <div className="w-full">
+          {
+            banners.length > 0 && <AdsBanner banner={banners[0]} />
+          }
       </div>
 
       <div className="w-full">
@@ -38,6 +49,13 @@ const HomePage = () => {
 
       <div className="w-full">
         <MostViewCarousel />
+      </div>
+
+
+      <div className="w-full">
+          {
+            banners.length > 0 && <AdsBanner banner={banners[2]} />
+          }
       </div>
 
        {/* go to top */}

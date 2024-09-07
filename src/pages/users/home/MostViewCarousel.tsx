@@ -11,7 +11,6 @@ const MostViewCarousel = () => {
     const { data, isLoading } = useQuery(`users/most-viewed`);
 
     const MemorizedData = React.useMemo(() => {
-        console.log("memorized the most viewed data")
         return data;
     }, [data]) as MostViewed;
 

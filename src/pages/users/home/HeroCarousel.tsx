@@ -14,7 +14,6 @@ const HeroCarousel = () => {
   
   // memoize the data 
   const memoData = useMemo(() => {
-    console.log("memorized the carousel data")
     return data;
   }, [data]) as Mogous;
 

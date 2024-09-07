@@ -7,7 +7,7 @@ import { ComicType } from '@/constants/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import RecentlyUploadedCard from './RecentlyUploadedCard';
-import { useAppSelector } from '@/redux/hooks';
+import { useUserAppSelector } from '@/redux/hooks';
 import { selectSafeContent } from '@/redux/slices/user-global';
 
 type handlePageChangeType = (page: number) => void;
@@ -17,13 +17,12 @@ const RecentlyUploaded = () => {
     const [page, setPage] = useState<number>(1);
     const [currentType, setCurrentType] = useState<string>("");
 
-    const isSafeMode = useAppSelector(selectSafeContent) ? false : "" ;
+    const isSafeMode = useUserAppSelector(selectSafeContent) ? false : "" ;
 
     const { data, isLoading, isFetching } = useQuery(`users/last-uploaded?per_page=12&page=${page}&mogou_type=${currentType}&legal_only=${isSafeMode}`);
 
 
     const MemorizedData = React.useMemo(() => {
-        console.log("memorized the most viewed data")
         return data;
     }, [data]) as RecentlyUploadedResponse;
 
