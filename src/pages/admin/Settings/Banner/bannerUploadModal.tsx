@@ -112,6 +112,7 @@ const BannerUploadModal = ({ isOpen, onClose, data }: PartialDialogHookType) => 
                                 placeholder={
                                     sourceType.value == 'file' ? 'Upload a file' : 'Enter a URL'
                                 }
+                                defaultValue={data?.meta}
                                 className=" file:indent-0 file:px-0 cursor-pointer" />
                             </div>
 

@@ -91,7 +91,9 @@ export default function Apps() {
           {filteredApps.map((app) => (
             <li
               key={app.name}
-              className='rounded-lg border p-4 hover:shadow-md shadow-sm  bg-gradient-to-r from-background to-primary-muted'
+              className='rounded-lg border p-4
+              border-primary 
+              hover:shadow-md  shadow-sm shadow-neon-primary   bg-gradient-to-r from-background to-primary-muted'
             >
               <div className='mb-8 flex items-center justify-between'>
                 <div
