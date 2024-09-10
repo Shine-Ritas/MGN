@@ -19,7 +19,7 @@ const initialState: UserGlobal = {
     isAuth: false,
     user: null,
     safeContent: localStorage.getItem('safeContent') == 'false' ? false : true,
-    subscription: true,
+    subscription: false,
     banners : []
 };
 

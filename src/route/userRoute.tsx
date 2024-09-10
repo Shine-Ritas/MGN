@@ -8,7 +8,7 @@ const UserLayout = lazy(() => import('@/layouts/UserLayout.tsx'));
 const HomePage = lazy(() => import('@/pages/users/home/Index.tsx'));
 const UserLogin = lazy(() => import('@/pages/users/Auth/Login.tsx'));
 const Show = lazy(() => import('@/pages/users/Show/Show.tsx'));
-
+const DetailPage = lazy(() => import('@/pages/users/Detail/detail.tsx'));
 
 export const userAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -31,6 +31,12 @@ export const userAuthenticatedRoutes: AppRouteInterface[] = [
         path: userRouteCollection.show,
         element: (
             <Show />
+        ),
+      },
+      {
+        path: userRouteCollection.detail,
+        element: (
+            <DetailPage />
         ),
       },
       {
