@@ -1,14 +1,12 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useUserAppDispatch, useUserAppSelector } from '@/redux/hooks'
 import { selectSafeContent, setSafeContent } from '@/redux/slices/user-global';
 import React from 'react'
 
 
 const useSafeContent = () => {
 
-
-    const dispatch = useAppDispatch();
-    const safeContent = useAppSelector(selectSafeContent);
-
+    const dispatch = useUserAppDispatch();
+    const safeContent = useUserAppSelector(selectSafeContent);
 
     React.useEffect(() => {
         const content = localStorage.getItem('safeContent') == 'false' ? false : true

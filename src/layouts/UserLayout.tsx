@@ -1,52 +1,75 @@
 import Navbar from "@/components/users/Navbar";
 import UserLayoutFooter from "./UserLayoutFooter";
 import useQuery from "@/hooks/useQuery";
-import { useAppDispatch } from "@/redux/hooks";
-import { useEffect } from "react";
+import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
+import { lazy, useEffect, useState } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
 import '../styles/user-global.css';
 import { Outlet } from "react-router-dom";
+import { setBanners } from "@/redux/slices/user-global";
+import { selectReadSettingPanel } from "@/redux/slices/user-read-setting";
 
+const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
 
 const UserLayout = () => {
-
+  const [isReadMode, setIsReadMode] = useState(false);
   const { data } = useQuery('public/categories?limit=400');
-  const dispatch = useAppDispatch();
+  const { data: banners } = useQuery(`users/banners`);
+
+  useEffect(() => {
+    if (window.location.pathname.includes('read')) {
+      setIsReadMode(true);
+    } else {
+      setIsReadMode(false);
+    }
+  }, [window.location.pathname]);
+
+  const isMenuOpen = useUserAppSelector(selectReadSettingPanel);
+  const dispatch = useUserAppDispatch();
+
+  const containerWidth = isMenuOpen ? 'w-3/4 ' : 'w-full';
 
   useEffect(() => {
     dispatch(setCategories(data?.categories.data));
-    
-  },[data])
+  }, [data])
+
+  useEffect(() => {
+    dispatch(setBanners(banners?.banners));
+  }, [banners])
+
 
   return (
-    <div className="flex min-h-screen flex-col md:px-0">
+    <div className="flex h-screen">
 
-      <Navbar />
+      <div className={`flex  h-fit flex-col md:px-0 transition-all  ${containerWidth}`}>
+        <Navbar isReadMode={isReadMode} />
 
-      <div  id="topBanner"></div>
-     
+        <div className="w-full pt-10  ">
 
-      <div className="w-full pt-10 min-h-screen">
+          <div className="flex flex-col gap-8 w-full pt-2">
 
-        <div className="flex flex-col gap-8 w-full pt-2">
+            <div className="flex w-full flex-col ">
 
-          <div className="flex w-full flex-col ">
-
-            <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 ">
+              <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 ">
                 <Outlet />
-            </div>
+              </div>
 
+
+            </div>
           </div>
+
         </div>
 
+        {
+          !isReadMode && (<UserLayoutFooter />)
+        }
       </div>
 
-      <footer>
-        <UserLayoutFooter />
-        <div className="w-full bg-primary h-full px-4 md:px-24 py-4 flex justify-center items-center text-xs md:text-sm text-center">
-        All the comics on this website are only previews of the original comics, there may be many language errors, character names, and story lines. For the original version, please buy the comic if it's available in your city.
-        </div>
-      </footer>
+      {
+        isReadMode && (
+          <DetailDrawer />
+        )
+      }
 
     </div>
   )
