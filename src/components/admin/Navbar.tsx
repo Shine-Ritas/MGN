@@ -1,4 +1,4 @@
-import { lazy, memo, useState } from "react";
+import { lazy, memo } from "react";
 import Logo from "@/assets/imgs/logo-icon.png";
 import LogoTitle from "@/assets/imgs/logo-title.png";
 import { useScreenDetector } from "@/hooks/useScreenDetector";

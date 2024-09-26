@@ -8,10 +8,9 @@ import {
 import { Button } from "../ui/button"
 import { IoMenu } from "react-icons/io5";
 import { navigateMenu } from "@/constants/constants";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { SidebarIconProps } from "../ui/SidebarIcon";
-
 
 
 const MobileDrawer = () => {
@@ -38,7 +37,6 @@ const MobileDrawer = () => {
         <div className="mx-auto w-full max-w-sm  pb-10 px-10">
           <DrawerHeader>
             <DrawerTitle>Menu</DrawerTitle>
-            {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
           </DrawerHeader>
           <div className="flex gap-12 flex-wrap">
 
