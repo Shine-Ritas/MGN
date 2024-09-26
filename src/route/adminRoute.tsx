@@ -3,6 +3,7 @@ import { AppRouteInterface } from "./type.ts";
 import { adminRouteCollection } from "@/constants/constants.ts";
 import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
+import Chapters from "@/pages/admin/Chapters/Chapters.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Setting = lazy(() => import('../pages/admin/Setting.tsx'));
@@ -18,6 +19,7 @@ const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting
 const CreateBot = lazy(() => import('@/pages/admin/apps/create-bot.tsx'));
 const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
+const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -59,6 +61,14 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         {
           path: adminRouteCollection.mogouEdit,
           element: <Action isEdit={true}/>,
+        },
+        {
+          path : adminRouteCollection.chapterIndex,
+          element : <Chapters />
+        },
+        {
+          path: adminRouteCollection.createChapter,
+          element: <NewChapter />
         },
         {
           path: adminRouteCollection.categories,

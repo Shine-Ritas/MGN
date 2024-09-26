@@ -39,13 +39,14 @@ export const userAuthenticatedRoutes: AppRouteInterface[] = [
             <DetailPage />
         ),
       },
-      {
-        path: userRouteCollection.login,
-        element: (
-          <UserLogin />
-        )
-      }
     ]
   },
+
+  {
+    path: userRouteCollection.login,
+    element: (
+      <UserLogin />
+    )
+  }
 
 ];
