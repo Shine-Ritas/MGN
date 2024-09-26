@@ -4,50 +4,50 @@
  
 @layer base {
   :root {
-    --background: #ffffff; 
-    --sub-background: #f5f6f7;
-    --foreground: #0a0e19; 
+    --background: #f5f7fa; /* Softer background */
+    --sub-background: #f0f1f3; /* Subtle sub-background */
+    --foreground: #1e1e1e; /* Darker text for better readability */
 
-    --card: #ffffff;
-    --card-foreground: #0a0e19;
- 
-    --popover: #ffffff; 
-    --popover-foreground: #0a0e19;
- 
-    --neon-primary: #510abb; 
- 
-    --primary: #640fd4; 
-    --phover : #5904c8; 
-    --primary-muted: #5104b6;
-    --primary-foreground: #f1ebf6;
- 
-    --secondary: #eaf4fc; 
-    --secondary-foreground: #222127; 
- 
-    --muted: #787878; 
-    --muted-foreground: #6f8c96;
- 
-    --accent: #eaf4fc; 
-    --accent-foreground: #222127; 
- 
-    --destructive: #ff6659;  
-    --destructive-foreground: #e5f6ff; 
+    --card: #ffffff; /* Pure white for cards */
+    --card-foreground: #333; /* Darker text on cards */
 
-    --border: #d7e2f1; 
-    --input: #d7e2f1; 
-    --ring: #5f6b9e; 
- 
-    --radius: 0.5rem;
+    --popover: #ffffff; /* White popover background */
+    --popover-foreground: #333; /* Darker text for popovers */
 
-    --gold: #ffaa00; 
-    --silver: #bfbfbf; 
+    --neon-primary: #8654d8; /* Slightly darker neon primary */
+
+    --primary: #7f56e5; /* Darker primary for emphasis */
+    --phover: #794bda; /* Hover state with more contrast */
+    --primary-muted: #5b2ed1; /* Muted variant with lighter shade */
+    --primary-foreground: #ffffff; /* White text on primary backgrounds */
+
+    --secondary: #f0ecec; /* Soft blue for secondary elements */
+    --secondary-foreground: #2c3a4b; /* Darker foreground on secondary */
+
+    --muted: #a3a3a3; /* Gray for muted text */
+    --muted-foreground: #7b8b97; /* Slightly darker muted foreground */
+
+    --accent: #a3a3a3; /* Matching accent with secondary background */
+    --accent-foreground: #2c3a4b; /* Darker text for accent */
+
+    --destructive: #e63946; /* Brighter red for destructive actions */
+    --destructive-foreground: #ffffff; /* White text on destructive */
+
+    --border: #d0d7e3; /* Light border for components */
+    --input: #eceff4; /* Softer gray for inputs */
+    --ring: #4b2ed1; /* Accent ring for focus states */
+
+    --radius: 0.5rem; /* Consistent border radius */
+
+    --gold: #ffac00; 
+    --silver: #c0c0c0; 
   
-    --success: #3cc35b; 
+    --success: #38a169; /* Softer green for success messages */
   }
  
   .dark {
     --background: #0c1423;
-    --sub-background : #0c0a39;
+    --sub-background : #0f0a24;
     --foreground: #e5f6ff; 
  
     --card: #0a0e19; 
@@ -58,9 +58,9 @@
 
     --neon-primary: #510abb; 
  
-    --primary: #291f53; 
+    --primary: #301f7b; 
     --phover : #311e7c; 
-    --primary-muted: #1a0b3f;
+    --primary-muted: #210d55;
     --primary-foreground: #f1ebf6;
  
     --secondary: #2e3549; 
