@@ -20,6 +20,7 @@ export interface MogousType {
     finish_status_name  : string;
     categories:      Category[];
     sub_mogous:      SubMogous[];
+    total_chapters:  number;
 }
 
 export interface MogouWithTotalCount extends MogousType {

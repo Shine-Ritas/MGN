@@ -6,14 +6,17 @@ export interface BannerApiType {
 }
 
 export interface Banner {
+    id:          number;
     name:        string;
     type:        string;
     icon:        string;
-    url:         string;
+    redirect_url:         string;
+    text_url?: string;
+    active:      boolean;
     cover_photo: string;
     cover_photo_url?: string;
     meta?: string;
     updated_at:  string;
     created_at:  string;
-    id:          number;
+
 }
