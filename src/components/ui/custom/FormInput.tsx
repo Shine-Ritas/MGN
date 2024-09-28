@@ -1,36 +1,42 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import InputError from "../input-error";
-
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import InputError from "../input-error"
+import { cn } from "@/lib/utils"
 import { FormInputProps } from "../intefaces/forminput"
-import { cn } from "@/lib/utils";
 
-const FormInput = ({
+export default function FormInput({
   type = "text",
   label = "",
   placeholder = "",
-  defaultValue= "",
+  defaultValue = "",
   fieldError,
   register,
   divClassName,
-}: FormInputProps) => {
+  disabled = false
+}: FormInputProps) {
+  const initValue = isNaN(Number(defaultValue)) ? defaultValue : Number(defaultValue)
 
-  const initValue = Number.isNaN(defaultValue) ? "" : defaultValue;
+  const handleNumberInput = (e: React.FormEvent<HTMLInputElement>) => {
+    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')
+  }
 
   return (
-    <div className={
-      cn("grid gap-4",divClassName)
-    }>
-      <Label
-      className="col-span-1"
-      htmlFor={label}>{label}</Label>
-      <div className="">
-      <Input type={type} placeholder={placeholder} defaultValue={initValue} {...register} />
-      <InputError field={fieldError} />
+    <div className={cn("grid gap-4", divClassName)}>
+      <Label htmlFor={label} className="col-span-1">
+        {label}
+      </Label>
+      <div>
+        <Input
+          type={type}
+          id={label}
+          disabled={disabled}
+          placeholder={placeholder}
+          defaultValue={initValue}
+          onInput={type === "number" ? handleNumberInput : undefined}
+          {...register}
+        />
+        <InputError field={fieldError} />
       </div>
-      
     </div>
-  );
-};
-
-export default FormInput;
+  )
+}

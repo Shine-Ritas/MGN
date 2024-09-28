@@ -12,6 +12,7 @@ import useServerValidation from "@/hooks/useServerValidation";
 import { useNavigate, useParams } from "react-router-dom";
 import { adminRouteCollection } from "@/constants/constants";
 import useQuery from "@/hooks/useQuery";
+import { AlertCircle } from 'lucide-react';
 
 interface SubscriptionCreateEditProps {
   isEdit?: boolean;
@@ -71,7 +72,7 @@ const SubscriptionCreateEdit = ({ isEdit = false }: SubscriptionCreateEditProps)
   }
 
   return (
-    <main className="flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+    <main className="flex-1 items-start gap-4 pt-4 md:gap-8">
       <form onSubmit={handleSubmit(onSubscriptionSubmit)}>
         <div className="mx-auto flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4 mb-10">
@@ -92,11 +93,50 @@ const SubscriptionCreateEdit = ({ isEdit = false }: SubscriptionCreateEditProps)
               <CardContent>
                 <div className="grid gap-4">
                   <div className="grid gap-4">
-                    <div className="grid   md:grid-cols-2 md:grid-rows-2 gap-4">
-                      <FormInput label="Subscription Name" placeholder="Enter Subscription Name" defaultValue={subscription?.subscription?.title} fieldError={errors?.title} register={register("title")} />
-                      <FormInput label="Subscription Price" placeholder="" type="number" defaultValue={subscription?.subscription?.price} fieldError={errors?.price} register={register("price")} />
-                      <FormInput label="Subscription Duration" placeholder="Duration" type="number" defaultValue={subscription?.subscription?.duration} fieldError={errors?.duration} register={register("duration")} />
-                      <FormInput label="Max Subscription Limit" placeholder="Maximum Users" type="number" defaultValue={subscription?.subscription?.max} fieldError={errors?.max} register={register("max")} />
+                    <div className="grid md:grid-cols-2 md:grid-rows-2 gap-4">
+                      <FormInput 
+                        label="Subscription Name" 
+                        placeholder="Enter Subscription Name" 
+                        defaultValue={subscription?.subscription?.title} 
+                        fieldError={errors?.title} 
+                        register={register("title")} 
+                      />
+                      <FormInput 
+                        label="Subscription Price" 
+                        placeholder="" 
+                        type="number" 
+                        defaultValue={subscription?.subscription?.price} 
+                        fieldError={errors?.price} 
+                        register={register("price")} 
+                      />
+                      <div>
+                        <FormInput 
+                          label="Subscription Duration" 
+                          placeholder="Duration" 
+                          type="number" 
+                          defaultValue={subscription?.subscription?.duration} 
+                          fieldError={errors?.duration} 
+                          register={register("duration")} 
+                        />
+                        <p className="mt-2 text-sm text-muted-foreground flex items-center">
+                          <AlertCircle className="w-4 h-4 mr-2" />
+                           User has [Number] days left on their subscription. Send renewal reminders to ensure continuity
+                        </p>
+                      </div>
+                      <div>
+                        <FormInput 
+                          label="Max Subscription Limit" 
+                          placeholder="Maximum Users" 
+                          type="number" 
+                          defaultValue={subscription?.subscription?.max} 
+                          fieldError={errors?.max} 
+                          register={register("max")} 
+                        />
+                        <p className="mt-2 text-sm text-muted-foreground flex items-center">
+                          <AlertCircle className="w-4 h-4 mr-2" />
+                          Maximum size of subscription package. Enter 0 for unlimited.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -17,7 +17,7 @@ const CategoryIndex = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <main className=" flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 ">
+    <main className=" flex-1 items-start gap-4 py-4  ">
       <div className="mx-auto flex-1 auto-rows-max  grid-cols-1">
         <Tabs defaultValue="all" className="w-full justify-between">
           <div className="flex items-center w-full justify-between">
@@ -29,14 +29,14 @@ const CategoryIndex = () => {
                 Archived
               </TabsTrigger>
             </TabsList>
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2 " >
 
               <CategoryModal open={modalOpen} setOpen={setModalOpen} setInitCategory={setCategory} initCategory={category} />
             </div>
           </div>
 
         </Tabs>
-        <div className="mt-4">
+        <div className="mt-4 text-lg font-semibold">
           <CategoryTable setOpen={setModalOpen} setCategory={setCategory}/>
         </div>
       </div>

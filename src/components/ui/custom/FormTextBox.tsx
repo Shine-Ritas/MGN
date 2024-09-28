@@ -14,7 +14,8 @@ const FormTextBox = ({
     defaultValue = "",
     fieldError,
     register,
-    className = "min-h-32"
+    className = "min-h-32",
+    disabled = false
 }: FormTextBoxProps) => {
 
     const initValue = Number.isNaN(defaultValue) ? "" : defaultValue;
@@ -22,7 +23,9 @@ const FormTextBox = ({
     return (
         <div className="grid gap-4">
             <Label htmlFor={label}>{label}</Label>
-            <Textarea defaultValue={initValue}  placeholder={placeholder} className={className} {...register}/>
+            <Textarea defaultValue={initValue}
+            disabled={disabled}
+            placeholder={placeholder} className={className} {...register}/>
             <InputError field={fieldError} />
         </div>
     );

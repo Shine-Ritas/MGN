@@ -15,10 +15,10 @@ const MostViewCarousel = () => {
     }, [data]) as MostViewed;
 
     return (
-        <Card className='border-none'>
+        <Card className='border-none bg-background'>
             <CardDescription>
                 <Carousel className="min-w-full ">
-                    <CardTitle className='flex justify-between'>
+                    <CardTitle className='flex justify-between '>
                         <span className='text-2xl'>Most Viewed</span>
                         <span className="relative">
                             <CarouselPrevious className='relative -left-4 ' />

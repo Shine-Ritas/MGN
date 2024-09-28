@@ -33,7 +33,7 @@ const HomePage = () => {
       </div> */}
       <div className="w-full">
           {
-            banners.length > 0 && <AdsBanner banner={banners[0]} />
+            (banners.length > 0 && banners[0].active == true) && <AdsBanner banner={banners[0]} />
           }
       </div>
 
@@ -54,7 +54,7 @@ const HomePage = () => {
 
       <div className="w-full">
           {
-            banners.length > 0 && <AdsBanner banner={banners[2]} />
+            (banners.length > 0 && banners[2].active == true) && <AdsBanner banner={banners[2]} />
           }
       </div>
 

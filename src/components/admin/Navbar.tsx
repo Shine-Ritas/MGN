@@ -2,6 +2,7 @@ import { lazy, memo } from "react";
 import Logo from "@/assets/imgs/logo-icon.png";
 import LogoTitle from "@/assets/imgs/logo-title.png";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import { Card } from "../ui/card";
 
 const CommandSearch = lazy(() => import('./CommandSearch'))
 const AdminUserDropDown = lazy(() => import('@/components/ui/AdminUserDropDown'))
@@ -15,7 +16,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
   const {isMobile} = useScreenDetector();
 
   return (
-    <div className="flex min-w-full justify-between px-4 md:h-[6vh]" >
+    <Card className="flex min-w-full justify-between px-4 md:h-[6vh] py-10" >
       <div className="flex items-center gap-10">
 
         {!isMobile ?(  
@@ -49,7 +50,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
 
         <AdminUserDropDown />
       </div>
-    </div>
+    </Card>
   )
 }
 

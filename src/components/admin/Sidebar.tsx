@@ -3,7 +3,6 @@ import SidebarIcon from "../ui/SidebarIcon";
 import AlertBox from "../ui/AlertBox";
 import { memo } from "react";
 import { navigateMenu } from "@/constants/constants";
-import Logo from "@/assets/imgs/logo-icon.png";
 import useLogout from "@/hooks/useLogout";
 
 const SidebarRaw = () => {

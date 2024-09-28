@@ -22,7 +22,7 @@ export function TablePagination({
   url = "",
   lastPage = 10,
   currentPage = 1,
-  setCurrentPage = (currentPage: number) => {},
+  setCurrentPage = () => {},
   isFetching = false,
 }: OptionalTablePaginationInterface) {
   const handlePageChange = (page: number) => {
@@ -30,7 +30,7 @@ export function TablePagination({
   };
 
   const getPageLinks = () => {
-    const pages = [];
+    const pages: JSX.Element[] = [];
     for (let i = 1; i <= lastPage; i++) {
       pages.push(
         <PaginationItem key={i}>

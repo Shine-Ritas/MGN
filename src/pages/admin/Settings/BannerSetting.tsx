@@ -5,6 +5,7 @@ import ProgressiveBanner from './Banner/ProgressiveBanner'
 import { Banner,BannerApiType} from './Banner/type'
 import { useDialog } from '@/hooks/useDialog'
 import BannerUploadModal from './Banner/bannerUploadModal'
+import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 const BannerSetting = () => {
   const {data : banners ,isLoading} = useQuery('admin/social-info/banners');
@@ -12,7 +13,8 @@ const BannerSetting = () => {
   const { isOpen, onOpen, onClose, data } = useDialog<Banner>();
 
   return (
-    !isLoading && <div className='flex flex-col gap-8'>
+    !isLoading && 
+    <ScrollArea className='flex flex-col gap-8'>
      {
         banners as BannerApiType && (
           banners?.social_info.map((banner : Banner) => (
@@ -26,7 +28,7 @@ const BannerSetting = () => {
      }
 
     <BannerUploadModal isOpen={isOpen} onClose={onClose} data={data}/>
-    </div>
+    </ScrollArea>
   )
 }
 

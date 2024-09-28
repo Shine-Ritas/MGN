@@ -54,7 +54,7 @@ export function CardsStats() {
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-4 px-4">
+      <div className="grid gap-4 sm:grid-cols-4">
 
 
         <Card x-chunk="dashboard-01-chunk-1">
@@ -104,7 +104,7 @@ export function CardsStats() {
 
       </div>
 
-      <div className="grid gap-4  md:grid-cols-2 px-4 mt-8 md:mt-4 mb-12">
+      <div className="grid gap-4  md:grid-cols-2  mt-8 md:mt-4 mb-12">
 
         <div className="grid gap-4 grid-cols-0 sm:grid-cols-1">
 

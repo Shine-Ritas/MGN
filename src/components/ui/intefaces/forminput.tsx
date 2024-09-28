@@ -6,5 +6,6 @@ export interface FormInputProps {
     fieldError?: { message?: string };
     register: any;
     divClassName?: string;
+    disabled?: boolean;
   }
   

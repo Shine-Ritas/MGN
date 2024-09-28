@@ -11,6 +11,7 @@ import { SingleFilterSelect } from "@/components/ui/custom/SIngleFilterSelect"
 import { adminRouteCollection } from "@/constants/constants"
 import { Label } from "@radix-ui/react-label"
 import { useState } from "react"
+import { Card } from "@/components/ui/card"
 
 
 const sortSubscription = {
@@ -41,10 +42,10 @@ const SubscriptionIndex = () => {
     })
 
     return (
-        <main className="h-full flex-1 items-start gap-4 px-4 sm:px-6 sm:py-0 md:gap-8">
+        <Card className="min-h-[80vh] flex-1 items-start gap-4 px-4 sm:px-6 sm:py-4 md:gap-8">
             <div className="mx-auto flex-1 auto-rows-max grid grid-cols-1 gap-3">
 
-                <Tabs defaultValue="all" className="w-full justify-between">
+                <Tabs defaultValue="all" className="w-full justify-between mb-3">
                     <div className="flex items-center w-full justify-between">
 
                         <div className="flex items-center gap-4">
@@ -74,11 +75,11 @@ const SubscriptionIndex = () => {
                     </div>
                 </Tabs>
         
-                <div className="mt-8 min-h-full">
+                <div className="min-h-full">
                     <SubscriptionTable countBy={countBy} priceBy={priceBy} />
                 </div>
             </div>
-        </main>
+        </Card>
     )
 }
 

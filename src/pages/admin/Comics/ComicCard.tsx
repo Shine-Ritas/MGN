@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { FaDiscord, FaTelegram } from "react-icons/fa6"
 import { cn } from "@/lib/utils"
 import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
 
 type ComicTableProps = {
     mogous: MogouWithTotalCount
@@ -18,7 +19,6 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
 
     return (
         <div
-            onClick={() => navigate(`/admin/mogou/edit/${mogous.slug}`)}
             className=
                 "bg-popover h-64 shadow flex shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-3 rounded-md hover:-translate-x-1     hover:shadow-md hover:shadow-neon-primary  "
             
@@ -46,12 +46,44 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
 
                 <div className="flex gap-3">
                     <Badge className="w-fit self-start " variant="destructive">
-                        Total Chapters: {mogous?.sub_mogous?.length ?? 0}
+                        Total Chapters: {mogous?.total_chapters ?? 0}
+                    </Badge>
+
+                    <Badge className="w-fit self-start " variant="default">
+                        {mogous.mogou_type_name}
                     </Badge>
                   
+                    <Badge className="w-fit self-start " variant="default">
+                        {mogous.finish_status_name}
+                    </Badge>
+                </div>
+
+                <div className="text-sm text-muted-foreground w-[90%] h-28">
+                   
+                    {
+                        mogous.description.length > 200 ? mogous.description.slice(0, 200) + "..." : mogous.description
+                    }
                 </div>
 
 
+                {/* button with chapters and Edit */}
+                <div className="flex  items-center gap-4">
+                    <Button
+                        size={"sm"}
+
+                        onClick={() => navigate(`/admin/mogou/${mogous.slug}/chapters`)}
+                        className=" px-4 py-2 rounded-md hover:bg-accent"
+                    >
+                        Chapters
+                    </Button>
+                    <Button
+                        size={"sm"}
+                        onClick={() => navigate(`/admin/mogou/edit/${mogous.slug}`)}
+                        className=" px-4 py-2 rounded-md hover:bg-accent"
+                    >
+                        Edit
+                    </Button>
+                </div>
 
             </div>
 

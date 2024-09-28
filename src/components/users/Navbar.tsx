@@ -1,5 +1,5 @@
 import { CircleUser, Menu } from "lucide-react"
-import { Sheet , SheetTrigger } from "../ui/sheet"
+import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import Logo from "@/assets/imgs/logo-icon.png";
@@ -13,31 +13,35 @@ import { DesktopNavigation } from "./DesktopNavigation";
 import { lazy } from "react";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Badge } from "../ui/badge";
+import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
+import { selectHeaderVisible, togglePanel } from "@/redux/slices/user-read-setting";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
-const Navbar = () => {
+const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
-    
+    const dispatch = useUserAppDispatch();
 
     const { setTheme } = useTheme();
 
     const { safeContent, toggleSafeContent } = useSafeContent();
 
-   const {isMobile} = useScreenDetector();
+    const { isMobile } = useScreenDetector();
+
+    const visibility = useUserAppSelector(selectHeaderVisible);
 
 
     return (
-        <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-24 z-[100]">
+        <header className={`w-4/4 sticky ${visibility.value} transition-all  flex min-h-20 items-center gap-4 border-b bg-background px-4 md:px-24 z-[100] `}>
             <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"
                     className=""
                 >
-                    <img src={Logo} alt="logo" className="w-52 hover:motion-safe:animate-spin-slow cursor-pointer" />
+                    <img src={Logo} alt="logo" className="w-40 hover:motion-safe:animate-spin-slow cursor-pointer" />
                 </Link>
                 {
-                   !isMobile && <DesktopNavigation /> 
+                    !isMobile && <DesktopNavigation />
                 }
             </nav>
             <Sheet>
@@ -118,7 +122,17 @@ const Navbar = () => {
                     }
                 </DropdownMenu>
 
-
+                {
+                    isReadMode && (
+                        <div className="">
+                            <Button
+                                onClick={() => dispatch(togglePanel())}
+                            >
+                                Menu
+                            </Button>
+                        </div>
+                    )
+                }
             </div>
         </header>
     )

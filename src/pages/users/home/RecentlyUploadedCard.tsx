@@ -13,7 +13,7 @@ const RecentlyUploadedCard = ({ mogou }: RecentlyUploadedCardProps) => {
     return (
         <Link
         to={`/show/${mogou?.slug}`}
-        className='pl-1 overflow-hidden cursor-pointer rounded-lg'>
+        className='pl-1 overflow-hidden cursor-pointer rounded-lg bg-secondary'>
             <div className='flex h-full' >
                 <div className="img w-32 md:w-40 relative">
                     <LazyLoadImage src={mogou?.cover}
@@ -22,7 +22,7 @@ const RecentlyUploadedCard = ({ mogou }: RecentlyUploadedCardProps) => {
                     />
                     <MatureContentTag isMatureContent={mogou?.legal_age!} className='absolute top-1 right-0' />
                 </div>
-                <div className="bg-secondary/50 h-full flex justify-center  items-start rounded-b-sm w-2/3 flex-col ps-4">
+                <div className="bg-secondary/50 h-full flex pt-5 items-start rounded-b-sm w-2/3 flex-col ps-4">
                     <h1 className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</h1>
                     <h1 className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</h1>
 

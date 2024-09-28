@@ -1,6 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserRootState } from "../stores/userStore";
-import { Layers2, PanelLeftOpen, PanelRightOpen, SendToBack } from "lucide-react";
 
 // Types for better clarity and reusability
 interface OptionType {

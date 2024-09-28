@@ -53,7 +53,7 @@ const CreateBot = () => {
                 initial={{ opacity: 0, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="flex px-4">
+                className="flex pt-4">
 
                 <form onSubmit={handleSubmit(submit)} >
                     <Card
@@ -94,7 +94,9 @@ const CreateBot = () => {
                             </div>
 
 
-                            <button type='submit'>
+                            <button 
+                            disabled={isMutating}        
+                            type='submit'>
                                 <ShinyButton
                                     type='submit'
                                     className='mt-4 w-full bg-neon-primary !text-white '

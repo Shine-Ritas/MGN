@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { apps } from '@/pages/admin/apps/data'
-import { BotIcon, PlusCircleIcon } from 'lucide-react'
+import { BotIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { adminRouteCollection } from '@/constants/constants'
 
@@ -43,7 +43,7 @@ export default function Apps() {
     .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
   return (
-    <div className='px-4'>
+    <div className='pt-4'>
 
       <div className="flex justify-between">
       <div>

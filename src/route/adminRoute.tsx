@@ -20,6 +20,7 @@ const CreateBot = lazy(() => import('@/pages/admin/apps/create-bot.tsx'));
 const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx'));
+const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -101,6 +102,11 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         {
           path: adminRouteCollection.addBot,
           element : <CreateBot />
+        },
+
+        {
+          path: adminRouteCollection.reports,
+          element: <Reportpage />
         }
     ]
   },

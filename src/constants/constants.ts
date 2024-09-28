@@ -7,6 +7,7 @@ import { MdSubscriptions } from "react-icons/md";
 import { ElementType } from "react";
 import { TbAppsFilled } from "react-icons/tb";
 import { prefixRoutes } from "@/route/helper";
+import { MessageCircleWarning } from "lucide-react";
 
 type MenuItem = {
     Icon: ElementType;
@@ -22,7 +23,7 @@ type NavigateMenu = {
 export interface SelectCollectionType {
   id: number;
   title: string;
-};
+}
 
 export interface ComicType extends SelectCollectionType {};
 
@@ -31,17 +32,28 @@ export type AppRouteCollectionInterface = Record<string, string>;
 
 const adminRoutes: AppRouteCollectionInterface = {
     dashboard: "/dashboard",
+
     mogous: "/mogous",
     mogouAction: "/mogou/actions",
     mogouEdit: "/mogou/edit/:slug",
+    chapterIndex : "/mogou/:slug/chapters",
+
+    createChapter : "/mogou/:slug/chapters/create",
+
     categories: "/categories",
+
     subscriptions: "/subscriptions",
     addSubscription: "/subscriptions/add",
     editSubscription: "/subscriptions/edit/:slug",
+
+    reports: "/reports",
+
     users: "/users",
     addUser: "/add/user",
+
     apps: "/apps",
     addBot:'/apps/add-bot',
+
     setting: "/setting",
     generalSetting: "/setting/general",
     generalBanner: "/setting/banner",
@@ -53,7 +65,8 @@ const adminRoutes: AppRouteCollectionInterface = {
 const userRoutes : AppRouteCollectionInterface = {
   home: "/",
   show: "/show/:slug",
-  login : "/login"
+  login : "/login",
+  detail: "/read"
 }
 
 export const adminRouteCollection = prefixRoutes('/admin', adminRoutes);
@@ -67,9 +80,10 @@ export const navigateMenu: NavigateMenu = {
   users: { Icon: FaUsersGear, to: adminRouteCollection.users, tooltip: "Manage Users", title: "Users" },
   apps: { Icon: TbAppsFilled, to: adminRouteCollection.apps, tooltip: "Your Apps", title: "Apps" },
   setting: { Icon: IoSettings, to: adminRouteCollection.generalSetting, tooltip: "Customize Your Application", title: "Setting" },
+  report: { Icon: MessageCircleWarning , to: adminRouteCollection.reports, tooltip: "Reports", title: "Reports" },
 };
 
-interface ComicProgress extends ComicType {};
+export interface ComicProgress extends ComicType {}
 
 export const ComicType : ComicType[]  = [
     {

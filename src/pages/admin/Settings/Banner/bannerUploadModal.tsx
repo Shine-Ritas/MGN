@@ -67,9 +67,9 @@ const BannerUploadModal = ({ isOpen, onClose, data }: PartialDialogHookType) => 
             formData.append('cover_photo', uploadRef.current!.files![0])
         }
         else{
-            formData.append('meta', uploadRef.current!.value)
+            formData.append('text_url', uploadRef.current!.value)
         }
-        formData.append('url', redirectRef.current!.value)
+        formData.append('redirect_url', redirectRef.current!.value)
         await upload(`admin/social-info/update/${data!.id }`, formData)
     }
 
@@ -112,8 +112,8 @@ const BannerUploadModal = ({ isOpen, onClose, data }: PartialDialogHookType) => 
                                 placeholder={
                                     sourceType.value == 'file' ? 'Upload a file' : 'Enter a URL'
                                 }
-                                defaultValue={data?.meta}
-                                className=" file:indent-0 file:px-0 cursor-pointer" />
+                                defaultValue={sourceType.value == "file" ? null : data?.text_url}
+                                className=" file:indent-0 file:pe-4 cursor-pointer file:text-slate-600" />
                             </div>
 
                             <div className="grid w-full items-center gap-3">
@@ -121,7 +121,7 @@ const BannerUploadModal = ({ isOpen, onClose, data }: PartialDialogHookType) => 
                                 <Input id="picture" type="text"
                                 ref={redirectRef}
                                 placeholder="Enter a URL to redirect to"
-                                defaultValue={data?.url}
+                                defaultValue={data?.redirect_url}
                                 className=" " required/>
 
                             </div>

@@ -30,9 +30,10 @@ import ImageCropper from "@/components/ui/image-cropper"
 import { Input } from "@/components/ui/input"
 import InputError from "@/components/ui/input-error"
 import { toast } from "@/components/ui/use-toast"
-import { useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import useQuery from "@/hooks/useQuery"
 import useEffectAfterMount from "@/hooks/useEffectAfterMount"
+import { goTo } from "@/utilities/util"
 
 interface ActionProps {
   isEdit?: boolean;
@@ -67,12 +68,14 @@ const Action = ({ isEdit = false }: ActionProps) => {
   ])
 
 
-  const onSuccessCallback = () => {
+  const onSuccessCallback = (data: { [x: string]: { [x: string]: any } }) => {
     toast({
-      title: "New Mogou Created was Successful",
+      title: isEdit ? "Comic Updated" : "Comic Created",
       description: "",
       variant: "success",
     });
+
+    goTo(`/admin/mogou/edit/${data['mogou']['slug']}`,2000);
   };
 
   const [mutate, { isLoading: isSubmiting }] = useMutate({ callback: onSuccessCallback });
@@ -96,8 +99,11 @@ const Action = ({ isEdit = false }: ActionProps) => {
     if (isEdit && bindData.cover instanceof File) {
       data.cover = bindData.cover;
     }
-    else {
+    else if(isEdit){
       delete data.cover;
+    }
+    else {
+      data.cover = coverImageInput.current?.files?.[0];
     }
 
     const formData = new FormData();
@@ -113,9 +119,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
     }
     );
 
-    const response = !isEdit ? await mutate("admin/mogous", formData) : await mutate(`admin/mogous/${slug}`, formData) as any;
-
-
+    !isEdit ? await mutate("admin/mogous", formData) : await mutate(`admin/mogous/${slug}`, formData) as any;
   };
 
   const handleRating = (value: number) => {
@@ -131,7 +135,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
   }
 
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+    <main className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8">
       <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex-1 auto-rows-max gap-4" encType="multipart/form-data">
         <div className="flex items-center gap-4 mb-10">
           <Goback to={-1} />
@@ -142,7 +146,9 @@ const Action = ({ isEdit = false }: ActionProps) => {
             <Goback to={-1} label="Discard" />
             <Button
               disabled={isSubmiting}
-              type="submit" size="sm">Save</Button>
+              type="submit" size="sm">
+                {isEdit ? "Update" : "Save"}
+              </Button>
           </div>
         </div>
         <div className="grid gap-4 lg:grid-cols-3 lg:gap-8">
