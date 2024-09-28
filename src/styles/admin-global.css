@@ -94,3 +94,9 @@
 .active-nav-link {
   @apply text-neon-primary font-semibold;
 }
+
+/* hide scroll bar white background */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
