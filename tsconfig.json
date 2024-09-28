@@ -24,7 +24,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false
   },
   "include": ["src", "src/hooks","declare"],
   "references": [{ "path": "./tsconfig.node.json" }]
