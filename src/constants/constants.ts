@@ -49,6 +49,7 @@ const adminRoutes: AppRouteCollectionInterface = {
     reports: "/reports",
 
     users: "/users",
+    showUser: "/users/:slug",
     addUser: "/add/user",
 
     apps: "/apps",
