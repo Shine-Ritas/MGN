@@ -3,7 +3,6 @@ import { AppRouteInterface } from "./type.ts";
 import { adminRouteCollection } from "@/constants/constants.ts";
 import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
-import Chapters from "@/pages/admin/Chapters/Chapters.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Setting = lazy(() => import('../pages/admin/Setting.tsx'));
@@ -16,11 +15,13 @@ const SubscriptionCreateEdit = lazy(() => import('../pages/admin/Subscription/Su
 const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
 const BannerSetting = lazy(() => import('../pages/admin/Settings/BannerSetting.tsx'));
 const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting.tsx'));
-const CreateBot = lazy(() => import('@/pages/admin/apps/create-bot.tsx'));
+const CreateBotComponent = lazy(() => import('@/pages/admin/apps/create.tsx'));
 const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx'));
 const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
+const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
+const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -92,6 +93,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
           element: <Users />,
         },
         {
+          path: adminRouteCollection.showUser,
+          element: <UserDetail />,
+        },
+        {
           path: adminRouteCollection.addUser,
           element: <AddUser />,
         },
@@ -101,7 +106,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         },
         {
           path: adminRouteCollection.addBot,
-          element : <CreateBot />
+          element : <CreateBotComponent />
         },
 
         {

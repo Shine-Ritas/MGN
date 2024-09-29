@@ -10,4 +10,5 @@ export interface SubscribedUser {
     created_at:              null;
     updated_at:              null;
     subscription_name:       string;
+    last_login_at :          string;
 }

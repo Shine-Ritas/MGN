@@ -13,8 +13,6 @@ import { botMutateValidation } from './BotMutateValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-
-
 const CreateBot = () => {
 
     const onSuccessCallback = () => {
@@ -45,20 +43,18 @@ const CreateBot = () => {
         }
     };
 
-    console.log(errors)
-
     return (
         <LazyMotion features={domAnimation}>
             <m.div
                 initial={{ opacity: 0, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="flex pt-4">
+                className="flex ">
 
                 <form onSubmit={handleSubmit(submit)} >
                     <Card
-                        className='flex flex-col gap-10 justify-center items-center px-8 py-8'>
-                        <CardTitle className='flex gap-3 items-center text-neon-primary'>
+                        className='flex flex-col gap-10 justify-center items-center px-8'>
+                        <CardTitle className='flex gap-3 items-center text-neon-primary pt-4'>
 
                             <BotIcon size={30} />
                             <h2 className='text-3xl font-semibold'>Create Bot</h2>

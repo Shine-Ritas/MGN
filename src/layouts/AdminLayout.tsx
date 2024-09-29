@@ -38,7 +38,7 @@ const AdminLayout = () => {
 
       <div className="w-full lg:w-[90%] lg:pe-8 ">
 
-        <div className="flex flex-col gap-8 md:gap-4 w-full h-full shadow-lg  rounded-lg bg-sub-background">
+        <div className="flex flex-col gap-8 md:gap-4 w-full h-full  rounded-lg bg-transparent">
 
           <Navbar title={navbarTitle} />
 
