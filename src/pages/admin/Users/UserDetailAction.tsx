@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { UserX, Bell, Package, Pause, Calendar } from "lucide-react"
+import UserChangeSubscription from "./UserChangeSubscription"
+import { SubscribedUser } from "./types"
 
-export default function UserDetailAction() {
+export default function UserDetailAction({user}: {user: SubscribedUser}) {
   const [isActive, setIsActive] = useState(true)
   const [subscriptionDays, setSubscriptionDays] = useState(30)
   const [isOnHold, setIsOnHold] = useState(false)
@@ -99,6 +101,8 @@ export default function UserDetailAction() {
               </div>
             </DialogContent>
           </Dialog>
+
+          <UserChangeSubscription />
 
           <Button
             variant="outline"

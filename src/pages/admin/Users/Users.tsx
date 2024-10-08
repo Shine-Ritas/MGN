@@ -31,6 +31,7 @@ const getSubscriptionStatusColor = (date: string) => {
 
 export default function Component() {
 
+
   const navigate = useNavigate();
 
   const {data , isLoading} = useQuery("/admin/users");
@@ -74,9 +75,11 @@ export default function Component() {
                     <div className="flex items-center space-x-4">
                       <Tooltip>
                         <TooltipTrigger>
-                          <Avatar className="w-16 h-16 border-2 border-primary shadow-md">
+                          <Avatar className="w-16 h-16 border-2 border-neon-primary shadow-md">
                             <AvatarImage src={user?.name} alt={user.name} />
-                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                            <AvatarFallback
+                            className="bg-primary text-white"
+                            >{user.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -84,10 +87,10 @@ export default function Component() {
                         </TooltipContent>
                       </Tooltip>
                       <div>
-                        <h2 className="text-xl font-bold">{user.name}</h2>
+                        <h2 className="text-lg font">{user.name}</h2>
                         <Tooltip>
                           <TooltipTrigger>
-                            <p className="text-sm text-muted-foreground italic">{user.subscription_name}</p>
+                            <p className="text-xs text-muted-foreground italic">{user.subscription_name}</p>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>{user.subscription_name} plan</p>
@@ -95,7 +98,7 @@ export default function Component() {
                         </Tooltip>
                       </div>
                     </div>
-                    <Badge className={`${getSubscriptionStatusColor(user.subscription_end_date).color} text-white`}>
+                    <Badge className={`${getSubscriptionStatusColor(user.subscription_end_date).color} text-white text-[10px]`}>
                       {getSubscriptionStatusColor(user.subscription_end_date).text}
                     </Badge>
                   </div>
@@ -114,7 +117,7 @@ export default function Component() {
                       <BellIcon className="mr-2 h-4 w-4" /> Notify Renewal
                     </Button>
                     <Button
-                    onClick={() => navigate(adminRouteCollection.showUser.replace(":slug", user.id.toString()))}
+                    onClick={() => navigate(adminRouteCollection.showUser.replace(":id", user.id as unknown as string))}
                     size="sm" 
                     className="transition-all duration-300 hover:shadow-md">
                       <EyeIcon className="mr-2 h-4 w-4" /> View Profile

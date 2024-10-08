@@ -27,7 +27,7 @@ const useMutate = (params: ParamsType = {}): ReturnType => {
   const {
     callback,
     navigateBack = true,
-    disableAlert = false,
+    disableAlert = true,
   } = params;
 
   const navigate = useNavigate();

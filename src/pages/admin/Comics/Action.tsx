@@ -75,7 +75,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
       variant: "success",
     });
 
-    goTo(`/admin/mogou/edit/${data['mogou']['slug']}`,2000);
+    goTo(`/admin/mogou/edit/${data['mogou']['slug']}`,0);
   };
 
   const [mutate, { isLoading: isSubmiting }] = useMutate({ callback: onSuccessCallback });

@@ -1,12 +1,36 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { CalendarIcon, EyeIcon, HeartIcon, LockIcon, MailIcon, UserIcon } from "lucide-react"
+
+import {  EyeIcon, HeartIcon} from "lucide-react"
 import UserDetailAction from "./UserDetailAction"
+import UserInfoDetail from "./UserInfoDetail"
+import useQuery from "@/hooks/useQuery"
+import { useParams } from "react-router-dom"
+import Goback from "@/components/goback-btn"
+import { SubscribedUser } from "./types"
+import { useEffect, useState } from "react"
+import UserLoginHistroy from "./UserLoginHistroy"
 
 export default function UserDetail() {
+
+  const { id } = useParams<{ id: string }>();
+  const [currentUser, setCurrentUser] = useState<SubscribedUser|null>(null);
+
+  const {data,isLoading} = useQuery(`/admin/users/show/${id}`);
+ 
+
+  useEffect(()=>{
+    if(!isLoading && data)
+    {
+      console.log(data)
+      setCurrentUser(data?.user)
+    }
+  },[data,isLoading])
+
+    if(!currentUser)
+    {
+      return <div>User not found</div>
+    }
+
   const user = {
     name: "John Doe",
     email: "john.doe@example.com",
@@ -31,88 +55,24 @@ export default function UserDetail() {
 
   return (
     <div className="pt-3 space-y-6">
+      <div className="flex items-center gap-4 mb-10">
+          <Goback to={-1} />
+          <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+            User Detail
+          </h1>
+          
+        </div>
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="col-span-2 md:col-span-1">
-          <CardHeader>
-            <CardTitle>User Details</CardTitle>
-            <CardDescription>Manage your profile information and account settings</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <div className="flex">
-                <UserIcon className="w-5 h-5 mr-2 text-muted-foreground" />
-                <Input id="name" value={user.name} readOnly />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="flex">
-                <MailIcon className="w-5 h-5 mr-2 text-muted-foreground" />
-                <Input id="email" type="email" value={user.email} readOnly />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="flex">
-                <LockIcon className="w-5 h-5 mr-2 text-muted-foreground" />
-                <Input id="password" type="password" value="********" readOnly />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="user-code">User Code</Label>
-              <Input id="user-code" value={user.userCode} readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="subscription">Current Subscription</Label>
-              <Input id="subscription" value={user.subscription} readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="subscription-end">Subscription End Date</Label>
-              <div className="flex">
-                <CalendarIcon className="w-5 h-5 mr-2 text-muted-foreground" />
-                <Input id="subscription-end" value={user.subscriptionEndDate} readOnly />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
+      
+        <UserInfoDetail  user={currentUser!} />
         <div className="flex flex-col gap-4">
-        <UserDetailAction />
+        <UserDetailAction user={currentUser!} />
 
 
-        <Card className="col-span-2 md:col-span-1 h-full">
-          <CardHeader>
-            <CardTitle>Login History</CardTitle>
-            <CardDescription>Recent account access information</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Time</TableHead>
-                  <TableHead>Device</TableHead>
-                  <TableHead>Location</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {loginHistory.map((login, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{login.date}</TableCell>
-                    <TableCell>{login.time}</TableCell>
-                    <TableCell>{login.device}</TableCell>
-                    <TableCell>{login.location}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <UserLoginHistroy loginHistory={loginHistory} />
         </div>
 
        
-
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Favorite Comics</CardTitle>

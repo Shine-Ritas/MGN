@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { useGetDataQuery } from "@/redux/api/queryApi";
 import { toast } from "@/components/ui/use-toast";
@@ -17,7 +18,7 @@ const useQuery = (
     {
         return {};
     }
-    const { data, isLoading, refetch, error, isFetching } = useGetDataQuery(url);
+    const { data, isLoading, refetch, error, isFetching } = useGetDataQuery(url || "");
     const logout = useLogout();
 
     useEffect(() => {

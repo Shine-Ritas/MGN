@@ -14,7 +14,7 @@ const HomePage = () => {
   const isSubscribed = useUserAppSelector(selectIsSubscription);
   const banners = useUserAppSelector(selectBanners);
 
-  console.log(banners);
+  console.log(isSubscribed);
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,

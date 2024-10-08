@@ -11,4 +11,5 @@ export interface SubscribedUser {
     updated_at:              null;
     subscription_name:       string;
     last_login_at :          string;
+    // active  :                boolean;
 }

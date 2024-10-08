@@ -14,7 +14,7 @@ export default function FormInput({
   divClassName,
   disabled = false
 }: FormInputProps) {
-  const initValue = isNaN(Number(defaultValue)) ? defaultValue : Number(defaultValue)
+  const initValue = type === "number" ? defaultValue.toString() : defaultValue
 
   const handleNumberInput = (e: React.FormEvent<HTMLInputElement>) => {
     e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')
