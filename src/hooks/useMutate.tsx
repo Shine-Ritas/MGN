@@ -10,7 +10,7 @@ type ReturnType = [
     values?: any | undefined,
     method?: MethodType,
     isFormData?: boolean
-  ) => Promise<string | void>,
+  ) => Promise<any | void>,
   { isLoading: boolean }
 ];
 
@@ -26,7 +26,7 @@ type ParamsType = {
 const useMutate = (params: ParamsType = {}): ReturnType => {
   const {
     callback,
-    navigateBack = true,
+    navigateBack = false,
     disableAlert = true,
   } = params;
 
@@ -89,6 +89,7 @@ const useMutate = (params: ParamsType = {}): ReturnType => {
         return navigate(-1);
       }
 
+      return result?.data;
 
     } catch (err: any) {
 

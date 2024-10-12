@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useGetDataQuery } from "@/redux/api/queryApi";
 import { toast } from "@/components/ui/use-toast";
 import useLogout from "./useLogout";
@@ -18,8 +18,10 @@ const useQuery = (
     {
         return {};
     }
-    const { data, isLoading, refetch, error, isFetching } = useGetDataQuery(url || "");
+    const { data, isLoading, refetch, error, isFetching, } = useGetDataQuery(url || "");
     const logout = useLogout();
+    const memoizedCallback = useCallback(callback, [callback]);
+    const lastErrorRef = useRef<string | null>(null);
 
     useEffect(() => {
         if (refetchOnUrlChange) {
@@ -28,32 +30,43 @@ const useQuery = (
     }, [url, refetch, refetchOnUrlChange]);
 
     useEffect(() => {
-        if (data && !isFetching) {
-            if (callback) {
-                callback(data, { isLoading, isFetching });
-            }
+        if (data && !isFetching && memoizedCallback) {
+            memoizedCallback(data, { isLoading, isFetching });
         }
-    }, [data, isFetching, callback, isLoading]);
+    }, [data, isFetching, isLoading, memoizedCallback]);
 
     useEffect(() => {
         if (error) {
             const { status, data: errorData } = error as QueryErrorInterface;
 
+            // Prevent showing the same error multiple times
+            const errorMessage = errorData?.message || '';
+
             if (status === 401) {
-                logout(false);
+                logout(false); // Trigger logout on unauthorized access
             }
 
-            if (errorData) {
+            if (errorData && lastErrorRef.current !== errorMessage) {
+                // Show the error only if it's not the same as the previous error
                 toast({
                     title: "❗️Error",
-                    description: errorData.message,
+                    description: errorMessage,
                     variant: "destructive",
                 });
+
+                // Update the last error ref
+                lastErrorRef.current = errorMessage;
             }
         }
     }, [error, logout]);
 
-    return { data, isLoading, isFetching, error, refetch };
+    return {
+        data,
+        isLoading,
+        refetch,
+        error,
+        isFetching,
+    }
 };
 
 export default useQuery;

@@ -17,7 +17,6 @@ declare global {
 const useAdsRef = ({ adsOn = true ,initLoad=false}: AdsRef) => {
     const reAds = useCallback(() => {
         if (adsOn) {
-            console.log('ads code');
             // window.aclib.runAutoTag({
             //     zoneId: 'splpxan5i0',
             // });

@@ -4,12 +4,10 @@ export const useScreenDetector = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
   const handleWindowSizeChange = () => {
-    console.log('hanlde window');
     setWidth(window.innerWidth);
   };
 
   useEffect(() => {
-    console.log('detce once');
     window.addEventListener("resize", handleWindowSizeChange);
 
     return () => {

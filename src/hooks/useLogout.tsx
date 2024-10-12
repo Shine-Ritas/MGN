@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { adminLogout } from "@/redux/slices/admin-auth-slice";
 import useSecureStorage from "./useSecureStorage";
@@ -12,7 +12,7 @@ const useLogout = () => {
   const {get} = useSecureStorage();
 
 
-  const logout = useCallback((withToast=true,type="admin") => {
+  const logout = useCallback((withToast=true) => {
     const navigateTo = get("auth-type") === "admin" ? '/admin/login' : '/login';
     localStorage.removeItem('auth-token');
     localStorage.removeItem("expiresAt");
@@ -25,9 +25,9 @@ const useLogout = () => {
     });
     dispatch(adminLogout())
     navigate(navigateTo);
-  }, [navigate]);
+  }, [dispatch, get, navigate]);
 
-  return logout;
+  return useMemo(() => logout, [logout]);
 }
 
 export default useLogout;
