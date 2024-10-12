@@ -41,9 +41,6 @@ const tableStyleClasses = {
 export const ChapterTable = ({
     chapterCollection = [],
 }: ChapterTableProps) => {
-
-
-    console.log(chapterCollection)
     return (
         <>
             <Card x-chunk="dashboard-07-chunk-1 " className="bg-background border-none">

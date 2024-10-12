@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -30,10 +31,11 @@ import ImageCropper from "@/components/ui/image-cropper"
 import { Input } from "@/components/ui/input"
 import InputError from "@/components/ui/input-error"
 import { toast } from "@/components/ui/use-toast"
-import {  useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import useQuery from "@/hooks/useQuery"
 import useEffectAfterMount from "@/hooks/useEffectAfterMount"
 import { goTo } from "@/utilities/util"
+import YearSelect from "@/components/ui/year-select"
 
 interface ActionProps {
   isEdit?: boolean;
@@ -75,7 +77,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
       variant: "success",
     });
 
-    goTo(`/admin/mogou/edit/${data['mogou']['slug']}`,0);
+    goTo(`/admin/mogou/edit/${data['mogou']['slug']}`, 0);
   };
 
   const [mutate, { isLoading: isSubmiting }] = useMutate({ callback: onSuccessCallback });
@@ -99,7 +101,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
     if (isEdit && bindData.cover instanceof File) {
       data.cover = bindData.cover;
     }
-    else if(isEdit){
+    else if (isEdit) {
       delete data.cover;
     }
     else {
@@ -147,8 +149,8 @@ const Action = ({ isEdit = false }: ActionProps) => {
             <Button
               disabled={isSubmiting}
               type="submit" size="sm">
-                {isEdit ? "Update" : "Save"}
-              </Button>
+              {isEdit ? "Update" : "Save"}
+            </Button>
           </div>
         </div>
         <div className="grid gap-4 lg:grid-cols-3 lg:gap-8">
@@ -162,12 +164,24 @@ const Action = ({ isEdit = false }: ActionProps) => {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
-                  <div className="grid gap-3 md:grid-cols-2">
+                  <div className="grid gap-3 md:grid-cols-3">
                     <FormInput label="Title" placeholder="Title" defaultValue={mogou?.mogou?.title} register={register('title')} fieldError={errors?.title} />
                     <FormInput label="Author" placeholder="Author Name" defaultValue={mogou?.mogou?.author} register={register('author')} fieldError={errors?.author} />
+
+                    <div className=" grid gap-2">
+                      <Label className="text-base">
+                        Released Year
+                      </Label>
+                      <YearSelect selectKey="released_year" setValue={setValue} errors={errors} defaultValue={mogou?.mogou?.released_year} />
+                    </div>
                   </div>
                   <div className="grid gap-3">
-                    <FormTextBox label="Description" placeholder="Description" defaultValue={mogou?.mogou?.description} register={register('description')} fieldError={errors?.description} />
+                    <FormTextBox
+                      editorType="rich-editor"
+                      setValue={setValue}
+                      label="Description" placeholder="Description" defaultValue={mogou?.mogou?.description}
+                      register={register('description')}
+                      fieldError={errors?.description} />
                   </div>
                 </div>
               </CardContent>
@@ -210,7 +224,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card>
-              <CardContent className="flex flex-row items-center justify-between rounded-lg border p-4">
+              <CardContent className="flex flex-row items-center justify-between rounded-lg  p-4">
                 <div className="space-y-0.5 grid">
                   <Label className="text-base">
                     Mature Content
@@ -227,6 +241,9 @@ const Action = ({ isEdit = false }: ActionProps) => {
                   })} />
               </CardContent>
             </Card>
+
+
+
             <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle>Cover</CardTitle>

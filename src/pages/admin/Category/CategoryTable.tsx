@@ -54,7 +54,6 @@ const CategoryTable = ({
     const { data: categories, isLoading, isFetching } = useQuery(`admin/categories?page=${currentPage}&search=${search}&order_by_mogous_count=asc`);
 
     const submitSearch = () => {
-        console.log('worked')
         setSearch(searchRef.current?.value as string)
     }
 

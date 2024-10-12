@@ -6,9 +6,10 @@ import {
 import useQuery from '@/hooks/useQuery';
 import React from 'react'
 import { MostViewed } from './types';
-const MostViewCarousel = () => {
 
-    const { data, isLoading } = useQuery(`users/most-viewed`);
+const ViewCarousel = ({title,url} : {title:string,url:string}) => {
+
+    const { data, isLoading } = useQuery(`users/carousel/${url}`);
 
     const MemorizedData = React.useMemo(() => {
         return data;
@@ -19,7 +20,7 @@ const MostViewCarousel = () => {
             <CardDescription>
                 <Carousel className="min-w-full ">
                     <CardTitle className='flex justify-between '>
-                        <span className='text-2xl'>Most Viewed</span>
+                        <span className='text-2xl'>{title}</span>
                         <span className="relative">
                             <CarouselPrevious className='relative -left-4 ' />
                             <CarouselNext className='relative left-0' />
@@ -27,7 +28,7 @@ const MostViewCarousel = () => {
                     </CardTitle>
                     <CarouselContent className="-ml-1 gap-4 mt-8">
                         {
-                            !isLoading && MemorizedData?.mogous.map((mogou) => (
+                            !isLoading && MemorizedData?.mogous?.map((mogou) => (
                                 <CarouselItem key={mogou.id} className='pl-1 basis-1/3 md:basis-1/4 lg:basis-[13.666667%] overflow-hidden cursor-pointer '>
                                     <div className='flex flex-col'>
                                         <div className="img">
@@ -49,4 +50,4 @@ const MostViewCarousel = () => {
     )
 }
 
-export default MostViewCarousel
+export default ViewCarousel

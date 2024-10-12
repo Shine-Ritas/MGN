@@ -31,6 +31,13 @@ const Setting = () => {
                             >
                                 Banner
                             </NavLink>
+
+                            <NavLink
+                                to={adminRouteCollection.sectionManagement}
+                                className={({ isActive }) => isActive ? 'active-nav-link' : ''}
+                            >
+                                Sections
+                            </NavLink>
                         </nav>
 
                     </CardContent>

@@ -56,6 +56,7 @@ const adminRoutes: AppRouteCollectionInterface = {
     addBot:'/apps/add-bot',
 
     setting: "/setting",
+    sectionManagement: "/setting/sectionManagment",
     generalSetting: "/setting/general",
     generalBanner: "/setting/banner",
 };

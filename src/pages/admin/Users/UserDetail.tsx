@@ -15,13 +15,13 @@ export default function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const [currentUser, setCurrentUser] = useState<SubscribedUser|null>(null);
 
-  const {data,isLoading} = useQuery(`/admin/users/show/${id}`);
+  const {data,isLoading} = useQuery(`/admin/users/showById/${id}`);
  
 
   useEffect(()=>{
+    
     if(!isLoading && data)
     {
-      console.log(data)
       setCurrentUser(data?.user)
     }
   },[data,isLoading])

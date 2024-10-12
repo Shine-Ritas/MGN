@@ -1,6 +1,5 @@
 import { Separator } from "@radix-ui/react-select"
 import HeroCarousel from "./HeroCarousel"
-import MostViewCarousel from "./MostViewCarousel"
 import RecentlyUploaded from "./RecentlyUploaded"
 
 import { useCallback } from "react"
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useUserAppSelector } from "@/redux/hooks"
 import { selectBanners, selectIsSubscription } from "@/redux/slices/user-global"
 import AdsBanner from "./banners/adsBanner"
+import ViewCarousel from "./MostViewCarousel"
 
 const HomePage = () => {
 
@@ -28,9 +28,6 @@ const HomePage = () => {
         <HeroCarousel />
       </div>
 
-      {/* <div className="w-full ">
-        <ShareSection />
-      </div> */}
       <div className="w-full">
           {
             (banners.length > 0 && banners[0].active == true) && <AdsBanner banner={banners[0]} />
@@ -38,7 +35,7 @@ const HomePage = () => {
       </div>
 
       <div className="w-full">
-        <MostViewCarousel />
+        <ViewCarousel title="Recommended For You" url="recommended"/>
       </div>
 
       <Separator className="w-full h-1 bg-primary" />
@@ -48,7 +45,7 @@ const HomePage = () => {
       </div>
 
       <div className="w-full">
-        <MostViewCarousel />
+        <ViewCarousel title="Most Viewed" url="most-viewed" />
       </div>
 
 

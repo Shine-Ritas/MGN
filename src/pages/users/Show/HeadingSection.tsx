@@ -13,7 +13,6 @@ interface HeadingSectionProps {
     isFavorite : IsFavoriteInterface,
 }
 
-
 const HeadingSection = ({mogou,isFavorite} : HeadingSectionProps) => {
   return (
     <>
@@ -45,7 +44,7 @@ const HeadingSection = ({mogou,isFavorite} : HeadingSectionProps) => {
                             </div>
                             <div className="flex">
                                 <span className="text-muted">
-                                    {mogou?.description}
+                                    <div dangerouslySetInnerHTML={{ __html: mogou?.description }} />
                                 </span>
                             </div>
                         </div>

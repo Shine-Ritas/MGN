@@ -39,7 +39,6 @@ const Login = () => {
 
 
       const loginOnSuccess : useMutateCallbackType = (response : any) => {
-        console.log(response);
         set("auth-token", response.token);
         set("auth-type", "admin");
         localStorage.setItem("expiresAt", (new Date().getTime() + 24 * 60 * 60 * 1000).toString());
@@ -57,7 +56,6 @@ const Login = () => {
       const [postLogin, { isLoading }] = useMutate({ callback: loginOnSuccess, navigateBack: false});
       const onSubmit =  async (data: loginSubmitForm) => {
         const response =  await postLogin("admin/login", data) as any;
-        console.log(response);
         if (response && response.error) {
           handleServerErrors(response.error,setError);
          }

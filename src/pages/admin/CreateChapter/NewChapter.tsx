@@ -56,6 +56,7 @@ export default function NewChapter() {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors }
   } = useForm<createCard1ValidationType>({
     resolver: yupResolver(createCard1Validation)
@@ -82,7 +83,6 @@ export default function NewChapter() {
       subscription_only: chapterInfo.isSubscriptionOnly
     }
     const response = await createChapter("admin/sub-mogous/new-draft", formData) as any;
-    console.log(response);
     if (response && response.error) {
       handleServerErrors(response.error, setError);
     }
@@ -127,6 +127,7 @@ export default function NewChapter() {
                 placeholder="Enter chapter description"
                 defaultValue={""}
                 register={register('description')}
+                setValue={setValue}
                 disabled={isLoading || isCard1Submitted}
 
                 fieldError={errors?.description} />

@@ -34,8 +34,6 @@ const CreateBot = () => {
 
 
     const submit = async (data : BotPublisher) => {
-        console.log(data);
-        console.log(errors);
         const response =  await mutate("admin/bot-publisher", data,"POST") as any;
 
         if (response && response.error) {

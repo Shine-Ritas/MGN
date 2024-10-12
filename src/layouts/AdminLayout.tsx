@@ -26,7 +26,7 @@ const AdminLayout = () => {
     }
   }, [data]);
   return (
-    <div className="flex pt-12 h-screen max-h-screen  pb-10  px-10  lg:px-0">
+    <div className="flex pt-8 h-screen max-h-screen  pb-10  px-10  lg:px-0">
 
       {
         !isMobile && (

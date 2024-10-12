@@ -61,7 +61,6 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen }: 
     const response = isCreate ?  await postCategory("admin/categories", data) :await postCategory(`admin/categories/${category?.id}`, data,"PUT") as any;
    
     if (response && response.error) {
-      console.log(response)
       handleServerErrors(response.error,setError);
     }
   }
