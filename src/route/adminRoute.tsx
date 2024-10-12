@@ -22,6 +22,7 @@ const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx
 const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
 const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
+const SectionManagement = lazy(() => import('@/pages/admin/Settings/SectionManagement.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -45,6 +46,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
               path: adminRouteCollection.generalSetting,
               element: <GeneralSetting />,
               index: true,
+            },
+            {
+              path: adminRouteCollection.sectionManagement,
+              element: <SectionManagement />,
             },
             {
               path: adminRouteCollection.generalBanner,

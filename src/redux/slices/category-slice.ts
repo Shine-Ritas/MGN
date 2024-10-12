@@ -16,7 +16,6 @@ const categoriesSlice = createSlice({
     reducers: {
         setCategories(state, action) {
             state.categories = action.payload;
-            console.log('categories was stored' , action.payload);  
         },
         addCategories(state,action){
             state.categories?.push(action.payload);
