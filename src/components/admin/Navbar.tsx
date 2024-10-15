@@ -16,13 +16,13 @@ const NavbarRaw = ({ title }: NavbarProps) => {
   const {isMobile} = useScreenDetector();
 
   return (
-    <Card className="flex min-w-full justify-between px-4 md:h-[6vh] py-10" >
+    <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-8" >
       <div className="flex items-center gap-10">
 
         {!isMobile ?(  
           <div className="flex items-center gap-0">
-          <img src={Logo} alt="logo" className="w-12 hover:motion-safe:animate-spin-slow cursor-pointer " />
-          <img src={LogoTitle} alt="logo-title" className="w-16  cursor-pointer " />
+          <img src={Logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
+          <img src={LogoTitle} alt="logo-title" className="w-14  cursor-pointer " />
           </div>
         ) :
         (

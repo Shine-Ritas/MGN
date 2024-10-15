@@ -33,6 +33,8 @@ import useQuery from "@/hooks/useQuery"
 import InputSearch from "@/components/ui/custom/InputSearch"
 import { useSearchParams } from "react-router-dom"
 import ContentTableRow from "@/components/ui/custom/ContentTableRow"
+import { useAppDispatch } from "@/redux/hooks"
+import { removeCategories } from "@/redux/slices/category-slice"
 
 type CategoryTableProps = {
     setCategory: (category: Category) => void;
@@ -51,7 +53,7 @@ const CategoryTable = ({
 
     const searchRef = React.useRef<HTMLInputElement>(null);
 
-    const { data: categories, isLoading, isFetching } = useQuery(`admin/categories?page=${currentPage}&search=${search}&order_by_mogous_count=asc`);
+    const { data: categories,refetch, isLoading, isFetching } = useQuery(`admin/categories?page=${currentPage}&search=${search}&order_by_mogous_count=asc`);
 
     const submitSearch = () => {
         setSearch(searchRef.current?.value as string)
@@ -94,7 +96,7 @@ const CategoryTable = ({
                                 (
                                     categories.categories.data.length === 0 ? <ContentTableRow content="No data Found" /> :
                                         categories.categories.data.map((cata: Category) => {
-                                            return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setOpen} />
+                                            return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setOpen} refetch={refetch} />
                                         })
                                 )
                         }
@@ -114,15 +116,19 @@ const CategoryTable = ({
 }
 
 
-const CategoryTableRow = ({ category, index, setCategory, setOpen }: {
+const CategoryTableRow = ({ category, index, setCategory, setOpen,refetch }: {
     category: Category,
     index: number | undefined,
     setCategory: any,
-    setOpen: any
+    setOpen: any,
+    refetch?: any
 }) => {
-
+    const dispatch = useAppDispatch();
+    
     const onSuccessCallback = () => {
         setOpen(false);
+        dispatch(removeCategories(category.id as number));
+        refetch();
     }
 
     const [postCategory] = useMutate({ callback: onSuccessCallback });

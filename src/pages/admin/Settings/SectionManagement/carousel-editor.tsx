@@ -11,6 +11,10 @@ import { MogousType } from '../../Comics/type'
 import useMutate from '@/hooks/useMutate'
 import useQuery from '@/hooks/useQuery'
 import { toast } from '@/components/ui/use-toast'
+import CardCarouselSlider from '@/pages/users/home/carousel/CardCarouselSlider'
+import MCardCarouselSlider from '@/pages/users/home/carousel/MCardCarouselSlider'
+import AlertBox from '@/components/ui/AlertBox'
+import { BiTrash } from 'react-icons/bi'
 
 
 export interface FindMogouItemType extends MogousType {
@@ -23,14 +27,21 @@ const replaceUtr = (text : string)=>
   return text.replace(/_/g, " ");
 }
 
-export default function EnhancedCarouselManager({type} : {type:string}) {
+type carouselType = "type1" | "type2";
+
+type EnhancedCarouselManagerProps = {
+  type: string;
+  carousel_type: carouselType;
+};
+
+export default function EnhancedCarouselManager({type,carousel_type} : EnhancedCarouselManagerProps) {
 
   const [carouselProducts, setCarouselProducts] = useState<FindMogouItemType[]>([])
   const [isAddProductOpen, setIsAddProductOpen] = useState(false)
   const [addCarouselServer] = useMutate();
   const [toggleProductVisibilityServer] = useMutate();
+  const [emptySection,{isLoading:isCleaning}] = useMutate();
   const [removeChild] = useMutate();
-
 
 
   const toggleProductVisibility = async (item: FindMogouItemType) => {
@@ -52,8 +63,15 @@ export default function EnhancedCarouselManager({type} : {type:string}) {
 
   }
 
-  const {data,isLoading} = useQuery(`/admin/sections/${type}`);
+  const emptySectionServer = async () => {
+    const response = await emptySection(`/admin/sections/${type}/empty`) as any;
+    if (response) {
+      setCarouselProducts([])
+      toast({title: "Success",description: response?.message,variant: "success"})
+    }
+  }
 
+  const {data,isLoading} = useQuery(`/admin/sections/${type}`);
 
   useEffect(()=>{
     if(!isLoading && data)
@@ -62,11 +80,12 @@ export default function EnhancedCarouselManager({type} : {type:string}) {
     }
   },[data,isLoading])
 
-
-
   const addToCarousel = async (item: FindMogouItemType) => {
     const response = await addCarouselServer(`admin/sections/${type}`, { child: item.id }) as any;
-    if (response) {
+    if (response && response?.error) {
+        return false
+    }
+    else{
       setCarouselProducts(prev => [
         ...prev,
         {
@@ -74,7 +93,10 @@ export default function EnhancedCarouselManager({type} : {type:string}) {
           is_visible: true,
         },
       ])
+
+      return true
     }
+
   }
 
   const removeProductFromCarousel = async (id: number) => {
@@ -94,7 +116,18 @@ export default function EnhancedCarouselManager({type} : {type:string}) {
           <CardTitle className="flex justify-between items-center capitalize">
             <span>{replaceUtr(type)}</span>
          
-            <FindMogouSection isOpen={isAddProductOpen} isOpenChange={setIsAddProductOpen} section_type={type}  addToCarousel={addToCarousel} />
+            <div className=" flex items-center gap-4">
+              <AlertBox
+              alertTitle="Clearing All Data"
+              alertDescription="Are you sure to remove all ?"
+              alertActionConfirmText="Sure"
+              alertConfirmAction={emptySectionServer}
+              btnText={
+                <BiTrash className="w-5 h-5 text-red-600 hover:text-red-400 hover:scale-110 transition-all" />
+             }
+        />
+            <FindMogouSection isOpen={isAddProductOpen} isOpenChange={setIsAddProductOpen} section_type={type} carouselProducts={carouselProducts}  addToCarousel={addToCarousel} />
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -128,7 +161,9 @@ export default function EnhancedCarouselManager({type} : {type:string}) {
           <CardTitle>Carousel Preview</CardTitle>
         </CardHeader>
         <CardContent>
-          <SlidableCarouselPreview products={carouselProducts} />
+          {
+            carousel_type == "type1" ? <CardCarouselSlider isLoading={isLoading} collection={carouselProducts} /> : <MCardCarouselSlider isLoading={isLoading} collection={carouselProducts} />
+          }
         </CardContent>
       </Card>
     </div>

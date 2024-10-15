@@ -18,7 +18,7 @@ const ratingVariants = {
 };
 
 interface RatingsProps extends React.HTMLAttributes<HTMLDivElement> {
-  rating: number;
+  rating: number | undefined;
   totalStars?: number;
   size?: number;
   fill?: boolean;

@@ -17,13 +17,20 @@ import { FindMogouItemType } from "./carousel-editor";
 
 
 
-const FindMogouSection = ({ isOpen, isOpenChange, section_type,addToCarousel }) => {
+const FindMogouSection = ({ isOpen, isOpenChange, section_type,addToCarousel,carouselProducts}) => {
     const [filteredResults, setFilteredResults] = useState<FindMogouItemType[]>([]);
     const searchTermInput = useRef<HTMLInputElement>(null);
 
     const onSuccessCallback = (response: any) => {
-        setFilteredResults(response.mogous);
-    }
+        const selectedIds = carouselProducts.map((item) => item.id);
+
+        const updatedMogous = response.mogous.map((item) => ({
+            ...item, // create a new object for each item
+            is_selected: selectedIds.includes(item.id), // set is_selected based on whether the id is in selectedIds
+        }));
+
+        setFilteredResults(updatedMogous);
+    };
     const [searchServer, { isLoading: isSearching }] = useMutate({ callback: onSuccessCallback });
 
     const searchOnDebounce = useCallback(
@@ -49,6 +56,25 @@ const FindMogouSection = ({ isOpen, isOpenChange, section_type,addToCarousel }) 
             setFilteredResults([]);
         }
     },[isOpen]);
+
+    const addActionToCarousel = (item: FindMogouItemType) => {
+        addToCarousel(item).then((status)=>{
+            if(status){
+                const updatedMogous = filteredResults.map((mogou) => {
+                    if (mogou.id === item.id) {
+                        return {
+                            ...mogou,
+                            is_selected: true,
+                        };
+                    }
+                    return mogou;
+                });
+    
+                setFilteredResults(updatedMogous);
+            }
+        })
+       
+    }
 
     return (
         <Dialog open={isOpen} onOpenChange={isOpenChange}>
@@ -101,7 +127,7 @@ const FindMogouSection = ({ isOpen, isOpenChange, section_type,addToCarousel }) 
                                     </div>
                                     <Button
                                     disabled={item.is_selected}
-                                    onClick={() => addToCarousel(item)}>
+                                    onClick={() => addActionToCarousel(item)}>
                                         {
                                             item.is_selected ? "Added" : "Add"
                                         }
