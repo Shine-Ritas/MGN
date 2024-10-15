@@ -23,12 +23,12 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                   <span className="hidden md:flex  font-semibold h-12 overflow-hidden text-gray-300">
                     {mogou?.description}
                   </span>
-                  <Rating rating={mogou?.rating !} totalStars={5} size={24} variant="yellow" disabled={true} />
+                  <Rating rating={mogou?.rating } totalStars={5} size={24} variant="yellow" disabled={true} />
 
                   <div className="flex gap-2 flex-wrap">
 
                     {
-                      mogou?.categories.slice(0, 2).map((category,index) => (
+                      mogou?.categories && mogou?.categories?.slice(0, 2).map((category,index) => (
                         <span key={index} className="text-sm md:text-md font-semibold text-neon-primary">{category?.title}</span>
                       ))
                     }

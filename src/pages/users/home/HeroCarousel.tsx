@@ -1,12 +1,8 @@
-import {
-  Carousel,
-  CarouselContent
-} from "@/components/ui/carousel"
 import useQuery from "@/hooks/useQuery";
 import { useMemo } from "react";
 import { Mogous } from "./types";
-import HeroCarouselCard from "./HeroCarouselCard";
-import Autoplay from "embla-carousel-autoplay"
+
+import CardCarouselSlider from "./carousel/CardCarouselSlider";
 
 const HeroCarousel = () => {
 
@@ -18,21 +14,7 @@ const HeroCarousel = () => {
   }, [data]) as Mogous;
 
   return (
-    <Carousel
-    plugins={[
-      Autoplay({
-        delay: 1800,
-      }),
-    ]}
-    className="min-w-full ">
-
-      <CarouselContent className="-ml-1 gap-4">
-        {!isLoading && memoData?.mogous.map((mogou) => (
-          <HeroCarouselCard key={mogou.id} mogou={mogou} />
-        ))}
-      </CarouselContent>
-
-    </Carousel>
+    <CardCarouselSlider isLoading={isLoading} collection={memoData?.mogous} />
   )
 }
 

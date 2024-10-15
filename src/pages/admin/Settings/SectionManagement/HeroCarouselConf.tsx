@@ -3,7 +3,7 @@ import EnhancedCarouselManager from './carousel-editor'
 const HeroCarouselConf = () => {
   return (
     <div>
-        <EnhancedCarouselManager type='hero_highlight_slider' />
+        <EnhancedCarouselManager type='hero_highlight_slider' carousel_type="type1" />
     </div>
   )
 }
