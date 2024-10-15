@@ -54,9 +54,11 @@ const useQuery = (
                     variant: "destructive",
                 });
 
-                // Update the last error ref
                 lastErrorRef.current = errorMessage;
             }
+            setTimeout(() => {
+                lastErrorRef.current = null;
+            }, 7000);
         }
     }, [error, logout]);
 
