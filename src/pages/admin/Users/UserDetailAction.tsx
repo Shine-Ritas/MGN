@@ -7,15 +7,17 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
-import { UserX, Bell, Package, Pause, Calendar } from "lucide-react"
+import { UserX,Calendar } from "lucide-react"
 import UserChangeSubscription from "./UserChangeSubscription"
 import { SubscribedUser } from "./types"
+import useMutate from "@/hooks/useMutate"
 
-export default function UserDetailAction({user}: {user: SubscribedUser}) {
-  const [isActive, setIsActive] = useState(true)
+export default function UserDetailAction({user,setCurrentUser}: {user: SubscribedUser,setCurrentUser:any}) {
+  const [isActive, setIsActive] = useState(user.active)
   const [subscriptionDays, setSubscriptionDays] = useState(30)
-  const [isOnHold, setIsOnHold] = useState(false)
   const { toast } = useToast()
+
+  const [serverAction,{isLoading}] = useMutate();
 
   const simulateApiCall = (action: string, callback: () => void) => {
     toast({
@@ -31,24 +33,16 @@ export default function UserDetailAction({user}: {user: SubscribedUser}) {
     }, 1500)
   }
 
-  const handleDeactivate = () => {
-    simulateApiCall("User deactivation", () => setIsActive(false))
-  }
-
-  const handleNotify = () => {
-    simulateApiCall("User notification", () => {
-      // In a real app, this would send a notification to the user
+  const handleDeactivate = async() => {
+    const response = await serverAction(`admin/users/update`,{
+      id: user.id,
+      user_code: user.user_code,
+      active: !user.active,
+      password:null
     })
-  }
-
-  const handleChangeSubscription = (newPackage: string) => {
-    simulateApiCall(`Subscription change to ${newPackage}`, () => {
-      // In a real app, this would update the user's subscription package
-    })
-  }
-
-  const handleTemporaryHold = () => {
-    simulateApiCall(isOnHold ? "Temporary hold removal" : "Temporary hold", () => setIsOnHold(!isOnHold))
+    if (response && !response.error) {
+      setIsActive(!isActive)
+    }
   }
 
   const handleAddExtraDays = (days: number) => {
@@ -64,54 +58,16 @@ export default function UserDetailAction({user}: {user: SubscribedUser}) {
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Button
-            variant="outline"
+            variant={isActive ? "outline" : "destructive"}
             className="w-full justify-start"
             onClick={handleDeactivate}
-            disabled={!isActive}
+            disabled={isLoading}
           >
             <UserX className="mr-2 h-4 w-4" />
             {isActive ? "Deactivate User" : "User Deactivated"}
           </Button>
 
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={handleNotify}
-          >
-            <Bell className="mr-2 h-4 w-4" />
-            Notify User
-          </Button>
-
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="w-full justify-start">
-                <Package className="mr-2 h-4 w-4" />
-                Change Subscription
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Change Subscription Package</DialogTitle>
-                <DialogDescription>Select a new subscription package for the user.</DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <Button onClick={() => handleChangeSubscription("Basic")}>Basic Package</Button>
-                <Button onClick={() => handleChangeSubscription("Premium")}>Premium Package</Button>
-                <Button onClick={() => handleChangeSubscription("Pro")}>Pro Package</Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          <UserChangeSubscription />
-
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={handleTemporaryHold}
-          >
-            <Pause className="mr-2 h-4 w-4" />
-            {isOnHold ? "Remove Hold" : "Temporary Hold"}
-          </Button>
+          <UserChangeSubscription user={user}  setCurrentUser={setCurrentUser}/>
 
           <Dialog>
             <DialogTrigger asChild>
@@ -137,8 +93,7 @@ export default function UserDetailAction({user}: {user: SubscribedUser}) {
         </div>
         <div className="mt-4 text-sm text-muted-foreground">
           User Status: {isActive ? "Active" : "Inactive"} | 
-          Subscription Days: {subscriptionDays} | 
-          Hold Status: {isOnHold ? "On Hold" : "Active"}
+          Subscription Days: {subscriptionDays} 
         </div>
       </CardContent>
     </Card>

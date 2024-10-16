@@ -14,7 +14,7 @@ import InputError from '@/components/ui/input-error'
 import { useCallback } from 'react'
 
 
-const UserInfoDetail = ({user}:{user : SubscribedUser}) => {
+const UserInfoDetail = ({user,setCurrentUser}:{user : SubscribedUser,setCurrentUser:any}) => {
       const {
         register,
         handleSubmit,
@@ -28,6 +28,7 @@ const UserInfoDetail = ({user}:{user : SubscribedUser}) => {
         toast({
             title: "User Updated",
             description: `User has been Updated successfully`,
+            variant: "success"
         })
     },[])
 

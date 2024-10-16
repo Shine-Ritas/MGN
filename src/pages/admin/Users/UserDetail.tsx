@@ -60,18 +60,14 @@ export default function UserDetail() {
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             User Detail
           </h1>
-          
         </div>
       <div className="grid gap-6 md:grid-cols-2">
-      
-        <UserInfoDetail  user={currentUser!} />
+        <UserInfoDetail  user={currentUser!}  setCurrentUser={setCurrentUser} />
         <div className="flex flex-col gap-4">
-        <UserDetailAction user={currentUser!} />
-
+        <UserDetailAction user={currentUser!} setCurrentUser={setCurrentUser}  />
 
         <UserLoginHistroy loginHistory={loginHistory} />
         </div>
-
        
         <Card className="col-span-2">
           <CardHeader>
