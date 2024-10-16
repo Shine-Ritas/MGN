@@ -1,6 +1,6 @@
-
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-
+import "@/styles/admin-global.css"
 interface GeneralErrorProps extends React.HTMLAttributes<HTMLDivElement> {
   minimal?: boolean
 }
@@ -19,7 +19,18 @@ export default function GeneralError({
         <p className='text-center text-muted-foreground'>
           We apologize for the inconvenience. <br /> Please try again later.
         </p>
-        
+        {!minimal && (
+          <div className='mt-6 flex gap-4'>
+            <Button variant='outline' onClick={
+              () => window.history.back()
+            }>
+              Go Back
+            </Button>
+            <Button onClick={() =>
+              window.location.href = '/'
+            }>Back to Home</Button>
+          </div>
+        )}
       </div>
     </div>
   )
