@@ -175,7 +175,7 @@ const CategoryTableRow = ({ category, index, setCategory, setOpen,refetch }: {
 
                     {/* <DropdownMenuItem slot=""> */}
                     <AlertBox alertTitle="Delete" alertDescription="Are you sure you want to Delete" alertActionConfirmText="Delete" alertConfirmAction={() => deleteCategory(category.id as number)}
-                        className="relative flex cursor-default select-none w-full hover:bg-accent text-destructive items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                        className="relative flex cursor-default select-none w-full hover:bg-accent text-red-500 items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                         btnText="Delete" />
                     {/* </DropdownMenuItem> */}
                 </DropdownMenuContent>
