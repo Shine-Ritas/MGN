@@ -16,7 +16,7 @@ const CardCarouselSlider = ({isLoading,collection}) => {
     className="min-w-full ">
 
       <CarouselContent className="-ml-1 gap-4">
-        {!isLoading && collection.map((mogou) => (
+        {!isLoading && collection?.map((mogou) => (
             (mogou?.is_visible !== false) && <HeroCarouselCard key={mogou.id} mogou={mogou} />
         ))}
       </CarouselContent>

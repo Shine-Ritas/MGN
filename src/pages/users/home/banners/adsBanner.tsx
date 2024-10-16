@@ -8,12 +8,12 @@ const AdsBanner = ({ banner }: { banner: Banner }) => {
         href={banner?.redirect_url}
         target="_blank"
         rel="noreferrer"
-        className="max-h-40 relative">
+        className="max-h-80 md:max-h-40 relative">
         <LazyLoadImage
 
           src={banner.text_url ?? banner?.cover_photo_url}
           alt={banner?.name}
-          className="w-full max-h-80 object-contain"
+          className="w-full min-h-32 md:min-h-40 object-cover"
         />
       </a>
     </div>

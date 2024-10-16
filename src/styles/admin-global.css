@@ -16,8 +16,8 @@
 
     --neon-primary: #8654d8; /* Slightly darker neon primary */
 
-    --primary: #7f56e5; /* Darker primary for emphasis */
-    --phover: #794bda; /* Hover state with more contrast */
+    --primary: rgb(133, 90, 240); /* Darker primary for emphasis */
+    --phover: #9b79f0; /* Hover state with more contrast */
     --primary-muted: #5b2ed1; /* Muted variant with lighter shade */
     --primary-foreground: #ffffff; /* White text on primary backgrounds */
 
