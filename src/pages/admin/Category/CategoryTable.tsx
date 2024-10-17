@@ -35,18 +35,12 @@ import { useSearchParams } from "react-router-dom"
 import ContentTableRow from "@/components/ui/custom/ContentTableRow"
 import { useAppDispatch } from "@/redux/hooks"
 import { removeCategories } from "@/redux/slices/category-slice"
+import { CategoryModal } from "./CategoryModal"
 
-type CategoryTableProps = {
-    setCategory: (category: Category) => void;
-    setOpen: (open: boolean) => void;
+const CategoryTable = () => {
+    const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [modalOpen, setModalOpen] = useState(false);
 
-};
-
-const CategoryTable = ({
-    setCategory,
-    setOpen,
-
-}: CategoryTableProps) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [queryParameters] = useSearchParams();
     const [search, setSearch] = useState<string>(queryParameters.get('search') ?? "");
@@ -68,8 +62,10 @@ const CategoryTable = ({
                         List of all categories
                     </CardDescription>
                 </div>
-                <div className="flex items-center w-full md:w-fit">
+                <div className="flex items-center w-full md:w-fit gap-4">
+
                     <InputSearch placeholder="Search" value={search} onAction={submitSearch} ref={searchRef} />
+                    <CategoryModal open={modalOpen} setOpen={setModalOpen} setInitCategory={setCategory} initCategory={category} />
                 </div>
             </CardHeader>
             <CardContent className="pb-0">
@@ -96,7 +92,7 @@ const CategoryTable = ({
                                 (
                                     categories.categories.data.length === 0 ? <ContentTableRow content="No data Found" /> :
                                         categories.categories.data.map((cata: Category) => {
-                                            return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setOpen} refetch={refetch} />
+                                            return <CategoryTableRow key={cata.id} category={cata} index={cata.id} setCategory={setCategory} setOpen={setModalOpen} refetch={refetch} />
                                         })
                                 )
                         }
@@ -104,7 +100,7 @@ const CategoryTable = ({
                     </TableBody>
                 </Table>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-4">
 
                 {
                     (categories && categories.categories.data.length > 0) && <TablePagination url={categories.categories.path} lastPage={categories.categories.last_page} currentPage={currentPage} setCurrentPage={setCurrentPage} isFetching={isFetching} />

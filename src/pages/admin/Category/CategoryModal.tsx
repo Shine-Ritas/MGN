@@ -68,11 +68,9 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen }: 
   return ( 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="h-8 gap-1"  >
+        <Button size="md" className="py-4 gap-1"  >
           <PlusCircle className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Add
-          </span>
+          
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]" onCloseAutoFocus={() => {

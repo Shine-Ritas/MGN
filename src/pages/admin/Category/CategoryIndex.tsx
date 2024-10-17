@@ -1,29 +1,15 @@
 
 import CategoryTable from "./CategoryTable"
-import { CategoryModal } from "./CategoryModal"
-import { useState } from "react";
-import { Category } from "./type";
 import { Card } from "@/components/ui/card";
 
-
 const CategoryIndex = () => {
-
-  const [category, setCategory] = useState<Category | undefined>(undefined);
-  const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <Card className=" flex-1 items-start gap-4 py-4  ">
       <div className="mx-auto flex-1 auto-rows-max  grid-cols-1">
-          <div className="flex items-center w-full justify-between">
-          
-            <div className="ml-auto pe-4 flex items-center gap-2 " >
+       
 
-              <CategoryModal open={modalOpen} setOpen={setModalOpen} setInitCategory={setCategory} initCategory={category} />
-            </div>
-          </div>
-
-        <div className="mt-4 text-lg font-semibold">
-          <CategoryTable setOpen={setModalOpen} setCategory={setCategory}/>
+        <div className=" text-lg font-semibold">
+          <CategoryTable />
         </div>
       </div>
     </Card>
