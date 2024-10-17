@@ -1,7 +1,7 @@
 import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 type GobackProps = {
     to: string | number;
@@ -13,7 +13,7 @@ type GobackProps = {
 const GobackRaw = ({ to, label = "back", variant = "outline",size="default" }: GobackProps) => {
     const navigate = useNavigate();
 
-    const renderBtn = () => {
+    const renderBtn = useCallback(() => {
         if (label === 'back') {
             return (
                 <Button 
@@ -33,7 +33,7 @@ const GobackRaw = ({ to, label = "back", variant = "outline",size="default" }: G
                 </Button>
             );
         }
-    };
+    },[label, navigate, size, to, variant]);
 
     return renderBtn(); // Call the renderBtn function here to render the button
 };

@@ -7,7 +7,8 @@ import GeneralError from './pages/errors/general-error.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary fallback={<GeneralError />}>
+    <ErrorBoundary 
+    fallback={<GeneralError />}>
         <Router>
           <AppRoute />
         </Router>
