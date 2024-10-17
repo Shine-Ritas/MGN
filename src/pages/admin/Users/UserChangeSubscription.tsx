@@ -19,6 +19,7 @@ const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCu
             user_code: user.user_code,
             id: user.id,
             current_subscription_id: newPackage,
+            password:null
         });
 
         if(action && !action.error){
@@ -55,7 +56,9 @@ const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCu
                         !isLoading && data?.subscriptions?.data.map((subscription: SubscriptionType) => (
                             <Button
                             disabled={isMutating || subscription.id === user.current_subscription_id}
-                            key={subscription.id} onClick={() => handleChangeSubscription(subscription.id !)}>{subscription.title}</Button>
+                            key={subscription.id} onClick={() => handleChangeSubscription(subscription.id !)}>
+                                {subscription.title} ( {subscription.duration} days ) 
+                                </Button>
                         ))
                     }
                 </div>

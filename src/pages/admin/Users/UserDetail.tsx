@@ -8,22 +8,29 @@ import { useParams } from "react-router-dom"
 import Goback from "@/components/goback-btn"
 import { SubscribedUser } from "./types"
 import { useEffect, useState } from "react"
-import UserLoginHistroy from "./UserLoginHistroy"
+import UserDetailHistory from "./UserDetailHistory"
 
 export default function UserDetail() {
 
   const { id } = useParams<{ id: string }>();
   const [currentUser, setCurrentUser] = useState<SubscribedUser|null>(null);
+  const [subscription_histroy, setSubscription_histroy] = useState<any[]>([]);
 
-  const {data,isLoading} = useQuery(`/admin/users/showById/${id}`);
+  const {data,isLoading} = useQuery(`/admin/users/showById/${id}`,undefined,true);
  
 
   useEffect(()=>{
     
-    if(!isLoading && data)
+    if(!isLoading)
     {
       setCurrentUser(data?.user)
+      setSubscription_histroy(data?.subscriptions)
     }
+
+    return ()=>{
+      setCurrentUser(null)
+    }
+
   },[data,isLoading])
 
     if(!currentUser)
@@ -47,12 +54,6 @@ export default function UserDetail() {
     ],
   }
 
-  const loginHistory = [
-    { date: "2023-05-01", time: "09:30 AM", device: "iPhone 12", location: "New York, USA" },
-    { date: "2023-04-28", time: "02:15 PM", device: "MacBook Pro", location: "New York, USA" },
-    { date: "2023-04-25", time: "11:45 AM", device: "Windows PC", location: "Boston, USA" },
-  ]
-
   return (
     <div className="pt-3 space-y-6">
       <div className="flex items-center gap-4 mb-10">
@@ -66,7 +67,7 @@ export default function UserDetail() {
         <div className="flex flex-col gap-4">
         <UserDetailAction user={currentUser!} setCurrentUser={setCurrentUser}  />
 
-        <UserLoginHistroy loginHistory={loginHistory} />
+        <UserDetailHistory loginHistory={[]} subscription_histroy={subscription_histroy}/>
         </div>
        
         <Card className="col-span-2">
