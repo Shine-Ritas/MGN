@@ -12,8 +12,9 @@ interface TablePaginationInterface {
   url: string;
   lastPage: number;
   currentPage: number;
-  setCurrentPage: (currentPage: number) => void;
+  setCurrentPage: any;
   isFetching?: boolean;
+  paging? : boolean
 }
 
 type OptionalTablePaginationInterface = Partial<TablePaginationInterface>;
@@ -24,13 +25,34 @@ export function TablePagination({
   currentPage = 1,
   setCurrentPage = () => {},
   isFetching = false,
+  paging =  true
 }: OptionalTablePaginationInterface) {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const getPageLinks = () => {
+  const getPageLinks = (paging:boolean) => {
     const pages: JSX.Element[] = [];
+
+    if (!paging)
+    {
+      // current page only
+      return <PaginationItem key={currentPage}>
+        <PaginationLink
+          href={`${
+            url
+          }?page=${currentPage}`}
+          isActive={true}
+          onClick={(e) => {
+            e.preventDefault();
+            handlePageChange(currentPage);
+          }}
+        >
+          {currentPage}
+        </PaginationLink>
+      </PaginationItem>
+    }
+
     for (let i = 1; i <= lastPage; i++) {
       pages.push(
         <PaginationItem key={i}>
@@ -68,7 +90,7 @@ export function TablePagination({
             />
           </PaginationItem>
         )}
-        {getPageLinks()}
+        { getPageLinks(paging)}
         {currentPage < lastPage && (
           <PaginationItem>
             <PaginationNext

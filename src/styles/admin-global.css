@@ -4,7 +4,7 @@
  
 @layer base {
   :root {
-    --background: #f5f7fa; /* Softer background */
+    --background: #ffffff; /* Softer background */
     --sub-background: #f0f1f3; /* Subtle sub-background */
     --foreground: #1e1e1e; /* Darker text for better readability */
 
@@ -27,7 +27,7 @@
     --muted: #a3a3a3; /* Gray for muted text */
     --muted-foreground: #7b8b97; /* Slightly darker muted foreground */
 
-    --accent: #a3a3a3; /* Matching accent with secondary background */
+    --accent: #f7f7f7c4; /* Matching accent with secondary background */
     --accent-foreground: #2c3a4b; /* Darker text for accent */
 
     --destructive: #e63946; /* Brighter red for destructive actions */
@@ -69,7 +69,7 @@
     --muted: #3b3b3b; 
     --muted-foreground: #9eaab8; 
  
-    --accent: #2e3549; 
+    --accent: #202634; 
     --accent-foreground: #e5f6ff; 
  
     --destructive: #7d1e1e; 
@@ -78,6 +78,24 @@
     --border: #2e3549; 
     --input: #2e3549; 
     --ring: #d2d9ef;
+  }
+}
+
+@layer base {
+  :root {
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+ 
+  .dark {
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
  
