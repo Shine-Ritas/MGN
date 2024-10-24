@@ -16,12 +16,14 @@ type ComicFilterProps = {
   selectedProgress: string;
   onTypeChange: (types: string) => void;
   onProgressChange: (progress: string) => void;
+  data : any;
 };
 
 export default function ComicFilter({
   setSearch,
   onTypeChange,
   onProgressChange,
+  data,
 }: ComicFilterProps) {
   const [comicType, setComicType] = useState<ComicType[]>([]);
   const [comicProgress, setComicProgress] = useState<ComicProgress[]>([]);
@@ -58,7 +60,7 @@ export default function ComicFilter({
   };
 
   return (
-    <div className="flex flex-wrap gap-4 items-center justify-end">
+    <div className="grid lg:grid-cols-4 gap-4 items-center lg:justify-end">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="min-w-[130px] max-w-[400px] justify-between">
@@ -108,9 +110,13 @@ export default function ComicFilter({
           onKeyDownCapture={handleSearch}
           type="text"
           placeholder="Search..."
-          className="pl-8 w-[200px]"
+          className="pl-8 lg:w-[200px]"
         />
       </div>
+
+      <Button  variant="outline" className="bg-background font-semibold">
+        Total : {data?.mogous?.total ?? 0} results
+      </Button>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
   }
 
   return (
-    <Card className="w-full ">
+    <Card className="w-full col-span-2">
       <CardHeader>
         <CardTitle className="text-2xl">Application Status</CardTitle>
         <CardDescription>

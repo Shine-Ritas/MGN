@@ -34,7 +34,6 @@ export const queryApi = createApi({
       };
       } ,
       keepUnusedDataFor: 3600,
-     
     }),
     postData: builder.mutation<any, any>({
       query: ({ url, body, method }) => {

@@ -26,7 +26,7 @@ const AdminLayout = () => {
     }
   }, [data]);
   return (
-    <div className="flex pt-8 h-screen max-h-screen  pb-10  px-6  lg:px-0">
+    <div className="flex pt-8 h-screen max-h-screen  pb-10  px-6  lg:px-0 bg-[#f5f5f5] dark:bg-background">
 
       {
         !isMobile && (
@@ -42,7 +42,7 @@ const AdminLayout = () => {
 
           <Navbar title={navbarTitle} />
 
-            <div className="flex flex-col sm:gap-4 max-h-screen overflow-y-scroll ">
+            <div className="flex flex-col sm:gap-4 h-full overflow-y-scroll ">
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet context={{ updateNavbarTitle }}/>
               </Suspense>

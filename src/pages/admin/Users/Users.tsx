@@ -1,17 +1,16 @@
-"use client"
-
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { EyeIcon, BellIcon, PlusCircle } from "lucide-react"
+import { EyeIcon, PlusCircle } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
-import { toast } from "@/components/ui/use-toast"
 import { useNavigate } from 'react-router-dom'
 import { adminRouteCollection } from '@/constants/constants'
 import useQuery from '@/hooks/useQuery'
 import { SubscribedUser } from './types'
-
+import { TablePagination } from "@/components/TablePagination"
+import UserFilter from "./UserFilter"
+import useFilterState from "@/hooks/useFilterState"
 
 const getSubscriptionStatusColor = (date: string) => {
   const currentDate = new Date();
@@ -28,31 +27,40 @@ const getSubscriptionStatusColor = (date: string) => {
   }
 };
 
+const initialState = {
+  active: "",
+  subscriptions: "",
+  search : "",
+  page : 1,
+}
 
 export default function Component() {
-
+  const { bunUrl, handleChange : handleFilter,getByKey } = useFilterState(initialState,['page']);
 
   const navigate = useNavigate();
 
-  const {data , isLoading} = useQuery("/admin/users");
+  const {data , isLoading,isFetching} = useQuery(`/admin/users?${bunUrl}&limit=9`);
 
-  const handleNotify = (userId: string) => {
-    // In a real application, this would send a notification to the user
-    toast({
-      title: "Notification Sent",
-      description: `Renewal notification sent to user ${userId}`,
-    })
-  }
-
- 
   return (
     <TooltipProvider>
       <div className="py-4">
 
         <div className="w-full flex justify-between">
-            <div className=""></div>
-
             <div className="">
+              <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total}/>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex ">{data && data.users.data.length > 0 && (
+              <TablePagination
+                url={data.users.path}
+                lastPage={data.users.last_page}
+                currentPage={getByKey("page")}
+                setCurrentPage={(page) => handleFilter("page", page)}
+                isFetching={isFetching}
+                paging={false}
+              />
+            )}</div>
               <Button 
               onClick={() => navigate(adminRouteCollection.addUser)}
               className="transition-all duration-300 hover:shadow-md">
@@ -108,14 +116,7 @@ export default function Component() {
                 </CardContent>
                 <CardFooter className="bg-secondary p-4">
                   <div className="w-full flex justify-between items-center">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => handleNotify(user.id as unknown as string)}
-                      // disabled={user.subscriptionStatus === 'active'}
-                    >
-                      <BellIcon className="mr-2 h-4 w-4" /> Notify Renewal
-                    </Button>
+                   <div className=""></div>
                     <Button
                     onClick={() => navigate(adminRouteCollection.showUser.replace(":id", user.id as unknown as string))}
                     size="sm" 

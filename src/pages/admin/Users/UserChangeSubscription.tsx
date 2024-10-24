@@ -7,6 +7,7 @@ import { Package } from 'lucide-react'
 import useMutate from '@/hooks/useMutate'
 import { SubscribedUser } from './types'
 import { toast } from '@/components/ui/use-toast'
+import { eventEmitter } from '@/utilities/EventEmitter'
 
 const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCurrentUser:any}) => {
 
@@ -35,6 +36,14 @@ const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCu
                 subscription_end_date: action?.user?.subscription_end_date,
                 subscription_name: data?.subscriptions?.data.find((sub:SubscriptionType)=>sub.id === newPackage)?.title
               }))
+
+            eventEmitter.emit('updateSubscriptionHistory',{
+                id: Math.random(),
+                title : data?.subscriptions?.data.find((sub:SubscriptionType)=>sub.id === newPackage)?.title,
+                price : data?.subscriptions?.data.find((sub:SubscriptionType)=>sub.id === newPackage)?.price,
+                // dmy only
+                created_at : new Date().toISOString().split('T')[0]
+            })
         }
     }
     return (

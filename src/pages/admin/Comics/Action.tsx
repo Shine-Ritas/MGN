@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -274,7 +273,6 @@ const Action = ({ isEdit = false }: ActionProps) => {
                     <Input type="file"
                       ref={coverImageInput}
                       onChange={(e) => {
-                        console.log(e.target.files);
                         setCurrentCover(URL.createObjectURL(e.target.files?.[0]!));
                         setBindData({
                           ...bindData,

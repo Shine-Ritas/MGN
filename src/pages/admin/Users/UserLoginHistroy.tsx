@@ -1,31 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-
-type UserLoginHistoryType = {
-  date: string
-  time: string
-  device: string
-  location: string
-}
-
-const loginHistory: UserLoginHistoryType[] = [
-  { date: "2023-05-01", time: "09:30 AM", device: "iPhone 12", location: "New York, USA" },
-  { date: "2023-04-28", time: "02:15 PM", device: "MacBook Pro", location: "New York, USA" },
-  { date: "2023-04-25", time: "11:45 AM", device: "Windows PC", location: "Boston, USA" },
-  { date: "2023-05-01", time: "09:30 AM", device: "iPhone 12", location: "New York, USA" },
-  { date: "2023-04-28", time: "02:15 PM", device: "MacBook Pro", location: "New York, USA" },
-  { date: "2023-04-25", time: "11:45 AM", device: "Windows PC", location: "Boston, USA" },
-  { date: "2023-04-25", time: "11:45 AM", device: "Windows PC", location: "Boston, USA" },
-  { date: "2023-05-01", time: "09:30 AM", device: "iPhone 12", location: "New York, USA" },
-  { date: "2023-04-28", time: "02:15 PM", device: "MacBook Pro", location: "New York, USA" },
-  { date: "2023-04-25", time: "11:45 AM", device: "Windows PC", location: "Boston, USA" },
-  { date: "2023-05-01", time: "09:30 AM", device: "iPhone 12", location: "New York, USA" },
-  { date: "2023-04-28", time: "02:15 PM", device: "MacBook Pro", location: "New York, USA" },
-]
+import { UserLoginHistoryType } from './UserDetail'
 
 
-const UserLoginHistroy = ({ setCurrentTable }) => {
+const UserLoginHistroy = ({ loginHistory,setCurrentTable } : {loginHistory : UserLoginHistoryType[],setCurrentTable : any}) => {
   return (
     <Card className="col-span-2 md:col-span-1">
       <CardHeader className='relative'>
@@ -40,25 +19,25 @@ const UserLoginHistroy = ({ setCurrentTable }) => {
       </CardHeader>
       <CardContent>
         <Table >
-          <TableHeader className='min-w-full'>
+          <TableHeader className='min-w-full overflow-hidden'>
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Time</TableHead>
-              <TableHead>Device</TableHead>
-              <TableHead>Location</TableHead>
+              <TableHead className='w-1/5'>Location</TableHead>
+              <TableHead className='w-1/5'>Country</TableHead>
+              <TableHead className='w-1/5'>Device</TableHead>
+              <TableHead className='w-1/5'>Date</TableHead>
             </TableRow>
           </TableHeader>
         </Table>
 
         <div className="overflow-y-auto">
           <Table divClassname='max-h-72'>
-            <TableBody className='overscroll-y-scroll'>
+            <TableBody className='overscroll-y-scroll '>
               {loginHistory.map((login, index) => (
-                <TableRow key={index}>
-                  <TableCell className='w-36'>{login.date}</TableCell>
-                  <TableCell>{login.time}</TableCell>
-                  <TableCell>{login.device}</TableCell>
-                  <TableCell>{login.location}</TableCell>
+                <TableRow key={index} className='overflow-hidden'>
+                  <TableCell className='w-1/5'>{login.location}</TableCell>
+                  <TableCell className='w-1/5'>{login.country}</TableCell>
+                  <TableCell className='w-1/5'>{login.device}</TableCell>
+                  <TableCell className='w-1/5'>{login.login_at}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

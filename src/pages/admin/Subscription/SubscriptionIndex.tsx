@@ -10,8 +10,9 @@ import { useNavigate } from "react-router-dom"
 import { SingleFilterSelect } from "@/components/ui/custom/SIngleFilterSelect"
 import { adminRouteCollection } from "@/constants/constants"
 import { Label } from "@radix-ui/react-label"
-import { useState } from "react"
 import { Card } from "@/components/ui/card"
+import SubscriptionAnalysis from "./SubscriptionAnalysis"
+import useFilterState from "@/hooks/useFilterState"
 
 
 const sortSubscription = {
@@ -24,21 +25,23 @@ const sortSubscriptionPrice = {
     "Min Price" : "asc",
 };
 
-
+const initialState = {
+    countBy: "",
+    priceBy: "",
+}
 
 const SubscriptionIndex = () => {
 
     const navigate = useNavigate();
-    const [countBy,setCountBy] = useState<string>("");
-    const [priceBy,setPriceBy] = useState<string>("");
 
-
+    const { handleChange, getByKey } = useFilterState(initialState);
+   
     const subscriptionCountOnChange = ((value:any)=>{
-        setCountBy(value)
+        handleChange("countBy",value)
     })
 
     const subscriptionPriceOnChange = ((value:any)=>{
-        setPriceBy(value)
+        handleChange("priceBy",value)
     })
 
     return (
@@ -48,23 +51,20 @@ const SubscriptionIndex = () => {
                 <Tabs defaultValue="all" className="w-full justify-between mb-3">
                     <div className="flex items-center w-full justify-between">
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 me-4">
 
                             <Label >Sort By :</Label>
 
                             <SingleFilterSelect data={sortSubscription} onSelect={(value:any) => subscriptionCountOnChange(value)} placeholder="Sort By Sub Count" />
-                        </div>
-
-                        <div className="flex items-center gap-4">
-
-                            <Label >Sort By :</Label>
 
                             <SingleFilterSelect data={sortSubscriptionPrice} onSelect={(value:any) => subscriptionPriceOnChange(value)} placeholder="Sort By Price" />
+
                         </div>
+
+                      
                        
                         <div className="ml-auto flex items-center gap-2">
-
-
+                            <SubscriptionAnalysis />
                             <Button size="sm" className="h-8 gap-1" onClick={() => navigate(adminRouteCollection.addSubscription)} >
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -76,7 +76,7 @@ const SubscriptionIndex = () => {
                 </Tabs>
         
                 <div className="min-h-full">
-                    <SubscriptionTable countBy={countBy} priceBy={priceBy} />
+                    <SubscriptionTable countBy={getByKey("countBy")} priceBy={getByKey("priceBy")} />
                 </div>
             </div>
         </Card>

@@ -17,13 +17,21 @@ import useQuery from "@/hooks/useQuery"
 import ContentTableRow from "@/components/ui/custom/ContentTableRow"
 import SubscriptionTableRow from "./SubscriptionTableRow"
 import { SubscriptionType } from "./type"
+import useQueryParams from "@/hooks/userQueryParams"
 const SubscriptionTable = ({ countBy, priceBy }: { countBy: string, priceBy: string }) => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [queryParameters] = useSearchParams();
     const [search] = useState<string>(queryParameters.get('search') ?? "");
 
-    const { data, isLoading, isFetching } = useQuery(`admin/subscriptions?page=${currentPage}&search=${search}&count_by=${countBy}&price_by=${priceBy}`);
+    const queryParams = useQueryParams({
+        page: currentPage,
+        search,
+        count_by: countBy,
+        price_by: priceBy
+      });
+
+    const { data, isLoading, isFetching } = useQuery(`admin/subscriptions?${queryParams}`);
 
     return (
         <div className=" flex flex-col w-full min-h-full justify-between   gap-4">

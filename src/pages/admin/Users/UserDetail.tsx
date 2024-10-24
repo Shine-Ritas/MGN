@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-import {  EyeIcon, HeartIcon} from "lucide-react"
+import { EyeIcon, HeartIcon } from "lucide-react"
 import UserDetailAction from "./UserDetailAction"
 import UserInfoDetail from "./UserInfoDetail"
 import useQuery from "@/hooks/useQuery"
@@ -9,34 +9,59 @@ import Goback from "@/components/goback-btn"
 import { SubscribedUser } from "./types"
 import { useEffect, useState } from "react"
 import UserDetailHistory from "./UserDetailHistory"
+import { eventEmitter } from "@/utilities/EventEmitter"
+
+export type UserLoginHistoryType = {
+  location: string
+  country: string
+  device: string
+  login_at: string
+}
+
+export type UserSubscriptionHistoryType = {
+  id: number
+  title: string
+  price: string
+  created_at: string
+}
+
+
 
 export default function UserDetail() {
 
   const { id } = useParams<{ id: string }>();
-  const [currentUser, setCurrentUser] = useState<SubscribedUser|null>(null);
-  const [subscription_histroy, setSubscription_histroy] = useState<any[]>([]);
+  const [currentUser, setCurrentUser] = useState<SubscribedUser | null>(null);
+  const [subscription_histroy, setSubscription_histroy] = useState<UserSubscriptionHistoryType[]>([]);
+  const [userLoginHistory, setUserLoginHistory] = useState<UserLoginHistoryType[]>([]);
 
-  const {data,isLoading} = useQuery(`/admin/users/showById/${id}`,undefined,true);
- 
+  const { data, isLoading } = useQuery(`/admin/users/showById/${id}`, undefined, true);
 
-  useEffect(()=>{
-    
-    if(!isLoading)
-    {
+  useEffect(() => {
+
+    if (!isLoading) {
       setCurrentUser(data?.user)
       setSubscription_histroy(data?.subscriptions)
+      setUserLoginHistory(data?.login_history)
     }
 
-    return ()=>{
+    eventEmitter.on("updateSubscriptionHistory", (data: any) => {
+
+      setSubscription_histroy((prev: any) => [ data,...prev])
+    })
+
+    return () => {
       setCurrentUser(null)
+      setSubscription_histroy([])
+      setUserLoginHistory([])
+      eventEmitter.off("updateSubscriptionHistory")
     }
 
-  },[data,isLoading])
+  }, [data, isLoading])
 
-    if(!currentUser)
-    {
-      return <div>User not found</div>
-    }
+
+  if (!currentUser) {
+    return <div>User not found</div>
+  }
 
   const user = {
     name: "John Doe",
@@ -57,19 +82,19 @@ export default function UserDetail() {
   return (
     <div className="pt-3 space-y-6">
       <div className="flex items-center gap-4 mb-10">
-          <Goback to={-1} />
-          <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            User Detail
-          </h1>
-        </div>
+        <Goback to={-1} />
+        <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+          User Detail
+        </h1>
+      </div>
       <div className="grid gap-6 md:grid-cols-2">
-        <UserInfoDetail  user={currentUser!}  setCurrentUser={setCurrentUser} />
+        <UserInfoDetail user={currentUser!} setCurrentUser={setCurrentUser} />
         <div className="flex flex-col gap-4">
-        <UserDetailAction user={currentUser!} setCurrentUser={setCurrentUser}  />
+          <UserDetailAction user={currentUser!} setCurrentUser={setCurrentUser} />
 
-        <UserDetailHistory loginHistory={[]} subscription_histroy={subscription_histroy}/>
+          <UserDetailHistory loginHistory={userLoginHistory} subscription_histroy={subscription_histroy} />
         </div>
-       
+
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Favorite Comics</CardTitle>

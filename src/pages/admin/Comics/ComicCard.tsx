@@ -12,7 +12,6 @@ type ComicTableProps = {
     mogous: MogouWithTotalCount
 }
 
-
 const ComicCard = ({ mogous }: ComicTableProps) => {
 
     const navigate = useNavigate();
@@ -20,22 +19,20 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
     return (
         <div
             className=
-                "bg-popover h-64 shadow flex shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-3 rounded-md hover:-translate-x-1     hover:shadow-md hover:shadow-neon-primary  "
-            
-        >
-            <div className="w-1/4">
+                "bg-popover h-64 shadow flex shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-3 rounded-md hover:-translate-x-1   hover:shadow-md hover:shadow-neon-primary ">
+            <div className="lg:w-1/4">
                 <LazyLoadImage
                     src={mogous.cover}
                     alt={mogous.title}
                     placeholderSrc={placeholder}
-                    className="w-40 h-64 object-cover rounded-l-md  "
+                    className="w-full h-64 object-cover   rounded-l-md  "
                 />
             </div>
-            <div className="w-3/4 p-4 flex flex-col gap-4 ">
+            <div className=" lg:w-3/4 p-4 flex flex-col gap-4 ">
                 <div className="flex justify-between items-start gap-3">
                     <h3 className="text-lg font-semibold">{mogous.title}</h3>
                     <p className="text-sm text-muted-foreground flex items-center pt-1">
-                        <EyeIcon className="h-4 w-4  inline-block mr-2 " />
+                        <EyeIcon className="h-4 w-4 inline-block mr-2 " />
                         <div className="font-bold">
                             {mogous.total_view_count}
                         </div>
@@ -61,7 +58,7 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
                 <div className="text-sm text-muted-foreground w-[90%] h-28">
                    
                     {
-                        mogous.description.length > 200 ? mogous.description.slice(0, 200) + "..." : mogous.description
+                        mogous.description.length > 120 ? mogous.description.slice(0, 120) + "..." : mogous.description
                     }
                 </div>
 

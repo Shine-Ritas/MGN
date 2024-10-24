@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 
-import SlidableCarouselPreview from './slideable-carousel-preview'
 import FindMogouSection from './FindMogou'
 import { MogousType } from '../../Comics/type'
 import useMutate from '@/hooks/useMutate'
@@ -65,7 +64,7 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
 
   const emptySectionServer = async () => {
     const response = await emptySection(`/admin/sections/${type}/empty`) as any;
-    if (response) {
+    if (!response.error) {
       setCarouselProducts([])
       toast({title: "Success",description: response?.message,variant: "success"})
     }
@@ -118,6 +117,7 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
          
             <div className=" flex items-center gap-4">
               <AlertBox
+              disabled={isCleaning}
               alertTitle="Clearing All Data"
               alertDescription="Are you sure to remove all ?"
               alertActionConfirmText="Sure"
@@ -131,14 +131,16 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-80 overflow-y-scroll">
             {carouselProducts.map(product => (
               <div key={product.id} className="flex items-center justify-between">
                 <div>
                   <Label htmlFor={`toggle-${product.id}`} className="text-sm font-medium">
                     {product.title}
                   </Label>
-                  <p className="text-sm text-muted-foreground">{product.description}</p>
+                  <p className="text-sm text-muted-foreground pe-10">{
+                      product.description.length > 170 ? product.description.slice(0,170) + "..." : product.description
+                    }</p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch

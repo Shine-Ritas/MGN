@@ -78,7 +78,7 @@ const SubscriptionTableRow = ({index,subscription} : SubscriptionTableRowProps) 
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem onClick={
-                    ()=>navigate(`/subscriptions/edit/${subscription?.id}`)
+                    ()=>navigate(`/admin/subscriptions/edit/${subscription?.id}`)
                 }>Edit</DropdownMenuItem>
 
 

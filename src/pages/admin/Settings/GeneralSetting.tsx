@@ -6,53 +6,25 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Upload } from "lucide-react"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import MaintenanceAction from "./General/maintenance-action"
+import useQuery from "@/hooks/useQuery"
 
 const GeneralSetting = () => {
+    const { data, isLoading } = useQuery(`/application-configs`);
+    if(isLoading){
+        return <div>Loading...</div>
+    }
+
     return (
         <div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
 
-                <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Store Name</CardTitle>
-                            <CardDescription>
-                                Used to identify your store in the marketplace.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
+                <div className="grid auto-rows-max items-start gap-4 grid-cols-3 lg:col-span-3 lg:gap-8">
 
-                            <div className="grid gap-6">
-                                <div className="grid gap-3">
-                                    <Label htmlFor="name">Name</Label>
-                                    <Input
-                                        id="name"
-                                        type="text"
-                                        className="w-full"
-                                        defaultValue="Gamer Gear Pro Controller"
-                                    />
-                                </div>
-                                <div className="grid gap-3">
-                                    <Label htmlFor="description">Description</Label>
-                                    <Textarea
-                                        id="description"
-                                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-                                        className="min-h-32"
-                                    />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                </div>
-
-                <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-
-                    <Card className="overflow-hidden">
+                    <MaintenanceAction isActive={data?.user_side_is_maintenance_mode}/>
+                 
+                     <Card className="overflow-hidden col-span-1 h-full">
                         <CardHeader>
                             <CardTitle>Application Logo</CardTitle>
                             <CardDescription>
@@ -71,6 +43,11 @@ const GeneralSetting = () => {
                             </div>
                         </CardContent>
                     </Card>
+                </div>
+
+                <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+
+                
 
                 </div>
             </div>

@@ -12,8 +12,7 @@ const formattedImages = Object.keys(images).map((key) => ({
 }));
 
 const Detail = () => {
-  // Log the formatted images
-  console.log(formattedImages);
+
 
   // Initial state
   const [currentImages, setCurrentImages] = useState(formattedImages.slice(0, 2)); // Initial slice of 2 images (default)
