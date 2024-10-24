@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { useCallback, useMemo } from "react";
 import { useAppDispatch } from "@/redux/hooks";
@@ -6,7 +5,6 @@ import { adminLogout } from "@/redux/slices/admin-auth-slice";
 import useSecureStorage from "./useSecureStorage";
 
 const useLogout = () => {
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
   const {get} = useSecureStorage();
@@ -24,8 +22,8 @@ const useLogout = () => {
       variant: "destructive",
     });
     dispatch(adminLogout())
-    navigate(navigateTo);
-  }, [dispatch, get, navigate]);
+    window.location.href = navigateTo;
+  }, [dispatch, get]);
 
   return useMemo(() => logout, [logout]);
 }

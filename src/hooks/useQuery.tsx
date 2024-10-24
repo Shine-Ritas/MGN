@@ -3,6 +3,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { useGetDataQuery } from "@/redux/api/queryApi";
 import { toast } from "@/components/ui/use-toast";
 import useLogout from "./useLogout";
+import { useUserAppDispatch } from "@/redux/hooks";
+import { setMaintenance } from "@/redux/slices/user-global";
 
 interface QueryErrorInterface {
     status: number;
@@ -12,16 +14,21 @@ interface QueryErrorInterface {
 const useQuery = (
     url?: string,
     callback?: (value: any, meta: any) => void,
-    refetchOnUrlChange: boolean = true
+    refetchOnUrlChange: boolean = true,
 ) => {
-    if(!url)
-    {
+    if (!url) {
         return {};
     }
-    const { data, isLoading, refetch, error, isFetching, } = useGetDataQuery(url || "");
+
+    const { data, isLoading, refetch, error, isFetching } = useGetDataQuery(url || "");
     const logout = useLogout();
-    const memoizedCallback = useCallback(callback, [callback]);
+    const memoizedCallback = useCallback((data: any, meta: any) => {
+        if (callback) {
+            callback(data, meta);
+        }
+    }, [callback]);
     const lastErrorRef = useRef<string | null>(null);
+    const dispatch = useUserAppDispatch();
 
     useEffect(() => {
         if (refetchOnUrlChange) {
@@ -35,32 +42,31 @@ const useQuery = (
         }
     }, [data, isFetching, isLoading, memoizedCallback]);
 
-    useEffect(() => {
-        if (error) {
-            const { status, data: errorData } = error as QueryErrorInterface;
+    if (error) {
+        const { status, data: errorData } = error as QueryErrorInterface;
+        const errorMessage = errorData?.message || '';
 
-            // Prevent showing the same error multiple times
-            const errorMessage = errorData?.message || '';
-
-            if (status === 401) {
-                logout(false); // Trigger logout on unauthorized access
-            }
-
-            if (errorData && lastErrorRef.current !== errorMessage) {
-                // Show the error only if it's not the same as the previous error
-                toast({
-                    title: "❗️Error",
-                    description: errorMessage,
-                    variant: "destructive",
-                });
-
-                lastErrorRef.current = errorMessage;
-            }
-            setTimeout(() => {
-                lastErrorRef.current = null;
-            }, 7000);
+        if (status === 401) {
+            logout(false); // Trigger logout on unauthorized access
         }
-    }, [error, logout]);
+
+        if (status === 503) {
+            dispatch(setMaintenance(true));
+        }
+
+        if (errorMessage && lastErrorRef.current !== errorMessage && status !== 503) {
+            toast({
+                title: "❗️Error",
+                description: errorMessage,
+                variant: "destructive",
+            });
+            lastErrorRef.current = errorMessage;
+        }
+
+        setTimeout(() => {
+            lastErrorRef.current = null;
+        }, 7000);
+    }
 
     return {
         data,

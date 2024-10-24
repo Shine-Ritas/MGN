@@ -25,7 +25,7 @@ export interface SelectCollectionType {
   title: string;
 }
 
-export interface ComicType extends SelectCollectionType {};
+export interface ComicType extends SelectCollectionType {}
 
 export type AppRouteCollectionInterface = Record<string, string>;
 
@@ -44,7 +44,7 @@ const adminRoutes: AppRouteCollectionInterface = {
 
     subscriptions: "/subscriptions",
     addSubscription: "/subscriptions/add",
-    editSubscription: "/subscriptions/edit/:slug",
+    editSubscription: "/subscriptions/edit/:id",
 
     reports: "/reports",
 

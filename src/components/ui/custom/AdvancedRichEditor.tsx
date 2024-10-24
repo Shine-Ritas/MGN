@@ -41,7 +41,6 @@ export default function ReusableRichTextEditor({
     extensions: [
         StarterKit.configure({
             paragraph: {
-              keepMarks: true,
             },
           }),
       Underline,
