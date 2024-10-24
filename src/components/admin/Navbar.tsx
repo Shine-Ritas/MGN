@@ -3,6 +3,8 @@ import Logo from "@/assets/imgs/logo-icon.png";
 import LogoTitle from "@/assets/imgs/logo-title.png";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import {  Globe } from "lucide-react";
 
 const CommandSearch = lazy(() => import('./CommandSearch'))
 const AdminUserDropDown = lazy(() => import('@/components/ui/AdminUserDropDown'))
@@ -30,7 +32,12 @@ const NavbarRaw = ({ title }: NavbarProps) => {
         )}
 
       </div>
-      <div className="w-fit flex gap-0 items-center justify-between">
+      <div className="w-fit flex gap-3 items-center justify-between">
+        <Button 
+        onClick={() => window.location.href = "/"}
+        className="">
+         <Globe className="w-4 h-4" />
+        </Button>
         <div className="relative ml-auto hidden md:flex md:grow-0 ">
           {/* <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -38,6 +45,9 @@ const NavbarRaw = ({ title }: NavbarProps) => {
             placeholder="Search..."
             className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
           /> */}
+
+          {/* button with global icon */}
+      
 
           <CommandSearch />
         </div>

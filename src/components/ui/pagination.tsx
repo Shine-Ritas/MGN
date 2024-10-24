@@ -39,6 +39,7 @@ const PaginationItem = React.forwardRef<
 PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
+  withLabel?: boolean
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
   React.ComponentProps<"a">
@@ -64,6 +65,7 @@ const PaginationLink = ({
 PaginationLink.displayName = "PaginationLink"
 
 const PaginationPrevious = ({
+  withLabel=true,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
@@ -74,12 +76,13 @@ const PaginationPrevious = ({
     {...props}
   >
     <ChevronLeftIcon className="h-4 w-4" />
-    <span>Previous</span>
+   {withLabel && <span>Previous</span>}
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
 
 const PaginationNext = ({
+  withLabel=true,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
@@ -89,7 +92,7 @@ const PaginationNext = ({
     className={cn("gap-1 pr-2.5", className)}
     {...props}
   >
-    <span>Next</span>
+    {withLabel && <span>Next</span>}
     <ChevronRightIcon className="h-4 w-4" />
   </PaginationLink>
 )
