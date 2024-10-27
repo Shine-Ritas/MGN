@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 import { apps } from '@/pages/admin/apps/data'
 import { BotIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { adminRouteCollection } from '@/constants/constants'
+import { adminRouteCollection } from '@/route/data/admin_route'
 
 const appText = new Map<string, string>([
   ['all', 'All Apps'],

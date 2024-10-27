@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ComicType, ComicProgress } from "@/constants/constants";
+import { ComicType, ComicProgress } from "@/route/data/admin_route";
 import { Search, ChevronDown } from "lucide-react";
 
 type ComicFilterProps = {

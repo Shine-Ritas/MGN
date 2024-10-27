@@ -1,3 +1,5 @@
+
+
 export function prefixRoutes<T extends Record<string, any>>(prefix: string, routes: T): T {
     const prefixedRoutes: Record<string, any> = {};
 
@@ -16,3 +18,4 @@ export function prefixRoutes<T extends Record<string, any>>(prefix: string, rout
 
     return prefixedRoutes as T;
 }
+

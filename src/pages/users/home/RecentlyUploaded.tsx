@@ -3,7 +3,7 @@ import useQuery from '@/hooks/useQuery';
 import React, { useCallback, useState } from 'react'
 import { RecentlyUploadedResponse } from './types';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { ComicType } from '@/constants/constants';
+import { ComicType } from '@/route/data/admin_route';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import RecentlyUploadedCard from './RecentlyUploadedCard';

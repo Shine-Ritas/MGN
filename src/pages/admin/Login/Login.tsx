@@ -14,7 +14,7 @@ import useMutate, { useMutateCallbackType } from "@/hooks/useMutate"
 import useServerValidation from "@/hooks/useServerValidation"
 import { useAppDispatch } from "@/redux/hooks"
 import { setAdmin } from "@/redux/slices/admin-auth-slice"
-import { adminRouteCollection } from "@/constants/constants"
+import { adminRouteCollection } from "@/route/data/admin_route"
 import useSecureStorage from "@/hooks/useSecureStorage"
 
 interface loginSubmitForm {

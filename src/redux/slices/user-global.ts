@@ -60,4 +60,6 @@ export const selectSafeContent = (state : UserRootState) => state.userGlobal.saf
 export const selectBanners = (state : UserRootState) => state.userGlobal.banners ?? [];
 export const selectIsMaintenance = (state : UserRootState) => state.userGlobal.is_maintenance;
 
+export const selectAuthUser = (state : UserRootState) => state.userGlobal.user;
+
 export const selectIsSubscription = (state : UserRootState) => state.userGlobal.subscription;

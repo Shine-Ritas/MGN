@@ -1,3 +1,7 @@
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+
 export const goTo = (path: string, delay: number = 500) => {
     setTimeout(() => {
         window.location.href = path; // Use href to assign the URL as a string
@@ -16,4 +20,10 @@ export const timeLeft = (di?: string | number | Date) => {
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
   };
   
+  
+
+
+  export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs))
+  }
   

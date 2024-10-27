@@ -1,7 +1,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -12,8 +11,9 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Link } from "react-router-dom";
-import { ComicType } from "@/constants/constants";
+import { ComicType } from "@/route/data/admin_route";
 import { useAppSelector } from "@/redux/hooks";
+import { cn } from "@/routes/helper";
 
 export function DesktopNavigation() {
 
@@ -68,7 +68,7 @@ export function DesktopNavigation() {
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+>(({ className, title, ...props }, ref) => {
     return (
         <li>
                 <Link

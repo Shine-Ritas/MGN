@@ -2,7 +2,7 @@ import { IoLogOutSharp } from "react-icons/io5";
 import SidebarIcon from "../ui/SidebarIcon";
 import AlertBox from "../ui/AlertBox";
 import { memo } from "react";
-import { navigateMenu } from "@/constants/constants";
+import { navigateMenu } from "@/route/data/admin_route";
 import useLogout from "@/hooks/useLogout";
 
 const SidebarRaw = () => {

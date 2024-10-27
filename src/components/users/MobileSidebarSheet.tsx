@@ -9,7 +9,7 @@ import {
 import SidebarCategory from './SidebarCategory'
 import SidebarAccordions from './SidebarCategory'
 import { useAppSelector } from '@/redux/hooks'
-import { ComicType } from '@/constants/constants'
+import { ComicType } from '@/route/data/admin_route'
 import { Badge } from '../ui/badge'
 
 
