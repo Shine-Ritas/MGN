@@ -7,7 +7,7 @@ import { MdSubscriptions } from "react-icons/md";
 import { ElementType } from "react";
 import { TbAppsFilled } from "react-icons/tb";
 import { MessageCircleWarning } from "lucide-react";
-import { adminRouteCollection } from "@/route/data/admin_route";
+import { adminRouteCollection } from "@/routes/data/admin_route";
 
 type MenuItem = {
     Icon: ElementType;

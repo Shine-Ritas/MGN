@@ -4,7 +4,7 @@ import {
     CardContent,
 
 } from "@/components/ui/card"
-import { adminRouteCollection } from "@/route/data/admin_route"
+import { adminRouteCollection } from "@/routes/data/admin_route"
 import { Suspense } from "react"
 
 import { NavLink, Outlet } from "react-router-dom"

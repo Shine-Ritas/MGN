@@ -5,7 +5,7 @@ import { EyeIcon, PlusCircle } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from 'react-router-dom'
-import { adminRouteCollection } from '@/route/data/admin_route'
+import { adminRouteCollection } from '@/routes/data/admin_route'
 import useQuery from '@/hooks/useQuery'
 import { SubscribedUser } from './types'
 import { TablePagination } from "@/components/TablePagination"

@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useMutate from "@/hooks/useMutate";
 import useServerValidation from "@/hooks/useServerValidation";
 import { useNavigate, useParams } from "react-router-dom";
-import { adminRouteCollection } from "@/route/data/admin_route";
+import { adminRouteCollection } from "@/routes/data/admin_route";
 import useQuery from "@/hooks/useQuery";
 import { AlertCircle } from 'lucide-react';
 

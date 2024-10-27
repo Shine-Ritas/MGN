@@ -1,6 +1,3 @@
-
-import * as React from "react"
-
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -11,9 +8,10 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Link } from "react-router-dom";
-import { ComicType } from "@/route/data/admin_route";
 import { useAppSelector } from "@/redux/hooks";
-import { cn } from "@/routes/helper";
+import { cn } from "@/utilities/util";
+import { forwardRef } from "react";
+import { ComicType } from "@/data/data";
 
 export function DesktopNavigation() {
 
@@ -65,7 +63,7 @@ export function DesktopNavigation() {
     )
 }   
 
-const ListItem = React.forwardRef<
+const ListItem = forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a">
 >(({ className, title, ...props }, ref) => {

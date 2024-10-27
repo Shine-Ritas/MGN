@@ -14,7 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Goback from '@/components/goback-btn'
-import { adminRouteCollection } from '@/route/data/admin_route'
+import { adminRouteCollection } from '@/routes/data/admin_route'
 import useQuery from '@/hooks/useQuery'
 import { Badge } from '@/components/ui/badge'
 import { SubscriptionType } from '../Subscription/type'
