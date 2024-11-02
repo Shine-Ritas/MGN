@@ -12,5 +12,7 @@ export interface SubscribedUser {
     subscription_name:       string;
     last_login_at :          string;
     active:                  boolean;
-    // active  :                boolean;
+    background_color:        string;
+    avatar_url:              string;
+    avatar_id?:              number;
 }

@@ -1,6 +1,7 @@
+import { ComicType } from "@/data/data";
 import { Label } from "../ui/label";
 import { ComicCategory } from "@/pages/admin/Category/type";
-import { ComicType } from "@/route/data/admin_route";
+
 
 
 interface SidebarAccordionsType {

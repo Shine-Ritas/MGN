@@ -1,5 +1,4 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { EyeIcon, PlusCircle } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -11,6 +10,7 @@ import { SubscribedUser } from './types'
 import { TablePagination } from "@/components/TablePagination"
 import UserFilter from "./UserFilter"
 import useFilterState from "@/hooks/useFilterState"
+import UserAvatar from "@/components/users/UserAvatar"
 
 const getSubscriptionStatusColor = (date: string) => {
   const currentDate = new Date();
@@ -80,15 +80,10 @@ export default function Component() {
               <Card key={user.id} className="w-full overflow-hidden hover:shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-start space-x-4">
                       <Tooltip>
                         <TooltipTrigger>
-                          <Avatar className="w-16 h-16 border-2 border-neon-primary shadow-md">
-                            <AvatarImage src={user?.name} alt={user.name} />
-                            <AvatarFallback
-                            className="bg-primary text-white"
-                            >{user.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
+                          <UserAvatar user={user}  shape="rounded"/>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>User since {user.created_at}</p>
@@ -114,7 +109,7 @@ export default function Component() {
                     Last login: {user.last_login_at}
                   </div>
                 </CardContent>
-                <CardFooter className="bg-secondary p-4">
+                <CardFooter className="bg-accent p-4">
                   <div className="w-full flex justify-between items-center">
                    <div className=""></div>
                     <Button

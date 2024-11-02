@@ -5,13 +5,12 @@ import { Provider } from "react-redux";
 import { userRouteCollection } from "./data/user_route";
 
 const UserLayout = lazy(() => import('@/layouts/UserLayout.tsx'));
-const HomePage = lazy(() => import('@/pages/users/home/Index.tsx'));
-const Show = lazy(() => import('@/pages/users/Show/Show.tsx'));
-const DetailPage = lazy(() => import('@/pages/users/Detail/detail.tsx'));
+const UserProfile = lazy(() => import('@/pages/users/Profile/UserProfile.tsx'));
+
 
 export const userAuthenticatedRoutes: AppRouteInterface[] = [
   {
-    path: userRouteCollection.home,
+    path: undefined,
     element: (
       <Provider store={userStore}>
         <Suspense fallback={<div></div>}>
@@ -21,26 +20,11 @@ export const userAuthenticatedRoutes: AppRouteInterface[] = [
     ),
     children: [
       {
-        path: userRouteCollection.home,
-        element: (
-          <HomePage />
-        ),
-      },
-      {
-        path: userRouteCollection.show,
-        element: (
-          <Show />
-        ),
-      },
-      {
-        path: userRouteCollection.detail,
-        element: (
-          <DetailPage />
-        ),
-      },
+          path: userRouteCollection.user_profile,
+          element: (
+            <UserProfile />
+          )
+      }
     ]
   },
-
-
-
 ];

@@ -27,14 +27,13 @@ const AdminUserDropDownRaw = () => {
         <CircleUser className="h-5 w-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10} align="end" className="pb-3  gap-4">
-        <DropdownMenuItem>
+        <DropdownMenuItem className="w-full">
           <Link
             to="/manage-restaurant"
-            className="font-bold "
+            className="font-bold"
           >
             Profile
           </Link>
-
         </DropdownMenuItem>
 
         <DropdownMenuSub>

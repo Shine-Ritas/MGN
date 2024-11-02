@@ -1,11 +1,9 @@
 import { CircleUser, Menu } from "lucide-react"
 import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import Logo from "@/assets/imgs/logo-icon.png";
 import { Link } from "react-router-dom"
-import { useTheme } from "../theme-provider"
-import { DropdownMenuSub } from "@radix-ui/react-dropdown-menu"
 import useSafeContent from "@/hooks/useSafeContent"
 import { Switch } from "../ui/switch"
 import { Label } from "../ui/label"
@@ -16,6 +14,9 @@ import { Badge } from "../ui/badge";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectHeaderVisible, togglePanel } from "@/redux/slices/user-read-setting";
 import { selectAuthUser } from "@/redux/slices/user-global";
+import { userRouteCollection } from "@/routes/data/user_route";
+import useLogout from "@/hooks/useLogout";
+import AlertBox from "../ui/AlertBox";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -23,7 +24,6 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
     const dispatch = useUserAppDispatch();
 
-    const { setTheme } = useTheme();
 
     const { safeContent, toggleSafeContent } = useSafeContent();
 
@@ -33,9 +33,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
     const authUser = useUserAppSelector(selectAuthUser);
 
-    console.log(authUser);
-    
-
+    const logout = useLogout();
 
     return (
         <header className={`w-4/4 sticky ${visibility.value} transition-all  flex min-h-20 items-center gap-4 border-b bg-background px-4 md:px-24 z-[100] `}>
@@ -79,7 +77,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                 {
                     authUser && (
                         <div className="">
-                    <Badge variant={"gold"} >Gold</Badge>
+                    <Badge variant={"gold"} >
+                        {
+                            authUser?.subscription_name
+                        }
+                    </Badge>
                 </div>
                     )
                 }
@@ -91,35 +93,20 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     {
-                        authUser ? (<DropdownMenuContent align="end">
+                        authUser ? (<DropdownMenuContent align="end" className="z-[999]">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
+                            <DropdownMenuItem   className="w-full">
+                                <Link className="w-full" to={userRouteCollection.user_profile}>Profile</Link>
+                            </DropdownMenuItem>
                             <DropdownMenuItem>Settings</DropdownMenuItem>
 
-                            <DropdownMenuSub>
-
-                                <DropdownMenuSubTrigger className="flex items-center px-2 font-bold">
-                                    <span className="text-sm flex  items-center justify-between w-full"> Theme
-
-                                    </span>
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className="DropdownMenuContent" sideOffset={10}>
-                                        <DropdownMenuItem onClick={() => setTheme("light")}>
-                                            Light
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setTheme("dark")}>
-                                            Dark
-                                        </DropdownMenuItem>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-
-                            </DropdownMenuSub>
-
-
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Logout</DropdownMenuItem>
-                        </DropdownMenuContent>
+                            <DropdownMenuItem className="font-bold w-full"   asChild>
+                                <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
+                                    btnText={<>Logout</>} />
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
                         ) : (<DropdownMenuContent className="z-[300]" align="end">
                             <DropdownMenuItem>
                                 <a href="/login" >Login</a>
