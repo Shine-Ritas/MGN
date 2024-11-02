@@ -5,9 +5,9 @@ import useAuth from "@/hooks/useAuth.tsx";
 
 import adminAuthenticatedRoutes from "./adminRoute.tsx";
 import NotFoundError from "@/pages/errors/not-found.tsx";
-import { userAuthenticatedRoutes } from "./userRoute.tsx";
 import { Toaster } from "@/components/ui/toaster.tsx";
 import userGuestRoutes, { adminGuestRoutes } from "./guestRoute.tsx";
+import { userAuthenticatedRoutes } from "./userRoute.tsx";
 
 
 const AppRoute = () => {
@@ -22,9 +22,9 @@ const AppRoute = () => {
     }];
 
   const adminRoutes = adminIsAuthenticated ? adminAuthenticatedRoutes : adminGuestRoutes;
-  const userRoutes = userIsAuthenticated ? userAuthenticatedRoutes : userGuestRoutes;
+  const userRoutes = userIsAuthenticated ? userAuthenticatedRoutes : [];
 
-  const routes = [...adminRoutes, ...userRoutes, ...commonRoutes];
+  const routes = [...adminRoutes, ...userRoutes, ...commonRoutes,...userGuestRoutes];
 
   const routeCollection = useRoutes([...routes]);
 

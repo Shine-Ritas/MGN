@@ -64,7 +64,10 @@ const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCu
                     {
                         !isLoading && data?.subscriptions?.data.map((subscription: SubscriptionType) => (
                             <Button
-                            disabled={isMutating || subscription.id === user.current_subscription_id}
+                            disabled={isMutating}
+                            className={
+                                subscription.id === user.current_subscription_id ? "bg-primary-muted" : ""
+                            }
                             key={subscription.id} onClick={() => handleChangeSubscription(subscription.id !)}>
                                 {subscription.title} ( {subscription.duration} days ) 
                                 </Button>

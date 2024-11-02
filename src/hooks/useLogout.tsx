@@ -9,7 +9,6 @@ const useLogout = () => {
   const dispatch = useAppDispatch();
   const {get} = useSecureStorage();
 
-
   const logout = useCallback((withToast=true) => {
     const navigateTo = get("auth-type") === "admin" ? '/admin/login' : '/login';
     localStorage.removeItem('auth-token');
@@ -22,7 +21,9 @@ const useLogout = () => {
       variant: "destructive",
     });
     dispatch(adminLogout())
-    window.location.href = navigateTo;
+    setTimeout(()=>{
+      window.location.href = navigateTo;
+    },2000);
   }, [dispatch, get]);
 
   return useMemo(() => logout, [logout]);

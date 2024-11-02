@@ -3,7 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { UserSubscriptionHistoryType } from './UserDetail'
 
-const UserSubscriptionHistory = ({ history ,setCurrentTable } : { history : UserSubscriptionHistoryType[],setCurrentTable:any}) => {
+type UserSubscriptionHistoryProps = {
+    history: UserSubscriptionHistoryType[],
+    setCurrentTable: any
+}
+
+const UserSubscriptionHistory = ({ history ,setCurrentTable } : UserSubscriptionHistoryProps) => {
 
     return (
         <Card className="col-span-2 md:col-span-1 min-h-full">
@@ -11,9 +16,12 @@ const UserSubscriptionHistory = ({ history ,setCurrentTable } : { history : User
                 <CardTitle>Subscription History</CardTitle>
                 <CardDescription>Recent Subscribed Packages</CardDescription>
 
-                <Button
+                {
+                    setCurrentTable && <Button
                     onClick={() => setCurrentTable('login')}
                     className='absolute right-5 top-3 text-xs' size="sm">Login History</Button>
+                }
+                
 
             </CardHeader>
             <CardContent>

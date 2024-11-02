@@ -1,4 +1,3 @@
-'use client'
 
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
@@ -13,6 +12,7 @@ export default function Component() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    console.log(isMobile)
     setIsMobile(window.innerWidth <= 768)
     window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
     return () => window.removeEventListener('resize', () => setIsMobile(window.innerWidth <= 768))

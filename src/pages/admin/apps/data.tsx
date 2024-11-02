@@ -14,6 +14,7 @@ import { FaDiscord, FaTelegram } from "react-icons/fa6";
       connected: false,
       color: 'bg-indigo-500',
       desc: 'Run Your App on Discord',
-    }
+    },
+
     
   ]

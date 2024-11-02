@@ -9,10 +9,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import useMutate, { useMutateCallbackType } from "@/hooks/useMutate"
 import useServerValidation from "@/hooks/useServerValidation"
-import { useAppDispatch } from "@/redux/hooks"
 import useSecureStorage from "@/hooks/useSecureStorage"
 import { Button } from "@/components/ui/button"
-import { setUser } from "@/redux/slices/user-global"
 import { userRouteCollection } from "@/routes/data/user_route"
 interface loginSubmitForm {
   user_code: string,
@@ -21,7 +19,6 @@ interface loginSubmitForm {
 
 
 export default function UserLogin() {
-  const dispatch = useAppDispatch();
   const { set } = useSecureStorage();
   const {
     register,
@@ -38,14 +35,16 @@ export default function UserLogin() {
     set("auth-type", "user");
     localStorage.setItem("expiresAt", (new Date().getTime() + 24 * 60 * 60 * 1000).toString());
 
-    dispatch(setUser(response.user));
+    set('user', JSON.stringify(response.user));
 
     toast({
       title: "Login Successful",
       description: "Login Successful",
       variant: "success",
     });
-    window.location.href = userRouteCollection.home;
+    setTimeout(()=>{
+      window.location.href = userRouteCollection.home;
+    },1000)
   }
 
   const [postLogin, { isLoading }] = useMutate({ callback: loginOnSuccess, navigateBack: false });

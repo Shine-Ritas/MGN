@@ -1,28 +1,39 @@
 import { Banner } from '@/pages/admin/Settings/Banner/type';
 import { UserRootState } from '../stores/userStore';
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
+import { EncryptStorage } from '@/utilities/encrypt-storage';
+import config from '@/config';
 
 interface UserGlobal {
     isAuth: boolean;
     user: null | {
         id: string;
+        name: string;
         email: string;
-        username: string;
+        user_code: string;
         role: string;
+        active : number;
+        subscription_end_date? : string;
+        subscription_name? : string;
     };
     safeContent: boolean;
     subscription?: boolean;
     banners : Banner[];
     is_maintenance?: boolean;
 }
+const secretKey = config.secretKey;
+const ens_storage = new EncryptStorage(secretKey);
+
+const storedUser = JSON.parse(ens_storage.get('user')!) ?? null;
+const hasSubscription = storedUser?.subscription_end_date && new Date(storedUser.subscription_end_date) > new Date();
 
 const initialState: UserGlobal = {
     isAuth: false,
-    user: null,
-    safeContent: localStorage.getItem('safeContent') == 'false' ? false : true,
-    subscription: false,
-    banners : [],
-    is_maintenance: localStorage.getItem('is_maintenance') == 'true' ? true : false
+    user: storedUser,
+    safeContent: localStorage.getItem('safeContent') !== 'false',
+    subscription: hasSubscription,
+    banners: [],
+    is_maintenance: localStorage.getItem('is_maintenance') === 'true'
 };
 
 export const userGlobalSlice = createSlice({
@@ -34,12 +45,20 @@ export const userGlobalSlice = createSlice({
         },
         setUser(state, action) {
             state.user = action.payload;
+            ens_storage.set('user', JSON.stringify(action.payload));
+            if(action.payload.subscription_end_date && new Date(action.payload.subscription_end_date) > new Date())
+            {
+                state.subscription = true;
+            }
+            else
+            {
+                state.subscription = false;
+            }
         },
         setSafeContent(state, action: PayloadAction<boolean>) {
             state.safeContent = action.payload;
         },
         setBanners(state, action: PayloadAction<Banner[]>) {
-            // set only if user is not subscribed
             if(!state.subscription)
             {
                 state.banners = action.payload;

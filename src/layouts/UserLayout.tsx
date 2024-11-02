@@ -50,7 +50,7 @@ const UserLayout = () => {
         <div className="w-full pt-10">
           <div className="flex flex-col gap-8 w-full pt-2">
             <div className="flex w-full flex-col">
-              <div className="flex flex-col sm:gap-4 pb-8 md:pb-12">
+              <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 min-h-[65vh]">
                 <Outlet />
               </div>
             </div>
