@@ -4,7 +4,7 @@ import placeholder from '@/assets/imgs/place-holder.png'
 import { CalendarIcon, EyeIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { FaDiscord, FaTelegram } from "react-icons/fa6"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utilities/util"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 

@@ -15,6 +15,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Badge } from "../ui/badge";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectHeaderVisible, togglePanel } from "@/redux/slices/user-read-setting";
+import { selectAuthUser } from "@/redux/slices/user-global";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -29,6 +30,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
     const { isMobile } = useScreenDetector();
 
     const visibility = useUserAppSelector(selectHeaderVisible);
+
+    const authUser = useUserAppSelector(selectAuthUser);
+
+    console.log(authUser);
+    
 
 
     return (
@@ -61,8 +67,6 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
             </Sheet>
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
-
-
                 <div className="ml-auto sm:flex-initial">
                     <div className="flex items-center gap-3">
                         <Label className="text-muted-foreground">Safe Content</Label>
@@ -72,9 +76,13 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         />
                     </div>
                 </div>
-                <div className="">
+                {
+                    authUser && (
+                        <div className="">
                     <Badge variant={"gold"} >Gold</Badge>
                 </div>
+                    )
+                }
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary" size="icon" className="rounded-full">
@@ -83,7 +91,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     {
-                        false ? (<DropdownMenuContent align="end">
+                        authUser ? (<DropdownMenuContent align="end">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>Settings</DropdownMenuItem>
@@ -114,7 +122,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         </DropdownMenuContent>
                         ) : (<DropdownMenuContent className="z-[300]" align="end">
                             <DropdownMenuItem>
-                                <Link to="/login" >Login</Link>
+                                <a href="/login" >Login</a>
                             </DropdownMenuItem>
 
                         </DropdownMenuContent>)

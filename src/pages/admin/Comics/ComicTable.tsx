@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import useQuery from "@/hooks/useQuery";
 import ContentTableRow from "@/components/ui/custom/ContentTableRow";
 import { MogousType } from "./type";
-import { adminRouteCollection } from "@/constants/constants";
+import { adminRouteCollection } from "@/routes/data/admin_route";
 import { PlusCircle } from "lucide-react";
 
 import ComicCard from "./ComicCard";

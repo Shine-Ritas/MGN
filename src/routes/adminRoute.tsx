@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { AppRouteInterface } from "./type.ts";
-import { adminRouteCollection } from "@/constants/constants.ts";
 import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
+import { adminRouteCollection } from "@/routes/data/admin_route.ts";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Setting = lazy(() => import('../pages/admin/Setting.tsx'));

@@ -3,12 +3,12 @@ import useQuery from '@/hooks/useQuery';
 import React, { useCallback, useState } from 'react'
 import { RecentlyUploadedResponse } from './types';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { ComicType } from '@/constants/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import RecentlyUploadedCard from './RecentlyUploadedCard';
 import { useUserAppSelector } from '@/redux/hooks';
 import { selectSafeContent } from '@/redux/slices/user-global';
+import { ComicType } from '@/data/data';
 
 type handlePageChangeType = (page: number) => void;
 

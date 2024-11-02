@@ -1,4 +1,4 @@
-import { SelectCollectionType } from "@/constants/constants";
+import { SelectCollectionType } from "@/route/data/admin_route";
 
 
 export const socialMedias : SelectCollectionType[]  = [

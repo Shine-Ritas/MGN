@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import "@/styles/admin-global.css"
+import { cn } from '@/utilities/util'
 interface GeneralErrorProps extends React.HTMLAttributes<HTMLDivElement> {
   minimal?: boolean
 }

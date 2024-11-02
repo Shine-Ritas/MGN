@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "../ui/button"
 import { IoMenu } from "react-icons/io5";
-import { navigateMenu } from "@/constants/constants";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { SidebarIconProps } from "../ui/SidebarIcon";
+import { navigateMenu } from "./data/data";
 
 
 const MobileDrawer = () => {

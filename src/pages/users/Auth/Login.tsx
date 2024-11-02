@@ -1,69 +1,99 @@
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { LazyLoadImage } from "react-lazy-load-image-component"
 import { Link } from "react-router-dom"
-import BgImg from '@/assets/imgs/bg_03.jpg'
 import Logo from "@/assets/imgs/logo.png"
+import FormInput from "@/components/ui/custom/FormInput"
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/components/ui/use-toast"
+import { loginValidationSchema } from "./LoginValidation"
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import useMutate, { useMutateCallbackType } from "@/hooks/useMutate"
+import useServerValidation from "@/hooks/useServerValidation"
+import { useAppDispatch } from "@/redux/hooks"
+import useSecureStorage from "@/hooks/useSecureStorage"
+import { Button } from "@/components/ui/button"
+import { setUser } from "@/redux/slices/user-global"
+import { userRouteCollection } from "@/routes/data/user_route"
+interface loginSubmitForm {
+  user_code: string,
+  password: string
+}
+
 
 export default function UserLogin() {
+  const dispatch = useAppDispatch();
+  const { set } = useSecureStorage();
+  const {
+    register,
+    handleSubmit,
+    setError
+    } = useForm<loginSubmitForm>({
+    resolver: yupResolver(loginValidationSchema)
+  });
+  const { handleServerErrors } = useServerValidation();
+
+
+  const loginOnSuccess: useMutateCallbackType = (response: any) => {
+    set("auth-token", response.token);
+    set("auth-type", "user");
+    localStorage.setItem("expiresAt", (new Date().getTime() + 24 * 60 * 60 * 1000).toString());
+
+    dispatch(setUser(response.user));
+
+    toast({
+      title: "Login Successful",
+      description: "Login Successful",
+      variant: "success",
+    });
+    window.location.href = userRouteCollection.home;
+  }
+
+  const [postLogin, { isLoading }] = useMutate({ callback: loginOnSuccess, navigateBack: false });
+  const onSubmit = async (data: loginSubmitForm) => {
+    const response = await postLogin("users/login", data) as any;
+    if (response && response.error) {
+      handleServerErrors(response.error, setError);
+    }
+  }
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
-      <div className="flex items-center justify-center py-12 h-full">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
+    <div className="flex items-center justify-center py-12 h-full">
+      <div className="mx-auto grid w-[350px] gap-6">
+        <div className="grid gap-2 text-center">
           <img src={Logo} alt="logo" className="w-40 mx-auto" />
 
-            <p className="text-balance text-muted-foreground">
-              Enter your email and password to login
-            </p>
-          </div>
-          <div className="grid gap-4">
+          <p className="text-balance text-muted-foreground">
+            Enter your email and password to login
+          </p>
+        </div>
+        <div className="grid gap-4">
 
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  to="/forgot-password"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-         
+          <div className="">
+            <FormInput
+              divClassName=' items-center  '
+              label='User Code' defaultValue={""} placeholder='Enter User Code' register={register("user_code")} />
           </div>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link to="#" className="underline">
-              Contact Admin
-            </Link>
+          <div className="grid gap-2">
+            <FormInput
+              type="password"
+              divClassName=' items-center  '
+              label='Password' defaultValue={""} placeholder='Enter Password' register={register("password")} />
           </div>
+          <Button type="submit"
+            onClick={handleSubmit(onSubmit)}
+            className="w-full" disabled={isLoading}>
+            Login
+          </Button>
+
+        </div>
+        <div className="mt-4 text-center text-sm">
+          Don&apos;t have an account?{" "}
+          <Link to={userRouteCollection.contact_us} className="underline">
+            Contact Admin
+          </Link>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
-        <LazyLoadImage
-          src={BgImg}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover "
-        />
-      </div>
+      <Toaster />
+
     </div>
   )
 }
