@@ -7,14 +7,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Loader2 } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 interface TablePaginationInterface {
   url: string;
   lastPage: number;
   currentPage: number;
-  setCurrentPage: any;
+  setCurrentPage: (page: number) => void;
   isFetching?: boolean;
-  paging? : boolean
+  paging?: boolean;
 }
 
 type OptionalTablePaginationInterface = Partial<TablePaginationInterface>;
@@ -25,34 +29,50 @@ export function TablePagination({
   currentPage = 1,
   setCurrentPage = () => {},
   isFetching = false,
-  paging =  true
+  paging = true,
 }: OptionalTablePaginationInterface) {
+  const [inputPage, setInputPage] = useState(currentPage);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setInputPage(page);
+    setIsDialogOpen(false);
   };
 
-  const getPageLinks = (paging:boolean) => {
-    const pages: JSX.Element[] = [];
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPage(Number(e.target.value));
+  };
 
-    if (!paging)
-    {
-      // current page only
-      return <PaginationItem key={currentPage}>
-        <PaginationLink
-          href={`${
-            url
-          }?page=${currentPage}`}
-          isActive={true}
-          onClick={(e) => {
-            e.preventDefault();
-            handlePageChange(currentPage);
-          }}
-        >
-          {currentPage}
-        </PaginationLink>
-      </PaginationItem>
+  const handlePageJump = () => {
+    if (inputPage > 0 && inputPage <= lastPage) {
+      handlePageChange(inputPage);
+    } else {
+      alert(`Please enter a valid page number between 1 and ${lastPage}`);
+    }
+  };
+
+  const pageLinks = useMemo(() => {
+    if (!paging) {
+      return (
+        <PaginationItem key={currentPage}>
+          <PaginationLink
+            href={`${url}?page=${currentPage}`}
+            isActive={true}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(currentPage);
+              setIsDialogOpen(true);
+            }}
+            className="cursor-pointer"
+          >
+            {currentPage}
+          </PaginationLink>
+        </PaginationItem>
+      );
     }
 
+    const pages: JSX.Element[] = [];
     for (let i = 1; i <= lastPage; i++) {
       pages.push(
         <PaginationItem key={i}>
@@ -63,6 +83,7 @@ export function TablePagination({
               e.preventDefault();
               handlePageChange(i);
             }}
+            className="cursor-pointer"
           >
             {isFetching && i === currentPage ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -74,7 +95,7 @@ export function TablePagination({
       );
     }
     return pages;
-  };
+  }, [paging, currentPage, lastPage, url, isFetching]);
 
   return (
     <Pagination>
@@ -87,10 +108,11 @@ export function TablePagination({
                 e.preventDefault();
                 handlePageChange(currentPage - 1);
               }}
+              className="cursor-pointer"
             />
           </PaginationItem>
         )}
-        { getPageLinks(paging)}
+        {pageLinks}
         {currentPage < lastPage && (
           <PaginationItem>
             <PaginationNext
@@ -99,10 +121,32 @@ export function TablePagination({
                 e.preventDefault();
                 handlePageChange(currentPage + 1);
               }}
+              className="cursor-pointer"
             />
           </PaginationItem>
         )}
       </PaginationContent>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Jump to Page</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="flex items-center gap-4">
+              <Input
+                type="number"
+                id="pageNumber"
+                max={lastPage}
+                value={inputPage}
+                onChange={handleInputChange}
+                className="col-span-3"
+              />
+              <Button onClick={handlePageJump}>Jump</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Pagination>
   );
 }

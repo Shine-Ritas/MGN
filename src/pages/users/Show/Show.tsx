@@ -43,16 +43,14 @@ const Show = () => {
         <div className=" px-6 md:px-24 flex flex-col">
 
             <div id="popoverhe"></div>
-            <div className="flex items-center gap-4 mb-10">
+            <div className="flex items-center gap-4 mb-10 ">
                 <Goback
                     size={"sm"}
                     to={'/'} />
                 <h1 className="flex-1 shrink-0 lg:whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                     {mogous?.mogou?.title}
                 </h1>
-
             </div>
-
 
             <div className="">
                 <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} />

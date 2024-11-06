@@ -36,7 +36,7 @@ const SectionManagement = () => {
   return (
     <div>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="">
-        <TabsList className="grid w-full grid-flow-col justify-start gap-4 bg-background ">
+        <TabsList className="grid w-full grid-flow-col justify-start gap-4 bg-transparent">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab.key}

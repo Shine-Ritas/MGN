@@ -1,44 +1,15 @@
 import { Banner } from '@/pages/admin/Settings/Banner/type';
 import { UserRootState } from '../stores/userStore';
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
-import { EncryptStorage } from '@/utilities/encrypt-storage';
-import config from '@/config';
+import userInitialState from '@/data/store/users-store-data';
+import { EncryptStorage } from "@/utilities/encrypt-storage";
+import config from "@/config";
 
-interface UserGlobal {
-    isAuth: boolean;
-    user: null | {
-        id: string;
-        name: string;
-        email: string;
-        user_code: string;
-        role: string;
-        active : number;
-        subscription_end_date? : string;
-        subscription_name? : string;
-    };
-    safeContent: boolean;
-    subscription?: boolean;
-    banners : Banner[];
-    is_maintenance?: boolean;
-}
-const secretKey = config.secretKey;
-const ens_storage = new EncryptStorage(secretKey);
-
-const storedUser = JSON.parse(ens_storage.get('user')!) ?? null;
-const hasSubscription = storedUser?.subscription_end_date && new Date(storedUser.subscription_end_date) > new Date();
-
-const initialState: UserGlobal = {
-    isAuth: false,
-    user: storedUser,
-    safeContent: localStorage.getItem('safeContent') !== 'false',
-    subscription: hasSubscription,
-    banners: [],
-    is_maintenance: localStorage.getItem('is_maintenance') === 'true'
-};
+const ens_storage = new EncryptStorage(config.secretKey);
 
 export const userGlobalSlice = createSlice({
     name: "userGlobal",
-    initialState,
+    initialState : userInitialState,
     reducers: {
         setAuth(state, action) {
             state.isAuth = action.payload;
@@ -67,6 +38,12 @@ export const userGlobalSlice = createSlice({
         setMaintenance(state, action: PayloadAction<boolean>) {
             state.is_maintenance = action.payload;
             localStorage.setItem('is_maintenance', action.payload ? 'true' : 'false');
+        },
+        setFavorite(state, action: PayloadAction<string[]>) {
+            state.favorite = action.payload;
+        },
+        setContinueReading(state, action: PayloadAction<string[]>) {
+            state.continueReading = action.payload;
         }
     },
 });
@@ -78,7 +55,7 @@ export default userGlobalSlice.reducer;
 export const selectSafeContent = (state : UserRootState) => state.userGlobal.safeContent;
 export const selectBanners = (state : UserRootState) => state.userGlobal.banners ?? [];
 export const selectIsMaintenance = (state : UserRootState) => state.userGlobal.is_maintenance;
-
 export const selectAuthUser = (state : UserRootState) => state.userGlobal.user;
-
-export const selectIsSubscription = (state : UserRootState) => state.userGlobal.subscription;
+export const selectIsSubscription = (state : UserRootState) => state.userGlobal.subscription
+export const selectFavorite = (state : UserRootState) => state.userGlobal.favorite;
+export const selectContinueReading = (state : UserRootState) => state.userGlobal.continueReading;

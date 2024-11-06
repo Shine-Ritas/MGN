@@ -118,3 +118,23 @@
   width: 0px;
   background: transparent;
 }
+
+@media print {
+  
+  body{
+    visibility: hidden;
+
+  }
+
+  #printDiv {
+    visibility: visible;
+  }
+
+  /* text should black */
+  #printDiv * {
+    color: black;
+    text-shadow: none;  
+    box-shadow: none;
+  }
+
+}

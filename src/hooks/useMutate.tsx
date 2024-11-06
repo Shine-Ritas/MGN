@@ -89,23 +89,21 @@ const useMutate = (params: ParamsType = {}): ReturnType => {
         return navigate(-1);
       }
 
-      return result?.data;
+      console.log(result);
+
+      if(result.data){
+        return result.data;
+      }
+      return result;
 
     } catch (err: any) {
-
-      // if (err?.status === 401) {
-      //   toast({
-      //     title: "Unauthorized",
-      //     description: "You have been logged out",
-      //     variant: "destructive",
-      //   });
-      //   return logout();
-      // }
       toast({
         title: "Unexpected Error",
         description: err?.data?.message || "Something went wrong",
         variant: "success",
       });
+
+      return err;
     }
 
   };

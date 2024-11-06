@@ -16,46 +16,42 @@ import { PlusCircle } from "lucide-react";
 import ComicCard from "./ComicCard";
 import ComicFilter from "./ComicFilter";
 import { Button } from "@/components/ui/button";
-import useQueryParams from "@/hooks/userQueryParams";
 import NoDataFound from "@/components/ui/no-data-found";
-import { useSearchParamsState } from "@/hooks/useSearchParamsState";
+import useFilterState from "@/hooks/useFilterState";
+
+const initlalFilterState = {
+  search: "",
+  page: 1,
+  limit: 10,
+  mogou_type: "",
+  finish_status: "",
+  chapters_count_order: "",
+}
 
 const ComicTable = () => {
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useSearchParamsState("page", 1);
-  const [search, setSearch] = useSearchParamsState('search');
-  const [limit] = useSearchParamsState('limit',10);
-  const [types, setTypes] = useSearchParamsState<string>('mogou_type',"");
-  const [status, setStatus] = useSearchParamsState<string>('finish_status',"");
-
-  const queryParams = useQueryParams({
-    page: currentPage,
-    search,
-    limit, 
-    mogou_type: types,
-    finish_status: status,
-  });
+  const { bunUrl, handleChange : handleFilter,getByKey } = useFilterState(initlalFilterState,['page']);
 
   const { data, isLoading, isFetching } = useQuery(
-    `admin/mogous?${queryParams}&mogou_total_count=true`
+    `admin/mogous?${bunUrl}&mogou_total_count=true`
   );
 
   const handleComicTypeChange = (selectedTypes: string) => {
-    setTypes(selectedTypes);
+    handleFilter("mogou_type", selectedTypes);
   };
 
   const handleComicProgressChange = (selectedStatus: string) => {
-    setStatus(selectedStatus);
+    handleFilter("finish_status", selectedStatus);
   };
 
   return (
     <Card className="min-h-full shadow-none">
-      <CardHeader className="flex flex-col-reverse lg:flex-row justify-between gap-4 h-[10vh]">
+      <CardHeader className="flex flex-col-reverse lg:flex-row  items-start justify-between gap-4 min-h-[10vh]">
         <ComicFilter
-          setSearch={setSearch}
-          selectedTypes={types}
-          selectedProgress={status}
+          handler={handleFilter}
+          selectedTypes={getByKey("mogou_type")}
+          selectedProgress={getByKey("finish_status")}
           onTypeChange={handleComicTypeChange}
           onProgressChange={handleComicProgressChange}
           data={data}
@@ -66,8 +62,8 @@ const ComicTable = () => {
             <TablePagination
               url={data.mogous.path}
               lastPage={data.mogous.last_page}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentPage={getByKey("page")}
+              setCurrentPage={(page: number) => handleFilter("page", page)}
               isFetching={isFetching}
               paging={false}
             />

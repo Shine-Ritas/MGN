@@ -33,6 +33,7 @@ const adminRoutes: AppRouteCollectionInterface = {
   sectionManagement: "/setting/sectionManagment",
   generalSetting: "/setting/general",
   generalBanner: "/setting/banner",
+  generalUserAvatars: "/setting/user-avatars",
 
 };
 

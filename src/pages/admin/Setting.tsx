@@ -2,42 +2,29 @@
 import {
     Card,
     CardContent,
-
 } from "@/components/ui/card"
-import { adminRouteCollection } from "@/routes/data/admin_route"
 import { Suspense } from "react"
-
 import { NavLink, Outlet } from "react-router-dom"
-
+import { setting_routes } from "./Settings"
 const Setting = () => {
-
     return (
-
         <main className="grid lg:grid-cols-5 items-start gap-4 pt-4  md:gap-4 ">
             <div className="lg:col-span-1">
                 <Card className="pt-4">
                     <CardContent>
 
                         <nav className="grid grid-cols-5 lg:grid-cols-1 gap-4 text-sm">
-                            <NavLink
-                                to={adminRouteCollection.generalSetting}
-                                className={({ isActive }) => isActive ? 'active-nav-link' : ''}
-                            >
-                                General
-                            </NavLink>
-                            <NavLink
-                                to={adminRouteCollection.generalBanner}
-                                className={({ isActive }) => isActive ? 'active-nav-link' : ''}
-                            >
-                                Banner
-                            </NavLink>
-
-                            <NavLink
-                                to={adminRouteCollection.sectionManagement}
-                                className={({ isActive }) => isActive ? 'active-nav-link' : ''}
-                            >
-                                Sections
-                            </NavLink>
+                            {
+                                setting_routes.children?.map((route) => (
+                                    <NavLink
+                                        key={route.path}
+                                        to={route.path !}
+                                        className={({ isActive }) => isActive ? 'active-nav-link' : ''}
+                                    >
+                                        {route.label}
+                                    </NavLink>
+                                ))
+                            }
                         </nav>
 
                     </CardContent>
@@ -50,9 +37,6 @@ const Setting = () => {
                 </Suspense>
             </div>
         </main>
-
     )
-
 }
-
 export default Setting

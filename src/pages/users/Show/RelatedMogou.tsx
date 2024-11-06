@@ -34,6 +34,14 @@ const RelatedMogou = ({slug} : RelatedMogouProps) => {
                       <div>
                         <h4 className="text-md font-semibold">{mogou.title}</h4>
                         <p className="text-sm text-muted-foreground">{mogou.author}</p>
+                        <span>
+                          <span className="text-sm text-muted-foreground">{mogou.total_chapters}&nbsp;</span>
+                          <span className="text-sm text-muted-foreground"> 
+                            {
+                              mogou.total_chapters > 1 ? "Chapters" : "Chapter"
+                            }
+                          </span>
+                        </span>
                       </div>
                     </Link>
                   )

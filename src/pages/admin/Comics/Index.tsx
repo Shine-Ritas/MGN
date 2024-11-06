@@ -4,7 +4,7 @@ import ComicTable from "./ComicTable"
 const Index = () => {
 
     return (
-        <main className="   min-h-full">
+        <main className="min-h-full">
                 <ComicTable />
         </main>
     )

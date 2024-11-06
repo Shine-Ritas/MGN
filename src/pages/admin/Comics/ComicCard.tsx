@@ -1,6 +1,8 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { MogouWithTotalCount } from "./type"
-import placeholder from '@/assets/imgs/place-holder.png'
+import placeholder from '@/assets/imgs/place-holder/card_ph.png'
+
+
 import { CalendarIcon, EyeIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { FaDiscord, FaTelegram } from "react-icons/fa6"
