@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DialogContent, DialogHeader, DialogTitle,  } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import useQuery from '@/hooks/useQuery'
-import UserAvatar from '@/components/users/UserAvatar'
 import useMutate from '@/hooks/useMutate'
 import { useUserAppDispatch } from '@/redux/hooks'
 import { setUser } from '@/redux/slices/user-global'
@@ -36,9 +35,7 @@ export default function UserProfileModal({user}) {
  
 
   const handleAvatarSelect = (avatar: number) => {
-
       setSelectedAvatar(avatar)
-
   }
 
   const handleColorSelect = (color: string) => {
@@ -63,10 +60,7 @@ export default function UserProfileModal({user}) {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger>
-            <UserAvatar  user={user} shape='rounded' />
-      </DialogTrigger>
+    
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
           <DialogTitle>Edit Your Profile</DialogTitle>
@@ -80,7 +74,7 @@ export default function UserProfileModal({user}) {
             >
               <Avatar className="w-32 h-32">
                 <AvatarImage src={
-                  data?.user_avatars?.find((avatar) => avatar?.id === selectedAvatar)?.avatar_path
+                  data?.user_avatars?.find((avatar) => avatar?.id === selectedAvatar)?.avatar_url_path
                 } alt="Selected avatar" 
                 className="object-contain"
                 />
@@ -107,7 +101,7 @@ export default function UserProfileModal({user}) {
                     onClick={() => handleAvatarSelect(avatar?.id)}
                   > 
                     <Avatar className="w-20 h-20 object-contain mx-auto">
-                      <AvatarImage src={avatar?.avatar_path} className="object-contain" alt="Avatar option" />
+                      <AvatarImage src={avatar?.avatar_url_path} className="object-contain" alt="Avatar option" />
                       <AvatarFallback>Avatar</AvatarFallback>
                     </Avatar>
                   </button>
@@ -157,6 +151,5 @@ export default function UserProfileModal({user}) {
           </div>
         </div>
       </DialogContent>
-    </Dialog>
   )
 }

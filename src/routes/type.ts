@@ -5,7 +5,8 @@ interface AppRoute {
     [x: string]: any;
     path?: string,
     element?: React.ReactNode,
-    children?: AppRoute[]
+    children?: AppRoute[],
+    label?: string,
 }
 
 // Export the interface with an alias

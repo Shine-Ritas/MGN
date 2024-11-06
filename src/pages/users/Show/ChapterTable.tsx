@@ -53,10 +53,7 @@ export const ChapterTable = ({
             setLoading(false);
             setShowAll(true);
         },2000)
-
     }
-
-
     return (
         <>
             <Card x-chunk="dashboard-07-chunk-1">
@@ -76,7 +73,7 @@ export const ChapterTable = ({
                                 chapters.map((mogou, index) => (
                                     <TableRow key={index} className="md:text-lg h-12">
                                         <TableCell key={index} className="text-sm ">
-                                            Chapter {mogou.chapter_number} : {mogou.title.substring(0, 10)}...
+                                            Chapter {mogou.chapter_number} : {mogou.title.length > 60 ? mogou.title.slice(0, 60) + "..." : mogou.title}
                                         </TableCell>
                                         <TableCell
                                             className="text-right text-sm "

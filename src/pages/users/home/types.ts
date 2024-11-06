@@ -31,6 +31,7 @@ export interface Category {
 export interface SubMogousType {
     id: number;
     title: string;
+    created_at: string;
 }
 
 export type MostViewMogou = Pick<MogousElement, "id" | "title" |"slug" | "cover" | "status_name" | "mogou_type_name" | "finish_status_name" | "categories" | "sub_mogous" | "legal_age">;

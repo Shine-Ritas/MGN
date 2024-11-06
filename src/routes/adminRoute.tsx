@@ -3,9 +3,9 @@ import { AppRouteInterface } from "./type.ts";
 import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
 import { adminRouteCollection } from "@/routes/data/admin_route.ts";
+import { setting_routes } from "@/pages/admin/Settings/index.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
-const Setting = lazy(() => import('../pages/admin/Setting.tsx'));
 const Action = lazy(() => import('../pages/admin/Comics/Action.tsx'));
 const Users = lazy(() => import('../pages/admin/Users/Users.tsx'));
 const AddUser = lazy(() => import('../pages/admin/Users/AddUser.tsx'));
@@ -13,8 +13,7 @@ const CategoryIndex = lazy(() => import('../pages/admin/Category/CategoryIndex.t
 const SubscriptionIndex = lazy(() => import('../pages/admin/Subscription/SubscriptionIndex.tsx'));
 const SubscriptionCreateEdit = lazy(() => import('../pages/admin/Subscription/SubscriptionCreateEdit.tsx'));
 const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
-const BannerSetting = lazy(() => import('../pages/admin/Settings/BannerSetting.tsx'));
-const GeneralSetting = lazy(() => import('../pages/admin/Settings/GeneralSetting.tsx'));
+
 const CreateBotComponent = lazy(() => import('@/pages/admin/apps/create.tsx'));
 const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
@@ -22,7 +21,7 @@ const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx
 const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
 const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
-const SectionManagement = lazy(() => import('@/pages/admin/Settings/SectionManagement.tsx'));
+
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
@@ -34,28 +33,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
     </Provider>
     ,
     children:[
+        setting_routes,
         {
           path: adminRouteCollection.dashboard,
           element: <Dashboard />,
-        },
-        {
-          path: adminRouteCollection.setting,
-          element: <Setting />,
-          children: [
-            {
-              path: adminRouteCollection.generalSetting,
-              element: <GeneralSetting />,
-              index: true,
-            },
-            {
-              path: adminRouteCollection.sectionManagement,
-              element: <SectionManagement />,
-            },
-            {
-              path: adminRouteCollection.generalBanner,
-              element: <BannerSetting />,
-            }
-          ]
         },
         {
           path: adminRouteCollection.mogous,
