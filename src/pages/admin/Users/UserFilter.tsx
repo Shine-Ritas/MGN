@@ -66,7 +66,15 @@ export default function UserFilter({ getByKey, handleFilter ,total}: UserFilterP
       searchInput.current!.value = getByKey("search");
     }
 
-  }, [getByKey]);
+    if ( !isLoading && getByKey("subscriptions")) {
+      const subscriptionIds = getByKey("subscriptions");
+      const selectedSubscriptions = subs?.subscriptions?.data?.filter((p: SubscriptionType) =>
+        subscriptionIds.includes(p.id)
+      );
+      setSelectSubscription(selectedSubscriptions);
+    }
+
+  }, [getByKey, isLoading, subs?.subscriptions?.data]);
 
   return (
     <div className="grid lg:grid-cols-4 gap-4 items-center lg:justify-end ps-1">
@@ -92,7 +100,7 @@ export default function UserFilter({ getByKey, handleFilter ,total}: UserFilterP
         <DropdownMenuTrigger asChild className="overflow-hidden">
           <Button variant="outline" className="min-w-[130px] max-w-[200px]  justify-between">
             {!isLoading && selectSubscription.length === 0
-              ? "Progress"
+              ? "Subscriptions"
               : selectSubscription.map((progress) => progress.title).join(" , ")}
             <ChevronDown className="h-4 w-4 opacity-50" />
           </Button>

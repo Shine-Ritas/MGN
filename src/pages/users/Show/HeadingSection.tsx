@@ -1,4 +1,4 @@
-import { MogousType } from "@/pages/admin/Comics/type"
+import {  MogouWithTotalCount } from "@/pages/admin/Comics/type"
 
 import { FaCaretRight } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -9,9 +9,10 @@ import { Label } from "@/components/ui/label"
 import { Rating } from "@/components/ui/rating";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
+import { EyeIcon } from "lucide-react";
 
 interface HeadingSectionProps {
-    mogou: MogousType,
+    mogou: MogouWithTotalCount,
     isFavorite: boolean,
 }
 
@@ -49,7 +50,12 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                         </div>
                         <div className="flex gap-4 justify-center md:justify-start">
                             <span className="text-muted-foreground">Manga</span>
-                            <span className="text-muted-foreground">22123</span>
+                            <span className="text-muted-foreground">
+                                <EyeIcon className="h-4 w-4 inline-block mr-2 " />
+                                {
+                                    mogou?.total_view_count
+                                }
+                            </span>
                         </div>
                         <div className="flex">
                             <span className="text-muted-foreground">

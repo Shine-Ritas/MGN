@@ -138,7 +138,7 @@ const AddUser = () => {
                         <Card x-chunk="dashboard-07-chunk-3">
                             <CardHeader>
                                 <CardTitle className=''>
-                                    Subscription
+                                    Users
 
                                     <Badge variant="outline" className="ml-2 float-right">
                                         {
