@@ -1,10 +1,10 @@
 
 import { Separator } from '@/components/ui/separator'
 import useQuery from '@/hooks/useQuery'
-import ProgressiveBanner from './Banner/ProgressiveBanner'
+import ProgressiveBanner from './Banner/progressive-banner'
 import { Banner,BannerApiType} from './Banner/type'
 import { useDialog } from '@/hooks/useDialog'
-import BannerUploadModal from './Banner/bannerUploadModal'
+import BannerUploadModal from './Banner/banner-upload-modal'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 const BannerSetting = () => {

@@ -26,7 +26,7 @@ const Show = () => {
 
         !isFetching && reAds();
 
-    }, [isFetching])
+    }, [isFetching, reAds])
 
 
     if (!isLoading && mogous?.mogou == null) {
@@ -58,7 +58,7 @@ const Show = () => {
 
             <div className="mt-12 grid md:grid-cols-8 gap-4 ">
                 <div className="md:col-span-6 ">
-                    <ChapterTable chapterCollection={mogous?.chapters} />
+                    <ChapterTable mogous={mogous}   />
                 </div>
                 <div className="md:col-span-2 flex justify-start text-start">
                     {

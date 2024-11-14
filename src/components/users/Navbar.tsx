@@ -17,6 +17,7 @@ import { selectAuthUser } from "@/redux/slices/user-global";
 import { userRouteCollection } from "@/routes/data/user_route";
 import useLogout from "@/hooks/useLogout";
 import AlertBox from "../ui/AlertBox";
+import { isSubscriptionExpired } from "@/utilities/util";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -34,6 +35,8 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
     const authUser = useUserAppSelector(selectAuthUser);
 
     const logout = useLogout();
+
+    const subscriptionStatus = isSubscriptionExpired(authUser?.subscription_end_date, authUser?.subscription_name);
 
     return (
         <header className={`w-4/4 sticky ${visibility.value} transition-all  flex min-h-20 items-center gap-4 border-b bg-background px-4 md:px-24 z-[100] `}>
@@ -77,9 +80,9 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                 {
                     authUser && (
                         <div className="">
-                    <Badge variant={"gold"} >
+                    <Badge variant={subscriptionStatus?.variant} >
                         {
-                            authUser?.subscription_name
+                            subscriptionStatus?.message
                         }
                     </Badge>
                 </div>

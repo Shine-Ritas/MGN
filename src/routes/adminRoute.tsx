@@ -18,9 +18,11 @@ const CreateBotComponent = lazy(() => import('@/pages/admin/apps/create.tsx'));
 const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx'));
+const EditChapter = lazy(() => import('@/pages/admin/CreateChapter/EditChapter.tsx'));
 const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
 const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
+
 
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
@@ -57,6 +59,10 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
         {
           path: adminRouteCollection.createChapter,
           element: <NewChapter />
+        },
+        {
+          path: adminRouteCollection.editChapter,
+          element: <EditChapter />
         },
         {
           path: adminRouteCollection.categories,

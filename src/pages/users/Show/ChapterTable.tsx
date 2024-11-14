@@ -15,45 +15,68 @@ import {
 } from "@/components/ui/card"
 
 
-import { PlusCircle } from "lucide-react"
+import { Flame, Lock, PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
-
-
-type Chapter = {
-    id:number,
-    title:string,
-    chapter_number:number,
-    created_at:string
-}
+import { MogouChapter } from "@/pages/admin/Comics/type";
+import useQuery from "@/hooks/useQuery";
+import { useUserAppSelector } from "@/redux/hooks";
+import { selectAuthUser } from "@/redux/slices/user-global";
+import { isSubscriptionValid } from "@/utilities/util";
 
 interface ChapterTableProps {
-    chapterCollection: Chapter[];
+    mogous: any;
 }
 
 export const ChapterTable = ({
-    chapterCollection = [],
+    mogous
 }: ChapterTableProps) => {
-
-    const [chapters, setChapter] = useState<Chapter[]>([]);
+    const [chapters, setChapters] = useState<MogouChapter[]>([]);
+    const [userCanReadAll, setUserCanReadAll] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [showAll, setShowAll] = useState<boolean>(false);
+    const authUser = useUserAppSelector(selectAuthUser);
+
+    const callback = (data: any) => {
+        if (data) {
+            setChapters(data?.chapters);
+            setLoading(false);
+        }
+    }
+
+    useQuery(`users/mogous/${mogous.mogou.slug}/getMoreChapters`, callback, true, !showAll);
 
     useEffect(() => {
-        setChapter(chapterCollection);
-    }, [chapterCollection,setChapter])
+        setChapters(mogous.chapters);
+    }, [mogous])
 
+    useEffect(() => {
+        if (authUser?.subscription_end_date &&  isSubscriptionValid(authUser?.subscription_end_date) ) {
+            setUserCanReadAll(true);
+        }
+        else {
+            setUserCanReadAll(false);
+        }
+    }
+    , [authUser])
 
     const showAllChapters = () => {
         setLoading(true);
-
-        setTimeout(() => {
-            setChapter((prev: any) => [...chapterCollection, ...chapterCollection, ...chapterCollection, ...chapterCollection, ...chapterCollection, ...chapterCollection]);
-            setLoading(false);
-            setShowAll(true);
-        },2000)
+        setShowAll(true);
     }
+
+
+    const readTheChapter = (chapter: MogouChapter) => {
+        if (userCanReadAll) {
+            window.location.href = `/read/${mogous.mogou.slug}/${chapter.chapter_number}`;
+        } else {
+           if( chapter.third_party_redirect){
+               window.location.href = chapter.third_party_url!
+           }
+        }
+    }
+
     return (
         <>
             <Card x-chunk="dashboard-07-chunk-1">
@@ -70,18 +93,31 @@ export const ChapterTable = ({
 
                         <TableBody className="gap-10 w-full">
                             {
-                                chapters.map((mogou, index) => (
-                                    <TableRow key={index} className="md:text-lg h-12">
+                                chapters?.map((chapter, index) => (
+                                    <TableRow key={index} 
+                                    onClick={() => readTheChapter(chapter)}
+                                    className={`md:text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only,userCanReadAll)}
+                                        
+                                     `}>
+
                                         <TableCell key={index} className="text-sm ">
-                                            Chapter {mogou.chapter_number} : {mogou.title.length > 60 ? mogou.title.slice(0, 60) + "..." : mogou.title}
+                                            Chapter {chapter.chapter_number} : {chapter.title.length > 60 ? chapter.title.slice(0, 60) + "..." : chapter.title}
+                                            {
+                                                isNewChapter(chapter.created_at)
+                                            }
+                                            {
+                                                isNeedSubscriptionChapter(chapter?.subscription_only,userCanReadAll)
+                                            }
                                         </TableCell>
                                         <TableCell
                                             className="text-right text-sm "
                                         >
                                             {
-                                                mogou.created_at
+                                                chapter.created_at
                                             }
+
                                         </TableCell>
+
                                     </TableRow>
 
                                 ))
@@ -90,28 +126,51 @@ export const ChapterTable = ({
                         </TableBody>
                     </Table>
                 </CardContent>
-                {!showAll &&  <CardFooter className="justify-center border-t p-4">
-                   <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"
-
-                        onClick={showAllChapters}
-                    >
+                {!showAll && <CardFooter className="justify-center border-t p-4">
+                    <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"
+                        onClick={showAllChapters}>
                         {
                             loading ? (
-                                <FaSpinner
-                                    className="animate-spin "
-                                />
+                                <FaSpinner className="animate-spin " />
                             ) : (
-                                <>
-                                    <  PlusCircle className="h-3.5 w-3.5"
-
-                                    />
-                                    Show All Chapters
-                                </>
-
+                                <><PlusCircle className="h-3.5 w-3.5" />Show All Chapters</>
                             )
                         }
                     </Button>
                 </CardFooter>}
             </Card></>
     )
+}
+
+const isNewChapter = (date: string | number | Date) => {
+    const isNew = new Date(date) >= new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+
+    if (isNew) {
+        return (
+            <div className="inline-flex items-center px-2 py-0 rounded-full text-[.7rem] font-semibold ms-5 bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg transition-all duration-300 ease-in-out hover:from-red-600 hover:to-orange-600 hover:shadow-xl hover:scale-105">
+                <Flame className="w-3 h-3 mr-1" />
+                New
+            </div>
+        );
+    }
+    return null;
+}
+
+// return icon with unlock
+const isNeedSubscriptionChapter = (isSubscriptionNeed,isValid) => {
+    const isTrue = isSubscriptionNeed && !isValid;
+    return isTrue ? (
+        <div className="inline-flex items-center px-2 py-0 rounded-full text-[.7rem] font-semibold ms-5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-lg transition-all duration-300 ease-in-out hover:from-yellow-600 hover:to-yellow-700 hover:shadow-xl hover:scale-105">
+            <Lock className="w-3 h-3 mr-1" />
+            Subscription Needed
+        </div>
+    ) : null;
+}
+
+
+
+const chapterRowEffectClasses = (isSubscriptionNeed,isValid) => {
+    return (!isSubscriptionNeed || isValid) ?
+    "cursor-pointer hover:!bg-primary hover:text-white"
+    : "cursor-not-allowed text-muted-foreground"
 }

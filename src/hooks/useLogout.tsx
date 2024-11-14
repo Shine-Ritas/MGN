@@ -14,6 +14,7 @@ const useLogout = () => {
     localStorage.removeItem('auth-token');
     localStorage.removeItem("expiresAt");
     localStorage.removeItem("auth-type");
+    localStorage.removeItem("user");
 
     withToast && toast({
       title: "Logged Out",
@@ -21,6 +22,7 @@ const useLogout = () => {
       variant: "destructive",
     });
     dispatch(adminLogout())
+
     setTimeout(()=>{
       window.location.href = navigateTo;
     },2000);

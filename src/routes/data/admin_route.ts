@@ -13,6 +13,7 @@ const adminRoutes: AppRouteCollectionInterface = {
   chapterIndex: "/mogou/:slug/chapters",
 
   createChapter: "/mogou/:slug/chapters/create",
+  editChapter: "/mogou/:slug/chapters/edit/:id",
 
   categories: "/categories",
 

@@ -14,6 +14,11 @@ export const userGlobalSlice = createSlice({
         setAuth(state, action) {
             state.isAuth = action.payload;
         },
+        setUserLogout(state) {
+            state.user = null;
+            state.isAuth = false;
+            ens_storage.remove('user');
+        },
         setUser(state, action) {
             state.user = action.payload;
             ens_storage.set('user', JSON.stringify(action.payload));
@@ -49,7 +54,7 @@ export const userGlobalSlice = createSlice({
 });
 
 
-export const { setAuth, setUser, setSafeContent,setBanners,setMaintenance } = userGlobalSlice.actions;
+export const { setAuth, setUser, setSafeContent,setBanners,setMaintenance,setUserLogout } = userGlobalSlice.actions;
 export default userGlobalSlice.reducer;
 
 export const selectSafeContent = (state : UserRootState) => state.userGlobal.safeContent;

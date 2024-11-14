@@ -23,8 +23,22 @@ export interface MogousType {
     total_chapters:  number;
 }
 
+export type MogouChapter = {
+    id:number,
+    title:string,
+    chapter_number:number,
+    created_at:string,
+    subscription_only: boolean,
+    third_party_redirect: boolean,
+    third_party_url?: string,
+}
+
 export interface MogouWithTotalCount extends MogousType {
     total_view_count?: number;
+}
+
+export interface MogouWithChapters extends MogousType {
+    chapters: MogouChapter[];
 }
 
 export interface Category {

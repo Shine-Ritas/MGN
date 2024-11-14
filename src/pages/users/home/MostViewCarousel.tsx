@@ -22,8 +22,8 @@ const ViewCarousel = ({title,url} : {title:string,url:string}) => {
                     <CardTitle className='flex justify-between '>
                         <span className='text-2xl'>{title}</span>
                         <span className="relative">
-                            <CarouselPrevious className='relative -left-4 ' />
-                            <CarouselNext className='relative left-0' />
+                            <CarouselPrevious className='relative -left-4' />
+                            <CarouselNext className='relative left-0  ' />
                         </span>
                     </CardTitle>
                     <CarouselContent className="-ml-1 gap-4 mt-8">

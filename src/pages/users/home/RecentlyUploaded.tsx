@@ -7,8 +7,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import RecentlyUploadedCard from './RecentlyUploadedCard';
 import { useUserAppSelector } from '@/redux/hooks';
-import { selectSafeContent } from '@/redux/slices/user-global';
+import { selectAuthUser, selectSafeContent } from '@/redux/slices/user-global';
 import { ComicType } from '@/data/data';
+import { isSubscriptionValid } from '@/utilities/util';
 
 type handlePageChangeType = (page: number) => void;
 
@@ -18,6 +19,7 @@ const RecentlyUploaded = () => {
     const [currentType, setCurrentType] = useState<string>("");
 
     const isSafeMode = useUserAppSelector(selectSafeContent) ? false : "" ;
+    const authUser = useUserAppSelector(selectAuthUser);
 
     const { data, isLoading, isFetching } = useQuery(`users/last-uploaded?per_page=12&page=${page}&mogou_type=${currentType}&legal_only=${isSafeMode}`);
 
@@ -37,7 +39,7 @@ const RecentlyUploaded = () => {
 
     const handleCurrentTypeChange = useCallback((type: string) => {
         currentType == type ? setCurrentType("") : setCurrentType(type)
-    }, [])
+    }, [currentType])
 
 
     return (
@@ -83,7 +85,7 @@ const RecentlyUploaded = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {
                         !isLoading && MemorizedData?.mogous?.data.map((mogou) => (
-                            <RecentlyUploadedCard key={mogou.id} mogou={mogou} />
+                            <RecentlyUploadedCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
                         ))
                     }
                 </div>

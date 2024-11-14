@@ -3,9 +3,9 @@ import { adminRouteCollection } from "@/routes/data/admin_route.ts";
 import { AppRouteInterface } from "@/routes/type";
 
 const SectionManagement = lazy(() => import('@/pages/admin/Settings/SectionManagement.tsx'));
-const GeneralUserAvatars = lazy(() => import('@/pages/admin/Settings/UserAvatar/UserAvatar.tsx'));
-const BannerSetting = lazy(() => import('@/pages/admin/Settings/BannerSetting.tsx'));
-const GeneralSetting = lazy(() => import('@/pages/admin/Settings/GeneralSetting.tsx'));
+const GeneralUserAvatars = lazy(() => import('@/pages/admin/Settings/UserAvatar/user-avatar'));
+const BannerSetting = lazy(() => import('@/pages/admin/Settings/banner-setting'));
+const GeneralSetting = lazy(() => import('@/pages/admin/Settings/general-setting'));
 const Setting = lazy(() => import('@/pages/admin/Setting.tsx'));
 
 export const setting_routes : AppRouteInterface = {

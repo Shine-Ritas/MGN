@@ -22,14 +22,14 @@ const RelatedMogou = ({slug} : RelatedMogouProps) => {
         {
           (!isLoading ) && (
             <CardContent 
-            className="grid grid-cols-1 gap-4 mt-8"
+            className="grid grid-cols-1 gap-y-4 mt-8 w-full px-0"
             >
               {
                 relatedMogous?.mogous?.map((mogou : any)=>{
                   return (
                     <Link
                     to={`/show/${mogou.slug}`}
-                    key={mogou.id} className="flex items-center gap-4">
+                    key={mogou.id} className="flex  items-start gap-4">
                       <img src={mogou.cover} alt={mogou.title} className="w-20  object-cover rounded-md" />
                       <div>
                         <h4 className="text-md font-semibold">{mogou.title}</h4>

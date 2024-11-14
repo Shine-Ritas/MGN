@@ -1,12 +1,8 @@
-
-import { useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-
-import ChapterVisual from "./ChapterVisual"
 import ChapterContent from "./ChapterContent"
 import useMutate from "@/hooks/useMutate"
 import { createCard1Validation, createCard1ValidationType } from "./ChapterValidation"
@@ -19,42 +15,31 @@ import { useParams } from "react-router-dom"
 import { toast } from "@/components/ui/use-toast"
 import Goback from "@/components/goback-btn"
 import useQuery from "@/hooks/useQuery"
+import { NewChapterInfo } from "./NewChapter"
 
-
-// return type of createCard1Validation
-
-export type NewChapterInfo = {
-  id: number | null | string;
-  title: string;
-  slug: string;
-  description: string;
-  chapterNumber: null;
-  thirdPartyUrl: string;
-  isSubscriptionOnly: boolean;
-  thirdPartyRedirect: boolean;
-  mogou_slug : string
-}
 
 export default function NewChapter() {
 
   const { slug:mogou_slug } = useParams<{ slug: string }>();
-  const {data,isLoading:isL} = useQuery(`admin/sub-mogous/get-latest-chapter/${mogou_slug}`)
+  const  chapterId = useParams<{ id: string }>();
 
-  const [isCard1Submitted, setIsCard1Submitted] = useState(false)
+  const {data,isLoading:isL} = useQuery(`admin/sub-mogous/show/${mogou_slug}/${chapterId.id}`)
+
   const [chapterInfo, setChapterInfo] = useState<NewChapterInfo>({
-    id: null,
+    id: chapterId.id! as string,
     title: "",
     slug: "",
     description: "",
     chapterNumber: null,
-    thirdPartyRedirect: false,
+    thirdPartyRedirect: data?.sub_mogou?.third_party_redirect,
     thirdPartyUrl: "",
-    isSubscriptionOnly: false,
+    isSubscriptionOnly: data?.sub_mogou?.subscription_only,
     mogou_slug : mogou_slug!
   })
 
   const handleSwitchChange = (key : string, checked: boolean) => {
-    setChapterInfo((prev) => ({ ...prev, [key]: checked }))
+      setChapterInfo((prev) => ({ ...prev, [key]: checked }))
+      
   }
 
   const {
@@ -67,41 +52,45 @@ export default function NewChapter() {
     resolver: yupResolver(createCard1Validation)
   });
 
-  useEffect(() => {
-    if(!isL){
-      setValue("chapter_number", data?.chapter_number + 1)
-    }
-  },
-  [data, isL, setValue])
 
   const { handleServerErrors } = useServerValidation();
 
-  const createOnSuccess = (response: any) => {
+  const updateOnSuccess = (response: any) => {
     toast({
-      title: "Chapter Created",
-      description: "Chapter has been created successfully",
+      title: "Success",
+      description: "Chapter updated successfully",
       variant: "success"
     })
-    setIsCard1Submitted(true);
     setChapterInfo((prev) => ({ ...prev, id: response.sub_mogou.id, slug: response.sub_mogou.slug }))
   }
 
-  const [createChapter, { isLoading }] = useMutate({ callback: createOnSuccess, navigateBack: false });
+  const [createChapter, { isLoading }] = useMutate({ callback: updateOnSuccess, navigateBack: false });
 
+ 
+  
   const handleSubmitCard1 = async (data: createCard1ValidationType) => {
     const formData = {
       ...data,
+      id: chapterInfo.id,
       mogou_slug: mogou_slug,
       subscription_only: chapterInfo.isSubscriptionOnly,
       third_party_redirect: chapterInfo.thirdPartyRedirect,
-      chapter_number: data.chapter_number
     }
-    const response = await createChapter("admin/sub-mogous/new-draft", formData) as any;
+    const response = await createChapter("admin/sub-mogous/update-draft", formData) as any;
     if (response && response.error) {
       handleServerErrors(response.error, setError);
     }
   }
 
+  useEffect(() => {
+    if(data?.sub_mogou){
+       setChapterInfo((prev) => ({ ...prev, thirdPartyRedirect : data?.sub_mogou?.third_party_redirect, isSubscriptionOnly : data?.sub_mogou?.subscription_only }))
+    }
+  },[data, isL, setValue])
+  if(isL){
+    return <div>Loading...</div>
+  }
+  
   return (
     <div className="w-full mx-auto py-4 space-y-4">
 
@@ -110,7 +99,7 @@ export default function NewChapter() {
         <div className="flex gap-4 items-center">
             <Goback to={-1} />
             <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Chapters
+                Modify Chapter
             </h1>
         </div>
     </div>
@@ -128,10 +117,10 @@ export default function NewChapter() {
               <FormInput
                 divClassName=' '
                 label='Title'
-                defaultValue={""}
                 fieldError={errors?.title}
                 placeholder='Enter chapter title'
-                disabled={isLoading || isCard1Submitted}
+                defaultValue={data?.sub_mogou?.title}
+                disabled={isLoading}
                 register={register("title")} />
 
             </div>
@@ -139,10 +128,10 @@ export default function NewChapter() {
               <FormTextBox
                 label="Description"
                 placeholder="Enter chapter description"
-                defaultValue={""}
+                defaultValue={data?.sub_mogou?.description}
                 register={register('description')}
                 setValue={setValue}
-                disabled={isLoading || isCard1Submitted}
+                disabled={isLoading}
 
                 fieldError={errors?.description} />
             </div>
@@ -152,17 +141,19 @@ export default function NewChapter() {
                 label='Chapter Number'
                 fieldError={errors?.chapter_number}
                 placeholder='Enter chapter number'
-                disabled={isLoading || isCard1Submitted}
+                defaultValue={data?.sub_mogou?.chapter_number}
+                disabled={isLoading}
                 register={register("chapter_number")} />
             </div>
             <div className="space-y-2">
 
               <FormInput
                 label='Third-Party URL'
-                defaultValue={""}
                 fieldError={errors?.third_party_url}
                 placeholder='https://example.com'
-                disabled={isLoading || isCard1Submitted}
+                disabled={isLoading}
+                defaultValue={data?.sub_mogou?.third_party_url}
+
                 register={register("third_party_url")} />
 
             </div>
@@ -172,7 +163,7 @@ export default function NewChapter() {
                 <Switch
                   id="isSubscriptionOnly"
                   checked={chapterInfo.isSubscriptionOnly}
-                  disabled={isLoading || isCard1Submitted}
+                  disabled={isLoading}
                   onCheckedChange={(checked) => handleSwitchChange("isSubscriptionOnly", checked)}
                 />
                 <Label htmlFor="isSubscriptionOnly">Subscription Only</Label>
@@ -182,7 +173,7 @@ export default function NewChapter() {
                 <Switch
                   id="ThirdPartyRedirect"
                   checked={chapterInfo.thirdPartyRedirect}
-                  disabled={isLoading || isCard1Submitted}
+                  disabled={isLoading}
                   onCheckedChange={(checked) => handleSwitchChange("thirdPartyRedirect", checked)}
                 />
                 <Label htmlFor="ThirdPartyRedirect">Third Party Redirect</Label>
@@ -192,24 +183,26 @@ export default function NewChapter() {
 
             <CardFooter className="px-0">
               <Button 
-              disabled={isLoading || isCard1Submitted}
-              type="submit">Submit Chapter Information</Button>
+              disabled={isLoading}
+              type="submit">
+                Save Chapter
+              </Button>
             </CardFooter>
           </form>
         </CardContent>
       </Card>
 
       {/* Cards 2 & 3: Visuals and Content Upload */}
-      <div className="grid md:grid-cols-2 gap-4 relative">
+      <div className="grid  gap-4 relative">
         {/* Card 2: Chapter Visuals */}
-        <ChapterVisual
+        {/* <ChapterVisual
         chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
+        isCard1Submitted={true} /> */}
 
         {/* Card 3: Chapter Content */}
         <ChapterContent
-        chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
+        chapterInfo={data?.sub_mogou}
+        isCard1Submitted={true} />
       </div>
     </div>
   )

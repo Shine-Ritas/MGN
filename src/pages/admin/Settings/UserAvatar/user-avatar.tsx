@@ -7,7 +7,7 @@ import {  SortAsc, SortDesc, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDropzone } from 'react-dropzone';
 import useQuery from '@/hooks/useQuery';
-import AvatarManagementModal from './UserAvatarModal';
+import AvatarManagementModal from './user-avatar-modal';
 import useMutate from '@/hooks/useMutate';
 import { toast } from '@/components/ui/use-toast';
 
