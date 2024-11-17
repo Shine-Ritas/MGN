@@ -70,8 +70,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
                 <div className="ml-auto sm:flex-initial">
                     <div className="flex items-center gap-3">
-                        <Label className="text-muted-foreground">Safe Content</Label>
+                        <Label 
+                        aria-label="Safe Content"
+                        className="text-muted-foreground">Safe Content</Label>
                         <Switch
+                            aria-label="Safe Content"
                             checked={safeContent}
                             onCheckedChange={toggleSafeContent}
                         />

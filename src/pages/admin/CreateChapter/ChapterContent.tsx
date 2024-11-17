@@ -1,13 +1,14 @@
 import { Lock } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import ChapterContentViewGrid from "./ChapterContentViewGrid"
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from "@/components/ui/button"
 import JSZip from 'jszip';
 import useMutate from "@/hooks/useMutate"
+import { toast } from "@/components/ui/use-toast"
 
 type ChapterContentProps = {
   isCard1Submitted: boolean,
@@ -17,6 +18,8 @@ type ChapterContentProps = {
 export interface FileWithUniqueId extends File {
   id: number | never;
   isUploaded?: boolean;
+  isUploading?: boolean;
+  path?: string;
 }
 
 
@@ -27,11 +30,19 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
 
   const [uploadToServer, { isLoading }] = useMutate();
 
+  useEffect(() => {
+    const uploaded_images = chapterInfo?.images.map((image: any) => ({
+      ...image, // Spread the existing properties of the image
+      isUploaded: true, // Add the new property
+      isUploading: false
+    }));
+
+    setChapterContent(uploaded_images);
+  }, [chapterInfo?.images])
+
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const files = acceptedFiles;
-
-    console.log(files);
-
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -50,11 +61,13 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       } else {
         file['id'] = uuidv4();
         file['isUploaded'] = false;
+        file['isUploading'] = false;
         setChapterContent((prev) => [...prev, file as FileWithUniqueId]);
       }
     }
 
   }, []);
+
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -70,18 +83,69 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     const formData = new FormData();
     formData.append("mogou_id", chapterInfo.mogou_id as string);
     formData.append("sub_mogou_slug", chapterInfo.slug as string);
-    
-    // Filter and map in one step, then append each file to FormData
-    chapterContent
-      .filter((file) => !file.isUploaded)
-      .forEach((file, index) => {
-        formData.append(`upload_files[${index}][file]`, file);
-        formData.append(`upload_files[${index}][page_number]`, index.toString());
-      });
-    
+    formData.append("watermark_apply", "1");
 
-    await uploadToServer("admin/sub-mogous/upload-files", formData);
-  }
+    // Filter files to be uploaded
+    const toUploadContents = chapterContent.filter((file) => !file.isUploaded);
+
+    // Chunk size
+
+    setChapterContent((prev) =>
+      prev.map((content) => {
+          if (toUploadContents.find((file) => file.id === content.id)) {
+              content.isUploading = true;
+          }
+          return content;
+      })
+  );
+
+    const chunkSize = 5;
+
+    // Helper function to upload a single chunk
+    const uploadChunk = async (chunk: FileWithUniqueId[]) => {
+        const formData = new FormData();
+        formData.append("mogou_id", chapterInfo.mogou_id as string);
+        formData.append("sub_mogou_slug", chapterInfo.slug as string);
+        formData.append("watermark_apply", "1");
+
+        chunk.forEach((file, index) => {
+            formData.append(`upload_files[${index}][file]`, file);
+            formData.append(`upload_files[${index}][page_number]`, index.toString());
+        });
+
+        // Mark files in the chunk as uploading
+      
+
+        const uploading = await uploadToServer("admin/sub-mogous/upload-files", formData);
+
+        if (uploading && !uploading.error) {
+            chunk.forEach((file) => {
+                const index = chapterContent.findIndex((f) => f.id === file.id);
+                if (index !== -1) {
+                    chapterContent[index].isUploaded = true;
+                    chapterContent[index].isUploading = false;
+                }
+            });
+        }
+    };
+
+    // Split files into chunks and upload sequentially
+    for (let i = 0; i < toUploadContents.length; i += chunkSize) {
+        const chunk = toUploadContents.slice(i, i + chunkSize);
+        await uploadChunk(chunk);
+    }
+
+    // Notify user of successful upload
+    toast({
+        title: "Success",
+        description: `${toUploadContents.length} contents uploaded successfully.`,
+        variant: "success",
+    });
+};
+
+
+  console.log(chapterContent.filter((file) => !file.isUploaded));
+  
 
 
   return (
@@ -106,9 +170,9 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
         </CardTitle>
         <CardDescription>Upload the chapter content as a ZIP or PDF file.</CardDescription>
 
-        <Button 
-        disabled={isLoading}
-        onClick={upload} className="absolute top-4 right-4">
+        <Button
+          disabled={isLoading}
+          onClick={upload} className="absolute top-4 right-4">
           Upload
         </Button>
 

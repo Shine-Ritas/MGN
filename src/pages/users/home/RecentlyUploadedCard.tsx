@@ -25,8 +25,8 @@ const RecentlyUploadedCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProp
                     <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
                 </Link>
                 <div className="bg-secondary/50 h-full flex pt-5 items-start rounded-b-sm w-2/3 flex-col ps-4">
-                    <h1 className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</h1>
-                    <h1 className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</h1>
+                    <span className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</span>
+                    <span className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</span>
 
                     <div className="flex flex-col w-full gap-3 mt-4">
 

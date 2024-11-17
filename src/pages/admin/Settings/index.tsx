@@ -7,6 +7,7 @@ const GeneralUserAvatars = lazy(() => import('@/pages/admin/Settings/UserAvatar/
 const BannerSetting = lazy(() => import('@/pages/admin/Settings/banner-setting'));
 const GeneralSetting = lazy(() => import('@/pages/admin/Settings/general-setting'));
 const Setting = lazy(() => import('@/pages/admin/Setting.tsx'));
+const PrefixUpload =  lazy(() => import('@/pages/admin/Settings/PrefixUpload/prefix-upload'));
 
 export const setting_routes : AppRouteInterface = {
     path: adminRouteCollection.setting,
@@ -32,6 +33,11 @@ export const setting_routes : AppRouteInterface = {
         path: adminRouteCollection.generalUserAvatars,
         element: <GeneralUserAvatars />,
         label: 'User Avatars'
+      },
+      {
+        path : adminRouteCollection.generalPrefixUpload,
+        element: <PrefixUpload />,
+        label: 'Prefix Upload'
       }
     ]
   }

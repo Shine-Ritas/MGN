@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardTitle } from '@/components/ui/card'
+import { Card,CardContent } from '@/components/ui/card'
 import {
     Carousel, CarouselContent, CarouselItem, CarouselNext,
     CarouselPrevious,
@@ -17,15 +17,15 @@ const ViewCarousel = ({title,url} : {title:string,url:string}) => {
 
     return (
         <Card className='border-none bg-background'>
-            <CardDescription>
+            <CardContent>
                 <Carousel className="min-w-full ">
-                    <CardTitle className='flex justify-between '>
+                    <div className='flex justify-between '>
                         <span className='text-2xl'>{title}</span>
-                        <span className="relative">
+                        <div className="relative">
                             <CarouselPrevious className='relative -left-4' />
                             <CarouselNext className='relative left-0  ' />
-                        </span>
-                    </CardTitle>
+                        </div>
+                    </div>
                     <CarouselContent className="-ml-1 gap-4 mt-8">
                         {
                             !isLoading && MemorizedData?.mogous?.map((mogou) => (
@@ -35,7 +35,7 @@ const ViewCarousel = ({title,url} : {title:string,url:string}) => {
                                             <img src={mogou?.cover} alt="hero" className="w-full h-40 md:h-72 object-cover" />
                                         </div>
                                         <div className="mogou-footer bg-primary h-12 flex justify-center  items-center rounded-b-sm">
-                                            <h1 className="ps-2 md:ps-0 text-xs md:text-sm text-center font-semibold text-white truncate">{mogou?.title}</h1>
+                                            <span className="ps-2 md:ps-0 text-xs md:text-sm text-center font-semibold text-white truncate">{mogou?.title}</span>
                                         </div>
                                     </div>
 
@@ -44,7 +44,7 @@ const ViewCarousel = ({title,url} : {title:string,url:string}) => {
                         }
                     </CarouselContent>
                 </Carousel>
-            </CardDescription>
+            </CardContent>
 
         </Card>
     )

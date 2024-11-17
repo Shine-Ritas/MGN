@@ -15,8 +15,7 @@ import { ComicType } from "@/data/data";
 
 export function DesktopNavigation() {
 
-    const categories = useAppSelector((state) => state.categories.categories) !;
-
+    const categories = useAppSelector((state) => state.categories.categories)!;
 
     return (
         <NavigationMenu>
@@ -29,7 +28,7 @@ export function DesktopNavigation() {
                             {
                                 ComicType?.map((type) => (
                                     <ListItem key={type.id} title={type.title} href={`/types/${type.id}`}>
-                                     {type?.title}
+                                        {type?.title}
                                     </ListItem>
                                 ))
                             }
@@ -43,7 +42,7 @@ export function DesktopNavigation() {
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] ">
                             {
                                 categories?.map((category) => (
-                                    <ListItem  key={category.id} title={category.title} href={`/categories/${category.id}`}>
+                                    <ListItem key={category.id} title={category.title} href={`/categories/${category.id}`}>
                                         {category?.title}
                                     </ListItem>
                                 ))
@@ -52,16 +51,17 @@ export function DesktopNavigation() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link to="/docs"  >
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            New Releases
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink
+                        href="/new-releases"
+                        className={navigationMenuTriggerStyle()}
+                    >
+                        New Releases
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     )
-}   
+}
 
 const ListItem = forwardRef<
     React.ElementRef<"a">,
@@ -69,18 +69,19 @@ const ListItem = forwardRef<
 >(({ className, title, ...props }, ref) => {
     return (
         <li>
-                <Link
-                    to="?"
-                    ref={ref}
-                    className={cn(
-                        "select-none rounded-md  no-underline outline-none transition-colors hover:text-secondary focus:bg-accent focus:text-accent-foreground text-sm font-medium",
-                        className
-                    )}
-                    {...props}
-                >
-                    {title}
+            <Link
+                title={title}
+                to="/#"
+                ref={ref}
+                className={cn(
+                    "select-none rounded-md  no-underline outline-none transition-colors hover:text-secondary focus:bg-accent focus:text-accent-foreground text-sm font-medium",
+                    className
+                )}
+                {...props}
+            >
+                {title}
 
-                </Link>
+            </Link>
         </li>
     )
 })

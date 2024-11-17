@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import Goback from "@/components/goback-btn";
 import { lazy, Suspense, useEffect } from "react";
 import useAdsRef from "@/hooks/useAdsRef";
+import SEO from "@/pages/seo";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -18,15 +19,20 @@ const Show = () => {
     const { reAds } = useAdsRef({ adsOn: true });
 
     useEffect(() => {
-
-        !isFetching && window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-        !isFetching && reAds();
+        if (!isFetching) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            reAds();
+        }
 
     }, [isFetching, reAds])
+
+    useEffect(() => {
+        document.title = `${mogous?.mogou?.title} - Manga Details`;
+        const metaDescription = document.querySelector('meta[name="description"]') as HTMLMetaElement;
+        if (metaDescription) {
+            metaDescription.content = mogous?.mogou?.description.slice(0, 150);
+        }
+    }, [mogous]);
 
 
     if (!isLoading && mogous?.mogou == null) {
@@ -40,8 +46,10 @@ const Show = () => {
     }
 
     return (
-        <div className=" px-6 md:px-24 flex flex-col">
+       <>
+        <SEO title={`${mogous?.mogou?.title} - Manga Details`} description={mogous?.mogou?.description.slice(0, 150)} name="Manga Details" type="manga" />
 
+        <div className=" px-6 md:px-24 flex flex-col">
             <div id="popoverhe"></div>
             <div className="flex items-center gap-4 mb-10 ">
                 <Goback
@@ -70,7 +78,7 @@ const Show = () => {
                 </div>
             </div>
 
-        </div>
+        </div></>
     )
 }
 

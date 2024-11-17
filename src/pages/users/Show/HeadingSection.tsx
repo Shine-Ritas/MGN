@@ -27,7 +27,7 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                     <div className="flex justify-center md:justify-normal md:col-span-2 xl:col-span-1">
                         <LazyLoadImage src={mogou?.cover}
                             className="h-96 xl:h-80 object-cover"
-                            alt={mogou?.title}
+                            alt={`Cover image of ${mogou?.title}`} 
                         />
 
                     </div>
@@ -35,9 +35,12 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                         <span className="text-xl md:text-3xl text-neon-primary font-semibold tracking-widest">
                             {mogou?.finish_status_name}
                         </span>
-                        <Label className="text-lg md:text-4xl font-semibold">{mogou?.title}</Label>
+                        <Label
+                        aria-label="Manga Title"
+                        className="text-lg md:text-4xl font-semibold">{mogou?.title}</Label>
                         <div className="flex gap-4 text-3xl justify-between lg:justify-start">
                             <Button
+                                aria-label="Start reading the manga"
                                 className="bg-neon-primary text-white  py-6 text-lg px-8 flex items-center w-full lg:w-fit">
                                 Start Reading <FaCaretRight className="text-2xl" />
                             </Button>

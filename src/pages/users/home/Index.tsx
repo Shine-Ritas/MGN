@@ -12,9 +12,9 @@ import ViewCarousel from "./MostViewCarousel"
 const HomePage = () => {
 
   const isSubscribed = useUserAppSelector(selectIsSubscription);
+  console.log(isSubscribed);
   const banners = useUserAppSelector(selectBanners);
 
-  console.log(isSubscribed);
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
@@ -47,7 +47,6 @@ const HomePage = () => {
       <div className="w-full">
         <ViewCarousel title="Most Viewed" url="most-viewed" />
       </div>
-
 
       <div className="w-full">
           {

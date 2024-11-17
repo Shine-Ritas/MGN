@@ -71,8 +71,9 @@ export const ChapterTable = ({
         if (userCanReadAll) {
             window.location.href = `/read/${mogous.mogou.slug}/${chapter.chapter_number}`;
         } else {
-           if( chapter.third_party_redirect){
-               window.location.href = chapter.third_party_url!
+           if( chapter.third_party_redirect && !chapter.subscription_only){
+            // add target
+                window.open(chapter.third_party_url!, '_blank');
            }
         }
     }
@@ -88,7 +89,7 @@ export const ChapterTable = ({
                 </CardHeader>
                 <CardContent>
                     <Table
-                        divClassname="max-h-96 overflow-y-auto "
+                        divClassname="md:max-h-[70vh] overflow-y-auto "
                         className=" w-full">
 
                         <TableBody className="gap-10 w-full">
@@ -128,6 +129,7 @@ export const ChapterTable = ({
                 </CardContent>
                 {!showAll && <CardFooter className="justify-center border-t p-4">
                     <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"
+                    aria-label="Show All Chapters"
                         onClick={showAllChapters}>
                         {
                             loading ? (

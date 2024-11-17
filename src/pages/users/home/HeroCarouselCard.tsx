@@ -8,7 +8,6 @@ import { Rating } from '@/components/ui/rating'
 const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
   return (
     <CarouselItem key={mogou.id} className="pl-1 md:basis-1/2  overflow-hidden cursor-pointer ">
-      <div className="">
         <Card className="h-52 md:h-64 border-x-neon-primary border-x-2 z-80 pb-4  hover:bg-phover overflow-hidden group transition-all">
           <CardContent className="flex w-full p-0">
             <div className="side-a w-2/3 ps-4">
@@ -48,7 +47,6 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
 
           </CardContent>
         </Card>
-      </div>
     </CarouselItem>
   )
 }

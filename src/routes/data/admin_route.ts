@@ -35,6 +35,7 @@ const adminRoutes: AppRouteCollectionInterface = {
   generalSetting: "/setting/general",
   generalBanner: "/setting/banner",
   generalUserAvatars: "/setting/user-avatars",
+  generalPrefixUpload: "/setting/prefix-upload",
 
 };
 
