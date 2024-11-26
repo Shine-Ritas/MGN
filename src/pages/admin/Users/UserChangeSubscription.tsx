@@ -7,7 +7,7 @@ import { Package } from 'lucide-react'
 import useMutate from '@/hooks/useMutate'
 import { SubscribedUser } from './types'
 import { toast } from '@/components/ui/use-toast'
-import { eventEmitter } from '@/utilities/EventEmitter'
+import { eventEmitter } from '@/utilities/event-emitter'
 
 const UserChangeSubscription = ({user,setCurrentUser}:{user:SubscribedUser,setCurrentUser:any}) => {
 

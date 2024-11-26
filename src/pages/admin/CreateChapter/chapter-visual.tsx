@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label"
 import { Lock } from "lucide-react"
 import { Card, CardContent, CardDescription,  CardHeader, CardTitle } from "@/components/ui/card"
 import { useState } from "react"
-import { NewChapterInfo } from "./NewChapter"
+import { NewChapterInfo } from "./new-chapter"
 
 
 type ChapterVisualProps = {

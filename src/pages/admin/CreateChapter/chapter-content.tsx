@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { useCallback, useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import ChapterContentViewGrid from "./ChapterContentViewGrid"
+import ChapterContentViewGrid from "./chapter-content-view-grid"
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from "@/components/ui/button"
 import JSZip from 'jszip';
@@ -75,7 +75,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       'image/*': ['.png', '.jpeg', 'jpg'],
       'application/zip': ['.zip'],
     },
-    maxSize: 500 * 1024 * 1024, // 100MB
+    maxSize: 500 * 1024 * 2048, // 200MB
   });
 
 
@@ -92,62 +92,56 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
 
     setChapterContent((prev) =>
       prev.map((content) => {
-          if (toUploadContents.find((file) => file.id === content.id)) {
-              content.isUploading = true;
-          }
-          return content;
+        if (toUploadContents.find((file) => file.id === content.id)) {
+          content.isUploading = true;
+        }
+        return content;
       })
-  );
+    );
 
     const chunkSize = 5;
 
     // Helper function to upload a single chunk
     const uploadChunk = async (chunk: FileWithUniqueId[]) => {
-        const formData = new FormData();
-        formData.append("mogou_id", chapterInfo.mogou_id as string);
-        formData.append("sub_mogou_slug", chapterInfo.slug as string);
-        formData.append("watermark_apply", "1");
+      const formData = new FormData();
+      formData.append("mogou_id", chapterInfo.mogou_id as string);
+      formData.append("sub_mogou_slug", chapterInfo.slug as string);
+      formData.append("watermark_apply", "1");
 
-        chunk.forEach((file, index) => {
-            formData.append(`upload_files[${index}][file]`, file);
-            formData.append(`upload_files[${index}][page_number]`, index.toString());
+      chunk.forEach((file, index) => {
+        formData.append(`upload_files[${index}][file]`, file);
+        formData.append(`upload_files[${index}][page_number]`, index.toString());
+      });
+
+      // Mark files in the chunk as uploading
+
+
+      const uploading = await uploadToServer("admin/sub-mogous/upload-files", formData);
+
+      if (uploading && !uploading.error) {
+        chunk.forEach((file) => {
+          const index = chapterContent.findIndex((f) => f.id === file.id);
+          if (index !== -1) {
+            chapterContent[index].isUploaded = true;
+            chapterContent[index].isUploading = false;
+          }
         });
-
-        // Mark files in the chunk as uploading
-      
-
-        const uploading = await uploadToServer("admin/sub-mogous/upload-files", formData);
-
-        if (uploading && !uploading.error) {
-            chunk.forEach((file) => {
-                const index = chapterContent.findIndex((f) => f.id === file.id);
-                if (index !== -1) {
-                    chapterContent[index].isUploaded = true;
-                    chapterContent[index].isUploading = false;
-                }
-            });
-        }
+      }
     };
 
     // Split files into chunks and upload sequentially
     for (let i = 0; i < toUploadContents.length; i += chunkSize) {
-        const chunk = toUploadContents.slice(i, i + chunkSize);
-        await uploadChunk(chunk);
+      const chunk = toUploadContents.slice(i, i + chunkSize);
+      await uploadChunk(chunk);
     }
 
     // Notify user of successful upload
     toast({
-        title: "Success",
-        description: `${toUploadContents.length} contents uploaded successfully.`,
-        variant: "success",
+      title: "Success",
+      description: `${toUploadContents.length} contents uploaded successfully.`,
+      variant: "success",
     });
-};
-
-
-  console.log(chapterContent.filter((file) => !file.isUploaded));
-  
-
-
+  };
   return (
     <Card className="relative overflow-hidden">
       {!isCard1Submitted && (
@@ -193,7 +187,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
               ) : (
                 <p>Drag 'n' drop a Zip file here, or click to select a file</p>
               )}
-              <p className="text-sm text-muted-foreground mt-2">(PNG, 100x100 to 1000x1000 pixels, max 3MB)</p>
+              <p className="text-sm text-muted-foreground mt-2">(PNG, 100x100 to 1000x1000 pixels, max 200MB)</p>
             </div>
           </div>
 

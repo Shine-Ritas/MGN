@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import Item, { ItemProps } from "./GridItem";
+import Item, { ItemProps } from "./grid-item";
 
 const SortableItem: FC<ItemProps> = memo((props) => {
     const {

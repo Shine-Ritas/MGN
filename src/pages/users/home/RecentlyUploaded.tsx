@@ -68,12 +68,14 @@ const RecentlyUploaded = () => {
 
                     <div className="flex gap-4">
                         <Button
+                            aria-label="Previous"
                             disabled={isFetching || page === 1}
                             onClick={() => handlePageChange(page - 1)} className="px-2 py-1 rounded-sm">
                             <ChevronLeft />
                         </Button>
 
                         <Button
+                            aria-label="Next"
                             disabled={isFetching || page === lastPage}
                             onClick={() => handlePageChange(page + 1)} className="px-2 py-1 rounded-sm">
                             <ChevronRight />
@@ -82,7 +84,8 @@ const RecentlyUploaded = () => {
                 </div>
             </CardTitle>
             <CardContent className='mt-4'>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {
                         !isLoading && MemorizedData?.mogous?.data.map((mogou) => (
                             <RecentlyUploadedCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />

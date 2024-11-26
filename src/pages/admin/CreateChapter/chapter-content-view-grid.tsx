@@ -10,10 +10,10 @@ import {
     DragStartEvent,
     DragEndEvent,
 } from '@dnd-kit/core';
-import SortableItem from './SortableGridItem';
+import SortableItem from './sortable-grid-item';
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import Item from './GridItem';
-import { FileWithUniqueId } from './ChapterContent';
+import Item from './grid-item';
+import { FileWithUniqueId } from './chapter-content';
 
 const ChapterContentViewGrid = ({uploadedData = []}:{uploadedData: FileWithUniqueId[]}) => {
     const [items, setItems] = useState<FileWithUniqueId[]>(uploadedData);

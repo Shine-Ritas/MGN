@@ -6,22 +6,17 @@ import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 
-import ChapterVisual from "./ChapterVisual"
-import ChapterContent from "./ChapterContent"
 import useMutate from "@/hooks/useMutate"
-import { createCard1Validation, createCard1ValidationType } from "./ChapterValidation"
+import { createCard1Validation, createCard1ValidationType } from "./chapter-validation"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import useServerValidation from "@/hooks/useServerValidation"
 import FormInput from "@/components/ui/custom/FormInput"
 import FormTextBox from "@/components/ui/custom/FormTextBox"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "@/components/ui/use-toast"
 import Goback from "@/components/goback-btn"
 import useQuery from "@/hooks/useQuery"
-
-
-// return type of createCard1Validation
 
 export type NewChapterInfo = {
   id: number | null | string;
@@ -52,6 +47,8 @@ export default function NewChapter() {
     isSubscriptionOnly: false,
     mogou_slug : mogou_slug!
   })
+
+  const navigate = useNavigate();
 
   const handleSwitchChange = (key : string, checked: boolean) => {
     setChapterInfo((prev) => ({ ...prev, [key]: checked }))
@@ -84,6 +81,8 @@ export default function NewChapter() {
     })
     setIsCard1Submitted(true);
     setChapterInfo((prev) => ({ ...prev, id: response.sub_mogou.id, slug: response.sub_mogou.slug }))
+    navigate(`/admin/mogou/${mogou_slug}/chapters/edit/${response.sub_mogou.id}`, { replace: true })
+    
   }
 
   const [createChapter, { isLoading }] = useMutate({ callback: createOnSuccess, navigateBack: false });
@@ -198,19 +197,7 @@ export default function NewChapter() {
           </form>
         </CardContent>
       </Card>
-
-      {/* Cards 2 & 3: Visuals and Content Upload */}
-      <div className="grid md:grid-cols-2 gap-4 relative">
-        {/* Card 2: Chapter Visuals */}
-        <ChapterVisual
-        chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
-
-        {/* Card 3: Chapter Content */}
-        <ChapterContent
-        chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
-      </div>
+   
     </div>
   )
 }

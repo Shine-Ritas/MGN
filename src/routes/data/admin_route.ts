@@ -1,5 +1,5 @@
 
-import { prefixRoutes } from "@/routes/helper";
+import { prefixRoutes } from "@/utilities/util";
 import { AppRouteCollectionInterface } from "./route";
 
 
@@ -29,6 +29,8 @@ const adminRoutes: AppRouteCollectionInterface = {
 
   apps: "/apps",
   addBot: '/apps/add-bot',
+  showBot: '/apps/show-bot/bot',
+  botList: '/apps/:app/bots/list',
 
   setting: "/setting",
   sectionManagement: "/setting/sectionManagment",

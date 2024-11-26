@@ -4,6 +4,7 @@ import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
 import { adminRouteCollection } from "@/routes/data/admin_route.ts";
 import { setting_routes } from "@/pages/admin/Settings/index.tsx";
+import { bot_routes } from "@/pages/admin/apps/bots/bot-index.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Action = lazy(() => import('../pages/admin/Comics/Action.tsx'));
@@ -14,11 +15,9 @@ const SubscriptionIndex = lazy(() => import('../pages/admin/Subscription/Subscri
 const SubscriptionCreateEdit = lazy(() => import('../pages/admin/Subscription/SubscriptionCreateEdit.tsx'));
 const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
 
-const CreateBotComponent = lazy(() => import('@/pages/admin/apps/create.tsx'));
-const Apps = lazy(() => import('@/pages/admin/apps/index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
-const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/NewChapter.tsx'));
-const EditChapter = lazy(() => import('@/pages/admin/CreateChapter/EditChapter.tsx'));
+const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/new-chapter.tsx'));
+const EditChapter = lazy(() => import('@/pages/admin/CreateChapter/edit-chapter.tsx'));
 const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
 const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
@@ -36,6 +35,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
     ,
     children:[
         setting_routes,
+        ...bot_routes,
         {
           path: adminRouteCollection.dashboard,
           element: <Dashboard />,
@@ -92,15 +92,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
           path: adminRouteCollection.addUser,
           element: <AddUser />,
         },
-        {
-          path: adminRouteCollection.apps,
-          element: <Apps />,
-        },
-        {
-          path: adminRouteCollection.addBot,
-          element : <CreateBotComponent />
-        },
-
+        
         {
           path: adminRouteCollection.reports,
           element: <Reportpage />

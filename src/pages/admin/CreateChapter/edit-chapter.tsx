@@ -1,11 +1,11 @@
-import {  useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import ChapterContent from "./ChapterContent"
+import ChapterContent from "./chapter-content"
 import useMutate from "@/hooks/useMutate"
-import { createCard1Validation, createCard1ValidationType } from "./ChapterValidation"
+import { createCard1Validation, createCard1ValidationType } from "./chapter-validation"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import useServerValidation from "@/hooks/useServerValidation"
@@ -15,15 +15,16 @@ import { useParams } from "react-router-dom"
 import { toast } from "@/components/ui/use-toast"
 import Goback from "@/components/goback-btn"
 import useQuery from "@/hooks/useQuery"
-import { NewChapterInfo } from "./NewChapter"
+import { NewChapterInfo } from "./new-chapter"
+import DeleteConfirmationDialog from "./delete-chapter-dialog"
 
 
-export default function NewChapter() {
+export default function EditChapter() {
 
-  const { slug:mogou_slug } = useParams<{ slug: string }>();
-  const  chapterId = useParams<{ id: string }>();
+  const { slug: mogou_slug } = useParams<{ slug: string }>();
+  const chapterId = useParams<{ id: string }>();
 
-  const {data,isLoading:isL} = useQuery(`admin/sub-mogous/show/${mogou_slug}/${chapterId.id}`)
+  const { data, isLoading: isL } = useQuery(`admin/sub-mogous/show/${mogou_slug}/${chapterId.id}`)
 
   const [chapterInfo, setChapterInfo] = useState<NewChapterInfo>({
     id: chapterId.id! as string,
@@ -34,12 +35,11 @@ export default function NewChapter() {
     thirdPartyRedirect: data?.sub_mogou?.third_party_redirect,
     thirdPartyUrl: "",
     isSubscriptionOnly: data?.sub_mogou?.subscription_only,
-    mogou_slug : mogou_slug!
+    mogou_slug: mogou_slug!
   })
 
-  const handleSwitchChange = (key : string, checked: boolean) => {
-      setChapterInfo((prev) => ({ ...prev, [key]: checked }))
-      
+  const handleSwitchChange = (key: string, checked: boolean) => {
+    setChapterInfo((prev) => ({ ...prev, [key]: checked }))
   }
 
   const {
@@ -52,22 +52,10 @@ export default function NewChapter() {
     resolver: yupResolver(createCard1Validation)
   });
 
-
   const { handleServerErrors } = useServerValidation();
 
-  const updateOnSuccess = (response: any) => {
-    toast({
-      title: "Success",
-      description: "Chapter updated successfully",
-      variant: "success"
-    })
-    setChapterInfo((prev) => ({ ...prev, id: response.sub_mogou.id, slug: response.sub_mogou.slug }))
-  }
+  const [mutate, { isLoading }] = useMutate({ callback:undefined, navigateBack: false });
 
-  const [createChapter, { isLoading }] = useMutate({ callback: updateOnSuccess, navigateBack: false });
-
- 
-  
   const handleSubmitCard1 = async (data: createCard1ValidationType) => {
     const formData = {
       ...data,
@@ -76,33 +64,80 @@ export default function NewChapter() {
       subscription_only: chapterInfo.isSubscriptionOnly,
       third_party_redirect: chapterInfo.thirdPartyRedirect,
     }
-    const response = await createChapter("admin/sub-mogous/update-draft", formData) as any;
+    const response = await mutate("admin/sub-mogous/update-draft", formData) as any;
     if (response && response.error) {
       handleServerErrors(response.error, setError);
     }
+    else{
+      setChapterInfo((prev) => ({ ...prev, id: response?.sub_mogou?.id, slug: response?.sub_mogou?.slug }))
+      toast({
+        title: "Success",
+        description: "Chapter updated successfully",
+        variant: "success"
+      })
+    }
   }
 
-  useEffect(() => {
-    if(data?.sub_mogou){
-       setChapterInfo((prev) => ({ ...prev, thirdPartyRedirect : data?.sub_mogou?.third_party_redirect, isSubscriptionOnly : data?.sub_mogou?.subscription_only }))
+  const handleDeleteChapter = useCallback(async () => {
+    const response = await mutate("admin/sub-mogous/delete", {
+      mogou_slug: mogou_slug,
+      sub_mogou_id: chapterInfo.id
+    }) as any;
+    if (response && response.error) {
+      handleServerErrors(response.error, setError);
+      return false;
+    } else {
+      toast({
+        title: "Success",
+        description: "Chapter deleted successfully",
+        variant: "success"
+      })
+
+      setTimeout(() => {
+        window.location.href = `/admin/mogou/${mogou_slug}/chapters`;
+      }, 2000);
+
+      return true;
     }
-  },[data, isL, setValue])
-  if(isL){
-    return <div>Loading...</div>
+  }, [chapterInfo.id, handleServerErrors, mogou_slug, mutate, setError])
+
+  useEffect(() => {
+    if (!isL && data?.sub_mogou) {
+      setChapterInfo((prev) => ({ ...prev, thirdPartyRedirect: data?.sub_mogou?.third_party_redirect, isSubscriptionOnly: data?.sub_mogou?.subscription_only }))
+    }
+
+  }, [data, isL, mogou_slug, setValue])
+
+  if (isL || !data?.sub_mogou) {
+    return <div>
+
+      <div className="flex gap-4 items-center justify-between mb-3">
+        <Goback to={-1} />
+       
+      </div>
+
+      {
+        isL ? "Loading..." : "Not Found"
+      }
+    </div>
   }
-  
+
   return (
     <div className="w-full mx-auto py-4 space-y-4">
 
-    <div className="flex items-center justify-between gap-4 mb-10">
+      <div className="flex items-center justify-between gap-4 mb-10">
 
-        <div className="flex gap-4 items-center">
-            <Goback to={-1} />
-            <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Modify Chapter
-            </h1>
+        <div className="flex gap-4 items-center justify-between">
+          <Goback to={-1} />
+          <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+            Modify Chapter
+          </h1>
         </div>
-    </div>
+        <DeleteConfirmationDialog
+        onLoading={isLoading}
+        chapterTitle={data?.sub_mogou?.title}
+        handleDelete={handleDeleteChapter} />
+      </div>
 
       {/* Card 1: Chapter Information Fields */}
       <Card>
@@ -158,8 +193,8 @@ export default function NewChapter() {
 
             </div>
 
-              <div className="flex items-center gap-4 py-2">
-                <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-4 py-2">
+              <div className="flex items-center space-x-2">
                 <Switch
                   id="isSubscriptionOnly"
                   checked={chapterInfo.isSubscriptionOnly}
@@ -178,13 +213,13 @@ export default function NewChapter() {
                 />
                 <Label htmlFor="ThirdPartyRedirect">Third Party Redirect</Label>
               </div>
-              </div>
+            </div>
 
 
             <CardFooter className="px-0">
-              <Button 
-              disabled={isLoading}
-              type="submit">
+              <Button
+                disabled={isLoading}
+                type="submit">
                 Save Chapter
               </Button>
             </CardFooter>
@@ -192,17 +227,11 @@ export default function NewChapter() {
         </CardContent>
       </Card>
 
-      {/* Cards 2 & 3: Visuals and Content Upload */}
-      <div className="grid  gap-4 relative">
-        {/* Card 2: Chapter Visuals */}
-        {/* <ChapterVisual
-        chapterInfo={chapterInfo}
-        isCard1Submitted={true} /> */}
-
-        {/* Card 3: Chapter Content */}
+        <div className="grid  gap-4 relative">
+       
         <ChapterContent
-        chapterInfo={data?.sub_mogou}
-        isCard1Submitted={true} />
+          chapterInfo={data?.sub_mogou}
+          isCard1Submitted={true} />
       </div>
     </div>
   )

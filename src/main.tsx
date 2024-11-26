@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ErrorBoundary } from "react-error-boundary";
 import GeneralError from './pages/errors/general-error.tsx'
-import AppRoute from './routes/appRoute.tsx';
+import AppRoute from './routes/app-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 
 const helmetContext = {};

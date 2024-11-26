@@ -17,10 +17,12 @@ const RecentlyUploadedCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProp
         <div 
             className='pl-1 overflow-hidden  rounded-lg bg-secondary'>
             <div className='flex h-full' >
-                <Link to={`/show/${mogou?.slug}`} className="img w-32 md:w-40 cursor-pointer relative">
+                <Link 
+                aria-label={mogou?.title}
+                to={`/show/${mogou?.slug}`} className="img w-32 md:w-40 cursor-pointer relative">
                     <LazyLoadImage src={mogou?.cover}
                         className="w-full h-52 md:h-60 object-cover"
-                        alt="Image Alt"
+                        alt={mogou?.title || 'Image'}
                     />
                     <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
                 </Link>

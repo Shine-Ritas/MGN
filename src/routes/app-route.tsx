@@ -3,11 +3,11 @@ import { useRoutes } from "react-router-dom"
 import { ThemeProvider } from "@/components/theme-provider"
 import useAuth from "@/hooks/useAuth.tsx";
 
-import adminAuthenticatedRoutes from "./adminRoute.tsx";
+import adminAuthenticatedRoutes from "./admin-route.tsx";
 import NotFoundError from "@/pages/errors/not-found.tsx";
 import { Toaster } from "@/components/ui/toaster.tsx";
-import userGuestRoutes, { adminGuestRoutes } from "./guestRoute.tsx";
-import { userAuthenticatedRoutes } from "./userRoute.tsx";
+import userGuestRoutes, { adminGuestRoutes } from "./guest-route.tsx";
+import { userAuthenticatedRoutes } from "./user-route.tsx";
 
 
 const AppRoute = () => {

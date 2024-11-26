@@ -15,7 +15,6 @@ const Chapters = () => {
 
     const navigate = useNavigate();
 
-
     const { data : chapters , isLoading, isFetching } = useQuery(`admin/mogous/${slug}/chapters?page=${currentPage}&search=${search}&limit=10`);
     
     if(isLoading)

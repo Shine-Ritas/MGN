@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { apps } from '@/pages/admin/apps/data'
 import { BotIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { adminRouteCollection } from '@/routes/data/admin_route'
 
 const appText = new Map<string, string>([
@@ -46,7 +46,7 @@ export default function Apps() {
     <div className='pt-4'>
 
       <div className="flex justify-between">
-      <div>
+        <div>
           <h1 className='text-2xl font-bold tracking-tight'>
             App Integrations
           </h1>
@@ -61,37 +61,42 @@ export default function Apps() {
           className='flex items-center gap-2'>
           <BotIcon />
         </Button>
-        
+
       </div>
-       
 
 
-        <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
-          <div className='flex flex-col gap-4 sm:my-4 sm:flex-row'>
-            <Input
-              placeholder='Filter apps...'
-              className='h-9 w-40 lg:w-[250px]'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Select value={appType} onValueChange={setAppType}>
-              <SelectTrigger className='w-36'>
-                <SelectValue>{appText.get(appType)}</SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='all'>All Apps</SelectItem>
-                <SelectItem value='connected'>Connected</SelectItem>
-                <SelectItem value='notConnected'>Not Connected</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        
+
+      <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
+        <div className='flex flex-col gap-4 sm:my-4 sm:flex-row'>
+          <Input
+            placeholder='Filter apps...'
+            className='h-9 w-40 lg:w-[250px]'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Select value={appType} onValueChange={setAppType}>
+            <SelectTrigger className='w-36'>
+              <SelectValue>{appText.get(appType)}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='all'>All Apps</SelectItem>
+              <SelectItem value='connected'>Connected</SelectItem>
+              <SelectItem value='notConnected'>Not Connected</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <ul className='faded-bottom no-scrollbar grid gap-4 overflow-auto pb-16 pt-4 md:grid-cols-2 lg:grid-cols-3'>
-          {filteredApps.map((app) => (
+
+      </div>
+      <ul className='faded-bottom no-scrollbar grid gap-4 overflow-auto pb-16 pt-4 md:grid-cols-2 lg:grid-cols-3'>
+        {filteredApps.map((app) => (
+          <Link
+            to={`/admin/apps/${app.name}/bots/list  `}
+            key={app.name}
+          >
             <li
               key={app.name}
               className='rounded-lg border p-4
+              cursor-pointer 
               border-primary 
               hover:shadow-md  shadow-sm shadow-neon-primary   bg-gradient-to-r from-background to-primary-muted'
             >
@@ -104,7 +109,7 @@ export default function Apps() {
                 <Button
                   variant={app.connected ? 'destructive' : 'neon'}
                   size='sm'
-                 
+
                 >
                   {app.connected ? 'Connected' : 'Connect'}
                 </Button>
@@ -114,8 +119,9 @@ export default function Apps() {
                 <p className='line-clamp-2 text-gray-500'>{app.desc}</p>
               </div>
             </li>
-          ))}
-        </ul>
-        </div>
+          </Link>
+        ))}
+      </ul>
+    </div>
   )
 }

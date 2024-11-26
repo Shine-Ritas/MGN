@@ -3,7 +3,7 @@ export type BotPublisher = {
     name: string;
     token_key: string;
     type: number;
-    available_ids: string;
+    is_active?: boolean;
     created_at?: string;
     updated_at?: string;
 }

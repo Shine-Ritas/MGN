@@ -12,7 +12,10 @@ export default function FormInput({
   fieldError,
   register,
   divClassName,
-  disabled = false
+  disabled = false,
+  labelClassName = "col-span-1",
+  inputClassName = "",
+
 }: FormInputProps) {
   const initValue = type === "number" ? defaultValue.toString() : defaultValue
 
@@ -22,16 +25,17 @@ export default function FormInput({
 
   return (
     <div className={cn("grid gap-4", divClassName)}>
-      <Label htmlFor={label} className="col-span-1">
+      <Label htmlFor={label} className={labelClassName}>
         {label}
       </Label>
-      <div>
+      <div  className={inputClassName}>
         <Input
           type={type}
           id={label}
           disabled={disabled}
           placeholder={placeholder}
           defaultValue={initValue}
+         
           onInput={type === "number" ? handleNumberInput : undefined}
           {...register}
         />

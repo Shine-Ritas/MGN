@@ -4,7 +4,7 @@ import ZoomableImage from '@/components/ui/zoomable-image';
 import { Button } from '@/components/ui/button';
 import { useSortable } from '@dnd-kit/sortable';
 import { Move } from 'lucide-react';
-import { FileWithUniqueId } from './ChapterContent';
+import { FileWithUniqueId } from './chapter-content';
 
 export type ItemProps = HTMLAttributes<HTMLDivElement> & {
     id: number;
