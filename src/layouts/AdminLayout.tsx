@@ -4,23 +4,24 @@ import useQuery from "@/hooks/useQuery";
 import { setCategories } from "@/redux/slices/category-slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { Suspense, useEffect, useState } from "react";
-import { Outlet  } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import '../styles/admin-global.css';
+import { DeleteAlertProvider } from "@/contexts/DeleteAlertContext";
 
 const AdminLayout = () => {
   const { data } = useQuery('admin/categories?limit=400');
   const dispatch = useAppDispatch();
 
-  const {isMobile} = useScreenDetector();
+  const { isMobile } = useScreenDetector();
 
   const [navbarTitle, setNavbarTitle] = useState('App');
 
-  const updateNavbarTitle = (newTitle:string) => {
+  const updateNavbarTitle = (newTitle: string) => {
     setNavbarTitle(newTitle);
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (data?.categories.data) {
       dispatch(setCategories(data.categories.data));
     }
@@ -42,11 +43,14 @@ const AdminLayout = () => {
 
           <Navbar title={navbarTitle} />
 
-            <div className="flex flex-col sm:gap-4 h-full overflow-y-scroll ">
-              <Suspense fallback={<div>Loading...</div>}>
-                <Outlet context={{ updateNavbarTitle }}/>
-              </Suspense>
-            </div>
+          <div className="flex flex-col sm:gap-4 h-full overflow-y-scroll ">
+            <Suspense fallback={<div>Loading...</div>}>
+              <DeleteAlertProvider>
+                <Outlet context={{ updateNavbarTitle }} />
+              </DeleteAlertProvider>
+
+            </Suspense>
+          </div>
 
         </div>
 

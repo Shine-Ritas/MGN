@@ -52,6 +52,9 @@ const HomePage = () => {
         <RecentlyUploaded />
       </div>
 
+      <Separator className="w-full h-1 bg-primary" />
+
+
       <div className="w-full">
         <ViewCarousel title="Most Viewed" url="most-viewed" />
       </div>

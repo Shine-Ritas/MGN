@@ -6,8 +6,9 @@ import { lazy, useEffect, useState } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
 import { Outlet } from "react-router-dom";
 import { selectIsMaintenance, setBanners } from "@/redux/slices/user-global";
-import { selectReadSettingPanel } from "@/redux/slices/user-read-setting";
 import MaintenancePage from "@/pages/errors/maitainence";
+import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
+import '../styles/user-global.css';
 
 const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
 
@@ -19,7 +20,7 @@ const UserLayout = () => {
   
   const isMenuOpen = useUserAppSelector(selectReadSettingPanel);
   const dispatch = useUserAppDispatch();
-  const containerWidth = isMenuOpen ? 'w-3/4 ' : 'w-full';
+  const containerWidth = isMenuOpen ? 'w-4/5 ' : 'w-full';
 
   useEffect(() => {
     if (window.location.pathname.includes('read')) {
@@ -47,10 +48,10 @@ const UserLayout = () => {
     <div className="flex h-screen">
       <div className={`flex h-fit flex-col md:px-0 transition-all ${containerWidth}`}>
         <Navbar isReadMode={isReadMode} />
-        <div className="w-full pt-10">
-          <div className="flex flex-col gap-8 w-full pt-2">
+        <div className="w-full ">
+          <div className="flex flex-col gap-8 w-full ">
             <div className="flex w-full flex-col">
-              <div className="flex flex-col sm:gap-4 pb-8 md:pb-12 min-h-[65vh]">
+              <div className="flex flex-col sm:gap-4 min-h-[65vh]">
                 <Outlet />
               </div>
             </div>

@@ -12,12 +12,13 @@ import { lazy } from "react";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Badge } from "../ui/badge";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-import { selectHeaderVisible, togglePanel } from "@/redux/slices/user-read-setting";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { userRouteCollection } from "@/routes/data/user_route";
 import useLogout from "@/hooks/useLogout";
 import AlertBox from "../ui/AlertBox";
 import { isSubscriptionExpired } from "@/utilities/util";
+import { selectHeaderVisible } from "@/redux/slices/userReadSetting/selectors";
+import { toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -127,7 +128,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     isReadMode && (
                         <div className="">
                             <Button
-                                onClick={() => dispatch(togglePanel())}
+                                onClick={() => dispatch(toggleValue("showPanel"))}
                             >
                                 Menu
                             </Button>

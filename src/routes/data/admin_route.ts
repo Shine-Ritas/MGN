@@ -29,7 +29,7 @@ const adminRoutes: AppRouteCollectionInterface = {
 
   apps: "/apps",
   addBot: '/apps/add-bot',
-  showBot: '/apps/show-bot/bot',
+  showBot: '/apps/show-bot/:id',
   botList: '/apps/:app/bots/list',
 
   setting: "/setting",

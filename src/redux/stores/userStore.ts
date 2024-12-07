@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { sharedMiddleware, sharedReducers } from "./sharedStore";
 import { userGlobalSlice } from "../slices/user-global";
-import { userReadSettingSlice } from "../slices/user-read-setting";
+import { userReadSettingSlice } from "../slices/userReadSetting/user-read-setting-slice";
 
 export const userStore = configureStore({
     reducer:{

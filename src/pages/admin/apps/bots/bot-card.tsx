@@ -1,6 +1,8 @@
 import { Bot } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { useNavigate } from 'react-router-dom';
+import { useDeleteAlert } from '@/contexts/DeleteAlertContext';
 
 export interface SocialChannel {
   id:         number;
@@ -20,14 +22,20 @@ export interface Pivot {
 }
 
 interface BotCardProps {
+  id: number
   name: string
   social_channels: SocialChannel[]
   is_active: "active" | "inactive"
-  lastActivity: string
+  last_activity?: string
   created_at: string
 }
 
-export function BotCard({ name, social_channels, is_active, lastActivity, created_at }: BotCardProps) {
+export function BotCard({id, name, social_channels, is_active, last_activity, created_at }: BotCardProps) {
+
+  const { openDeleteAlert } = useDeleteAlert();
+
+  const navigate = useNavigate();
+
   return (
     <Card className="w-full">
       <CardContent className="pt-6">
@@ -42,15 +50,24 @@ export function BotCard({ name, social_channels, is_active, lastActivity, create
             {is_active ? "Active" : "Inactive"}
           </div>
         </div>
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2 text-sm text-muted-foreground">
           <p>Binded Channels: {social_channels.length}</p>
-          <p>Last Activity: {lastActivity}</p>
+          <p>Last Activity: {last_activity}</p>
           <p>Created At: {created_at}</p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">View Details</Button>
-        <Button variant="destructive">Delete</Button>
+        <Button
+          onClick={() => navigate(`/admin/apps/show-bot/${id}`)}
+        variant="outline">View Details</Button>
+        <Button
+          onClick={() => {
+            openDeleteAlert({
+              name : name,
+              key: id as unknown as string
+            })
+          }}
+        variant="destructive">Delete</Button>
       </CardFooter>
     </Card>
   )

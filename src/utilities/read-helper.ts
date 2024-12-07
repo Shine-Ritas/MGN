@@ -1,27 +1,29 @@
 const readingStyleClasses = (type: string) => {
-    // use case or match
     switch (type) {
         case "double-page":
-            return{
-                "class" :  "grid grid-cols-2 gap-4",
-                "max" : 2
+            return {
+                class: "flex justify-center gap-1 px-20", // Centers the images and adds a small gap
+                imageClass: "shadow-2xl max-h-screen w-1/2 ", // Ensures full height without distorting width
+                max: 2,
             };
         case "single-page":
-            return{
-                "class" :  "flex flex-col ",
-                "max" : 1
+            return {
+                class: "flex flex-col items-center gap-2",
+                imageClass: "rounded shadow-md ", // Full height with centered content
+                max: 1,
             };
         case "long-strip":
-            return{
-                "class" :  "flex flex-col gap-4",
-                "max" : 100
+            return {
+                class: "flex flex-col items-center gap-1",
+                imageClass: "w-4/5 h-auto", // Long strip with consistent width
+                max: 100,
             };
         default:
-            return{
-                "class" :  "flex flex-col gap-4",
-                "max" : 2
+            return {
+                class: "flex flex-col gap-4",
+                max: 2,
             };
-    }}
+    }
+};
 
-
-export default readingStyleClasses
+export default readingStyleClasses;

@@ -13,11 +13,20 @@ import { botMutateValidation } from './bot-mutate-validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import Goback from '@/components/goback-btn';
+import { toast } from '@/components/ui/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const CreateBot = () => {
 
+    const navigate = useNavigate();
     const onSuccessCallback = () => {
-        console.log('created')
+        toast({
+            title: "Bot Created",
+            description: "Bot has been created successfully",
+            variant: "success",
+        });
+
+        navigate(-1);
     };
 
     const [mutate, { isLoading: isMutating }] = useMutate({ callback: onSuccessCallback });
@@ -27,15 +36,15 @@ const CreateBot = () => {
         register,
         handleSubmit,
         setError,
-        setValue : setFormValue,
+        setValue: setFormValue,
         formState: { errors }
     } = useForm<BotPublisher>({
         resolver: yupResolver(botMutateValidation)
     });
 
 
-    const submit = async (data : BotPublisher) => {
-        const response =  await mutate("admin/bot-publisher", data,"POST") as any;
+    const submit = async (data: BotPublisher) => {
+        const response = await mutate("admin/bot-publisher", data, "POST") as any;
 
         if (response && response.error) {
             handleServerErrors(response.error, setError);
@@ -44,12 +53,12 @@ const CreateBot = () => {
 
     return (
         <LazyMotion features={domAnimation}>
-             <div className="flex items-center gap-4 mt-4 mb-3">
-                    <Goback to={-1} />
-                    <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                        Add New Bot
-                    </h1>
-                </div>
+            <div className="flex items-center gap-4 mt-4 mb-3">
+                <Goback to={-1} />
+                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                    Add New Bot
+                </h1>
+            </div>
 
             <m.div
                 initial={{ opacity: 0, scale: 1 }}
@@ -89,19 +98,16 @@ const CreateBot = () => {
                                     setValue={setFormValue}
                                     errors={errors?.type}
                                     defaultValue={"1"}
-                                    
+
                                     collection={socialMedias} />
                             </div>
 
-                            <button 
-                            disabled={isMutating}        
-                            type='submit'>
-                                <ShinyButton
-                                    type='submit'
-                                    className='mt-4 w-full bg-neon-primary !text-white '
-                                    text='Create Bot'
-                                />
-                            </button>
+                            <ShinyButton
+                                type='submit'
+                                disabled={isMutating}
+                                className={`mt-4 w-full bg-neon-primary !text-white ${isMutating ? 'opacity-50' : ''}`}
+                                text={isMutating ? 'Creating...' : 'Create Bot'}
+                            />
                         </CardContent>
 
                     </Card>

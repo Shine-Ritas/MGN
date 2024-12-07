@@ -44,7 +44,7 @@ const RecentlyUploaded = () => {
 
     return (
         <Card className='border-none  bg-background'>
-            <CardTitle className='flex justify-between mb-12 flex-col md:flex-row'>
+            <CardTitle className='flex justify-between mb-12 flex-col md:flex-row px-6'>
                 <span className='text-2xl '>Recently Uploaded</span>
                 <div className="flex gap-12 mt-4 md:mt-0">
 
