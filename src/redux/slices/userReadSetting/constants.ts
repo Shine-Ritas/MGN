@@ -1,4 +1,5 @@
 import { ReadingStyleType, HeaderVisibleType, ReadingDirectionType, ImageFitType, UserReadSetting, ProgressBarType } from "./types";
+import { toggleValue } from "./user-read-setting-slice";
 
 export const ReadingDirectionData: Record<string, ReadingDirectionType> = {
     LTR: {
@@ -15,17 +16,17 @@ export const ReadingDirectionData: Record<string, ReadingDirectionType> = {
 
 export const ProgressBarData : Record<string, ProgressBarType> = {
     Hidden : {
-        label: "Hidden",
+        label: "No Progress",
         value: "hidden",
         iconName: "EyeOff",
     },
     Bar : {
-        label: "Bar",
+        label: "Progress Bar",
         value: "sticky",
         iconName: "Minus",
     },
     LighterEffect:{
-        label: "Lighter Effect",
+        label: "Progress Lighter Effect",
         value: "lighter-effect",
         iconName: "Rainbow",
     }
@@ -51,12 +52,12 @@ export const ReadingStyleData: Record<string, ReadingStyleType> = {
 
 export const HeaderVisibleData: Record<string, HeaderVisibleType> = {
     Sticky: {
-        label: "Sticky",
+        label: "Header Sticky",
         value: "top-0",
         iconName: "Layers2",
     },
     Hidden: {
-        label: "Hidden",
+        label: "No Header   ",
         value: "-top-40 hidden",
         iconName: "SendToBack",
     },
@@ -66,12 +67,12 @@ export const HeaderVisibleData: Record<string, HeaderVisibleType> = {
 export const ImageFitData : Record<string, ImageFitType> = {
     Contain: {
         label: "Image-Fit: Contain",
-        value: "object-contain max-h-screen w-auto",
+        value: "object-contain h-screen md:max-h-screen md:w-auto",
         iconName: "ImageMinus", 
     },
     Cover: {
         label: "Image-Fit: Cover",
-        value: "object-cover",
+        value: "object-cover w-full",
         iconName: "RotateCwSquare",
     },
     Fill: {
@@ -89,9 +90,10 @@ export const initialState  :UserReadSetting = {
     currentChapter: 1,
     totalChapters : [],
     showPanel: false,
+    modalBox:true,
     readingStyle: ReadingStyleData["SinglePage"],
     headerVisible: HeaderVisibleData["Sticky"],
     readingDirection: ReadingDirectionData["LTR"],
     imageFit: ImageFitData["Contain"],
-    progressBar: ProgressBarData["Bar"]
+    progressBar: ProgressBarData["Bar"],
 };

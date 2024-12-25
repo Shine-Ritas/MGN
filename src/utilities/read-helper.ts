@@ -2,8 +2,8 @@ const readingStyleClasses = (type: string) => {
     switch (type) {
         case "double-page":
             return {
-                class: "flex justify-center gap-1 px-20", // Centers the images and adds a small gap
-                imageClass: "shadow-2xl max-h-screen w-1/2 ", // Ensures full height without distorting width
+                class: "flex justify-center gap-1", // Centers the images and adds a small gap
+                imageClass: "shadow-2xl max-h-screen w-1/2", // Ensures full height without distorting width
                 max: 2,
             };
         case "single-page":
@@ -14,7 +14,7 @@ const readingStyleClasses = (type: string) => {
             };
         case "long-strip":
             return {
-                class: "flex flex-col items-center gap-1",
+                class: "flex flex-col items-center gap-1 max-h-screen overflow-y-scroll",
                 imageClass: "w-4/5 h-auto", // Long strip with consistent width
                 max: 100,
             };

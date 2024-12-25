@@ -25,14 +25,14 @@ const HomePage = () => {
 
   return (
 
-    <main className="w-full flex flex-col gap-12 px-4 md:px-24">
+    <main className="w-full flex flex-col gap-12 md:px-24">
       <SEO 
       title="Home" 
       description={"Read your favorite manga/manhwa online. Hundreds of high-quality free manga/manhwa for you, with a list being updated daily."} 
       name="Home"
       type="Manga/Manwa" />
 
-      <div className="w-full flex justify-center ">
+      <div className="w-full flex justify-center pt-8">
         <HeroCarousel />
       </div>
 

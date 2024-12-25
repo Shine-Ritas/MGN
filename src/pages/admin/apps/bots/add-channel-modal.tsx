@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 import { PlusCircle } from "lucide-react"
 import useMutate from "@/hooks/useMutate"
+import { eventEmitter } from "@/utilities/event-emitter"
 
 
 export default function AddChannelModal({channel_type,bot_id}) {
@@ -28,6 +29,7 @@ export default function AddChannelModal({channel_type,bot_id}) {
     }
     else{
       setSyncStatus("success")
+      eventEmitter.emit("channelListUpdated",response)
     }
 
   }

@@ -1,20 +1,23 @@
-import { Carousel, CarouselContent } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import HeroCarouselCard from "../HeroCarouselCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CardCarouselSlider = ({ isLoading, collection }) => {
   return (
-    <section aria-label="Featured Collection" className="carousel-section">
       <Carousel
+      aria-label="Featured Collection"
         plugins={[
+          
           Autoplay({
             delay: 1800,
+            active: !isLoading,
           }),
         ]}
-        className="min-w-full"
+        className="min-w-full overflow-hidden px-4 md:px-0"
       >
         <CarouselContent
-          className="-ml-1 gap-4"
+          className="gap-4 -ml-1"
           role="list"
         >
           {!isLoading ? (
@@ -24,13 +27,18 @@ const CardCarouselSlider = ({ isLoading, collection }) => {
               ) : null
             )
           ) : (
-            <div role="status" className="loading-placeholder">
-              Loading content...
-            </div>
+            Array.from({ length: 4 }).map((_, i) => (
+              <CarouselItem role="listitem"  
+              key={i} aria-label="Loading" aria-describedby="Loading"
+              className="pl-1 md:basis-1/2  overflow-hidden cursor-pointer md:w-96">
+                <Skeleton
+                  key={i} className="h-52 md:h-64  pb-4 overflow-hidden transition-all" />
+              </CarouselItem>
+
+            ))
           )}
         </CarouselContent>
       </Carousel>
-    </section>
   );
 };
 

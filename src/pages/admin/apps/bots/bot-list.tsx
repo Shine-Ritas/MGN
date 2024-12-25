@@ -14,36 +14,38 @@ import { toast } from "@/components/ui/use-toast";
 export default function BotList() {
 
   const { app: type } = useParams<{ app: string }>();
-  const { setOnDelete,setIsLoading } = useDeleteAlert();
+  const { setOnDelete, setIsLoading } = useDeleteAlert();
 
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery(`admin/bot-publisher/${type}/list`);
+  const { data, isLoading,refetch } = useQuery(`admin/bot-publisher/${type}/list`);
 
-  const [mutate,{isLoading:isMutating}]  = useMutate({callback:undefined})
+  const [mutate, { isLoading: isMutating }] = useMutate({ callback: undefined })
 
-const deleteFunction = useCallback(async (itemToDelete: { key:string }) => {
-  const response = await mutate(`admin/bot-publisher/remove`,{
-    id:itemToDelete.key
-  }) as any;
-  if (response && response.error) {
-    console.log(response.error)
-  }
-  else{
-    toast({
-      title: "Success",
-      description: "Bot Deleted",
-      variant: "success",
-    })
+  const deleteFunction = useCallback(async (itemToDelete: { key: string }) => {
+    const response = await mutate(`admin/bot-publisher/remove`, {
+      id: itemToDelete.key
+    }) as any;
+    if (response && response.error) {
+      console.log(response.error)
+    }
+    else {
+      toast({
+        title: "Success",
+        description: "Bot Deleted",
+        variant: "success",
+      })
 
-    data.bots = data.bots.filter((bot:any)=>bot.id !== itemToDelete.key);
-  }
-}, []);
+      refetch?.();
 
-useEffect(()=>{
-  setOnDelete(()=>deleteFunction);
-  setIsLoading(isMutating);
-},[deleteFunction, isMutating, setIsLoading, setOnDelete])
- 
+    }
+  }, [refetch]);
+
+
+  useEffect(() => {
+    setOnDelete(() => deleteFunction);
+    setIsLoading(isMutating);
+  }, [deleteFunction, isMutating, setIsLoading, setOnDelete])
+
 
   return (
     <main className="grid items-start gap-8  sm:py-0">
@@ -72,7 +74,7 @@ useEffect(()=>{
           ))}
       </div>
 
-      <DeleteBot  />
+      <DeleteBot />
     </main>
   )
 }

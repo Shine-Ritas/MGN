@@ -2,18 +2,16 @@ import { Card, CardContent } from '@/components/ui/card'
 import { CarouselItem } from '@/components/ui/carousel'
 import { MogousElement } from './types'
 import { Rating } from '@/components/ui/rating'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
+
+
 
 const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
   return (
-    <CarouselItem key={mogou.id} 
-    role="listitem"
-    aria-label={mogou.title}
-    aria-describedby={mogou.description}
-    className="pl-1 md:basis-1/2  overflow-hidden cursor-pointer ">
+    <CarouselItem key={mogou.id} className="pl-1 md:basis-1/2  overflow-hidden cursor-pointer ">
+      <div className="">
         <Card className="h-52 md:h-64 border-x-neon-primary border-x-2 z-80 pb-4  hover:bg-phover overflow-hidden group transition-all">
           <CardContent className="flex w-full p-0">
-            <div className="side-a w-3/4 ps-4">
+            <div className="side-a w-2/3 ps-4">
               <div className="flex flex-col py-10 gap-6">
 
                 <div className="">
@@ -38,17 +36,19 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                 </div>
               </div>
             </div>
-            <div className="max-w-1/4 side-b h-full w-1/4">
+            <div className="max-w-1/3 side-b h-full ">
               <div className="max-sw-fit overflow-hidden">
-                <LazyLoadImage src={mogou?.cover} alt={mogou?.title || 'Image'} className="scale-[1.1]
-                  w-full h-full
-                  object-cover z-40 transform rotate-[10deg]  group-hover:h-full group-hover:rotate-0 group-hover:scale-[1] transition-all" />
-               
+                <img
+                  src={mogou?.cover}
+                  alt="hero"
+                  className="scale-[1.2] object-cover z-40 transform rotate-[20deg]  group-hover:h-full group-hover:rotate-0 group-hover:scale-[1] transition-all"
+                />
               </div>
             </div>
 
           </CardContent>
         </Card>
+      </div>
     </CarouselItem>
   )
 }

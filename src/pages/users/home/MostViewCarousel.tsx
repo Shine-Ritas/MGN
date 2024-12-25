@@ -20,10 +20,10 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
     return (
         <section aria-label={title} className="view-carousel">
             <Card className="border-none bg-background">
-                <CardContent>
+                <CardContent className='md:px-0'>
                     <Carousel className="min-w-full">
                         <div className="flex justify-between">
-                            <h2 className="text-2xl font-bold">{title}</h2>
+                            <h2 className="text-xl md:text-2xl font-bold">{title}</h2>
                             <div className="relative">
                                 <CarouselPrevious
                                 aria-label="Previous"

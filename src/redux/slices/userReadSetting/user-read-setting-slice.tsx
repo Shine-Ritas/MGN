@@ -22,7 +22,7 @@ const getRotationKey = (collection: Record<string, any>, current: any) => {
   );
   return keys[(currentIndex + 1) % keys.length];
 };
-
+  
 const persistedState = loadFromLocalStorage(
   "userReadSetting",
   initialState
@@ -67,6 +67,7 @@ export const userReadSettingSlice = createSlice({
     },
     setCurrentPage: (state, { payload }: PayloadAction<{ action: string; index?: number }>) => {
       const { action, index } = payload;
+    
       const { max } = readingStyleClasses(state.readingStyle.value);
       const totalPages = state.totalPages || 0;
 

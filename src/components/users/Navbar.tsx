@@ -1,4 +1,4 @@
-import { CircleUser, Menu } from "lucide-react"
+import { CircleUser, Menu, Search } from "lucide-react"
 import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
@@ -19,6 +19,7 @@ import AlertBox from "../ui/AlertBox";
 import { isSubscriptionExpired } from "@/utilities/util";
 import { selectHeaderVisible } from "@/redux/slices/userReadSetting/selectors";
 import { toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { Input } from "../ui/input";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -69,11 +70,24 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
             </Sheet>
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
-                <div className="ml-auto sm:flex-initial">
+                <div className="ml-auto flex gap-4   sm:flex-initial">
+                    {
+                        !isMobile && (
+                            <div className="relative">
+                                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                                <Input
+                                    type="text"
+                                    placeholder="Search..."
+                                    className="pl-8 hidden md:block md:w-80 transition-all"
+                                />
+                            </div>
+                        )
+                    }
                     <div className="flex items-center gap-3">
-                        <Label 
-                        aria-label="Safe Content"
-                        className="text-muted-foreground">Safe Content</Label>
+                        <Label
+                            aria-label="Safe Content"
+                            className="text-muted-foreground
+                            whitespace-nowrap">Safe Content</Label>
                         <Switch
                             aria-label="Safe Content"
                             checked={safeContent}
@@ -84,12 +98,12 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                 {
                     authUser && (
                         <div className="">
-                    <Badge variant={subscriptionStatus?.variant} >
-                        {
-                            subscriptionStatus?.message
-                        }
-                    </Badge>
-                </div>
+                            <Badge variant={subscriptionStatus?.variant} >
+                                {
+                                    subscriptionStatus?.message
+                                }
+                            </Badge>
+                        </div>
                     )
                 }
                 <DropdownMenu>
@@ -103,17 +117,17 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         authUser ? (<DropdownMenuContent align="end" className="z-[999]">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem   className="w-full">
+                            <DropdownMenuItem className="w-full">
                                 <Link className="w-full" to={userRouteCollection.user_profile}>Profile</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>Settings</DropdownMenuItem>
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="font-bold w-full"   asChild>
+                            <DropdownMenuItem className="font-bold w-full" asChild>
                                 <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
                                     btnText={<>Logout</>} />
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
                         ) : (<DropdownMenuContent className="z-[300]" align="end">
                             <DropdownMenuItem>
                                 <a href="/login" >Login</a>

@@ -3,7 +3,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const AdsBanner = ({ banner }: { banner: Banner }) => {
   return (
-    <div className="w-full lg:p-4 border-2">
+    <div className="w-full lg:p-4 border-2 ">
       <a
         href={banner?.redirect_url}
         target="_blank"

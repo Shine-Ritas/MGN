@@ -4,6 +4,8 @@ import useQuery from '@/hooks/useQuery'
 import BotInfoCard from './bot-info-card'
 import ChannelList from './channel-list'
 import PostHistory from './post-history'
+import { eventEmitter } from '@/utilities/event-emitter'
+import Goback from '@/components/goback-btn'
 
 const pulseAnimation = `
   @keyframes pulse {
@@ -21,15 +23,26 @@ const posts = [
 
 const BotDetail = ()=>{
   const { id } = useParams<{ id: string }>();
-  const { data,isLoading} = useQuery(`admin/bot-publisher/${id}/detail`);
+  const { data,isLoading,refetch} = useQuery(`admin/bot-publisher/${id}/detail`);
 
   if(isLoading){
     return <div>Loading...</div>
   }
 
+  eventEmitter.on("channelListUpdated", () => {
+    refetch?.()
+  })
+
 
   return (
     <>
+      <div className="flex items-center gap-4 mt-4 mb-3">
+                <Goback to={-1} />
+                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                    Bot Detail
+                </h1>
+            </div>
+
       <style>{pulseAnimation}</style>
       <div className="py-4 space-y-8">
         <div className="grid md:grid-cols-2 gap-8">
