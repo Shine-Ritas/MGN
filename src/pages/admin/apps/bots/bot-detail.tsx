@@ -46,8 +46,8 @@ const BotDetail = ()=>{
       <style>{pulseAnimation}</style>
       <div className="py-4 space-y-8">
         <div className="grid md:grid-cols-2 gap-8">
-          <BotInfoCard bot={data?.bots} />
-          <ChannelList bot={data?.bots}/>
+          {!isLoading && <BotInfoCard bot={data?.bots}/>}
+          {!isLoading && <ChannelList bot={data?.bots}/>}
         </div>
         <PostHistory posts={posts}/>
       </div>

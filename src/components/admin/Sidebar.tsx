@@ -32,7 +32,6 @@ const SidebarRaw = () => {
               Icon={IoLogOutSharp}
               to="#"
               tooltip="logout"
-              onClick={logout}
             />
           }
         />
