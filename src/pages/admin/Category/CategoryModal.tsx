@@ -20,6 +20,7 @@ import InputError from "@/components/ui/input-error"
 import useServerValidation from "@/hooks/useServerValidation"
 import { useAppDispatch } from "@/redux/hooks"
 import { addCategories } from "@/redux/slices/category-slice"
+import { toast } from "@/components/ui/use-toast"
 
 
 type CategoryModalProps = {
@@ -27,9 +28,10 @@ type CategoryModalProps = {
   setInitCategory: (category: Category | undefined) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
+  refetch?: () => void;
 };
 
-export function CategoryModal({ initCategory, setInitCategory, open, setOpen }: CategoryModalProps) {
+export function CategoryModal({ initCategory, setInitCategory, open, setOpen,refetch }: CategoryModalProps) {
 
   const category = initCategory;
 
@@ -51,6 +53,12 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen }: 
     setOpen(false);
     dispatch({type: "categories/add", payload: response.data});
     dispatch(addCategories(response.data));
+    refetch && refetch();
+    toast({
+      title: "Category",
+      description: `Category ${isCreate ? "created" : "updated"} successfully`,
+      variant: "success"
+    })
   }
 
 
@@ -65,7 +73,7 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen }: 
     }
   }
 
-  return ( 
+  return( 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="md" className="py-4 gap-1"  >

@@ -10,6 +10,7 @@ const BotInfoCard = ({ bot }) => {
   const toggleTokenVisibility = () => setShowToken(!showToken)
 
   const { openDeleteAlert } = useDeleteAlert();
+  console.log(openDeleteAlert)
 
   return (
     <Card>

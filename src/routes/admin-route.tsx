@@ -18,7 +18,7 @@ const ComicIndex = lazy(() => import('../pages/admin/Comics/Index.tsx'));
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout.tsx'));
 const NewChapter = lazy(() => import('@/pages/admin/CreateChapter/new-chapter.tsx'));
 const EditChapter = lazy(() => import('@/pages/admin/CreateChapter/edit-chapter.tsx'));
-const Reportpage = lazy(() => import('@/pages/admin/Report/reportIndex.tsx'));
+const Reportpage = lazy(() => import('@/pages/admin/Report/report-index.tsx'));
 const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
 

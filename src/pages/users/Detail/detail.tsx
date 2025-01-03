@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
-import { clearOutUserReadSetting, setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import readingStyleClasses from "@/utilities/read-helper";
 import { PageProgressBar } from "./page-progress";
 import ImageContainer from "./image-container";

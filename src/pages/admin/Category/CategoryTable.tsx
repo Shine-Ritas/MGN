@@ -65,7 +65,7 @@ const CategoryTable = () => {
                 <div className="flex items-center w-full md:w-fit gap-4">
 
                     <InputSearch placeholder="Search" value={search} onAction={submitSearch} ref={searchRef} />
-                    <CategoryModal open={modalOpen} setOpen={setModalOpen} setInitCategory={setCategory} initCategory={category} />
+                    <CategoryModal open={modalOpen} setOpen={setModalOpen} setInitCategory={setCategory} initCategory={category} refetch={refetch} />
                 </div>
             </CardHeader>
             <CardContent className="pb-0">

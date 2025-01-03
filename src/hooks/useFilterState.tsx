@@ -38,6 +38,20 @@ const getParamsFromUrl = (initialState: Record<string, any>) => {
     return { ...initialState, ...paramsFromUrl };
 };
 
+/**
+ * Custom hook to manage filter state with URL synchronization and debouncing.
+ *
+ * @param {Record<string, any>} initialState - The initial state of the filters.
+ * @param {string[]} [changeOnReset=[]] - Keys that should reset to their initial state when any other key changes.
+ * @param {number} [debounceDelay=300] - Delay in milliseconds for debouncing filter changes.
+ * 
+ * @returns {Object} - An object containing:
+ *   - `bunUrl` {string} - The URL query string representing the current filter state.
+ *   - `handleChange` {(key: string, value: any) => void} - Function to update a filter parameter.
+ *   - `resetFilters` {() => void} - Function to reset all filters to their initial state.
+ *   - `getByKey` {(key: string) => any} - Function to get the value of a filter parameter by key.
+ *   - `filterParams` {Record<string, any>} - The current filter parameters.
+ */
 const useFilterState = (initialState: Record<string, any>, changeOnReset: string[] = [], debounceDelay = 300) => {
     // Set initial state from URL or fallback to default initialState
     const [filterParams, setFilterParams] = useState(getParamsFromUrl(initialState));

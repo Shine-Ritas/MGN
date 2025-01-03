@@ -40,7 +40,8 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ shape = "circle", size = "md", 
                 </AvatarFallback>
                </>
             ) : (
-                <AvatarFallback className="text-xl font-semibold bg-transparent ">
+                <AvatarFallback className={`text-xl font-semibold bg-transparent ${["#fff","#ffffff"].includes(user?.background_color || "")
+                 ? "text-black" : "text-white"}`}>
                     {user?.name?.charAt(0) || "?"}
                 </AvatarFallback>
             )}

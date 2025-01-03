@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback } from "react";
 import { ArrowRightIcon, Layers2, PanelLeftOpen, PanelRightOpen, SendToBack, ImageMinus, RotateCwSquare, GalleryThumbnails, Rainbow, EyeOff, Minus, LucideSettings } from "lucide-react";

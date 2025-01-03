@@ -1,5 +1,4 @@
 import { ReadingStyleType, HeaderVisibleType, ReadingDirectionType, ImageFitType, UserReadSetting, ProgressBarType } from "./types";
-import { toggleValue } from "./user-read-setting-slice";
 
 export const ReadingDirectionData: Record<string, ReadingDirectionType> = {
     LTR: {
