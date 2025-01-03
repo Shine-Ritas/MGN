@@ -1,4 +1,4 @@
-import { prefixRoutes } from "../helper";
+import { prefixRoutes } from "@/utilities/util";
 import { AppRouteCollectionInterface } from "./route";
 
 

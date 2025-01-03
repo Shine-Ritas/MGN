@@ -1,5 +1,5 @@
 
-import { prefixRoutes } from "@/routes/helper";
+import { prefixRoutes } from "@/utilities/util";
 import { AppRouteCollectionInterface } from "./route";
 
 
@@ -13,6 +13,7 @@ const adminRoutes: AppRouteCollectionInterface = {
   chapterIndex: "/mogou/:slug/chapters",
 
   createChapter: "/mogou/:slug/chapters/create",
+  editChapter: "/mogou/:slug/chapters/edit/:id",
 
   categories: "/categories",
 
@@ -28,12 +29,15 @@ const adminRoutes: AppRouteCollectionInterface = {
 
   apps: "/apps",
   addBot: '/apps/add-bot',
+  showBot: '/apps/show-bot/:id',
+  botList: '/apps/:app/bots/list',
 
   setting: "/setting",
   sectionManagement: "/setting/sectionManagment",
   generalSetting: "/setting/general",
   generalBanner: "/setting/banner",
   generalUserAvatars: "/setting/user-avatars",
+  generalPrefixUpload: "/setting/prefix-upload",
 
 };
 

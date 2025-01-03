@@ -120,6 +120,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
     }
     );
 
+
     !isEdit ? await mutate("admin/mogous", formData) : await mutate(`admin/mogous/${slug}`, formData) as any;
   };
 

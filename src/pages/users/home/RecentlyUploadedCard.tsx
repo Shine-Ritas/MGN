@@ -3,9 +3,73 @@ import { RecentlyUploadedMogou } from './types'
 import { MatureContentTag } from '@/components/ui/maturecontenttag'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from 'react-router-dom';
+import { Lock } from 'lucide-react';
+
 type RecentlyUploadedCardProps = {
-    mogou: RecentlyUploadedMogou
+    mogou: RecentlyUploadedMogou,
+    userCanReadAll: boolean
 }
+
+const RecentlyUploadedCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
+
+
+    return (
+        <div 
+            className='pl-1 overflow-hidden  rounded-lg bg-secondary'>
+            <div className='flex h-full' >
+                <Link 
+                aria-label={mogou?.title}
+                to={`/show/${mogou?.slug}`} className="img w-32 md:w-40 cursor-pointer relative">
+                    <LazyLoadImage src={mogou?.cover}
+                        className="w-full h-52 md:h-60 object-cover"
+                        alt={mogou?.title || 'Image'}
+                    />
+                    <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
+                </Link>
+                <div className="bg-secondary/50 h-full flex pt-5 items-start rounded-b-sm w-2/3 flex-col ps-4">
+                    <span className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</span>
+                    <span className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</span>
+
+                    <div className="flex flex-col w-full gap-3 mt-4">
+
+                        {
+                            mogou?.sub_mogous?.map((sub_mogou, index) => {
+
+                                return (
+                                    <div className="relative lg:w-[90%] overflow-hidden  " key={index}>
+                                        {isNewChapter(sub_mogou.created_at)}
+                                        <Button 
+                                        disabled={sub_mogou.subscription_only && !userCanReadAll}
+                                        className={`flex gap-2 justify-start items-center w-full me-4 disabled:cursor-not-allowed`}>
+                                            {
+                                                isSubscriptionNeedChapter(sub_mogou.subscription_only, userCanReadAll)
+                                            }
+                                            <p className="text-xs xl:text-sm text-white">{sub_mogou.title}</p>
+                                        </Button>
+                                    </div>
+                                );
+                            })
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
+const isSubscriptionNeedChapter = (subscription_only: boolean, userCanReadAll: boolean) => {
+    if (subscription_only && !userCanReadAll) {
+        return (
+            <Lock className="w-3 h-3 mr-1" />
+        );
+    }
+    return null;
+}
+
+
 
 function isNewChapter(date: string | number | Date) {
     const isNew = new Date(date) >= new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
@@ -20,46 +84,5 @@ function isNewChapter(date: string | number | Date) {
     return null;
 }
 
-const RecentlyUploadedCard = ({ mogou }: RecentlyUploadedCardProps) => {
-    return (
-        <Link
-            to={`/show/${mogou?.slug}`}
-            className='pl-1 overflow-hidden cursor-pointer rounded-lg bg-secondary'>
-            <div className='flex h-full' >
-                <div className="img w-32 md:w-40 relative">
-                    <LazyLoadImage src={mogou?.cover}
-                        className="w-full h-52 md:h-60 object-cover"
-                        alt="Image Alt"
-                    />
-                    <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
-                </div>
-                <div className="bg-secondary/50 h-full flex pt-5 items-start rounded-b-sm w-2/3 flex-col ps-4">
-                    <h1 className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</h1>
-                    <h1 className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</h1>
-
-                    <div className="flex flex-col w-full gap-3 mt-4">
-
-                        {
-                            mogou?.sub_mogous?.map((sub_mogou, index) => {
-
-                                return (
-                                    <div className="relative lg:w-[90%] overflow-hidden  " key={index}>
-                                        {isNewChapter(sub_mogou.created_at)}
-                                        <Button className='flex gap-2 justify-start items-center bg-primary w-full me-4'>
-                                            <p className="text-xs xl:text-sm text-white">{sub_mogou.title}</p>
-                                        </Button>
-                                    </div>
-                                );
-                            })
-                        }
-
-                    </div>
-
-                </div>
-            </div>
-
-        </Link>
-    )
-}
 
 export default RecentlyUploadedCard

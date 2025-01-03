@@ -9,5 +9,7 @@ export interface FormInputProps {
     register: any;
     divClassName?: string;
     disabled?: boolean;
+    labelClassName?: string;
+    inputClassName?: string; 
   }
   

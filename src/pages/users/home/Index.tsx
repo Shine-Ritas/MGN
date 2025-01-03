@@ -8,13 +8,14 @@ import { useUserAppSelector } from "@/redux/hooks"
 import { selectBanners, selectIsSubscription } from "@/redux/slices/user-global"
 import AdsBanner from "./banners/adsBanner"
 import ViewCarousel from "./MostViewCarousel"
+import SEO from "@/pages/seo"
 
 const HomePage = () => {
 
   const isSubscribed = useUserAppSelector(selectIsSubscription);
+  console.log(isSubscribed);
   const banners = useUserAppSelector(selectBanners);
 
-  console.log(isSubscribed);
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
@@ -23,8 +24,15 @@ const HomePage = () => {
   },[]);
 
   return (
-    <main className="w-full flex flex-col gap-12 px-4 md:px-24">
-      <div className="w-full flex justify-center ">
+
+    <main className="w-full flex flex-col gap-12 md:px-24">
+      <SEO 
+      title="Home" 
+      description={"Read your favorite manga/manhwa online. Hundreds of high-quality free manga/manhwa for you, with a list being updated daily."} 
+      name="Home"
+      type="Manga/Manwa" />
+
+      <div className="w-full flex justify-center pt-8">
         <HeroCarousel />
       </div>
 
@@ -44,10 +52,12 @@ const HomePage = () => {
         <RecentlyUploaded />
       </div>
 
+      <Separator className="w-full h-1 bg-primary" />
+
+
       <div className="w-full">
         <ViewCarousel title="Most Viewed" url="most-viewed" />
       </div>
-
 
       <div className="w-full">
           {
@@ -58,6 +68,7 @@ const HomePage = () => {
        {/* go to top */}
         <div className="fixed bottom-4 right-4">
           <Button
+          aria-label="Scroll to top"
           onClick={scrollToTop}
           className="bg-primary text-white rounded-full p-2">
             <svg

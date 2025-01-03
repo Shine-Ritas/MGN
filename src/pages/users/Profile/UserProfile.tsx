@@ -4,8 +4,8 @@ import { BookOpen, Mail, CreditCard, UserRoundCog } from "lucide-react"
 import useQuery from "@/hooks/useQuery"
 import { UserSubscriptionHistoryType } from "@/pages/admin/Users/UserDetail"
 import UserSubscriptionHistory from "@/pages/admin/Users/UserSubscriptionHistory"
-import { useUserAppSelector } from "@/redux/hooks"
-import { selectAuthUser } from "@/redux/slices/user-global"
+import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks"
+import { selectAuthUser, setUser } from "@/redux/slices/user-global"
 import MogouFavoriteCard from "@/components/ui/mogou-card/MogouFavoriteCard"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import UserAvatar from "@/components/users/UserAvatar"
@@ -19,10 +19,12 @@ export default function UserProfile() {
   const { data, isLoading } = useQuery(`/users/profile`, undefined, true);
 
   const storedUser = useUserAppSelector(selectAuthUser);
+  const dispatch = useUserAppDispatch();
 
   if (isLoading) {
     return <div>Loading...</div>
   }
+  data.user && dispatch(setUser(data?.user));
 
   return (
     <div className="container mx-auto px-4 ">

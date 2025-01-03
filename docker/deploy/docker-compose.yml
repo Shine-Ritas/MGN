@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../../ # Path to the frontend directory
+      dockerfile: Dockerfile
+      target: production-stage
+    ports:
+      - "3000:80" # Maps port 80 in the container to port 3000 on the host
+    volumes:
+      - ../../:/usr/src # Mounts the local directory to the container for live updates
+    environment:
+      - NODE_ENV=local
+      - VITE_API_URL_PREFIX=${VITE_API_URL_PREFIX}
+      - VITE_SECURE_KEY=${VITE_SECURE_KEY}

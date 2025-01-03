@@ -1,41 +1,39 @@
-"use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 
-import ChapterVisual from "./ChapterVisual"
-import ChapterContent from "./ChapterContent"
 import useMutate from "@/hooks/useMutate"
-import { createCard1Validation, createCard1ValidationType } from "./createChapterValidation"
+import { createCard1Validation, createCard1ValidationType } from "./chapter-validation"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import useServerValidation from "@/hooks/useServerValidation"
 import FormInput from "@/components/ui/custom/FormInput"
 import FormTextBox from "@/components/ui/custom/FormTextBox"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "@/components/ui/use-toast"
 import Goback from "@/components/goback-btn"
-
-
-// return type of createCard1Validation
+import useQuery from "@/hooks/useQuery"
 
 export type NewChapterInfo = {
-  id: number | null;
+  id: number | null | string;
   title: string;
   slug: string;
   description: string;
-  chapter_number: null;
+  chapterNumber: null;
   thirdPartyUrl: string;
   isSubscriptionOnly: boolean;
+  thirdPartyRedirect: boolean;
+  mogou_slug : string
 }
 
 export default function NewChapter() {
 
   const { slug:mogou_slug } = useParams<{ slug: string }>();
+  const {data,isLoading:isL} = useQuery(`admin/sub-mogous/get-latest-chapter/${mogou_slug}`)
 
   const [isCard1Submitted, setIsCard1Submitted] = useState(false)
   const [chapterInfo, setChapterInfo] = useState<NewChapterInfo>({
@@ -43,13 +41,17 @@ export default function NewChapter() {
     title: "",
     slug: "",
     description: "",
-    chapter_number: null,
+    chapterNumber: null,
+    thirdPartyRedirect: false,
     thirdPartyUrl: "",
     isSubscriptionOnly: false,
+    mogou_slug : mogou_slug!
   })
 
-  const handleSwitchChange = (checked: boolean) => {
-    setChapterInfo((prev) => ({ ...prev, isSubscriptionOnly: checked }))
+  const navigate = useNavigate();
+
+  const handleSwitchChange = (key : string, checked: boolean) => {
+    setChapterInfo((prev) => ({ ...prev, [key]: checked }))
   }
 
   const {
@@ -62,6 +64,13 @@ export default function NewChapter() {
     resolver: yupResolver(createCard1Validation)
   });
 
+  useEffect(() => {
+    if(!isL){
+      setValue("chapter_number", data?.chapter_number + 1)
+    }
+  },
+  [data, isL, setValue])
+
   const { handleServerErrors } = useServerValidation();
 
   const createOnSuccess = (response: any) => {
@@ -72,6 +81,8 @@ export default function NewChapter() {
     })
     setIsCard1Submitted(true);
     setChapterInfo((prev) => ({ ...prev, id: response.sub_mogou.id, slug: response.sub_mogou.slug }))
+    navigate(`/admin/mogou/${mogou_slug}/chapters/edit/${response.sub_mogou.id}`, { replace: true })
+    
   }
 
   const [createChapter, { isLoading }] = useMutate({ callback: createOnSuccess, navigateBack: false });
@@ -80,7 +91,9 @@ export default function NewChapter() {
     const formData = {
       ...data,
       mogou_slug: mogou_slug,
-      subscription_only: chapterInfo.isSubscriptionOnly
+      subscription_only: chapterInfo.isSubscriptionOnly,
+      third_party_redirect: chapterInfo.thirdPartyRedirect,
+      chapter_number: data.chapter_number
     }
     const response = await createChapter("admin/sub-mogous/new-draft", formData) as any;
     if (response && response.error) {
@@ -152,15 +165,30 @@ export default function NewChapter() {
                 register={register("third_party_url")} />
 
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isSubscriptionOnly"
-                checked={chapterInfo.isSubscriptionOnly}
-                disabled={isLoading || isCard1Submitted}
-                onCheckedChange={handleSwitchChange}
-              />
-              <Label htmlFor="isSubscriptionOnly">Subscription Only</Label>
-            </div>
+
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex items-center space-x-2">
+                <Switch
+                  id="isSubscriptionOnly"
+                  checked={chapterInfo.isSubscriptionOnly}
+                  disabled={isLoading || isCard1Submitted}
+                  onCheckedChange={(checked) => handleSwitchChange("isSubscriptionOnly", checked)}
+                />
+                <Label htmlFor="isSubscriptionOnly">Subscription Only</Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="ThirdPartyRedirect"
+                  checked={chapterInfo.thirdPartyRedirect}
+                  disabled={isLoading || isCard1Submitted}
+                  onCheckedChange={(checked) => handleSwitchChange("thirdPartyRedirect", checked)}
+                />
+                <Label htmlFor="ThirdPartyRedirect">Third Party Redirect</Label>
+              </div>
+              </div>
+
+
             <CardFooter className="px-0">
               <Button 
               disabled={isLoading || isCard1Submitted}
@@ -169,19 +197,7 @@ export default function NewChapter() {
           </form>
         </CardContent>
       </Card>
-
-      {/* Cards 2 & 3: Visuals and Content Upload */}
-      <div className="grid md:grid-cols-2 gap-4 relative">
-        {/* Card 2: Chapter Visuals */}
-        <ChapterVisual
-        chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
-
-        {/* Card 3: Chapter Content */}
-        <ChapterContent
-        chapterInfo={chapterInfo}
-        isCard1Submitted={isCard1Submitted} />
-      </div>
+   
     </div>
   )
 }

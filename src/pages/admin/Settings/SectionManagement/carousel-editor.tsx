@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 
-import FindMogouSection from './FindMogou'
+import FindMogouSection from './find-mogou'
 import { MogousType } from '../../Comics/type'
 import useMutate from '@/hooks/useMutate'
 import useQuery from '@/hooks/useQuery'

@@ -29,9 +29,13 @@ export interface Category {
 }
 
 export interface SubMogousType {
-    id: number;
-    title: string;
-    created_at: string;
+    id:number,
+    title:string,
+    chapter_number:number,
+    created_at:string,
+    subscription_only: boolean,
+    third_party_redirect: boolean,
+    third_party_url?: string,
 }
 
 export type MostViewMogou = Pick<MogousElement, "id" | "title" |"slug" | "cover" | "status_name" | "mogou_type_name" | "finish_status_name" | "categories" | "sub_mogous" | "legal_age">;

@@ -5,13 +5,13 @@ import { Provider } from 'react-redux';
 import UserGuestLayout from "@/pages/users/Auth/UserGuestLayout";
 import { userStore } from '@/redux/stores/userStore';
 import { userRouteCollection } from './data/user_route';
-import UserLayout from '@/layouts/UserLayout';
 const UserLogin = lazy(() => import('@/pages/users/Auth/Login.tsx'));
 const ContactUs = lazy(() => import('@/pages/users/Auth/ContactUs.tsx'));
 const Login = lazy(() => import('@/pages/admin/Login/Login.tsx'));
 const HomePage = lazy(() => import('@/pages/users/home/Index.tsx'));
 const Show = lazy(() => import('@/pages/users/Show/Show.tsx'));
 const DetailPage = lazy(() => import('@/pages/users/Detail/detail.tsx'));
+const UserLayout = lazy(() => import('@/layouts/UserLayout.tsx'));
 
 const adminGuestRoutes: AppRouteInterface[] = [
     {

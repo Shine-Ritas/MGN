@@ -1,90 +1,189 @@
 import { Button } from "@/components/ui/button";
-import {
-     Sheet,
-     SheetDescription,
-     SheetHeader,
-     SheetTitle,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Separator } from "@radix-ui/react-separator";
+import { memo, useCallback } from "react";
+import { ArrowRightIcon, Layers2, PanelLeftOpen, PanelRightOpen, SendToBack, ImageMinus, RotateCwSquare, GalleryThumbnails, Rainbow, EyeOff, Minus, LucideSettings } from "lucide-react";
+
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-import {
 
-     selectUserReadSetting,
-     toggleHeaderVisible,
-     toggleReadingDirection,
-     toggleReadPageStyle,
-   } from "@/redux/slices/user-read-setting";
-import { Layers2, PanelLeftOpen, PanelRightOpen, SendToBack } from "lucide-react";
-import {memo, useCallback} from "react";
+import { MemorizedIndexerButton } from "./drawer-button";
+import { setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
+import MemoizedSettingButton from "./setting-button";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
 
-const iconMap  : Record<string, any>= {
-     Layers2: Layers2,
-     PanelLeftOpen: PanelLeftOpen,
-     PanelRightOpen: PanelRightOpen,
-     SendToBack: SendToBack,
+export const iconMap = {
+    Layers2,
+    PanelLeftOpen,
+    PanelRightOpen,
+    SendToBack,
+    ImageMinus,
+    RotateCwSquare,
+    GalleryThumbnails,
+    Rainbow,
+    EyeOff,
+    Minus,
+    LucideSettings
 };
 
 
-// Memoized button component
-const MemoizedSettingButton = memo(
-     ({ onClick, label, iconName }: { onClick: () => void; label: string; iconName: string }) => {
-          const IconComponent = iconMap[iconName] 
-          return (
-               <Button onClick={onClick} variant="outline" size="sm" className="w-full flex justify-between items-center py-6 px-4 text-sm bg-secondary">
-                    <span>{label}</span>
-                    <span>{IconComponent ? <IconComponent size={16} /> : null}</span>
-               </Button>
-          );
-     }
-);
+const MemoizedTitleSection = memo(({ onTogglePanel }: { onTogglePanel: () => void }) => {
+    return (
+        <SheetTitle>
+            <div className="h3 flex justify-between px-4">
+                <h3>Title</h3>
+                <Button
+                    variant="default"
+                    size="sm"
+                    onClick={onTogglePanel}
+                >
+                    <ArrowRightIcon size={16} />
+                </Button>
+            </div>
+        </SheetTitle>
+    );
+});
+
+const SheetContentBody = ({type, children}) => {
+
+    return (
+        <>
+            {type === "content" ? <SheetContent
+            className="z-[150]"
+            >{children}</SheetContent> : <SheetDescription
+            className="z-[150]"
+            >{children}</SheetDescription>}
+        </>
+    );
+}
+
 
 const DetailDrawer = () => {
-     const dispatch = useUserAppDispatch();
+    const dispatch = useUserAppDispatch();
+    const readSetting = useUserAppSelector(selectUserReadSetting);
+    const { isMobile } = useScreenDetector();
 
-    
-     const readSetting = useUserAppSelector(selectUserReadSetting);
+    const content = isMobile ? "content" : "description";
 
 
-     const containerWidth = readSetting.showPanel ? "w-1/4" : "w-0";
-     const containerStyle = `${containerWidth} bg-background h-screen fixed top-0 right-0 z-50`;
+    const handleSetPage = useCallback(
+        (action: "prefer" | "increase" | "decrease", value?: number) => {
+            dispatch(setCurrentPage({ action, index: value }));
+        },
+        [dispatch]
+    );
 
-     // Memoize event handlers
-     const handleToggleHeaderVisible = useCallback(() => dispatch(toggleHeaderVisible()), [dispatch]);
-     const handleToggleReadPageStyle = useCallback(() => dispatch(toggleReadPageStyle()), [dispatch]);
-     const handleToggleReadingDirection = useCallback(() => dispatch(toggleReadingDirection()), [dispatch]);
+    const handleTogglePanel = useCallback(() => {
+        dispatch(toggleValue("showPanel"));
+    }, [dispatch]);
 
-     return (
-          <div className={containerStyle}>
-               <Sheet>
+    const handleToggleHeaderVisible = useCallback(() => {
+        dispatch(toggleValue("headerVisible"));
+    }, [dispatch]);
+
+    const handleToggleReadingStyle = useCallback(() => {
+        dispatch(toggleValue("readingStyle"));
+    }, [dispatch]);
+
+    const handleToggleReadingDirection = useCallback(() => {
+        dispatch(toggleValue("readingDirection"));
+    }, [dispatch]);
+
+    const handleToggleImageFit = useCallback(() => {
+        dispatch(toggleValue("imageFit"));
+    }, [dispatch]);
+
+    const handleToggleProgressBar = useCallback(() => {
+        dispatch(toggleValue("progressBar"));
+    }, [dispatch]);
+
+    const handlePreferPage = useCallback((value) => {
+        handleSetPage("prefer", value);
+    }, [handleSetPage]);
+
+    const handleNextPage = useCallback(() => {
+        handleSetPage("increase");
+    }
+        , [handleSetPage]);
+
+    const handlePrevPage = useCallback(() => {
+        handleSetPage("decrease");
+    }, [handleSetPage]);
+
+    const handleSettingModal = useCallback(() => {
+        dispatch(toggleValue("modalBox"));
+    }, [dispatch]);
+
+
+    const containerStyle = `${readSetting.showPanel ? "w-1/5" : "w-0"} bg-background h-screen fixed top-0 right-0 `;
+
+    return (
+        <div className={containerStyle}>
+            <Sheet
+                onOpenChange={handleTogglePanel}
+                open={readSetting.showPanel}>
+
+                <SheetContentBody type={content}>
                     <SheetHeader className="px-4 py-6">
-                         <SheetTitle>
-                              <div className="h3 flex justify-between px-4">
-                                   <h3>Title</h3>
-                                   <div>Go back</div>
-                              </div>
-                         </SheetTitle>
-                         <SheetDescription>
-                              <div className="flex flex-col gap-4 px-4 text-white">
-                                   <MemoizedSettingButton
-                                        onClick={handleToggleHeaderVisible}
-                                        label={readSetting.headerVisible.label}
-                                        iconName={readSetting.headerVisible.iconName || ""}
-                                   />
-                                   <MemoizedSettingButton
-                                        onClick={handleToggleReadPageStyle}
-                                        label={readSetting.readingStyle.label}
-                                        iconName={readSetting.readingStyle.iconName || ""}
-                                   />
-                                   <MemoizedSettingButton
-                                        onClick={handleToggleReadingDirection}
-                                        label={readSetting.readingDirection.label}
-                                        iconName={readSetting.readingDirection.iconName || ""}
-                                   />
-                              </div>
-                         </SheetDescription>
+                        <MemoizedTitleSection onTogglePanel={handleTogglePanel} />
                     </SheetHeader>
-               </Sheet>
-          </div>
-     );
+                    <SheetDescription>
+                        {/* Page Indexer */}
+                        <div className="flex flex-col gap-4 px-4 text-white pt-4">
+                            <MemorizedIndexerButton
+                                label="Pages"
+                                current={readSetting.currentPage}
+                                total={readSetting.totalPages}
+                                setSelectState={handlePreferPage}
+                                setPrevState={handlePrevPage}
+                                setNextState={handleNextPage}
+                            />
+                        </div>
+                        <Separator className="w-full h-1 bg-primary mt-8" />
+
+                        <div className="flex flex-col gap-4 px-4 text-white pt-4">
+                            <MemoizedSettingButton
+                                onClick={handleToggleHeaderVisible}
+                                label={readSetting.headerVisible.label}
+                                iconName={readSetting.headerVisible.iconName || ""}
+                            />
+                            <MemoizedSettingButton
+                                onClick={handleToggleReadingStyle}
+                                label={readSetting.readingStyle.label}
+                                iconName={readSetting.readingStyle.iconName || ""}
+                            />
+                            <MemoizedSettingButton
+                                onClick={handleToggleReadingDirection}
+                                label={readSetting.readingDirection.label}
+                                iconName={readSetting.readingDirection.iconName || ""}
+                            />
+                            <MemoizedSettingButton
+                                onClick={handleToggleImageFit}
+                                label={readSetting.imageFit.label}
+                                iconName={readSetting.imageFit.iconName || ""}
+                            />
+
+                            <MemoizedSettingButton
+                                onClick={handleToggleProgressBar}
+                                label={readSetting.progressBar.label}
+                                iconName={readSetting.progressBar.iconName || ""}
+
+                            />
+
+
+                            <MemoizedSettingButton
+                                onClick={handleSettingModal}
+                                label={"Advanced Setting"}
+                                iconName={"LucideSettings"}
+
+                            />
+                        </div>
+                    </SheetDescription>
+                </SheetContentBody>
+            </Sheet>
+        </div>
+    );
 };
 
-export default DetailDrawer
+
+export default DetailDrawer;

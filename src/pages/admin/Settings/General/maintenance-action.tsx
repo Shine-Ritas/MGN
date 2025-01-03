@@ -27,7 +27,7 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
   const [actviate,{isLoading}] = useMutate({callback:sucessCallback});
 
   const toggleMaintenanceMode = async () => {
-      await actviate("/application-configs", {user_side_is_maintenance_mode: !isMaintenanceMode}); 
+      await actviate("/admin/application-configs", {user_side_is_maintenance_mode: !isMaintenanceMode}); 
   }
 
   return (

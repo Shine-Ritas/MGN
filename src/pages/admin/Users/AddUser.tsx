@@ -28,7 +28,6 @@ import useMutate from '@/hooks/useMutate'
 import useServerValidation from '@/hooks/useServerValidation'
 import { toast } from '@/components/ui/use-toast'
 
-
 const AddUser = () => {
 
     const {
@@ -45,6 +44,7 @@ const AddUser = () => {
         toast({
             title: "User Created",
             description: `User has been created successfully`,
+            variant: "success"
         })
     }
 
@@ -138,7 +138,7 @@ const AddUser = () => {
                         <Card x-chunk="dashboard-07-chunk-3">
                             <CardHeader>
                                 <CardTitle className=''>
-                                    Users
+                                    Total Registered Users :
 
                                     <Badge variant="outline" className="ml-2 float-right">
                                         {
@@ -151,7 +151,6 @@ const AddUser = () => {
                             <CardContent>
                                 <div className="grid gap-6">
                                     <div className="grid gap-3">
-                                        {/* <Label htmlFor="tier">Tier</Label> */}
                                         <Select
                                             onValueChange={(value) => setValue("current_subscription_id", Number(value))}
                                         >
@@ -159,7 +158,7 @@ const AddUser = () => {
                                                 id="tier" aria-label="Select">
                                                 <SelectValue 
 
-                                                placeholder="Select One" />
+                                                placeholder="Chose Subscription Type" />
                                             </SelectTrigger>
                                             <SelectContent
                                             >

@@ -2,8 +2,8 @@ import { lazy, Suspense, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { GalleryVerticalEnd } from "lucide-react";
 
-const HeroCarouselConf = lazy(() => import('@/pages/admin/Settings/SectionManagement/HeroCarouselConf.tsx'));
-const HeroRecommandConf = lazy(() => import('@/pages/admin/Settings/SectionManagement/HeroRecommandConf.tsx'));
+const HeroCarouselConf = lazy(() => import('@/pages/admin/Settings/SectionManagement/hero-carousel-conf'));
+const HeroRecommandConf = lazy(() => import('@/pages/admin/Settings/SectionManagement/hero-recommend-conf'));
 
 const tabs = [
   {

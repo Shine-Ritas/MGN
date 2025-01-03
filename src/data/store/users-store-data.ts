@@ -4,7 +4,6 @@ import config from '@/config';
 
 const secretKey = config.secretKey;
 const ens_storage = new EncryptStorage(secretKey);
-
 const storedUser = JSON.parse(ens_storage.get('user')!) ?? null;
 const hasSubscription = storedUser?.subscription_end_date && new Date(storedUser.subscription_end_date) > new Date();
 

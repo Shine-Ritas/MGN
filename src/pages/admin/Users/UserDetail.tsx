@@ -9,7 +9,7 @@ import Goback from "@/components/goback-btn"
 import { SubscribedUser } from "./types"
 import { useEffect, useState } from "react"
 import UserDetailHistory from "./UserDetailHistory"
-import { eventEmitter } from "@/utilities/EventEmitter"
+import { eventEmitter } from "@/utilities/event-emitter"
 
 export type UserLoginHistoryType = {
   location: string

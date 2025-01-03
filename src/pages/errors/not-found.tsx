@@ -41,6 +41,10 @@ export default function NotFoundError() {
     }
   }, [isAdminAuth, isUserAuth, isOnAdminRoute]);
 
+  const windowGoBack = ()=>{
+    window.history.go(-1);
+  }
+
   return (
     <div className='h-svh'>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
@@ -52,7 +56,7 @@ export default function NotFoundError() {
         </p>
         <div className='mt-6 flex gap-4'>
           <Button onClick={() => navigate(redirectConfig.path)}>{redirectConfig.label}</Button>
-          <Button variant='outline' onClick={() => navigate(-1)}>
+          <Button variant='outline' onClick={windowGoBack}>
             Go Back
           </Button>
         </div>

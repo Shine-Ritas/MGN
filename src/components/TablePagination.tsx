@@ -19,6 +19,7 @@ interface TablePaginationInterface {
   setCurrentPage: (page: number) => void;
   isFetching?: boolean;
   paging?: boolean;
+  hideLabel?: boolean;
 }
 
 type OptionalTablePaginationInterface = Partial<TablePaginationInterface>;
@@ -30,6 +31,7 @@ export function TablePagination({
   setCurrentPage = () => {},
   isFetching = false,
   paging = true,
+  hideLabel = false
 }: OptionalTablePaginationInterface) {
   const [inputPage, setInputPage] = useState(currentPage);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -97,31 +99,34 @@ export function TablePagination({
     return pages;
   }, [paging, currentPage, lastPage, url, isFetching]);
 
+
   return (
     <Pagination>
       <PaginationContent>
-        {currentPage > 1 && (
+        {(
           <PaginationItem>
             <PaginationPrevious
               href={`${url}?page=${currentPage - 1}`}
               onClick={(e) => {
                 e.preventDefault();
-                handlePageChange(currentPage - 1);
+                (currentPage > 1 ) && handlePageChange(currentPage - 1);
               }}
-              className="cursor-pointer"
+              withLabel={!hideLabel}
+              className={`${(currentPage > 1) ? 'cursor-pointer' : 'cursor-not-allowed text-muted'}`}
             />
           </PaginationItem>
         )}
         {pageLinks}
-        {currentPage < lastPage && (
+        {(
           <PaginationItem>
             <PaginationNext
               href={`${url}?page=${currentPage + 1}`}
               onClick={(e) => {
                 e.preventDefault();
-                handlePageChange(currentPage + 1);
+                currentPage < lastPage && handlePageChange(currentPage + 1);
               }}
-              className="cursor-pointer"
+              withLabel={!hideLabel}
+              className={`${currentPage < lastPage ? 'cursor-pointer' : 'cursor-not-allowed text-muted'}`}
             />
           </PaginationItem>
         )}

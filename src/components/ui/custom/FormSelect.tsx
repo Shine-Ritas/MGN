@@ -1,59 +1,65 @@
+import * as React from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import InputError from "@/components/ui/input-error"
-import { useEffect, useState } from "react";
+} from "@/components/ui/select";
+import InputError from "@/components/ui/input-error";
+import { cn } from "@/utilities/util";
 
-interface FormSelectProps {
-  selectKey: string,
-  collection: any[],
-  setValue: any,
-  errors?: any,
-  defaultValue?: string
+export interface FormSelectProps
+  extends React.ComponentPropsWithoutRef<typeof Select> {
+  selectKey: string;
+  collection: { id: string | number; title: string }[];
+  setValue: any;
+  errors?: Record<string, any>;
+  className?: string;
+  defaultValue?: string;
 }
-const FormSelect = ({
-  selectKey,
-  collection,
-  setValue,
-  errors,
-  defaultValue
 
-}: FormSelectProps) => {
+const FormSelect = React.forwardRef<HTMLDivElement, FormSelectProps>(
+  (
+    { selectKey, collection, setValue, errors, defaultValue, className, ...props },
+    ref
+  ) => {
+    const [currentValue, setCurrentValue] = React.useState<string | undefined>(
+      defaultValue
+    );
 
-  const [currentValue, setCurrentValue] = useState<string | undefined>(defaultValue);
+    React.useEffect(() => {
+      setCurrentValue(defaultValue);
+      setValue(selectKey, defaultValue);
+    }, [defaultValue, selectKey, setValue]);
 
-  useEffect(() => {
-    setCurrentValue(defaultValue);
-    setValue(selectKey, defaultValue);
-  }
-    , [currentValue])
-
-  return (
-    <>
-      <Select onValueChange={(value) => setValue(selectKey, value)}
-        defaultValue={currentValue}
-
-      >
-        <SelectTrigger id={selectKey} aria-label="Select Progress" defaultValue={defaultValue}>
-          <SelectValue placeholder="Select Progress" />
-        </SelectTrigger>
-        <SelectContent>
-          {
-            collection.map((item) => (
+    return (
+      <div className={cn("space-y-2", className)} ref={ref}>
+        <Select
+          onValueChange={(value) => {
+            setValue(selectKey, value);
+            setCurrentValue(value);
+          }}
+          value={currentValue}
+          {...props}
+        >
+          <SelectTrigger id={selectKey} aria-label={`Select ${selectKey}`}>
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            {collection.map((item) => (
               <SelectItem key={item.id} value={`${item.id}`}>
                 {item.title}
               </SelectItem>
-            ))
-          }
-        </SelectContent>
-      </Select>
-      <InputError field={errors?.[selectKey!]} />
+            ))}
+          </SelectContent>
+        </Select>
+        {errors?.[selectKey] && <InputError field={errors[selectKey]} />}
+      </div>
+    );
+  }
+);
 
-    </>
-  )
-}
-export default FormSelect
+FormSelect.displayName = "FormSelect";
+
+export default FormSelect;

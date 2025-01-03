@@ -59,6 +59,7 @@ export default function Component() {
                 setCurrentPage={(page) => handleFilter("page", page)}
                 isFetching={isFetching}
                 paging={false}
+                hideLabel={true}
               />
             )}</div>
               <Button 

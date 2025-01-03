@@ -1,5 +1,5 @@
-import BotChannels from './botcreated'
-import CreateBot from './create-bot'
+import BotChannels from './bots/botcreated'
+import CreateBot from './bots/create-bot'
 
 const CreateBotComponent = () => {
   return (

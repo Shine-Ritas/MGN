@@ -4,7 +4,7 @@ export interface SelectCollectionType {
     title: string;
   }
   
-  export interface ComicType extends SelectCollectionType { }
+export interface ComicType extends SelectCollectionType { }
 export interface ComicProgress extends ComicType { }
 
 export const ComicType: ComicType[] = [

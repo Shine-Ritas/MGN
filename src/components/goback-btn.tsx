@@ -17,6 +17,7 @@ const GobackRaw = ({ to, label = "back", variant = "outline",size="default" }: G
         if (label === 'back') {
             return (
                 <Button 
+                aria-label="Go back"
                 type="button"
                 size={size}
                 variant={variant} onClick={() => navigate(to as string)}>
@@ -27,6 +28,7 @@ const GobackRaw = ({ to, label = "back", variant = "outline",size="default" }: G
         } else {
             return (
                 <Button type="button"
+                aria-label={label}
                 size={size}
                 variant="outline" onClick={() => navigate(to as string)} >
                     {label}

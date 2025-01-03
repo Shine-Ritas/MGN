@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { AlertCircle, Upload } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Avatar } from './UserAvatar'
+import { Avatar } from './user-avatar'
 
 interface AvatarManagementModalProps {
   onSubmit: (url: string, data: FormData) => Promise<void>
