@@ -129,8 +129,8 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                         ) : (<DropdownMenuContent className="z-[300]" align="end">
-                            <DropdownMenuItem>
-                                <a href="/login" >Login</a>
+                            <DropdownMenuItem >
+                                <a className="w-full" href="/login" >Login</a>
                             </DropdownMenuItem>
 
                         </DropdownMenuContent>)
