@@ -30,7 +30,7 @@ RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /etc/nginx && \
     chmod -R 755 /usr/share/nginx/html /var/cache/nginx /etc/nginx
 
 # Set the user to nginx for better security
-# USER nginx
+# USER nginx⁄
 
 # Expose port 80 to allow web traffic
 EXPOSE 80
