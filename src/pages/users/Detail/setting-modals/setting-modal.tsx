@@ -2,9 +2,10 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useUserAppDispatch } from '@/redux/hooks'
-import { toggleValue } from "./user-read-setting-slice";
+import { toggleValue } from "../../../../redux/slices/userReadSetting/user-read-setting-slice";
+import PageLayout from "./page-layout";
 
-export default function SettingsModal({isOpen,shortCuts}) {
+export default function SettingModal({isOpen,shortCuts}) {
     
     const dispatch = useUserAppDispatch();
 
@@ -12,7 +13,7 @@ export default function SettingsModal({isOpen,shortCuts}) {
     <Dialog open={isOpen} onOpenChange={()=>dispatch(toggleValue("modalBox"))}>
       <DialogContent
       autoFocus={false}
-      className="sm:max-w-[600px] bg-[#0F172A] border-slate-800">
+      className="sm:max-w-[600px] bg-[#0F172A] border-slate-800 z-[999]">
         <DialogHeader  className="flex flex-row items-center justify-between">
           <DialogTitle
           
@@ -43,7 +44,7 @@ export default function SettingsModal({isOpen,shortCuts}) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="layout" className="text-slate-300">
-            Page layout content goes here
+              <PageLayout />
           </TabsContent>
           <TabsContent value="image" className="text-slate-300">
             Image settings content goes here

@@ -25,7 +25,7 @@ const UserLayout = () => {
 
   const isMenuOpen = useUserAppSelector(selectReadSettingPanel);
   const dispatch = useUserAppDispatch();
-  const containerWidth = (!isMobile && isMenuOpen) ? 'w-4/5 ' : 'w-full';
+  const containerWidth = (!isMobile && isMenuOpen && isReadMode) ? 'w-4/5 ' : 'w-full';
 
   useEffect(() => {
     if (location.pathname.includes("read")) {

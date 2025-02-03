@@ -1,3 +1,1 @@
-export type AppRouteCollectionInterface = Record<string, string>;
-
-
+export type AppRouteCollectionInterface<T extends string = string> = Record<T, string>;

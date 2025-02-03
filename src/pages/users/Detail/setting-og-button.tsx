@@ -1,27 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { memo, useCallback, useState } from "react";
 import { iconMap } from "./detail-drawer";
-import { SettingActionKey } from "@/redux/slices/userReadSetting/constants";
-import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-import { selectSettingByKey, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+
 
 type SettingButtonProps = {
-    settingActionKey : SettingActionKey;
+    onClick: () => void;
+    label: string;
+    iconName: string;
 };
 
-const SettingButton = ({ settingActionKey }: SettingButtonProps) => {
+const SettingButton = ({ onClick, label, iconName }: SettingButtonProps) => {
         const [isDisabled, setIsDisabled] = useState(false);
-
-        const setting = useUserAppSelector((state) =>selectSettingByKey(state, settingActionKey) );
-
-        const IconComponent = iconMap[setting.iconName];
-        const dispatch = useUserAppDispatch();
+        const IconComponent = iconMap[iconName];
 
         const handleClick = useCallback(() => {
             setIsDisabled(true);
-            dispatch(toggleValue(settingActionKey));
+            onClick();
             setTimeout(() => setIsDisabled(false), 300);
-          }, [dispatch, settingActionKey]);
+        }, [onClick]);
 
         return (
             <Button
@@ -31,7 +27,7 @@ const SettingButton = ({ settingActionKey }: SettingButtonProps) => {
                 size="sm"
                 className="w-full flex justify-between items-center py-6 px-4 text-sm bg-secondary"
             >
-                <span>{setting.label}</span>
+                <span>{label}</span>
                 {IconComponent && <IconComponent size={16} />}
             </Button>
         );
@@ -51,7 +47,6 @@ const SameSettingButton = (
 };
 
 // Memoized component
-const MemoizedSettingButton = memo(SettingButton, SameSettingButton);
+const MemoizedSettingOgButton = memo(SettingButton, SameSettingButton);
 
-
-export default MemoizedSettingButton;
+export default MemoizedSettingOgButton;

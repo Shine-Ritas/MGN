@@ -64,3 +64,8 @@ export function prefixRoutes<T extends Record<string, any>>(prefix: string, rout
     return prefixedRoutes as T;
 }
 
+
+
+export const getRandomInterval = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min) * 60 * 1000; // Convert minutes to milliseconds
+  };

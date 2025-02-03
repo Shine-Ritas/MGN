@@ -1,4 +1,4 @@
-import { ReadingStyleType, HeaderVisibleType, ReadingDirectionType, ImageFitType, UserReadSetting, ProgressBarType } from "./types";
+import { ReadingStyleType, HeaderVisibleType, ReadingDirectionType, ImageFitType, UserReadSetting, ProgressBarType, BackgroundColorType } from "./types";
 
 export const ReadingDirectionData: Record<string, ReadingDirectionType> = {
     LTR: {
@@ -25,7 +25,7 @@ export const ProgressBarData : Record<string, ProgressBarType> = {
         iconName: "Minus",
     },
     LighterEffect:{
-        label: "Progress Lighter Effect",
+        label: "Light Effect",
         value: "lighter-effect",
         iconName: "Rainbow",
     }
@@ -35,17 +35,17 @@ export const ReadingStyleData: Record<string, ReadingStyleType> = {
     DoublePage: {
         label: "Double Page",
         value: "double-page",
-        iconName: "Layers2",
+        iconName: "BookOpen",
     },
     SinglePage: {
         label: "Single Page",
         value: "single-page",
-        iconName: "Layers2",
+        iconName: "Scroll",
     },
     LongStrip: {
         label: "Long Strip",
         value: "long-strip",
-        iconName: "Layers2",
+        iconName: "Scroll",
     },
 };
 
@@ -81,6 +81,24 @@ export const ImageFitData : Record<string, ImageFitType> = {
     }
 }
 
+export const BackgroundColorData : Record<string, BackgroundColorType> = {
+    Theme: {
+        label: "Theme",
+        value: "bg-slate-700",
+        iconName: "Palette",
+    },
+    White: {
+        label: "White",
+        value: "bg-white",
+        iconName: "Palette",
+    },
+    Black: {
+        label: "Black",
+        value: "bg-black",
+        iconName: "Palette",
+    },
+};
+
 
 // Initial state
 export const initialState  :UserReadSetting = {
@@ -95,4 +113,23 @@ export const initialState  :UserReadSetting = {
     readingDirection: ReadingDirectionData["LTR"],
     imageFit: ImageFitData["Contain"],
     progressBar: ProgressBarData["Bar"],
+    backgroundColor: BackgroundColorData["White"],
 };
+
+export const toggleActionCollection = {
+    readingStyle: ReadingStyleData,
+    readingDirection: ReadingDirectionData,
+    headerVisible: HeaderVisibleData,
+    imageFit: ImageFitData,
+    progressBar : ProgressBarData,
+    backgroundColor : BackgroundColorData,
+}
+
+export type ToggleActionCollectionType = typeof toggleActionCollection;
+
+export type SettingActionKey = keyof typeof toggleActionCollection;
+
+export const toggleActionCollectionKeys = Object.keys(toggleActionCollection).reduce((acc, key) => {
+    acc[key as SettingActionKey] = key;
+    return acc;
+}, {} as Record<SettingActionKey, string>);

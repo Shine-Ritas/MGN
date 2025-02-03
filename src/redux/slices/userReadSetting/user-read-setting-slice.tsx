@@ -1,8 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { initialState, ReadingStyleData, ReadingDirectionData, HeaderVisibleData, ImageFitData, ProgressBarData } from "./constants";
+import { initialState, toggleActionCollection, SettingActionKey } from "./constants";
 import { UserReadSetting } from "./types";
 import readingStyleClasses from "@/utilities/read-helper";
+import { filterForDevices } from "@/utilities/read-action";
 
 // Utility for persisting to localStorage
 const saveToLocalStorage = (key: string, value: any) => {
@@ -16,12 +17,21 @@ const loadFromLocalStorage = (key: string, fallback: any): any => {
 
 
 const getRotationKey = (collection: Record<string, any>, current: any) => {
+  // Get all keys from the collection
   const keys = Object.keys(collection);
-  const currentIndex = keys.indexOf(
-    Object.keys(collection).find((key) => collection[key].value === current.value)!
+
+  // Filter keys based on the device (mobile or desktop)
+  const validatedKeys = filterForDevices(keys);
+
+  // Find the current index in the validatedKeys array
+  const currentIndex = validatedKeys.indexOf(
+    validatedKeys.find((key) => collection[key].value === current.value)!
   );
-  return keys[(currentIndex + 1) % keys.length];
+
+  // Return the next key in a circular manner, using validatedKeys
+  return validatedKeys[(currentIndex + 1) % validatedKeys.length];
 };
+
   
 const persistedState = loadFromLocalStorage(
   "userReadSetting",
@@ -51,19 +61,18 @@ export const userReadSettingSlice = createSlice({
       return initialState;
     },
     toggleValue: (state, { payload: key }: PayloadAction<keyof UserReadSetting>) => {
-      const collection = {
-        readingStyle: ReadingStyleData,
-        readingDirection: ReadingDirectionData,
-        headerVisible: HeaderVisibleData,
-        imageFit: ImageFitData,
-        progressBar : ProgressBarData
-      }[key];
+      const collection = toggleActionCollection[key];
       if (collection) { 
         const nextKey = getRotationKey(collection, state[key]);
         updateStateAndPersist(state, key, collection[nextKey]);
       }else{
         updateStateAndPersist(state, key, !state[key]);
       }
+    },
+    setRotation: (state, { payload }: PayloadAction<{ key: SettingActionKey; value: keyof UserReadSetting }>) => {
+      const { key, value } = payload;
+      const collection = toggleActionCollection[key];
+      updateStateAndPersist(state, `${key}`, collection[value]);
     },
     setCurrentPage: (state, { payload }: PayloadAction<{ action: string; index?: number }>) => {
       const { action, index } = payload;
@@ -88,5 +97,7 @@ export const userReadSettingSlice = createSlice({
 });
 
 
-export const { setUserReadSetting, toggleValue, setCurrentPage, setField,clearOutUserReadSetting } = userReadSettingSlice.actions;
+export const selectSettingByKey = (state: any, key: SettingActionKey) =>state.userReadSetting[key];
+
+export const { setUserReadSetting, toggleValue, setCurrentPage,setRotation, setField,clearOutUserReadSetting } = userReadSettingSlice.actions;
 export default userReadSettingSlice.reducer;

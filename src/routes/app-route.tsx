@@ -10,6 +10,10 @@ import userGuestRoutes, { adminGuestRoutes } from "./guest-route.tsx";
 import { userAuthenticatedRoutes } from "./user-route.tsx";
 
 
+/* The `const AppRoute` function is defining the routing logic for the application using React Router.
+It first checks if the admin and user are authenticated using the `useAuth` hook. Based on the
+authentication status, it determines which routes to render for admin and user. It also includes
+common routes for handling 404 errors. */
 const AppRoute = () => {
 
   const adminIsAuthenticated = useAuth({ adminGuard: true });

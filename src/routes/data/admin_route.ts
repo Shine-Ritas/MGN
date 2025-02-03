@@ -2,9 +2,7 @@
 import { prefixRoutes } from "@/utilities/util";
 import { AppRouteCollectionInterface } from "./route";
 
-
-
-const adminRoutes: AppRouteCollectionInterface = {
+const adminRoutes = {
   dashboard: "/dashboard",
 
   mogous: "/mogous",
@@ -41,5 +39,8 @@ const adminRoutes: AppRouteCollectionInterface = {
 
 };
 
-export const adminRouteCollection = prefixRoutes('/admin', adminRoutes);
+const typedAdminRouteCollection: AppRouteCollectionInterface<keyof typeof adminRoutes> = adminRoutes;
+
+
+export const adminRouteCollection = prefixRoutes('/admin', typedAdminRouteCollection);
 

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback } from "react";
-import { ArrowRightIcon, Layers2, PanelLeftOpen, PanelRightOpen, SendToBack, ImageMinus, RotateCwSquare, GalleryThumbnails, Rainbow, EyeOff, Minus, LucideSettings } from "lucide-react";
+import { ArrowRightIcon,StickyNote, Layers2,Palette , BookOpen,PanelLeftOpen, PanelRightOpen, SendToBack, ImageMinus, RotateCwSquare, GalleryThumbnails, Rainbow, EyeOff,Scroll, Minus, LucideSettings } from "lucide-react";
 
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 
@@ -11,6 +11,8 @@ import { setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
 import MemoizedSettingButton from "./setting-button";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import { SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
+import MemoizedSettingOgButton from "./setting-og-button";
 
 export const iconMap = {
     Layers2,
@@ -23,7 +25,11 @@ export const iconMap = {
     Rainbow,
     EyeOff,
     Minus,
-    LucideSettings
+    LucideSettings,
+    Scroll,
+    StickyNote,
+    BookOpen ,
+    Palette
 };
 
 
@@ -62,9 +68,9 @@ const DetailDrawer = () => {
     const dispatch = useUserAppDispatch();
     const readSetting = useUserAppSelector(selectUserReadSetting);
     const { isMobile } = useScreenDetector();
-
     const content = isMobile ? "content" : "description";
 
+    isMobile ? localStorage.setItem("currentDevice","mobile") : localStorage.setItem("currentDevice","desktop");
 
     const handleSetPage = useCallback(
         (action: "prefer" | "increase" | "decrease", value?: number) => {
@@ -75,26 +81,6 @@ const DetailDrawer = () => {
 
     const handleTogglePanel = useCallback(() => {
         dispatch(toggleValue("showPanel"));
-    }, [dispatch]);
-
-    const handleToggleHeaderVisible = useCallback(() => {
-        dispatch(toggleValue("headerVisible"));
-    }, [dispatch]);
-
-    const handleToggleReadingStyle = useCallback(() => {
-        dispatch(toggleValue("readingStyle"));
-    }, [dispatch]);
-
-    const handleToggleReadingDirection = useCallback(() => {
-        dispatch(toggleValue("readingDirection"));
-    }, [dispatch]);
-
-    const handleToggleImageFit = useCallback(() => {
-        dispatch(toggleValue("imageFit"));
-    }, [dispatch]);
-
-    const handleToggleProgressBar = useCallback(() => {
-        dispatch(toggleValue("progressBar"));
     }, [dispatch]);
 
     const handlePreferPage = useCallback((value) => {
@@ -143,35 +129,21 @@ const DetailDrawer = () => {
 
                         <div className="flex flex-col gap-4 px-4 text-white pt-4">
                             <MemoizedSettingButton
-                                onClick={handleToggleHeaderVisible}
-                                label={readSetting.headerVisible.label}
-                                iconName={readSetting.headerVisible.iconName || ""}
+                                settingActionKey={toggleActionCollectionKeys.headerVisible as SettingActionKey}
                             />
                             <MemoizedSettingButton
-                                onClick={handleToggleReadingStyle}
-                                label={readSetting.readingStyle.label}
-                                iconName={readSetting.readingStyle.iconName || ""}
+                                settingActionKey={toggleActionCollectionKeys.readingStyle as SettingActionKey}
                             />
                             <MemoizedSettingButton
-                                onClick={handleToggleReadingDirection}
-                                label={readSetting.readingDirection.label}
-                                iconName={readSetting.readingDirection.iconName || ""}
+                                settingActionKey={toggleActionCollectionKeys.readingDirection as SettingActionKey}
                             />
                             <MemoizedSettingButton
-                                onClick={handleToggleImageFit}
-                                label={readSetting.imageFit.label}
-                                iconName={readSetting.imageFit.iconName || ""}
+                                settingActionKey={toggleActionCollectionKeys.imageFit as SettingActionKey}
                             />
-
                             <MemoizedSettingButton
-                                onClick={handleToggleProgressBar}
-                                label={readSetting.progressBar.label}
-                                iconName={readSetting.progressBar.iconName || ""}
-
+                                settingActionKey={toggleActionCollectionKeys.progressBar as SettingActionKey}
                             />
-
-
-                            <MemoizedSettingButton
+                            <MemoizedSettingOgButton
                                 onClick={handleSettingModal}
                                 label={"Advanced Setting"}
                                 iconName={"LucideSettings"}

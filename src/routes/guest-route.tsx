@@ -27,7 +27,7 @@ const adminGuestRoutes: AppRouteInterface[] = [
 
 const userGuestRoutes: AppRouteInterface[] = [
     {
-        path: userRouteCollection.base,
+        path: undefined,
         element: (
             <Provider store={userStore}>
                 <UserGuestLayout />
@@ -71,7 +71,7 @@ const userGuestRoutes: AppRouteInterface[] = [
                 ),
             },
             {
-                path: userRouteCollection.detail,
+                path: userRouteCollection.read,
                 element: (
                     <DetailPage />
                 ),

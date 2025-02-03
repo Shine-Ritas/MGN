@@ -47,7 +47,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     to="/"
                     className=""
                 >
-                    <img src={Logo} alt="logo" className="w-40 hover:motion-safe:animate-spin-slow cursor-pointer" />
+                    <img src={Logo} alt="logo" className="w-40 md:w-80 hover:motion-safe:animate-spin-slow cursor-pointer" />
                 </Link>
                 {
                     !isMobile && <DesktopNavigation />

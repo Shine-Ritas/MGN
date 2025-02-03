@@ -52,6 +52,24 @@ const shortcutMapFactory = (dispatch: UserAppDispatch, readingDirection: string)
             description: "Toggle the settings panel",
             action: () => dispatch(toggleValue("showPanel")),
         },
+        {
+            key: "w",
+            label: "w",
+            description: "Toggle the reading style",
+            action: () => {
+                const container = document.getElementById("imageContainer");
+                container?.scrollBy({ top: -500, behavior: "smooth" });
+            },
+        },
+        {
+            key: "s",
+            label: "s",
+            description: "Scroll a little bit down",
+            action: () => {
+                const container = document.getElementById("imageContainer");
+                container?.scrollBy({ top: 500, behavior: "smooth" });
+            },
+        }
     ];
 };
 
