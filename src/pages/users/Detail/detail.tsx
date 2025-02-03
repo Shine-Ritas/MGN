@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
-import { setCurrentPage, setField } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { clearOutUserReadSetting, setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import readingStyleClasses from "@/utilities/read-helper";
 import { PageProgressBar } from "./page-progress";
 import ImageContainer from "./image-container";
@@ -13,6 +13,7 @@ import { useTemporaryAlert } from "@/hooks/useTemporaryAlert";
 import { AlertComponent } from "@/components/ui/alert-component";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getRandomInterval } from "@/utilities/util";
+import FloatingToggle from "@/components/ui/floating-ball";
 
 const images = import.meta.glob("@/assets/test/chapter-1/*.{png,jpg,jpeg,svg}", { eager: true }) as Record<string, { default: string }>;
 
@@ -63,8 +64,6 @@ const Detail = () => {
 
     prefetchImages([...nextImages, ...prevImages]);
 
-    
-
   }, [readSetting, readStyle.max, currentPage, dispatch, endIndex, startIndex, max]);
 
   useEffect(()=>{
@@ -77,8 +76,8 @@ const Detail = () => {
         setTimeout(showAlertAtRandomInterval, interval);
       };
       showAlert("Double click at center to toggle panel");
-// 
       showAlertAtRandomInterval();
+
     }
   },[]);
 
@@ -98,7 +97,10 @@ const Detail = () => {
   const handlePageClick = useCallback((index: number) => {
     dispatch(setCurrentPage({ action: "prefer", index }));
   }, [dispatch]);
-  
+
+      const handleTogglePanel = useCallback(() => {
+          dispatch(toggleValue("showPanel"));
+      }, [dispatch]);
 
   return (
     <>
@@ -115,6 +117,9 @@ const Detail = () => {
     </div>
       <SettingModal isOpen={readSetting.modalBox} shortCuts={shortcutMap}/>
      { isVisible &&<AlertComponent message={message} />}
+     <FloatingToggle 
+     isActive={readSetting.showPanel}
+     onChange={handleTogglePanel} />
 
     </>
   );

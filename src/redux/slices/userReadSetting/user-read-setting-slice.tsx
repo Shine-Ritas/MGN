@@ -32,11 +32,11 @@ const getRotationKey = (collection: Record<string, any>, current: any) => {
   return validatedKeys[(currentIndex + 1) % validatedKeys.length];
 };
 
-  
 const persistedState = loadFromLocalStorage(
   "userReadSetting",
   initialState
 );
+
 
 const updateStateAndPersist = <T extends keyof UserReadSetting>(
   state: UserReadSetting,

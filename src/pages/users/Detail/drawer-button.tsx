@@ -20,7 +20,7 @@ export const MemorizedIndexerButton = memo(({ label, current, total, setPrevStat
   const options = useMemo(() =>
     Array.from({ length: total }, (_, i) => ({
       value: `${i + 1}`,
-      label: `Option ${i + 1}`
+      label: `Page ${i + 1}`
     })),
     [total]
   );
@@ -71,10 +71,10 @@ export const MemorizedIndexerButton = memo(({ label, current, total, setPrevStat
               <SelectValue>{current} / {total}</SelectValue>
             </div>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="z-[9999]">
             <div className="mb-2">
               <Input
-                placeholder="Search options..."
+                placeholder="Search ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

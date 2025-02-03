@@ -20,7 +20,7 @@ const LayoutButton = ({actionKey,collection,largeBtn = true,showIcon=true,styleC
 
     const setting = useUserAppSelector((state) =>selectSettingByKey(state, actionKey) );
 
-    const handleClick = useCallback((value )=>{
+    const handleClick = useCallback((value)=>{
         dispatch(setRotation({key:actionKey,value}));
     },[dispatch,actionKey]);
 
@@ -32,7 +32,7 @@ const LayoutButton = ({actionKey,collection,largeBtn = true,showIcon=true,styleC
           <div
             key={rs.value}
             onClick={()=>handleClick(key)}
-            className={cn(`flex ${style}  items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors
+            className={cn(`flex ${style}  items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors text-sm
               ${setting.value === rs.value ? "bg-gray-700" : "bg-gray-800 hover:bg-gray-700"}`,styleClass)}
           >
             {(rs.iconName && showIcon) && <IconComponent iconName={rs.iconName as keyof typeof iconMap} />}

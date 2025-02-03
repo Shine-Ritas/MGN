@@ -14,7 +14,7 @@ interface SetCurrentPagePayload {
 }
 
 const currentTime = Date.now();
-const doubleTapTimeout = 500;
+const doubleTapTimeout = 300;
 
 /**
  * Handles horizontal click events for navigating pages or toggling a panel.

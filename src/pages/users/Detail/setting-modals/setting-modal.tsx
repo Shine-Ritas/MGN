@@ -23,18 +23,12 @@ export default function SettingModal({isOpen,shortCuts}) {
 
         </DialogHeader>
         <Tabs defaultValue="shortcuts" className="mt-4">
-          <TabsList className="grid w-full grid-cols-3 bg-[#1E293B]">
+          <TabsList className="grid w-full grid-cols-2 bg-[#1E293B]">
             <TabsTrigger
               value="layout"
               className="data-[state=active]:bg-primary data-[state=active]:text-white"
             >
               PAGE LAYOUT
-            </TabsTrigger>
-            <TabsTrigger
-              value="image"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              IMAGE
             </TabsTrigger>
             <TabsTrigger
               value="shortcuts"
@@ -46,10 +40,7 @@ export default function SettingModal({isOpen,shortCuts}) {
           <TabsContent value="layout" className="text-slate-300">
               <PageLayout />
           </TabsContent>
-          <TabsContent value="image" className="text-slate-300">
-            Image settings content goes here
-          </TabsContent>
-          <TabsContent value="shortcuts" className="mt-6">
+          <TabsContent value="shortcuts" className="mt-6" autoFocus={false}>
             <div className="space-y-6">
               <h3 className="text-xl text-slate-300">Keyboard Shortcuts</h3>
               <div className="space-y-4 text-slate-400">

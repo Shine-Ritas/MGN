@@ -16,6 +16,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
   const readSetting = useUserAppSelector(selectUserReadSetting);
   const readStyle = readingStyleClasses(readSetting.readingStyle.value);
 
+
   useEffect(() => {
 
     const observer = new IntersectionObserver(

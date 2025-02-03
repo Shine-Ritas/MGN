@@ -107,7 +107,7 @@ export const initialState  :UserReadSetting = {
     currentChapter: 1,
     totalChapters : [],
     showPanel: false,
-    modalBox:true,
+    modalBox:false,
     readingStyle: ReadingStyleData["SinglePage"],
     headerVisible: HeaderVisibleData["Sticky"],
     readingDirection: ReadingDirectionData["LTR"],
