@@ -29,13 +29,13 @@ export default function UserDetailAction({user,setCurrentUser}: {user: Subscribe
     }
   }
   return (
-    <Card className="w-full max-w-3xl">
+    <Card className="w-full max-w-3xl ">
       <CardHeader>
         <CardTitle>User Management Actions</CardTitle>
         <CardDescription>Manage user account and subscription</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="w-full grid grid-cols-1 sm:grid-cols- md:grid-cols-2 gap-4">
           <Button
             variant={isActive ? "outline" : "destructive"}
             className="w-full justify-start"

@@ -5,10 +5,15 @@ import { setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSe
 import readingStyleClasses from "@/utilities/read-helper";
 import { PageProgressBar } from "./page-progress";
 import ImageContainer from "./image-container";
-import SettingsModal from "@/redux/slices/userReadSetting/setting-modal";
+import SettingModal from "@/pages/users/Detail/setting-modals/setting-modal";
 import shortcutMapFactory, { shortcutActions } from "@/redux/slices/userReadSetting/short-cuts";
 import useKeyboardShortcuts from "@/hooks/useKeyboardShortcuts";
-import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
+import { handleHorizontalClick, handleVerticalClick } from "@/utilities/read-action";
+import { useTemporaryAlert } from "@/hooks/useTemporaryAlert";
+import { AlertComponent } from "@/components/ui/alert-component";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
+import { getRandomInterval } from "@/utilities/util";
+import FloatingToggle from "@/components/ui/floating-ball";
 
 const images = import.meta.glob("@/assets/test/chapter-1/*.{png,jpg,jpeg,svg}", { eager: true }) as Record<string, { default: string }>;
 
@@ -17,50 +22,12 @@ const formattedImages = Object.keys(images).map((key) => ({
   path: images[key].default,
 }));
 
-let lastTapTime = 0;
 
 const prefetchImages = (imagePaths: string[]) => {
   imagePaths.forEach((path) => {
     const img = new Image();
     img.src = path;
   });
-};
-
-const handleHorizontalClick = (currentTarget,clientX,readingDirection,dispatch) => {
-  const { offsetWidth } = currentTarget;
-  const middle = offsetWidth / 2;
-  const tolerance = offsetWidth * 0.1;
-
-  const doubleTapTimeout = 500;
-  const isLTR = readingDirection.value === "ltr";
-
-  const currentTime = Date.now();
-
-  if (currentTime - lastTapTime <= doubleTapTimeout && clientX > middle - tolerance && clientX < middle + tolerance) {
-    dispatch(toggleValue("showPanel"));
-    lastTapTime = 0;
-    return;
-  }
-
-  lastTapTime = currentTime;
-
-  if (clientX > middle + tolerance) isLTR ? dispatch(setCurrentPage({ action: "increase" })) : dispatch(setCurrentPage({ action: "decrease" }));
-  else if (clientX < middle - tolerance) isLTR ? dispatch(setCurrentPage({ action: "decrease" })) : dispatch(setCurrentPage({ action: "increase" }));
-
-}
-
-const handleVerticalClick = (containerRef: React.RefObject<HTMLDivElement>, dispatch: Dispatch<UnknownAction>, currentPage: number) => {
-  if (!containerRef.current) return;
-
-  const container = containerRef.current;
-  const images = Array.from(container.querySelectorAll("img")) as HTMLImageElement[];
-  const nextImage = images[currentPage] || images[currentPage-1];
-
-  console.log(nextImage,currentPage)
-  if (nextImage) {
-    nextImage.scrollIntoView({ behavior: "smooth", block: "start" });
-    dispatch(setCurrentPage({ action: "prefer", index: currentPage++ }));
-  }
 };
 
 
@@ -74,6 +41,8 @@ const Detail = () => {
   const startIndex = (max == 100) ? 0 : currentPage - 1; 
   const endIndex = Math.min(formattedImages.length, startIndex + max);
 
+  const {isVisible,message,showAlert} = useTemporaryAlert();
+
   const [currentImages, setCurrentImages] = useState(formattedImages.slice(startIndex, endIndex));
 
   const shortcutMap = useMemo(() => shortcutMapFactory(dispatch,readSetting), [dispatch, readSetting]);
@@ -81,6 +50,8 @@ const Detail = () => {
   const shortCutActions = shortcutActions(shortcutMap);
 
   useKeyboardShortcuts(shortCutActions);
+  const { isMobile } = useScreenDetector();
+
 
   useEffect(() => {
     dispatch(setField({ key: "totalPages", value: formattedImages.length }));
@@ -92,13 +63,29 @@ const Detail = () => {
     const prevImages = formattedImages.slice(prevIndex, prevIndex + max).map(({ path }) => path);
 
     prefetchImages([...nextImages, ...prevImages]);
+
   }, [readSetting, readStyle.max, currentPage, dispatch, endIndex, startIndex, max]);
 
+  useEffect(()=>{
+    if(isMobile)
+    {
+      const showAlertAtRandomInterval = () => {
+        showAlert("Double click at center to toggle panel");
+
+        const interval = getRandomInterval(5, 10);
+        setTimeout(showAlertAtRandomInterval, interval);
+      };
+      showAlert("Double click at center to toggle panel");
+      showAlertAtRandomInterval();
+
+    }
+  },[]);
+
   const handleScreenClick = useCallback(
-    ({ clientX, currentTarget }: React.MouseEvent<HTMLDivElement>) => {
+    ({ clientX,clientY, currentTarget }: React.MouseEvent<HTMLDivElement>) => {
 
       if (readingStyle.value == "long-strip") {
-        handleVerticalClick(containerRef, dispatch, currentPage);
+        handleVerticalClick(containerRef,clientY, dispatch, currentPage);
         return;
       }
 
@@ -111,9 +98,13 @@ const Detail = () => {
     dispatch(setCurrentPage({ action: "prefer", index }));
   }, [dispatch]);
 
+      const handleTogglePanel = useCallback(() => {
+          dispatch(toggleValue("showPanel"));
+      }, [dispatch]);
+
   return (
     <>
-    <div className="bg-slate-700 cursor-pointer relative min-h-screen"
+    <div className={`${readSetting.backgroundColor.value} cursor-pointer relative min-h-screen`}
       onClick={handleScreenClick}>
       <ImageContainer containerRef={containerRef} currentImages={currentImages} />
       <PageProgressBar
@@ -122,8 +113,14 @@ const Detail = () => {
         onClick={handlePageClick}
         type={readSetting.progressBar.value}
       />
+
     </div>
-      <SettingsModal isOpen={readSetting.modalBox} shortCuts={shortcutMap}/>
+      <SettingModal isOpen={readSetting.modalBox} shortCuts={shortcutMap}/>
+     { isVisible &&<AlertComponent message={message} />}
+     <FloatingToggle 
+     isActive={readSetting.showPanel}
+     onChange={handleTogglePanel} />
+
     </>
   );
 };

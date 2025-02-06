@@ -13,44 +13,11 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-
-
-const data = [
-  {
-    revenue: 10400,
-    subscription: 240,
-  },
-  {
-    revenue: 14405,
-    subscription: 300,
-  },
-  {
-    revenue: 9400,
-    subscription: 200,
-  },
-  {
-    revenue: 8200,
-    subscription: 278,
-  },
-  {
-    revenue: 7000,
-    subscription: 189,
-  },
-  {
-    revenue: 9600,
-    subscription: 239,
-  },
-  {
-    revenue: 11244,
-    subscription: 278,
-  },
-  {
-    revenue: 26475,
-    subscription: 189,
-  },
-]
+import useQuery from "@/hooks/useQuery"
 
 export function CardsStats() {
+
+  const { data } = useQuery(`admin/dashboard/stats`);
 
   return (
     <>
@@ -63,20 +30,21 @@ export function CardsStats() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
+            <div className="text-2xl font-bold">{data?.subscriptions?.this_month ?? 0}</div>
+            <p className={`text-xs text-${data?.subscriptions?.status ?? 0}`}>{data?.subscriptions?.percentage ?? 0}% from last month</p>
           </CardContent>
         </Card>
 
 
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+            <CardTitle className="text-sm font-medium">Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
+            <div className="text-2xl font-bold">{data?.users?.this_month}</div>
+            <p className={`text-xs text-${data?.subscriptions?.users ?? 0}`}>{data?.subscriptions?.users ?? 0}% registered from last month</p>
+
           </CardContent>
         </Card>
 

@@ -15,6 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {  MogousType } from "./type"
+import { rTitle } from "@/utilities/util"
 
 const ComicTableRow = ({mogous } : {mogous : MogousType}) => {
 
@@ -39,9 +40,7 @@ const ComicTableRow = ({mogous } : {mogous : MogousType}) => {
             </TableCell>
             <TableCell className="font-medium  truncate ...">
                 {/* concat the string to 20 words only */}
-                {mogous.title.length > 20
-                    ? `${mogous.title.substring(0, 20)}...`
-                    : mogous.title}
+                {rTitle(mogous.title)}
                 
             </TableCell>
             <TableCell>

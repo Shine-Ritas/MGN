@@ -10,6 +10,7 @@ export interface HeaderVisibleType extends OptionType { }
 export interface ReadingDirectionType extends OptionType { }
 export interface ImageFitType extends OptionType { }
 export interface ProgressBarType extends OptionType { }
+export interface BackgroundColorType extends OptionType { }
 
 export interface UserReadSetting {
   currentPage: number;
@@ -23,5 +24,6 @@ export interface UserReadSetting {
   imageFit: ImageFitType;
   progressBar: ProgressBarType;
   modalBox: boolean;
+  backgroundColor: BackgroundColorType;
 
 }

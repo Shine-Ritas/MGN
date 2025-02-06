@@ -2,9 +2,10 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useUserAppDispatch } from '@/redux/hooks'
-import { toggleValue } from "./user-read-setting-slice";
+import { toggleValue } from "../../../../redux/slices/userReadSetting/user-read-setting-slice";
+import PageLayout from "./page-layout";
 
-export default function SettingsModal({isOpen,shortCuts}) {
+export default function SettingModal({isOpen,shortCuts}) {
     
     const dispatch = useUserAppDispatch();
 
@@ -12,7 +13,7 @@ export default function SettingsModal({isOpen,shortCuts}) {
     <Dialog open={isOpen} onOpenChange={()=>dispatch(toggleValue("modalBox"))}>
       <DialogContent
       autoFocus={false}
-      className="sm:max-w-[600px] bg-[#0F172A] border-slate-800">
+      className="sm:max-w-[600px] bg-[#0F172A] border-slate-800 z-[999]">
         <DialogHeader  className="flex flex-row items-center justify-between">
           <DialogTitle
           
@@ -22,18 +23,12 @@ export default function SettingsModal({isOpen,shortCuts}) {
 
         </DialogHeader>
         <Tabs defaultValue="shortcuts" className="mt-4">
-          <TabsList className="grid w-full grid-cols-3 bg-[#1E293B]">
+          <TabsList className="grid w-full grid-cols-2 bg-[#1E293B]">
             <TabsTrigger
               value="layout"
               className="data-[state=active]:bg-primary data-[state=active]:text-white"
             >
               PAGE LAYOUT
-            </TabsTrigger>
-            <TabsTrigger
-              value="image"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              IMAGE
             </TabsTrigger>
             <TabsTrigger
               value="shortcuts"
@@ -43,12 +38,9 @@ export default function SettingsModal({isOpen,shortCuts}) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="layout" className="text-slate-300">
-            Page layout content goes here
+              <PageLayout />
           </TabsContent>
-          <TabsContent value="image" className="text-slate-300">
-            Image settings content goes here
-          </TabsContent>
-          <TabsContent value="shortcuts" className="mt-6">
+          <TabsContent value="shortcuts" className="mt-6" autoFocus={false}>
             <div className="space-y-6">
               <h3 className="text-xl text-slate-300">Keyboard Shortcuts</h3>
               <div className="space-y-4 text-slate-400">

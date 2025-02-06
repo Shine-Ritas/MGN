@@ -16,10 +16,10 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
   const readSetting = useUserAppSelector(selectUserReadSetting);
   const readStyle = readingStyleClasses(readSetting.readingStyle.value);
 
+
   useEffect(() => {
 
     const observer = new IntersectionObserver(
-
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -30,7 +30,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
         });
       },
-      { root: containerRef.current, threshold: 0.8 } // 60% of the image must be visible
+      { root: containerRef.current, threshold: 0.95 } // 60% of the image must be visible
     );
 
     const imageElements = containerRef.current?.querySelectorAll("img");
@@ -50,7 +50,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
 
     return (
-      <div className={readStyle.class} ref={containerRef}>
+      <div className={readStyle.class} id="imageContainer" ref={containerRef}>
         {currentImages.map(({ id, path }, index) => (
           <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1} className={`${readStyle.imageClass} ${readSetting.imageFit.value}`} />
         ))}

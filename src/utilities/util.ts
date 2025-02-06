@@ -15,17 +15,23 @@ export const timeLeft = (di?: string | number | Date) => {
         return 'Invalid date';
     }
     const diff = new Date(di).getTime() - new Date().getTime();
+
+    if (diff < 0) {
+        return 'Expired';
+    }
+
+    
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
-  };
+};
 
 
-  export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
-  }
-  
+}
+
 
 export const isSubscriptionValid = (date?: string | number | Date) => {
 
@@ -36,7 +42,7 @@ export const isSubscriptionValid = (date?: string | number | Date) => {
     return new Date(date) > new Date();
 }
 
-export const isSubscriptionExpired = (date?: string | number | Date, subscription_name?: string) : { variant: variantInterface, message: string }=> {
+export const isSubscriptionExpired = (date?: string | number | Date, subscription_name?: string): { variant: variantInterface, message: string } => {
     if (!date) {
         return { variant: "destructive", message: "No Subscription" };
     }
@@ -64,3 +70,12 @@ export function prefixRoutes<T extends Record<string, any>>(prefix: string, rout
     return prefixedRoutes as T;
 }
 
+export const getRandomInterval = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min) * 60 * 1000; // Convert minutes to milliseconds
+};
+
+export const rTitle = (title: string,limit: number  = 20) => {
+    return title.length > limit
+        ? `${title.substring(0, limit)}...`
+        : title
+}
