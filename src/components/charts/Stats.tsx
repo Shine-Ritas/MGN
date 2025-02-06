@@ -7,13 +7,14 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { primaryColor } from "../global-vars"
-import { Activity, Users } from "lucide-react"
+import {  LibraryBig, Network, Podcast, Users } from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
 import useQuery from "@/hooks/useQuery"
+import numeral from "numeral"
 
 export function CardsStats() {
 
@@ -26,11 +27,11 @@ export function CardsStats() {
 
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">This Month's Subscriptions</CardTitle>
+            <Podcast className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data?.subscriptions?.this_month ?? 0}</div>
+            <div className="text-2xl font-bold">{numeral(data?.subscriptions?.current).format("0a") ?? 0}</div>
             <p className={`text-xs text-${data?.subscriptions?.status ?? 0}`}>{data?.subscriptions?.percentage ?? 0}% from last month</p>
           </CardContent>
         </Card>
@@ -38,37 +39,39 @@ export function CardsStats() {
 
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Users</CardTitle>
+            <CardTitle className="text-sm font-medium">This Month's Registered Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data?.users?.this_month}</div>
-            <p className={`text-xs text-${data?.subscriptions?.users ?? 0}`}>{data?.subscriptions?.users ?? 0}% registered from last month</p>
+            <div className="text-2xl font-bold">{data?.users?.current}</div>
+            <p className={`text-xs text-${data?.users?.status ?? 0}`}>{data?.users?.percentage ?? 0}% registered from last month</p>
 
           </CardContent>
         </Card>
 
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">This Month's Traffics</CardTitle>
+            <Network  className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
+            <div className="text-2xl font-bold">{numeral(data?.traffics?.current).format("0.00 a")}</div>
+            <p className={`text-xs text-${data?.traffics?.status ?? 0}`}>{data?.traffics?.percentage ?? 0}% get traffics from yestarday</p>
           </CardContent>
         </Card>
 
-        <Card x-chunk="dashboard-01-chunk-3">
+        
+        <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">This Month's Contents</CardTitle>
+            <LibraryBig  className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">+201 since last hour</p>
+            <div className="text-2xl font-bold">{numeral(data?.contents?.current).format("0 a")}</div>
+            <p className={`text-xs text-${data?.contents?.status ?? 0}`}>{data?.contents?.percentage ?? 0}% get traffics from yestarday</p>
           </CardContent>
         </Card>
+
 
       </div>
 
@@ -148,7 +151,7 @@ export function CardsStats() {
 
         <Card x-chunk="dashboard-01-chunk-5">
           <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
+            <CardTitle>Chapters Popularity Today </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-8">
             <div className="flex items-center gap-4">
