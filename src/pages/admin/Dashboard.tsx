@@ -2,7 +2,7 @@
 import { CardsStats } from "@/components/charts/Stats";
 
 import { lazy, useState } from "react";
-import Frame from "./Home/frame";
+import Frame from "@/pages/admin/Home/frame";
 
 const UserGrowth = lazy(() => import("./Home/user-growth"));
 
