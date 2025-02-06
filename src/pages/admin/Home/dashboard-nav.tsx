@@ -7,7 +7,7 @@ interface FrameProps {
   setCurrentTab: (tab: string) => void;
 }
 
-const  FrameComponent = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{
+const DashboardNav = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{
   const [activeIndex, setActiveIndex] = useState<number>(() => tabs.indexOf(currentTab));
 
   const [activeStyle, setActiveStyle] = useState<CSSProperties>({ left: "0px", width: "0px" });
@@ -80,4 +80,4 @@ const  FrameComponent = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{
 }
 
 
-export default FrameComponent;
+export default DashboardNav;
