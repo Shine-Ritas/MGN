@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 import { EyeIcon, HeartIcon } from "lucide-react"
 import UserDetailAction from "./UserDetailAction"
@@ -10,6 +10,7 @@ import { SubscribedUser } from "./types"
 import { useEffect, useState } from "react"
 import UserDetailHistory from "./UserDetailHistory"
 import { eventEmitter } from "@/utilities/event-emitter"
+import { rTitle } from "@/utilities/util"
 
 export type UserLoginHistoryType = {
   location: string
@@ -63,22 +64,6 @@ export default function UserDetail() {
     return <div>User not found</div>
   }
 
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    userCode: "JD123456",
-    subscription: "Premium",
-    subscriptionEndDate: "2023-12-31",
-    favoritedComics: [
-      { title: "Spider-Man", description: "The amazing web-slinger", views: 1000000, image: "/placeholder.svg?height=200&width=150" },
-      { title: "Batman", description: "The Dark Knight", views: 950000, image: "/placeholder.svg?height=200&width=150" },
-      { title: "Wonder Woman", description: "Amazonian princess", views: 900000, image: "/placeholder.svg?height=200&width=150" },
-      { title: "X-Men", description: "Mutant superheroes", views: 850000, image: "/placeholder.svg?height=200&width=150" },
-      { title: "Nani web", description: "Mutant superheroes", views: 123212, image: "/placeholder.svg?height=200&width=150" },
-      { title: "Acelase", description: "Mutant superheroes", views: 2132, image: "/placeholder.svg?height=200&width=150" },
-    ],
-  }
-
   return (
     <div className="pt-3 space-y-6">
       <div className="flex items-center gap-4 mb-10">
@@ -89,7 +74,7 @@ export default function UserDetail() {
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         <UserInfoDetail user={currentUser!} setCurrentUser={setCurrentUser} />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 col-span-2 md:col-span-1">
           <UserDetailAction user={currentUser!} setCurrentUser={setCurrentUser} />
 
           <UserDetailHistory loginHistory={userLoginHistory} subscription_histroy={subscription_histroy} />
@@ -98,27 +83,25 @@ export default function UserDetail() {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Favorite Comics</CardTitle>
-            <CardDescription>Your most loved comic books</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-              {user.favoritedComics.map((comic, index) => (
+            <div className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              {data?.favorites.map((fav, index) => (
                 <Card key={index}>
                   <CardContent className="p-4">
                     <div className="aspect-[3/4] relative mb-4">
                       <img
-                        src={comic.image}
-                        alt={comic.title}
+                        src={fav?.mogou.cover}
+                        alt={fav?.mogou?.title}
                         className="object-cover rounded-md"
                         style={{ width: '100%', height: '100%' }}
                       />
                       <HeartIcon className="absolute top-2 right-2 w-6 h-6 text-red-500" />
                     </div>
-                    <h3 className="font-bold mb-2">{comic.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-2">{comic.description}</p>
+                    <h3 className="font-bold mb-2 text-sm">{rTitle(fav?.mogou?.title,25)}</h3>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <EyeIcon className="w-4 h-4 mr-1" />
-                      {comic.views.toLocaleString()} views
+                      11 views
                     </div>
                   </CardContent>
                 </Card>

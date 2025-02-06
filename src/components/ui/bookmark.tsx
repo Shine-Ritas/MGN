@@ -36,7 +36,7 @@ const BookMark = ({
     const [mutate,{isLoading}] = useMutate({callback:onSuccessCallback,navigateBack:false});
     
     const icon = isMarked ? <BookmarkCheck /> : <Bookmark />
-    const context = isMarked ? "Bookmarked" : "Bookmark" ;
+    const context = isMarked ? "Favorited" : "Favorite" ;
     const handleClick = async () => {
 
         const url = isMarked ? 'users/user-favorites/remove' : 'users/user-favorites/add';
