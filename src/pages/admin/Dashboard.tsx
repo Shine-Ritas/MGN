@@ -2,7 +2,7 @@
 import { CardsStats } from "@/components/charts/Stats";
 
 import { lazy, useState } from "react";
-import Frame from "./Home/frame";
+import DashboardNav from "@/pages/admin/Home/dashboard-nav";
 
 const UserGrowth = lazy(() => import("./Home/user-growth"));
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Frame tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <DashboardNav tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
       {renderTabContent(currentTab)}
     </div>
   )
