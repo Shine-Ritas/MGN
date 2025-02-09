@@ -16,7 +16,7 @@ type ChapterContentProps = {
 }
 
 export interface FileWithUniqueId extends File {
-  id: number | never;
+  id: string;
   isUploaded?: boolean;
   isUploading?: boolean;
   path?: string;
@@ -41,32 +41,84 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
   }, [chapterInfo?.images])
 
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const files = acceptedFiles;
+ const onDrop = useCallback(async (acceptedFiles: File[]) => {
+  for (const file of acceptedFiles) {
+    if (file.type === 'application/zip') {
+      try {
+        const zip = new JSZip();
+        const zipData = await zip.loadAsync(file);
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+        const images = Object.values(zipData.files).filter(
+          (f) =>
+            !f.dir && // Not a directory
+            /\.(png|jpe?g|webp)$/i.test(f.name) && // Must be a valid image file
+            !f.name.startsWith("__MACOSX/") && // Skip MacOS hidden files
+            !f.name.includes("/._") // Skip MacOS resource forks
+        );
 
-      if (file.type === 'application/zip') {
-        try {
-          // Create a new JSZip instance
-          const zip = new JSZip();
-
-          await zip.loadAsync(file)
-
-          setUploadProgress(100); // Complete when done
-        } catch (err) {
-          console.error('Error unzipping file:', err);
+        if (images.length === 0) {
+          console.warn("No valid images found in the ZIP.");
+          return;
         }
-      } else {
-        file['id'] = uuidv4();
-        file['isUploaded'] = false;
-        file['isUploading'] = false;
-        setChapterContent((prev) => [...prev, file as FileWithUniqueId]);
-      }
-    }
 
-  }, []);
+        // Chunking setup
+        const CHUNK_SIZE = 20; // Adjust based on performance needs
+        let processedCount = 0;
+        const totalImages = images.length;
+        const extractedImages: File[] = [];
+
+        for (let i = 0; i < images.length; i += CHUNK_SIZE) {
+          const chunk = images.slice(i, i + CHUNK_SIZE);
+
+          // Process the current chunk
+          const chunkResults = await Promise.all(
+            chunk.map(async (f) => {
+            const imageData = await f.async("uint8array"); // Get image data
+             try {
+                // ✅ Don't decompress if it's already an image
+                const content = new Blob([imageData], { type: "image/jpeg" });
+                return new File([content], f.name, { type: content.type });
+              } catch (err) {
+                console.error(`Failed to process ${f.name}:`, err);
+                throw err;
+              }
+            })
+          );
+
+          extractedImages.push(...chunkResults);
+          processedCount += chunkResults.length;
+
+          const progress = Math.round((processedCount / totalImages) * 100);
+          setUploadProgress(progress);
+        }
+
+        const imagesWithId: FileWithUniqueId[] = extractedImages.map((image) => {
+          return Object.assign(image, {
+            id: uuidv4(),
+            isUploaded: false,
+            isUploading: false,
+          });
+        });
+
+
+        setChapterContent((prev) => [...prev, ...imagesWithId]);
+        setUploadProgress(100); 
+      } catch (error) {
+        console.error('Error unzipping file:', error);
+      }
+    } else {
+      // Handle non-zip files
+      const fileWithId: FileWithUniqueId = Object.assign(file, {
+        id: uuidv4(),
+        isUploaded: false,
+        isUploading: false,
+      });
+
+      setChapterContent((prev) => [...prev, fileWithId]);
+    }
+  }
+}, []);
+
 
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -183,7 +235,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
             <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer">
               <input {...getInputProps()} />
               {isDragActive ? (
-                <p>Drop the Zip file here...</p>
+                <p>Drop the files here...</p>
               ) : (
                 <p>Drag 'n' drop a Zip file here, or click to select a file</p>
               )}
@@ -194,7 +246,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
         </div>
       </CardContent>
 
-      <ChapterContentViewGrid uploadedData={chapterContent} />
+      <ChapterContentViewGrid uploadedData={chapterContent} setUploadedData={setChapterContent} />
     </Card>
   )
 }

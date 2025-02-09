@@ -15,7 +15,7 @@ import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortab
 import Item from './grid-item';
 import { FileWithUniqueId } from './chapter-content';
 
-const ChapterContentViewGrid = ({uploadedData = []}:{uploadedData: FileWithUniqueId[]}) => {
+const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedData: FileWithUniqueId[],setUploadedData:any}) => {
     const [items, setItems] = useState<FileWithUniqueId[]>(uploadedData);
     const [activeItem, setActiveItem] = useState<FileWithUniqueId|null>(null);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
@@ -33,7 +33,11 @@ const ChapterContentViewGrid = ({uploadedData = []}:{uploadedData: FileWithUniqu
                 const oldIndex = items.findIndex((item) => item.id === active?.id);
                 const newIndex = items.findIndex((item) => item.id === over?.id);
 
-                return arrayMove(items, oldIndex, newIndex);
+                const moved = arrayMove(items, oldIndex, newIndex);
+
+                setItems(moved);
+                setUploadedData(moved);   
+                return moved
             });
         }
 
@@ -59,7 +63,7 @@ const ChapterContentViewGrid = ({uploadedData = []}:{uploadedData: FileWithUniqu
         >
             <SortableContext items={uploadedData.map(item => ({ id: item.name }))} 
             strategy={rectSortingStrategy}>
-                <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 px-6 py-4'>
+                <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 px-6 py-4'>
                     {items.map((item,index)=> (
                         <SortableItem 
                         index={index+1}
