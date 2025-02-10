@@ -25,7 +25,7 @@ const HomePage = () => {
 
   return (
 
-    <main className="w-full flex flex-col gap-12 md:px-24">
+    <main className="w-full flex flex-col gap-8 md:px-24">
       <SEO 
       title="Home" 
       description={"Read your favorite manga/manhwa online. Hundreds of high-quality free manga/manhwa for you, with a list being updated daily."} 

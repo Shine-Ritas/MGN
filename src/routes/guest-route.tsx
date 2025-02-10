@@ -12,6 +12,7 @@ const HomePage = lazy(() => import('@/pages/users/home/Index.tsx'));
 const Show = lazy(() => import('@/pages/users/Show/Show.tsx'));
 const DetailPage = lazy(() => import('@/pages/users/Detail/detail.tsx'));
 const UserLayout = lazy(() => import('@/layouts/UserLayout.tsx'));
+const FilterPage = lazy(()=>import("@/pages/users/Filter/index.tsx"))
 
 const adminGuestRoutes: AppRouteInterface[] = [
     {
@@ -76,6 +77,12 @@ const userGuestRoutes: AppRouteInterface[] = [
                     <DetailPage />
                 ),
             },
+            {
+                path : userRouteCollection.filter_type,
+                element: (
+                    <FilterPage />
+                )
+            }
 
         ]
     }

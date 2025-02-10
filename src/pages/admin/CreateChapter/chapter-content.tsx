@@ -6,9 +6,10 @@ import { useDropzone } from "react-dropzone"
 import ChapterContentViewGrid from "./chapter-content-view-grid"
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from "@/components/ui/button"
-import JSZip from 'jszip';
 import useMutate from "@/hooks/useMutate"
 import { toast } from "@/components/ui/use-toast"
+import { extractZip } from "@/utilities/util"
+
 
 type ChapterContentProps = {
   isCard1Submitted: boolean,
@@ -41,83 +42,54 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
   }, [chapterInfo?.images])
 
 
- const onDrop = useCallback(async (acceptedFiles: File[]) => {
-  for (const file of acceptedFiles) {
-    if (file.type === 'application/zip') {
-      try {
-        const zip = new JSZip();
-        const zipData = await zip.loadAsync(file);
-
-        const images = Object.values(zipData.files).filter(
-          (f) =>
-            !f.dir && // Not a directory
-            /\.(png|jpe?g|webp)$/i.test(f.name) && // Must be a valid image file
-            !f.name.startsWith("__MACOSX/") && // Skip MacOS hidden files
-            !f.name.includes("/._") // Skip MacOS resource forks
-        );
-
-        if (images.length === 0) {
-          console.warn("No valid images found in the ZIP.");
-          return;
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    let allExtractedImages: File[] = [];
+  
+    for (const file of acceptedFiles) {
+      if (file.type === "application/zip") {
+        try {
+          const images = await extractZip(file);
+          allExtractedImages.push(...images);
+        } catch (error) {
+          console.error("Error extracting ZIP:", error);
         }
-
-        // Chunking setup
-        const CHUNK_SIZE = 20; // Adjust based on performance needs
-        let processedCount = 0;
-        const totalImages = images.length;
-        const extractedImages: File[] = [];
-
-        for (let i = 0; i < images.length; i += CHUNK_SIZE) {
-          const chunk = images.slice(i, i + CHUNK_SIZE);
-
-          // Process the current chunk
-          const chunkResults = await Promise.all(
-            chunk.map(async (f) => {
-            const imageData = await f.async("uint8array"); // Get image data
-             try {
-                // ✅ Don't decompress if it's already an image
-                const content = new Blob([imageData], { type: "image/jpeg" });
-                return new File([content], f.name, { type: content.type });
-              } catch (err) {
-                console.error(`Failed to process ${f.name}:`, err);
-                throw err;
-              }
-            })
-          );
-
-          extractedImages.push(...chunkResults);
-          processedCount += chunkResults.length;
-
-          const progress = Math.round((processedCount / totalImages) * 100);
-          setUploadProgress(progress);
-        }
-
-        const imagesWithId: FileWithUniqueId[] = extractedImages.map((image) => {
-          return Object.assign(image, {
-            id: uuidv4(),
-            isUploaded: false,
-            isUploading: false,
-          });
-        });
-
-
-        setChapterContent((prev) => [...prev, ...imagesWithId]);
-        setUploadProgress(100); 
-      } catch (error) {
-        console.error('Error unzipping file:', error);
+      } else {
+        allExtractedImages.push(file); // Directly add non-zip files
       }
-    } else {
-      // Handle non-zip files
-      const fileWithId: FileWithUniqueId = Object.assign(file, {
-        id: uuidv4(),
-        isUploaded: false,
-        isUploading: false,
-      });
-
-      setChapterContent((prev) => [...prev, fileWithId]);
     }
-  }
-}, []);
+  
+    if (allExtractedImages.length === 0) {
+      console.warn("No valid images found.");
+      return;
+    }
+  
+    // ✅ Chunk processing for performance
+    const CHUNK_SIZE = 20;
+    let processedCount = 0;
+    const totalImages = allExtractedImages.length;
+    const imagesWithId: FileWithUniqueId[] = [];
+  
+    for (let i = 0; i < totalImages; i += CHUNK_SIZE) {
+      const chunk = allExtractedImages.slice(i, i + CHUNK_SIZE);
+  
+      const chunkResults = chunk.map((image) => {
+        return Object.assign(image, {
+          id: uuidv4(),
+          isUploaded: false,
+          isUploading: false,
+        });
+      });
+  
+      imagesWithId.push(...chunkResults);
+      processedCount += chunkResults.length;
+  
+      const progress = Math.round((processedCount / totalImages) * 100);
+      setUploadProgress(progress);
+    }
+  
+    setChapterContent((prev) => [...prev, ...imagesWithId]);
+    setUploadProgress(100);
+  }, []);
 
 
 

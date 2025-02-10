@@ -8,6 +8,8 @@ const userRoutes = {
   contact_us: "/contact_us",
   read: "/read",
   user_profile: "/user_profile",
+  filter_type : "/type/:type",
+  filter_genere: "/generes/:genere",
 };
 
 const typedUserRoutes: AppRouteCollectionInterface<keyof typeof userRoutes> = userRoutes;
