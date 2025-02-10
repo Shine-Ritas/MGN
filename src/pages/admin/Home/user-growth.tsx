@@ -10,10 +10,13 @@ const UserGrowth = () => {
     const {data:registration_chart, isLoading:r_loading} = useQuery("/admin/dashboard/user-registrations");
     const {data:login_chart, isLoading:l_loading} = useQuery("/admin/dashboard/user-logins");
 
+    const {data:user_traffics, isLoading:t_loading} = useQuery("/admin/dashboard/user-traffics");
+    
+
   return (
     <>
     <div className="grid">
-        <UserSubscriptionChart />
+       {!t_loading && <UserSubscriptionChart chartData={user_traffics}/>}
     </div>
     <div className="grid gap-4 sm:grid-cols-3">
         {!r_loading && <RegistrationChart chartData={registration_chart}/>}

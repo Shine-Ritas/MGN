@@ -1,5 +1,6 @@
 import { variantInterface } from "@/routes/type";
 import { type ClassValue, clsx } from "clsx"
+import JSZip from "jszip";
 import { twMerge } from "tailwind-merge"
 
 
@@ -80,4 +81,30 @@ export const rTitle = (title: string,limit: number  = 20) => {
         : title
 }
 
+export const extractZip = async (file: File): Promise<File[]> => {
+    const zip = new JSZip();
+    const zipData = await zip.loadAsync(file);
+    const extractedImages: File[] = [];
+  
+    for (const f of Object.values(zipData.files)) {
+      if (f.dir) continue; // Skip directories
+  
+      if (f.name.startsWith("__MACOSX/") || f.name.includes("/._")) continue; // Skip MacOS metadata files
+  
+      if (/\.(png|jpe?g|webp)$/i.test(f.name)) {
+        // ✅ Extract image file
+        const imageData = await f.async("uint8array");
+        const content = new Blob([imageData], { type: "image/jpeg" });
+        extractedImages.push(new File([content], f.name, { type: content.type }));
+      } else if (f.name.endsWith(".zip")) {
+        // 🔄 Recursively extract nested ZIP
+        const nestedZipData = await f.async("uint8array");
+        const nestedFile = new File([nestedZipData], f.name, { type: "application/zip" });
+        const nestedImages = await extractZip(nestedFile); // Recursive call
+        extractedImages.push(...nestedImages);
+      }
+    }
+  
+    return extractedImages;
+  }
 

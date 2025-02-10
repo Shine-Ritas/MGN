@@ -5,11 +5,11 @@ import { RecentlyUploadedResponse } from './types';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import RecentlyUploadedCard from './RecentlyUploadedCard';
 import { useUserAppSelector } from '@/redux/hooks';
 import { selectAuthUser, selectSafeContent } from '@/redux/slices/user-global';
 import { ComicType } from '@/data/data';
 import { isSubscriptionValid } from '@/utilities/util';
+import MogouCard from './RecentlyUploadedCard';
 
 type handlePageChangeType = (page: number) => void;
 
@@ -88,7 +88,7 @@ const RecentlyUploaded = () => {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {
                         !isLoading && MemorizedData?.mogous?.data.map((mogou) => (
-                            <RecentlyUploadedCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
+                            <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
                         ))
                     }
                 </div>

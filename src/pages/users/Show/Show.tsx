@@ -49,9 +49,9 @@ const Show = () => {
        <>
         <SEO title={`${mogous?.mogou?.title} - Manga Details`} description={mogous?.mogou?.description.slice(0, 150)} name="Manga Details" type="manga" />
 
-        <div className=" px-6 md:px-24 flex flex-col">
+        <div className=" px-6 md:px-24 flex flex-col mt-8">
             <div id="popoverhe"></div>
-            <div className="flex items-center gap-4 mb-10 ">
+            <div className="flex items-center gap-4 mb-6 ">
                 <Goback
                     size={"sm"}
                     to={'/'} />

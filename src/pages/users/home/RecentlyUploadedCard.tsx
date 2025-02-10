@@ -4,47 +4,49 @@ import { MatureContentTag } from '@/components/ui/maturecontenttag'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from 'react-router-dom';
 import { Lock } from 'lucide-react';
+import { rTitle } from '@/utilities/util';
 
 type RecentlyUploadedCardProps = {
     mogou: RecentlyUploadedMogou,
     userCanReadAll: boolean
 }
 
-const RecentlyUploadedCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
+const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
 
 
     return (
-        <div 
-            className='pl-1 overflow-hidden  rounded-lg bg-secondary'>
+        <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700">
             <div className='flex h-full' >
                 <Link 
                 aria-label={mogou?.title}
-                to={`/show/${mogou?.slug}`} className="img w-32 md:w-40 cursor-pointer relative">
-                    <LazyLoadImage src={mogou?.cover}
-                        className="w-full h-52 md:h-60 object-cover"
-                        alt={mogou?.title || 'Image'}
-                    />
+                to={`/show/${mogou?.slug}`} className="relative aspect-[2/3] w-1/3">
+                    <LazyLoadImage src={mogou.cover || "/placeholder.svg"} 
+                                style={{ width: '100%', height: '100%' }}
+                                alt={mogou.title} className="object-cover" />
                     <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
                 </Link>
-                <div className="bg-secondary/50 h-full flex pt-5 items-start rounded-b-sm w-2/3 flex-col ps-4">
-                    <span className="text-xs md:text-sm font-semibold text-neon-primary truncate">{mogou?.mogou_type_name}</span>
-                    <span className=" text-xs md:text-sm font-semibold text-white text-wrap">{mogou?.title}</span>
+                <div className="pb-4 pt-3 px-4 w-full">
+                <div className="text-neon-primary  text-sm w-full">{mogou.mogou_type_name}</div>
+                    <h5 className="text-sm font-semibold text-white mb-3">{rTitle(mogou.title,25)}</h5>
 
-                    <div className="flex flex-col w-full gap-3 mt-4">
+                    <div className="flex flex-col w-full gap-2 mt-3 ">
 
                         {
                             mogou?.sub_mogous?.map((sub_mogou, index) => {
 
                                 return (
-                                    <div className="relative lg:w-[90%] overflow-hidden  " key={index}>
+                                    <div className="relative overflow-hidden min-w-full  " key={index}>
                                         {isNewChapter(sub_mogou.created_at)}
                                         <Button 
+                                        size={'sm'}
                                         disabled={sub_mogou.subscription_only && !userCanReadAll}
-                                        className={`flex gap-2 justify-start items-center w-full me-4 disabled:cursor-not-allowed`}>
+                                        className={`flex gap-2 justify-start items-center w-full me-4 
+                                        text-xxs
+                                        disabled:cursor-not-allowed`}>
                                             {
                                                 isSubscriptionNeedChapter(sub_mogou.subscription_only, userCanReadAll)
                                             }
-                                            <p className="text-xs xl:text-sm text-white">{sub_mogou.title}</p>
+                                            <p className=" text-white">{sub_mogou.title}</p>
                                         </Button>
                                     </div>
                                 );
@@ -76,7 +78,7 @@ function isNewChapter(date: string | number | Date) {
   
     if (isNew) {
       return (
-        <span className="absolute top-0 right-0 transform translate-x-[20%] translate-y-[40%] rotate-[45deg] bg-red-500 text-white px-4 py-0 text-xs">
+        <span className="absolute top-0 right-0 transform translate-x-[20%] translate-y-[40%] rotate-[45deg] bg-red-500 text-white px-4 py-0 text-xxs">
           New
         </span>
       );
@@ -85,4 +87,4 @@ function isNewChapter(date: string | number | Date) {
 }
 
 
-export default RecentlyUploadedCard
+export default MogouCard
