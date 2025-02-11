@@ -89,8 +89,7 @@ const DetailDrawer = () => {
 
     const handleNextPage = useCallback(() => {
         handleSetPage("increase");
-    }
-        , [handleSetPage]);
+    }, [handleSetPage]);
 
     const handlePrevPage = useCallback(() => {
         handleSetPage("decrease");
@@ -101,7 +100,7 @@ const DetailDrawer = () => {
     }, [dispatch]);
 
 
-    const containerStyle = `${readSetting.showPanel ? "w-1/5" : "w-0"} bg-background h-screen fixed top-0 right-0 `;
+    const containerStyle = `${readSetting.showPanel ? "w-1/5" : "w-0"} bg-background h-screen fixed top-0 right-0 md:z-[90]`;
 
     return (
         <div className={containerStyle}>

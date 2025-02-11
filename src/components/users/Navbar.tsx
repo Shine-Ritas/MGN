@@ -41,7 +41,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
     const subscriptionStatus = isSubscriptionExpired(authUser?.subscription_end_date, authUser?.subscription_name);
 
     return (
-        <header className={`w-4/4 sticky ${visibility.value} transition-all  flex min-h-16 items-center gap-4 border-b bg-background px-4 md:px-24 z-[100] `}>
+        <header className={`w-4/4 sticky ${visibility.value} transition-all  flex min-h-16 items-center gap-4 border-b bg-background px-4 md:px-24 z-[80] `}>
             <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"

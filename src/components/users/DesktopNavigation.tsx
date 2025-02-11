@@ -7,7 +7,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/utilities/util";
 import { forwardRef } from "react";
@@ -16,6 +16,7 @@ import { ComicType } from "@/data/data";
 export function DesktopNavigation() {
 
     const categories = useAppSelector((state) => state.categories.categories)!;
+
 
     return (
         <NavigationMenu>
@@ -27,7 +28,8 @@ export function DesktopNavigation() {
                         <ul className="grid gap-3 p-4 w-[160px] grid-cols-1">
                             {
                                 ComicType?.map((type) => (
-                                    <ListItem key={type.id} title={type.title} href={`/types/${type.id}`}>
+                                    <ListItem key={type.id} title={type.title} 
+                                    onClick={() => window.location.href = `/filter?type=${type.title}`}>
                                         {type?.title}
                                     </ListItem>
                                 ))

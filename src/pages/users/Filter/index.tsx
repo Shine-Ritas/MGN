@@ -11,7 +11,7 @@ const initlalFilterState = {
     search: "",
     page: 1,
     limit: 10,
-    mogou_type: "",
+    type: "",
     finish_status: "",
     chapters_count_order: "",
 }
