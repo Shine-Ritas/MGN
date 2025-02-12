@@ -15,6 +15,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getRandomInterval } from "@/utilities/util";
 import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
+import { useParams } from "react-router-dom";
 
 // Utility: prefetch images by creating Image objects
 const prefetchImages = (imagePaths: string[]) => {
@@ -27,6 +28,7 @@ const prefetchImages = (imagePaths: string[]) => {
 const Detail = () => {
   // Always call hooks unconditionally
   const readSetting = useUserAppSelector(selectUserReadSetting);
+  const {mogou,chapter} = useParams();
   const dispatch = useUserAppDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImages, setCurrentImages] = useState<any[]>([]);
@@ -34,9 +36,7 @@ const Detail = () => {
   const readStyle = readingStyleClasses(readingStyle.value);
 
   // Call your query hook (always)
-  const { data, isLoading } = useQuery(
-    "/users/mogous/kusuriya-no-hitorigoto-XV8QX/chapters/chapter-433-of-mogou-5044"
-  );
+  const { data, isLoading } = useQuery(`/users/mogous/${mogou}/chapters/${chapter}`);
 
   // Process API data with useMemo
   const formattedImages = useMemo(() => {

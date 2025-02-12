@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { RecentlyUploadedMogou } from './types'
 import { MatureContentTag } from '@/components/ui/maturecontenttag'
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import { rTitle } from '@/utilities/util';
 
@@ -12,6 +12,12 @@ type RecentlyUploadedCardProps = {
 }
 
 const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = (sub_mogou) => {
+        navigate(`/read/mogou/${mogou.slug}/chapters/${sub_mogou.slug}`);
+    }
 
 
     return (
@@ -38,6 +44,7 @@ const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
                                     <div className="relative overflow-hidden min-w-full  " key={index}>
                                         {isNewChapter(sub_mogou.created_at)}
                                         <Button 
+                                        onClick={() => handleClick(sub_mogou)}
                                         size={'sm'}
                                         disabled={sub_mogou.subscription_only && !userCanReadAll}
                                         className={`flex gap-2 justify-start items-center w-full me-4 
@@ -47,6 +54,7 @@ const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
                                                 isSubscriptionNeedChapter(sub_mogou.subscription_only, userCanReadAll)
                                             }
                                             <p className=" text-white">{sub_mogou.title}</p>
+                                          
                                         </Button>
                                     </div>
                                 );

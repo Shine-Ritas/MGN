@@ -7,7 +7,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/utilities/util";
 import { forwardRef } from "react";

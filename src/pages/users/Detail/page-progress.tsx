@@ -32,7 +32,7 @@ export function PageProgressBar({
 
   return (
     <div
-      className={cn("flex rounded-full overflow-visible  transition-all divide-x-2 h-2 hover:h-3", width, className)}
+      className={cn("flex rounded-full overflow-visible opacity-50 hover:opacity-80  transition-all divide-x-2 h-1 hover:h-2", width, className)}
       role="progressbar"
     >
       {Array.from({ length: totalPages }, (_, index) => (

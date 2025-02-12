@@ -35,6 +35,8 @@ const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedDat
 
                 const moved = arrayMove(items, oldIndex, newIndex);
 
+                console.log(moved)
+
                 setItems(moved);
                 setUploadedData(moved);   
                 return moved
