@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/card"
 import { Suspense } from "react"
 import { NavLink, Outlet } from "react-router-dom"
-import { setting_routes } from "./Settings"
+import { setting_routes } from "./Settings/setting-route"
 const Setting = () => {
     return (
         <main className="grid lg:grid-cols-5 items-start gap-4 pt-4  md:gap-4 ">
