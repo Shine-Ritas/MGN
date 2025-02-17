@@ -102,6 +102,7 @@ export const BackgroundColorData : Record<string, BackgroundColorType> = {
 
 // Initial state
 export const initialState  :UserReadSetting = {
+    currentId : "",
     currentPage: 1,
     totalPages : 1,
     currentChapter: 1,

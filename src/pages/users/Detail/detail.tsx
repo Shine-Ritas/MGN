@@ -41,6 +41,14 @@ const Detail = () => {
   // Process API data with useMemo
   const formattedImages = useMemo(() => {
     if (!data) return [];
+    const id = data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug;
+
+    if(readSetting.currentId != id){
+      dispatch(setField({key:"currentId",value:data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug}));
+      dispatch(setField({key:"currentPage",value:1}));
+      dispatch(setField({key:"totalPages",value:1}));
+
+    }
     return data?.current_chapter?.images;
   }, [data]);
 
@@ -81,7 +89,6 @@ const Detail = () => {
     }
   }, [dispatch, formattedImages, startIndex, endIndex, max]);
 
-  console.log(currentImages)
 
   // Effect: mobile-specific alert
   useEffect(() => {
@@ -110,7 +117,6 @@ const Detail = () => {
 
   const handlePageClick = useCallback(
     (index: number) => {
-      console.log("handlePageClick");
       dispatch(setCurrentPage({ action: "prefer", index }));
     },
     [dispatch]

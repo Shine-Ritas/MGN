@@ -21,6 +21,7 @@ import useServerValidation from "@/hooks/useServerValidation"
 import { useAppDispatch } from "@/redux/hooks"
 import { addCategories } from "@/redux/slices/category-slice"
 import { toast } from "@/components/ui/use-toast"
+import { useEffect } from "react"
 
 
 type CategoryModalProps = {
@@ -39,11 +40,27 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen,ref
 
   const isCreate = !category;
 
+
+
   const {
-    register, handleSubmit, setError, formState: { errors }
+    register,reset, handleSubmit, setError, formState: { errors }
   } = useForm<Category>({
     resolver: yupResolver(categoryValidationSchema)
   });
+
+
+    useEffect(() => {
+      if (category) {
+        reset({
+          title: category.title,
+          
+        });
+      } else {
+        reset({
+          title: "",
+        });
+      }
+    }, [category, reset]);
 
   const {handleServerErrors} = useServerValidation();
 

@@ -12,7 +12,7 @@ const FloatingToggle: React.FC<FloatingToggleProps> = ({
   onChange,
 }) => {
   const motionDivProps = useMemo(() => ({
-  className: `${!isActive ? "opacity-100" : "opacity-0"} w-12 h-12 bg-primary absolute bottom-16 -right-5 md:bottom-8 md:right-8 rounded-full cursor-pointer flex items-center justify-center
+  className: `${!isActive ? "opacity-100" : "opacity-0"} w-12 h-12 bg-primary fixed bottom-16 -right-5 md:bottom-8 md:right-8 rounded-full cursor-pointer flex items-center justify-center
         shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out z-[9999]`,
   animate: {
     opacity: !isActive ? 0.5 : 0,

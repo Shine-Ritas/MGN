@@ -12,6 +12,7 @@ import useServerValidation from "@/hooks/useServerValidation"
 import useSecureStorage from "@/hooks/useSecureStorage"
 import { Button } from "@/components/ui/button"
 import { userRouteCollection } from "@/routes/data/user_route"
+import config from "@/config"
 interface loginSubmitForm {
   user_code: string,
   password: string
@@ -33,7 +34,7 @@ export default function UserLogin() {
   const loginOnSuccess: useMutateCallbackType = (response: any) => {
     set("auth-token", response.token);
     set("auth-type", "user");
-    localStorage.setItem("expiresAt", (new Date().getTime() + 24 * 60 * 60 * 1000).toString());
+    localStorage.setItem("expiresAt", (new Date().getTime() + config.userExpireIn).toString());
 
     set('user', JSON.stringify(response.user));
 

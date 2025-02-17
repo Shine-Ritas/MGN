@@ -52,9 +52,11 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
 
   return (
-    <div className={readStyle.class} id="imageContainer" ref={containerRef}>
+    <div className={`${readStyle.class} overscroll-y-scroll min-h-screen`} id="imageContainer" ref={containerRef}>
       {currentImages.map(({ id, path }, index) => (
-        <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1} className={`${readStyle.imageClass} ${readSetting.imageFit.value}`} />
+        <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1}
+        id="parentContainer"
+        className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`} />
       ))}
     </div>
   );
