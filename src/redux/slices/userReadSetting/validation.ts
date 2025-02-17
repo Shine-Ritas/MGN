@@ -16,6 +16,7 @@ const isValidOptionType = (option: any): option is OptionType => {
     }
   
     return {
+      currentId: typeof data.currentId === 'string' ? data.currentId : initialState.currentId,
       currentPage: typeof data.currentPage === 'number' ? data.currentPage : initialState.currentPage,
       totalPages: typeof data.totalPages === 'number' ? data.totalPages : initialState.totalPages,
       currentChapter: typeof data.currentChapter === 'number' ? data.currentChapter : initialState.currentChapter,

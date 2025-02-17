@@ -37,6 +37,8 @@ const adminRoutes = {
   generalUserAvatars: "/setting/user-avatars",
   generalPrefixUpload: "/setting/prefix-upload",
 
+  admins : "/admins",
+
 };
 
 const typedAdminRouteCollection: AppRouteCollectionInterface<keyof typeof adminRoutes> = adminRoutes;
