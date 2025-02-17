@@ -15,7 +15,6 @@ const SortableItem: FC<ItemProps> = memo((props) => {
     const style = {
         transform: transform ? CSS.Transform.toString(transform) : undefined,
         transition: transition || undefined,
-
     };
 
     return (

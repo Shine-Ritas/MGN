@@ -20,7 +20,11 @@ export interface FileWithUniqueId extends File {
   id: string;
   isUploaded?: boolean;
   isUploading?: boolean;
+  isChanged?: boolean;
+  mogou_id?: number;
+  sub_mogou_id?: number;
   path?: string;
+  position?: string;
 }
 
 
@@ -36,6 +40,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       ...image, // Spread the existing properties of the image
       isUploaded: true, // Add the new property
       isUploading: false,
+      isChanged:false
     }));
 
     setChapterContent(uploaded_images);
@@ -50,8 +55,13 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     for (const file of acceptedFiles) {
       if (file.type === "application/zip") {
         try {
-          const images = await extractZip(file);
-          allExtractedImages.push(...images);
+            const images = await extractZip(file);
+            const sortedImages = images.sort((a, b) =>
+              a.name.localeCompare(b.name, undefined, { numeric: true })
+            );
+            
+            console.log(sortedImages)
+            allExtractedImages.push(...sortedImages);
         } catch (error) {
           console.error("Error extracting ZIP:", error);
         }

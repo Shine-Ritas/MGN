@@ -26,6 +26,8 @@ export interface MogousType {
 export type MogouChapter = {
     id:number,
     title:string,
+    slug:string,
+    view : number,
     chapter_number:number,
     created_at:string,
     subscription_only: boolean,
