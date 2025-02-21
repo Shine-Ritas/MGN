@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import '../styles/admin-global.css';
 import { DeleteAlertProvider } from "@/contexts/DeleteAlertContext";
-import { getServerAdminPermissions, getServerAdminPermissionsType, } from "@/redux/slices/admin-permission-slice";
+import { getServerAdminPermissions } from "@/redux/slices/admin-permission-slice";
 
 const AdminLayout = () => {
   const { data } = useQuery('admin/categories?limit=400');
