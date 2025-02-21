@@ -6,10 +6,9 @@ const userRoutes = {
   show: "/show/:slug",
   login: "/login",
   contact_us: "/contact_us",
-  read: "/read",
+  read: "/read/mogou/:mogou/chapters/:chapter",
   user_profile: "/user_profile",
-  filter_type : "/type/:type",
-  filter_genere: "/generes/:genere",
+  filter_type : "/filter",
 };
 
 const typedUserRoutes: AppRouteCollectionInterface<keyof typeof userRoutes> = userRoutes;

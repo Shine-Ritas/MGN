@@ -20,7 +20,11 @@ export interface FileWithUniqueId extends File {
   id: string;
   isUploaded?: boolean;
   isUploading?: boolean;
+  isChanged?: boolean;
+  mogou_id?: number;
+  sub_mogou_id?: number;
   path?: string;
+  position?: string;
 }
 
 
@@ -35,7 +39,8 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     const uploaded_images = chapterInfo?.images.map((image: any) => ({
       ...image, // Spread the existing properties of the image
       isUploaded: true, // Add the new property
-      isUploading: false
+      isUploading: false,
+      isChanged:false
     }));
 
     setChapterContent(uploaded_images);
@@ -44,12 +49,19 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     let allExtractedImages: File[] = [];
+
+    setUploadProgress(0);
   
     for (const file of acceptedFiles) {
       if (file.type === "application/zip") {
         try {
-          const images = await extractZip(file);
-          allExtractedImages.push(...images);
+            const images = await extractZip(file);
+            const sortedImages = images.sort((a, b) =>
+              a.name.localeCompare(b.name, undefined, { numeric: true })
+            );
+            
+            console.log(sortedImages)
+            allExtractedImages.push(...sortedImages);
         } catch (error) {
           console.error("Error extracting ZIP:", error);
         }
@@ -79,6 +91,8 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
           isUploading: false,
         });
       });
+
+      console.log(chunkResults)
   
       imagesWithId.push(...chunkResults);
       processedCount += chunkResults.length;
@@ -133,11 +147,11 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       formData.append("watermark_apply", "1");
 
       chunk.forEach((file, index) => {
+        // find the index of the file in the chapterContent array
+        const page_number = chapterContent.findIndex((f) => f.id === file.id);
         formData.append(`upload_files[${index}][file]`, file);
-        formData.append(`upload_files[${index}][page_number]`, index.toString());
+        formData.append(`upload_files[${index}][page_number]`, page_number.toString());
       });
-
-      // Mark files in the chunk as uploading
 
 
       const uploading = await uploadToServer("admin/sub-mogous/upload-files", formData);

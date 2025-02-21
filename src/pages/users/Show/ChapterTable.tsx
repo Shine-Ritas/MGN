@@ -24,6 +24,7 @@ import useQuery from "@/hooks/useQuery";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { isSubscriptionValid } from "@/utilities/util";
+import { useNavigate } from "react-router-dom";
 
 interface ChapterTableProps {
     mogous: any;
@@ -37,6 +38,7 @@ export const ChapterTable = ({
     const [loading, setLoading] = useState<boolean>(false);
     const [showAll, setShowAll] = useState<boolean>(false);
     const authUser = useUserAppSelector(selectAuthUser);
+    const navigate = useNavigate();
 
     const callback = (data: any) => {
         if (data) {
@@ -68,13 +70,15 @@ export const ChapterTable = ({
 
 
     const readTheChapter = (chapter: MogouChapter) => {
+        const link = `/read/mogou/${mogous.mogou.slug}/chapters/${chapter.slug}`;
         if (userCanReadAll) {
-            window.location.href = `/read/${mogous.mogou.slug}/${chapter.chapter_number}`;
+            navigate(link);
         } else {
-           if( chapter.third_party_redirect && !chapter.subscription_only){
+        //    if( chapter.third_party_redirect && !chapter.subscription_only){
             // add target
-                window.open(chapter.third_party_url!, '_blank');
-           }
+            navigate(link);
+
+        //    }
         }
     }
 
@@ -89,7 +93,8 @@ export const ChapterTable = ({
                 </CardHeader>
                 <CardContent>
                     <Table
-                        divClassname="md:max-h-[70vh] overflow-y-auto "
+                    // duration 2s
+                        divClassname="md:max-h-[70vh] overflow-y-auto transition duration-[2s] ease-in-out"
                         className=" w-full">
 
                         <TableBody className="gap-10 w-full">

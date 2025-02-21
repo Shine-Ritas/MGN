@@ -18,25 +18,27 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
 
   useEffect(() => {
+    let observer: IntersectionObserver | undefined;
+    if (readSetting.readingStyle.value === "long-strip") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const currentImage = entry.target as HTMLImageElement;
+              const sid = currentImage.getAttribute("data-sid");
+              if(readSetting.currentPage !== sid )
+              dispatch(setCurrentPage({ action: "prefer", index: parseInt(sid as string) }));
+            }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const currentImage = entry.target as HTMLImageElement;
-            const sid = currentImage.getAttribute("data-sid");
-            dispatch(setCurrentPage({ action: "prefer", index: parseInt(sid as string) }));
-          }
+          });
+        },
+        { root: containerRef.current, threshold: 0.95 } // 60% of the image must be visible
+      );
+      const imageElements = containerRef.current?.querySelectorAll("img");
+      imageElements?.forEach((img) => observer?.observe(img));
 
-        });
-      },
-      { root: containerRef.current, threshold: 0.95 } // 60% of the image must be visible
-    );
-
-    const imageElements = containerRef.current?.querySelectorAll("img");
-    if (readSetting.readingStyle.value === "long-strip")
-      imageElements?.forEach((img) => observer.observe(img));
-    return () => observer.disconnect();
+    }
+    return () => observer?.disconnect();
   }, [dispatch, containerRef, readSetting.readingStyle.value, readSetting.currentPage]);
 
 
@@ -45,17 +47,19 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
     if (readSetting.readingStyle.value === "long-strip") {
       imageElements?.[readSetting.currentPage]?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  },[]);
+  }, []);
 
 
 
-    return (
-      <div className={readStyle.class} id="imageContainer" ref={containerRef}>
-        {currentImages.map(({ id, path }, index) => (
-          <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1} className={`${readStyle.imageClass} ${readSetting.imageFit.value}`} />
-        ))}
-      </div>
-    );
-  };
+  return (
+    <div className={`${readStyle.class} overscroll-y-scroll min-h-screen`} id="imageContainer" ref={containerRef}>
+      {currentImages.map(({ id, path }, index) => (
+        <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1}
+        id="parentContainer"
+        className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`} />
+      ))}
+    </div>
+  );
+};
 
-  export default ImageContainer;
+export default ImageContainer;

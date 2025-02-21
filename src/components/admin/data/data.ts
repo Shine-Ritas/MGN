@@ -6,7 +6,7 @@ import { BiCategory } from "react-icons/bi";
 import { MdSubscriptions } from "react-icons/md";
 import { ElementType } from "react";
 import { TbAppsFilled } from "react-icons/tb";
-import { MessageCircleWarning } from "lucide-react";
+import { MessageCircleWarning, UserCog } from "lucide-react";
 import { adminRouteCollection } from "@/routes/data/admin_route";
 
 type MenuItem = {
@@ -29,4 +29,19 @@ export const navigateMenu: NavigateMenu = {
     apps: { Icon: TbAppsFilled, to: adminRouteCollection.apps, tooltip: "Your Apps", title: "Apps" },
     setting: { Icon: IoSettings, to: adminRouteCollection.generalSetting, tooltip: "Customize Your Application", title: "Setting" },
     report: { Icon: MessageCircleWarning, to: adminRouteCollection.reports, tooltip: "Reports", title: "Reports" },
-  };
+    admins: { Icon: UserCog , to: adminRouteCollection.admins, tooltip: "Manage Admins", title: "Admins" },
+};
+
+export const navigateMenuWithPermissions = (permissions: string[] | null): Partial<NavigateMenu> => {
+  if (!permissions || permissions.length < 1 || permissions == undefined) {
+    return {};
+  }
+
+  return Object.keys(navigateMenu).reduce((acc, key) => {
+   
+    if (permissions.includes(key)) {
+      acc[key] = navigateMenu[key];
+    }
+    return acc;
+  }, {} as Partial<NavigateMenu>);
+}

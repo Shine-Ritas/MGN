@@ -17,6 +17,7 @@ export function DesktopNavigation() {
 
     const categories = useAppSelector((state) => state.categories.categories)!;
 
+
     return (
         <NavigationMenu>
             <NavigationMenuList>
@@ -27,7 +28,8 @@ export function DesktopNavigation() {
                         <ul className="grid gap-3 p-4 w-[160px] grid-cols-1">
                             {
                                 ComicType?.map((type) => (
-                                    <ListItem key={type.id} title={type.title} href={`/types/${type.id}`}>
+                                    <ListItem key={type.id} title={type.title} 
+                                    onClick={() => window.location.href = `/filter?type=${type.title}`}>
                                         {type?.title}
                                     </ListItem>
                                 ))

@@ -13,6 +13,7 @@ export interface ProgressBarType extends OptionType { }
 export interface BackgroundColorType extends OptionType { }
 
 export interface UserReadSetting {
+  currentId : string;
   currentPage: number;
   totalPages: number;
   currentChapter: number;

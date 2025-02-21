@@ -16,8 +16,8 @@ export type ItemProps = HTMLAttributes<HTMLDivElement> & {
 
 const STATIC_STYLES = {
     transformOrigin: '50% 50%',
-    height: '140px',
-    width: '140px',
+    height: '310px',
+    width: '210px',
     borderRadius: '10px',
     display: 'flex',
     justifyContent: 'center',

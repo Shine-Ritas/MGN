@@ -76,8 +76,6 @@ export const handleVerticalClick = (
 
   const { offsetHeight } = containerRef.current;
   const middle = offsetHeight / 2;
-
-
   if (currentTime - lastTapTime <= doubleTapTimeout) {
     dispatch(toggleValue("showPanel"));
     lastTapTime = 0;
@@ -88,21 +86,15 @@ export const handleVerticalClick = (
   const images = Array.from(container.querySelectorAll("img")) as HTMLImageElement[];
 
   if (clientY > middle) {
-    console.log('under middle')
     const nextImage = images[currentPage] || images[currentPage - 1];
-
     if (nextImage) {
       nextImage.scrollIntoView({ behavior: "smooth", block: "start" });
-      dispatch(setCurrentPage({ action: "prefer", index: currentPage + 1 } as SetCurrentPagePayload));
     }
   }
   else {
     const prevImage = images[currentPage - 2] ;
-
     if (prevImage) {
       prevImage.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      dispatch(setCurrentPage({ action: "prefer", index: currentPage - 3 } as SetCurrentPagePayload));
     }
   }
 

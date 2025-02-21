@@ -4,6 +4,7 @@ import { initialState, toggleActionCollection, SettingActionKey } from "./consta
 import { UserReadSetting } from "./types";
 import readingStyleClasses from "@/utilities/read-helper";
 import { filterForDevices } from "@/utilities/read-action";
+import { validateUserReadSetting } from "./validation";
 
 // Utility for persisting to localStorage
 const saveToLocalStorage = (key: string, value: any) => {
@@ -12,7 +13,8 @@ const saveToLocalStorage = (key: string, value: any) => {
 
 const loadFromLocalStorage = (key: string, fallback: any): any => {
   const data = localStorage.getItem(key);
-  return data ? JSON.parse(data) : fallback;
+  const parsedData = data ? JSON.parse(data) : null;
+  return validateUserReadSetting(parsedData) ? parsedData : fallback;
 };
 
 

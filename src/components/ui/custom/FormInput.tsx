@@ -35,7 +35,6 @@ export default function FormInput({
           disabled={disabled}
           placeholder={placeholder}
           defaultValue={initValue}
-         
           onInput={type === "number" ? handleNumberInput : undefined}
           {...register}
         />

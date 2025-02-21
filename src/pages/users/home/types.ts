@@ -31,8 +31,11 @@ export interface Category {
 export interface SubMogousType {
     id:number,
     title:string,
+    slug:string,
+    view : number,
     chapter_number:number,
     created_at:string,
+    mogou_id:number,
     subscription_only: boolean,
     third_party_redirect: boolean,
     third_party_url?: string,

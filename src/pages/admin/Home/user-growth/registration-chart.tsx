@@ -23,8 +23,9 @@ const chartConfig = {
 
 export function RegistrationChart({chartData}) {
 
-  const start_month = chartData[0].key
-  const end_month = chartData[chartData.length - 1].key
+  const start_month = chartData[chartData.length - 1].key
+  const end_month = chartData[0].key
+
 
   const currentYear = new Date().getFullYear()
   return (

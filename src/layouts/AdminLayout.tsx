@@ -8,11 +8,11 @@ import { Outlet } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import '../styles/admin-global.css';
 import { DeleteAlertProvider } from "@/contexts/DeleteAlertContext";
+import { getServerAdminPermissions } from "@/redux/slices/admin-permission-slice";
 
 const AdminLayout = () => {
   const { data } = useQuery('admin/categories?limit=400');
   const dispatch = useAppDispatch();
-
   const { isMobile } = useScreenDetector();
 
   const [navbarTitle, setNavbarTitle] = useState('App');
@@ -26,6 +26,11 @@ const AdminLayout = () => {
       dispatch(setCategories(data.categories.data));
     }
   }, [data]);
+
+  useEffect( () => { 
+    dispatch( getServerAdminPermissions() as any );
+  }
+  ,[])
   return (
     <div className="flex pt-8 h-screen max-h-screen  pb-10  px-6  lg:px-0 bg-[#f5f5f5] dark:bg-background">
 

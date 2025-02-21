@@ -1,5 +1,6 @@
 import { setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { UserAppDispatch } from "@/redux/stores/userStore";
+import { UserReadSetting } from "./types";
 
 export interface Shortcut {
     key: string; // The shortcut key
@@ -8,11 +9,34 @@ export interface Shortcut {
     action: () => void; // The function to execute
 }
 
-const shortcutMapFactory = (dispatch: UserAppDispatch, readingDirection: string): Shortcut[] => {
-    const LTR = readingDirection === "ltr";
+// Utility function for scrolling
+const scrollContainer = (amount: number) => {
+    const container = document.querySelector("#imageContainer");
+    if (container) {
+        container.scrollBy({ top: amount, behavior: "smooth" });
+    }
+};
 
-    const nextAction = LTR ? "increase" : "decrease";
-    const prevAction = LTR ? "decrease" : "increase";
+// Utility function for handling "w" action (scroll up)
+const scrollUpForReadingStyle = (readingStyle: string,isDown : boolean) => {
+    const container = document.querySelector("#imageContainer");
+    if (!container) return;
+
+    if (readingStyle.includes("long-strip")) {
+        const amount = isDown ? 500 : -500;
+        scrollContainer(amount); // Scroll up by 500px
+    } else {
+        const block = isDown ? "end" : "start";
+        container.scrollIntoView({ behavior: "smooth", block }); // Go to the top
+    }
+};
+
+const shortcutMapFactory = (dispatch: UserAppDispatch, readSetting: UserReadSetting): Shortcut[] => {
+    const LTR = readSetting.readingDirection.value === "ltr";
+    const ReadingStyle = readSetting.readingStyle.value;
+
+    const nextAction = LTR ? "decrease" : "increase";
+    const prevAction = LTR ? "increase" : "decrease";
 
     return [
         {
@@ -39,7 +63,6 @@ const shortcutMapFactory = (dispatch: UserAppDispatch, readingDirection: string)
             description: "Skip a page, backward in LTR or forward in RTL.",
             action: () => dispatch(setCurrentPage({ action: prevAction })),
         },
-       
         {
             key: "h",
             label: "h",
@@ -55,30 +78,23 @@ const shortcutMapFactory = (dispatch: UserAppDispatch, readingDirection: string)
         {
             key: "w",
             label: "w",
-            description: "Toggle the reading style",
-            action: () => {
-                const container = document.getElementById("imageContainer");
-                container?.scrollBy({ top: -500, behavior: "smooth" });
-            },
+            description: "Scroll up a little bit",
+            action: () => scrollUpForReadingStyle(ReadingStyle,false),
         },
         {
             key: "s",
             label: "s",
             description: "Scroll a little bit down",
-            action: () => {
-                const container = document.getElementById("imageContainer");
-                container?.scrollBy({ top: 500, behavior: "smooth" });
-            },
-        }
+            action: () => scrollUpForReadingStyle(ReadingStyle,true),
+        },
     ];
 };
 
 const shortcutActions = (shortcuts: Shortcut[]) => {
-    const actions: Record<string, () => void> = {};
-    shortcuts.forEach((shortcut) => {
-        actions[shortcut.key] = shortcut.action;
-    });
-    return actions;
+    return shortcuts.reduce<Record<string, () => void>>((acc, shortcut) => {
+        acc[shortcut.key] = shortcut.action;
+        return acc;
+    }, {});
 };
 
 export default shortcutMapFactory;

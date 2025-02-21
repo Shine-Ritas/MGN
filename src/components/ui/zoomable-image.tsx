@@ -20,7 +20,7 @@ export default function ZoomableImage({
           }}
         />
       </DialogTrigger>
-      <DialogContent className="max-w-7xl w-fit border-0 bg-transparent p-0  max-h-[calc(80vh)] overflow-scroll ">
+      <DialogContent className="max-w-3xl w-full border-0 bg-transparent p-0  max-h-[calc(90vh)] overflow-scroll ">
         <div className="relative   rounded-md bg-transparent shadow-md  flex justify-center">
           <img src={src} alt={alt || ''} className="h-full w-[40vw] object-cover " />
         </div>

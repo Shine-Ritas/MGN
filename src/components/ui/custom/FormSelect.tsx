@@ -12,7 +12,7 @@ import { cn } from "@/utilities/util";
 export interface FormSelectProps
   extends React.ComponentPropsWithoutRef<typeof Select> {
   selectKey: string;
-  collection: { id: string | number; title: string }[];
+  collection: { id: string | number; title?: string ;name?:string  }[];
   setValue: any;
   errors?: Record<string, any>;
   className?: string;
@@ -33,6 +33,7 @@ const FormSelect = React.forwardRef<HTMLDivElement, FormSelectProps>(
       setValue(selectKey, defaultValue);
     }, [defaultValue, selectKey, setValue]);
 
+
     return (
       <div className={cn("space-y-2", className)} ref={ref}>
         <Select
@@ -49,7 +50,7 @@ const FormSelect = React.forwardRef<HTMLDivElement, FormSelectProps>(
           <SelectContent>
             {collection.map((item) => (
               <SelectItem key={item.id} value={`${item.id}`}>
-                {item.title}
+                {item.title ?? item.name}
               </SelectItem>
             ))}
           </SelectContent>

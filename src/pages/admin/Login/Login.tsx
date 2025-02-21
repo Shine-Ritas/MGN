@@ -16,6 +16,7 @@ import { useAppDispatch } from "@/redux/hooks"
 import { setAdmin } from "@/redux/slices/admin-auth-slice"
 import { adminRouteCollection } from "@/routes/data/admin_route"
 import useSecureStorage from "@/hooks/useSecureStorage"
+import config from "@/config"
 interface loginSubmitForm {
     email: string,
     password: string
@@ -40,7 +41,8 @@ const Login = () => {
       const loginOnSuccess : useMutateCallbackType = (response : any) => {
         set("auth-token", response.token);
         set("auth-type", "admin");
-        localStorage.setItem("expiresAt", (new Date().getTime() + 24 * 60 * 60 * 1000).toString());
+        set("auth-role", response.role);
+        localStorage.setItem("expiresAt", (new Date().getTime() + config.adminExpireIn).toString());
 
         dispatch(setAdmin(response.user));
 

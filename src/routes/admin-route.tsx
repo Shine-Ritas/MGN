@@ -3,8 +3,9 @@ import { AppRouteInterface } from "./type.ts";
 import { adminStore } from "@/redux/stores/adminStore.ts";
 import { Provider } from "react-redux";
 import { adminRouteCollection } from "@/routes/data/admin_route.ts";
-import { setting_routes } from "@/pages/admin/Settings/index.tsx";
-import { bot_routes } from "@/pages/admin/apps/bots/bot-index.tsx";
+import { setting_routes } from "@/pages/admin/Settings/setting-route.tsx";
+import { bot_routes } from "@/pages/admin/apps/bots/bot-route.tsx";
+import { admin_routes } from "@/pages/admin/admins/admin-route.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Action = lazy(() => import('../pages/admin/Comics/Action.tsx'));
@@ -23,7 +24,6 @@ const UserDetail = lazy(() => import('@/pages/admin/Users/UserDetail.tsx'));
 const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
 
 
-
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
     element: 
@@ -35,6 +35,7 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
     ,
     children:[
         setting_routes,
+        ...admin_routes,
         ...bot_routes,
         {
           path: adminRouteCollection.dashboard,
