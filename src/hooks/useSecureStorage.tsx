@@ -25,8 +25,12 @@ const useSecureStorage = () => {
     },
     [secretKey]
   );
-  const remove = useCallback((key: string) => {
-    localStorage.removeItem(key);
+  const remove = useCallback((keys: string | string[]) => {
+    if (Array.isArray(keys)) {
+      keys.forEach((key) => localStorage.removeItem(key));
+    } else {
+      localStorage.removeItem(keys);
+    }
   }, []);
   return { set, get, remove };
 };

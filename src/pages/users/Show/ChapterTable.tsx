@@ -93,7 +93,8 @@ export const ChapterTable = ({
                 </CardHeader>
                 <CardContent>
                     <Table
-                        divClassname="md:max-h-[70vh] overflow-y-auto "
+                    // duration 2s
+                        divClassname="md:max-h-[70vh] overflow-y-auto transition duration-[2s] ease-in-out"
                         className=" w-full">
 
                         <TableBody className="gap-10 w-full">

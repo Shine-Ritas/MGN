@@ -36,7 +36,7 @@ const HomePage = () => {
         <HeroCarousel />
       </div>
 
-      <div className="w-full">
+      <div className="w-full ">
           {
             (banners.length > 0 && banners[0].active == true) && <AdsBanner banner={banners[0]} />
           }

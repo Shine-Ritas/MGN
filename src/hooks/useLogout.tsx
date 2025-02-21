@@ -7,14 +7,12 @@ import useSecureStorage from "./useSecureStorage";
 const useLogout = () => {
 
   const dispatch = useAppDispatch();
-  const {get} = useSecureStorage();
+  const {get,remove} = useSecureStorage();
 
   const logout = useCallback((withToast=true) => {
     const navigateTo = get("auth-type") === "admin" ? '/admin/login' : '/login';
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem("expiresAt");
-    localStorage.removeItem("auth-type");
-    localStorage.removeItem("user");
+   
+    remove(["auth-token", "expiresAt", "auth-type", "user",'auth-role','auth-permissions']);
 
     withToast && toast({
       title: "Logged Out",

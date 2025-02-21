@@ -3,10 +3,13 @@ import SidebarIcon from "../ui/SidebarIcon";
 import AlertBox from "../ui/AlertBox";
 import { memo } from "react";
 import useLogout from "@/hooks/useLogout";
-import { navigateMenu } from "./data/data";
+import { navigateMenuWithPermissions } from "./data/data";
+import { useSelector } from "react-redux";
+import { selectAdminPermissions } from "@/redux/slices/admin-permission-slice";
 
 const SidebarRaw = () => {
-  const icons = navigateMenu;
+  const permissions = useSelector(selectAdminPermissions);
+  const icons = navigateMenuWithPermissions(permissions ?? []) ?? [];
   const logout = useLogout();
 
   return (
@@ -14,7 +17,7 @@ const SidebarRaw = () => {
       <div className="flex flex-col gap-8 pt-6 h-[90%] overflow-y-scroll">
         
         {Object.keys(icons).map((key) => {
-          const { Icon, to, tooltip } = icons[key];
+          const { Icon, to, tooltip } = icons[key]!;
           return (
             <SidebarIcon key={key} Icon={Icon} to={to} tooltip={tooltip} />
           );
