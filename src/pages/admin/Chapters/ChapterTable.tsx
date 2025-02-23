@@ -57,7 +57,7 @@ export const ChapterTable = ({
                         <TableHeader>
                             <TableRow>
                                 <TableHead className={cn(tableStyleClasses.tableHeader, "ps-3")}>Name</TableHead>
-                                <TableHead className={cn(tableStyleClasses.tableHeader, "text-center")}>Order</TableHead>
+                                <TableHead className={cn(tableStyleClasses.tableHeader, "text-center")}>Chapter Number</TableHead>
                                 <TableHead className={cn(tableStyleClasses.tableHeader, "text-center")}>Created At</TableHead>
                                 <TableHead className={cn(tableStyleClasses.tableHeader, "")}></TableHead>
                             </TableRow>
