@@ -18,7 +18,7 @@ const RecentlyUploaded = () => {
     const [page, setPage] = useState<number>(1);
     const [currentType, setCurrentType] = useState<string>("");
 
-    const isSafeMode = useUserAppSelector(selectSafeContent) ? false : "" ;
+    const isSafeMode = useUserAppSelector(selectSafeContent);
     const authUser = useUserAppSelector(selectAuthUser);
 
     const { data, isLoading, isFetching } = useQuery(`users/last-uploaded?per_page=12&page=${page}&mogou_type=${currentType}&legal_only=${isSafeMode}`);

@@ -161,6 +161,8 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
           const index = chapterContent.findIndex((f) => f.id === file.id);
           if (index !== -1) {
             chapterContent[index].isUploaded = true;
+            chapterContent[index].mogou_id = chapterInfo.mogou_id;
+            chapterContent[index].sub_mogou_id = chapterInfo.id;
             chapterContent[index].isUploading = false;
           }
         });

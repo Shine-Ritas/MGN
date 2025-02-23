@@ -11,9 +11,12 @@ const saveToLocalStorage = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-const loadFromLocalStorage = (key: string, fallback: any): any => {
+export const loadFromLocalStorage = (key: string, fallback: any): any => {
   const data = localStorage.getItem(key);
-  const parsedData = data ? JSON.parse(data) : null;
+  if(!data){
+  saveToLocalStorage(key,fallback)
+  }
+  const parsedData = data ? JSON.parse(data) : fallback;
   return validateUserReadSetting(parsedData) ? parsedData : fallback;
 };
 
