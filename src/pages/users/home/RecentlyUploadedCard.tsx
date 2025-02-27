@@ -21,7 +21,7 @@ const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
 
 
     return (
-        <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700">
+        <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700 min-h-48">
             <div className='flex h-full' >
                 <Link 
                 aria-label={mogou?.title}
@@ -33,9 +33,21 @@ const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
                 </Link>
                 <div className="pb-4 pt-3 px-4 w-full">
                 <div className="text-neon-primary  text-sm w-full">{mogou.mogou_type_name}</div>
-                    <h5 className="text-sm font-semibold text-white mb-3">{rTitle(mogou.title,25)}</h5>
+                    <h5 className="text-sm font-semibold text-white mb-1">{rTitle(mogou.title,25)}</h5>
 
-                    <div className="flex flex-col w-full gap-2 mt-3 ">
+                    <div className="flex flex-wrap ">
+                        {
+                            mogou?.categories?.slice(0, 3).map((category, index) => {
+                                return (
+                                    <span key={index} className="text-xxs text-white/70 
+                                    font-normal
+                                    uppercase pe-1 py-0.5">{category.title} </span>
+                                );
+                            })
+                        }
+                    </div>
+
+                    <div className="flex flex-col w-full gap-2 mt-2 ">
 
                         {
                             mogou?.sub_mogous?.map((sub_mogou, index) => {
@@ -47,7 +59,7 @@ const MogouCard = ({ mogou,userCanReadAll }: RecentlyUploadedCardProps) => {
                                         onClick={() => handleClick(sub_mogou)}
                                         size={'sm'}
                                         disabled={sub_mogou.subscription_only && !userCanReadAll}
-                                        className={`flex gap-2 justify-start items-center w-full me-4 
+                                        className={`flex gap-2 justify-start items-center w-full xl:me-4 
                                         text-xxs
                                         disabled:cursor-not-allowed`}>
                                             {
