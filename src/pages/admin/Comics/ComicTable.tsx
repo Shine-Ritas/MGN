@@ -37,23 +37,12 @@ const ComicTable = () => {
     `admin/mogous?${bunUrl}&mogou_total_count=true`
   );
 
-  const handleComicTypeChange = (selectedTypes: string) => {
-    handleFilter("mogou_type", selectedTypes);
-  };
-
-  const handleComicProgressChange = (selectedStatus: string) => {
-    handleFilter("finish_status", selectedStatus);
-  };
-
   return (
     <Card className="min-h-full shadow-none">
       <CardHeader className="flex flex-col-reverse lg:flex-row  items-start justify-between gap-4 min-h-[10vh]">
         <ComicFilter
-          handler={handleFilter}
-          selectedTypes={getByKey("mogou_type")}
-          selectedProgress={getByKey("finish_status")}
-          onTypeChange={handleComicTypeChange}
-          onProgressChange={handleComicProgressChange}
+          handleFilter={handleFilter}
+          getByKey={getByKey}
           data={data}
         />
 
