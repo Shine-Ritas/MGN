@@ -108,3 +108,9 @@ export const extractZip = async (file: File): Promise<File[]> => {
     return extractedImages;
   }
 
+
+export const whereIn = <T>(array: T[], haystacks: T[],key:string): T[] => {
+    return array.filter((item) => {
+        return haystacks.includes(item[key]);
+    });
+}

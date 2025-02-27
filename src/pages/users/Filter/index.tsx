@@ -14,12 +14,13 @@ const initlalFilterState = {
     type: "",
     finish_status: "",
     chapters_count_order: "",
+    genres: ""
 }
 
 
 export default function Page() {
 
-    const { bunUrl } = useFilterState(initlalFilterState, ['page']);
+    const { bunUrl,handleChange:handleFilter,getByKey } = useFilterState(initlalFilterState, ['page']);
 
     const authUser = useUserAppSelector(selectAuthUser);
     
@@ -30,7 +31,7 @@ export default function Page() {
 
     if(isLoading)
     {
-        return <div>Loading...</div>
+        return <div></div>
     }
 
     return (
@@ -44,7 +45,7 @@ export default function Page() {
                     </span>
                 </div>
 
-                <FilterComponent />
+                <FilterComponent handleFilter={handleFilter} getByKey={getByKey}/>
 
                 {/* Manga Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 gap-6">
