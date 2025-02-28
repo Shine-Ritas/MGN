@@ -21,14 +21,14 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
 
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8 text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8 text-xs">
                 <div className="relative">
                     <Input
                         ref={searchInput}
                         onKeyUp={(e) => e.key === "Enter" && handleFilter("search", e.currentTarget.value)}
                         type="text"
-                        placeholder="Search User ..."
-                        className="pl-8 lg:w-[200px]"
+                        placeholder="Search ..."
+                        className="pl-3"
                     />
                     <Search className="absolute right-3 top-1.5 h-5 w-5 text-gray-400" />
                 </div>

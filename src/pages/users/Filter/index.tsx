@@ -4,33 +4,41 @@ import useQuery from "@/hooks/useQuery";
 import { isSubscriptionValid } from "@/utilities/util";
 import MogouCard from "../home/RecentlyUploadedCard";
 import { useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser } from "@/redux/slices/user-global";
+import { selectAuthUser, selectSafeContent } from "@/redux/slices/user-global";
+import { useEffect } from "react";
+import { TablePagination } from "@/components/TablePagination";
 
 
 const initlalFilterState = {
     search: "",
     page: 1,
-    limit: 10,
+    limit: 12,
     type: "",
     finish_status: "",
     chapters_count_order: "",
-    genres: ""
+    genres: "",
+    legal_only: false
 }
 
 
 export default function Page() {
 
-    const { bunUrl,handleChange:handleFilter,getByKey } = useFilterState(initlalFilterState, ['page']);
+    const isSafeMode = useUserAppSelector(selectSafeContent);
+
+    const { bunUrl, handleChange: handleFilter, getByKey } = useFilterState(initlalFilterState, ['page']);
 
     const authUser = useUserAppSelector(selectAuthUser);
-    
 
-    const { data, isLoading } = useQuery(
+    useEffect(() => {
+        isSafeMode ? handleFilter('legal_only', true) : handleFilter('legal_only', false);
+    }, [isSafeMode])
+
+
+    const { data, isLoading, isFetching } = useQuery(
         `/users/filter?${bunUrl}`
     );
 
-    if(isLoading)
-    {
+    if (isLoading) {
         return <div></div>
     }
 
@@ -45,15 +53,36 @@ export default function Page() {
                     </span>
                 </div>
 
-                <FilterComponent handleFilter={handleFilter} getByKey={getByKey}/>
+                <div className="grid grid-cols-12">
+                    {/* grid span 3 */}
+                    <div className="col-span-11 w-full">
+                    <FilterComponent handleFilter={handleFilter} getByKey={getByKey} />
+                    </div>
+
+                    <div className="col-span-1">
+                        <div className="flex ">{data && data?.mogous.data.length > 0 && (
+                            <TablePagination
+                                url={data?.mogous.path}
+                                lastPage={data?.mogous.last_page}
+                                currentPage={getByKey("page")}
+                                setCurrentPage={(page) => handleFilter("page", page)}
+                                isFetching={isFetching}
+                                paging={false}
+                                hideLabel={true}
+                            />
+                        )}</div>
+                    </div>
+                </div>
 
                 {/* Manga Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 gap-6">
                     {data?.mogous?.data.map((mogou) => (
-                            <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
+                        <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
                     ))}
                 </div>
             </div>
+
+
         </div>
     )
 }

@@ -63,6 +63,8 @@ const UserLayout = () => {
           </div>
         </div>
         {!isReadMode && <UserLayoutFooter />}
+
+        
       </div>
       {isReadMode && <DetailDrawer />}
     </div>

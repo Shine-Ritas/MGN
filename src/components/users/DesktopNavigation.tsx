@@ -44,7 +44,8 @@ export function DesktopNavigation() {
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] ">
                             {
                                 categories?.map((category) => (
-                                    <ListItem key={category.id} title={category.title} href={`/categories/${category.id}`}>
+                                    <ListItem key={category.id} title={category.title} 
+                                    onClick={() => window.location.href = `/filter?genres=${category.title}`}>
                                         {category?.title}
                                     </ListItem>
                                 ))

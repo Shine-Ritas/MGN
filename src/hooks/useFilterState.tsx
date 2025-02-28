@@ -89,10 +89,10 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
         return filterParams[key] ?? null;
     }, [filterParams]);
 
-    useEffect(() => {
+    const submitUrl = useCallback(() => {
         const searchParams = new URLSearchParams();
-        Object.keys(debouncedFilterParams).forEach((key) => {
-            const value = debouncedFilterParams[key];
+        Object.keys(filterParams).forEach((key) => {
+            const value = filterParams[key];
             if (Array.isArray(value)) {
                 if (value.length > 0) {
                     searchParams.set(key, value.join(','));
@@ -105,9 +105,14 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
 
         const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
         window.history.replaceState(null, "", newUrl);
-    }, [debouncedFilterParams]);
+    }
+    , [filterParams]);
 
-    return { bunUrl, handleChange, resetFilters, getByKey, filterParams };
+    useEffect(() => {
+        submitUrl();
+    }, [debouncedFilterParams, submitUrl]);
+
+    return { bunUrl, handleChange, resetFilters, getByKey, filterParams,submitUrl };
 };
 
 export default useFilterState;

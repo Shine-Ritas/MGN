@@ -35,7 +35,7 @@ const initialState = {
 }
 
 export default function Component() {
-  const { bunUrl, handleChange : handleFilter,getByKey } = useFilterState(initialState,['page']);
+  const { bunUrl, handleChange : handleFilter,getByKey,submitUrl } = useFilterState(initialState,['page']);
 
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export default function Component() {
 
         <div className="w-full flex justify-between">
             <div className="">
-              <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total}/>
+              <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total} submitUrl={submitUrl}/>
             </div>
 
             <div className="flex items-center gap-4">

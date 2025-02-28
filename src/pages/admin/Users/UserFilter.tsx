@@ -25,6 +25,7 @@ import { SubscriptionType } from "../Subscription/type";
 type UserFilterProps = {
   getByKey: (key: string) => any;
   handleFilter: (key: string, value: any) => void;
+  submitUrl: () => void;
   total?: number;
 };
 
@@ -38,7 +39,7 @@ const userActiveStatus: UserActiveStatus[] = [
   { id: 0, title: "Inactive" },
 ];
 
-export default function UserFilter({ getByKey, handleFilter ,total}: UserFilterProps) {
+export default function UserFilter({ getByKey, handleFilter ,total,submitUrl}: UserFilterProps) {
   const searchInput = useRef<HTMLInputElement>(null);
   const [selectSubscription, setSelectSubscription] = useState<SubscriptionType[]>([]);
 
@@ -130,7 +131,9 @@ export default function UserFilter({ getByKey, handleFilter ,total}: UserFilterP
         />
       </div>
 
-      <Button  variant="outline" className="bg-background font-semibold text-xs text-muted-foreground w-fit">
+      <Button  
+      onClick={submitUrl}
+      variant="outline" className="bg-background font-semibold text-xs text-muted-foreground w-fit">
         Total : {total ?? 0} results
       </Button>
     </div>
