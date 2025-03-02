@@ -5,7 +5,7 @@ import LogoTitle from "@/assets/imgs/logo-title.png";
 
 const UserLayoutFooter = () => {
   return (
-    <footer className='md:px-24'>
+    <footer className=''>
       <div className="dark py-8 ">
         <div className="px-5 md:px-24 flex flex-col md:flex-row mditems-center justify-between">
           <div className="flex items-center justify-between space-x-4">

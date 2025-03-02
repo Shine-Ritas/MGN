@@ -12,7 +12,7 @@ import {
 } from '@dnd-kit/core';
 import {
     restrictToFirstScrollableAncestor,
-  } from "@dnd-kit/modifiers";
+} from "@dnd-kit/modifiers";
 
 import SortableItem from './sortable-grid-item';
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
@@ -22,12 +22,41 @@ import useMutate from '@/hooks/useMutate';
 
 
 
-const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedData: FileWithUniqueId[],setUploadedData:any}) => {
+const ChapterContentViewGrid = ({ uploadedData = [], setUploadedData }: { uploadedData: FileWithUniqueId[], setUploadedData: any }) => {
     const [items, setItems] = useState<FileWithUniqueId[]>(uploadedData);
-    const [activeItem, setActiveItem] = useState<FileWithUniqueId|null>(null);
+    const [activeItem, setActiveItem] = useState<FileWithUniqueId | null>(null);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const [postDrag, { isLoading }] = useMutate({ callback: undefined, navigateBack: false });
+
+    const [postDelete, { isLoading: isDeleting }] = useMutate({ callback: undefined, navigateBack: false });
+
+    const handleDelete = useCallback(async (id: string) => {
+        const index = items.findIndex((item) => item.id === id);
+        const deletedItem = items[index];
+        if (deletedItem.isUploaded) {
+            const response = await postDelete("admin/sub-mogous/image/delete", {
+                mogou_id: deletedItem.mogou_id,
+                sub_mogou_id: deletedItem.sub_mogou_id,
+                image_id: deletedItem.id
+            });
+
+            if (!response.error) {
+                const newItems = items.filter((item) => item.id !== id);
+                setItems(newItems);
+                setUploadedData(newItems);
+            }
+        }
+        else{
+            // remove from ui
+            const newItems = items.filter((item) => item.id !== id);
+            setItems(newItems);
+            setUploadedData(newItems);
+            
+        }
+
+    }, [postDelete]);
+
 
     const handleDragStart = useCallback((event: DragStartEvent) => {
 
@@ -47,12 +76,12 @@ const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedDat
                 // target item should be the item before new index
                 const targetItem = items.find((item) => item.id === over?.id);
 
-                if(sourceItem?.isUploaded && targetItem?.isUploaded){
-                    await postDrag("admin/sub-mogous/image/reorder",{
-                        mogou_id : sourceItem?.mogou_id,
-                        sub_mogou_id : sourceItem?.sub_mogou_id,
-                        source_image_id : sourceItem?.id,
-                        target_image_id : targetItem?.id
+                if (sourceItem?.isUploaded && targetItem?.isUploaded) {
+                    await postDrag("admin/sub-mogous/image/reorder", {
+                        mogou_id: sourceItem?.mogou_id,
+                        sub_mogou_id: sourceItem?.sub_mogou_id,
+                        source_image_id: sourceItem?.id,
+                        target_image_id: targetItem?.id
                     });
                 }
 
@@ -75,7 +104,7 @@ const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedDat
     useEffect(() => {
         setItems(uploadedData);
     }
-    , [uploadedData]);
+        , [uploadedData]);
 
     return (
         <DndContext
@@ -89,25 +118,26 @@ const ChapterContentViewGrid = ({uploadedData = [],setUploadedData}:{uploadedDat
             }
             onDragCancel={handleDragCancel}
         >
-            <SortableContext 
-            disabled={isLoading}
-            items={uploadedData.map(item => ({ id: item.name }))} 
-            strategy={rectSortingStrategy}>
-                <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-6 py-4'>
-                    {items.map((item,index)=> (
-                        <SortableItem 
-                        index={index+1}
-                        key={item.id} id={item.id as never} file={item} />
+            <SortableContext
+                disabled={isLoading || isDeleting}
+                items={uploadedData.map(item => ({ id: item.name }))}
+                strategy={rectSortingStrategy}>
+                <div className='grid grid-cols-1 gap-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 px-6 py-4'>
+                    {items.map((item, index) => (
+                        <SortableItem
+                            handleDelete={handleDelete}
+                            index={index + 1}
+                            key={item.id} id={item.id as never} file={item} />
                     ))}
                 </div>
             </SortableContext>
-            <DragOverlay 
-            adjustScale
-              >
+            <DragOverlay
+                adjustScale
+            >
                 {
                     activeItem ? <Item
-                    id={activeItem.id as never}
-                    file={activeItem} isDragging /> : null
+                        id={activeItem.id as never}
+                        file={activeItem} isDragging /> : null
 
                 }
             </DragOverlay>

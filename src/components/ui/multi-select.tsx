@@ -11,13 +11,13 @@ interface MultiSelectProps<T> {
   options: T[];
   selectedOptions: T[];
   onChange: (option: T) => void;
-  labelExtractor: (option: T) => string; // Extract label for display
-  customClassNames?: {
-    buttonClassName?: string;
-    dropdownClassName?: string;
-    itemClassName?: string;
-    selectedItemClassName?: string;
-  };
+  labelExtractor: (option: T) => string;
+  customClassNames?: Partial<{
+    buttonClassName: string;
+    dropdownClassName: string;
+    itemClassName: string;
+    selectedItemClassName: string;
+  }>;
   placeholder?: string;
 }
 
@@ -26,27 +26,29 @@ export function MultiSelectDropdown<T>({
   selectedOptions,
   onChange,
   labelExtractor,
-  customClassNames = {
+  customClassNames = {},
+  placeholder = "Select options",
+}: MultiSelectProps<T>) {
+  const defaultClasses = {
     buttonClassName: "min-w-[130px] max-w-[300px] h-full",
     dropdownClassName: "custom-dropdown",
     itemClassName: "custom-item",
     selectedItemClassName: "custom-selected-item",
-  },
-  placeholder = "Select options",
-}: MultiSelectProps<T>) {
-  const { buttonClassName, dropdownClassName, itemClassName, selectedItemClassName } = customClassNames;
+  };
 
-  const selectedLabels = selectedOptions.map(labelExtractor).join(", ");
+  const mergedClasses = { ...defaultClasses, ...customClassNames };
+
+  const selectedLabels = selectedOptions.map((option) => labelExtractor(option)).join(", ");
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className={`flex items-center justify-between overflow-hidden ${buttonClassName}`}>
+        <Button variant="outline" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
           <span className="truncate">{selectedLabels || placeholder}</span>
           <ChevronDown className="h-4 w-4 opacity-50 ml-2" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={`w-[180px] ${dropdownClassName}`}>
+      <DropdownMenuContent className={`w-[180px] ${mergedClasses.dropdownClassName}`}>
         {options.map((option) => {
           const isSelected = selectedOptions.includes(option);
           return (
@@ -54,7 +56,7 @@ export function MultiSelectDropdown<T>({
               key={labelExtractor(option)}
               checked={isSelected}
               onCheckedChange={() => onChange(option)}
-              className={`${itemClassName} ${isSelected ? selectedItemClassName : ""}`}
+              className={`${mergedClasses.itemClassName} ${isSelected ? mergedClasses.selectedItemClassName : ""} cursor-pointer `}
             >
               {labelExtractor(option)}
             </DropdownMenuCheckboxItem>

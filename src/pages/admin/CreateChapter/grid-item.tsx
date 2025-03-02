@@ -3,7 +3,7 @@ import { getFileUrlCache } from './cache/cache';
 import ZoomableImage from '@/components/ui/zoomable-image';
 import { Button } from '@/components/ui/button';
 import { useSortable } from '@dnd-kit/sortable';
-import { Move } from 'lucide-react';
+import { Move, Trash } from 'lucide-react';
 import { FileWithUniqueId } from './chapter-content';
 
 export type ItemProps = HTMLAttributes<HTMLDivElement> & {
@@ -12,12 +12,13 @@ export type ItemProps = HTMLAttributes<HTMLDivElement> & {
     isDragging?: boolean;
     file?: FileWithUniqueId
     index?: number;
+    handleDelete?: (id: string) => void;
 };
 
 const STATIC_STYLES = {
     transformOrigin: '50% 50%',
-    height: '310px',
-    width: '210px',
+    height: '220px',
+    width: '140px',
     borderRadius: '10px',
     display: 'flex',
     justifyContent: 'center',
@@ -34,7 +35,7 @@ function isValidUrl(url : string) {
         return false;    // If an error occurs, it's not a valid URL
     }
 }const Item = memo(
-    forwardRef<HTMLDivElement, ItemProps>(({ withOpacity, isDragging, style, file, index, ...props }, ref) => {
+    forwardRef<HTMLDivElement, ItemProps>(({ withOpacity, isDragging, style, handleDelete,file, index, ...props }, ref) => {
         const fileURLRef = useRef<string | null>(null);
 
         const fileURL = useMemo(() => {
@@ -58,7 +59,8 @@ function isValidUrl(url : string) {
             <div 
                 ref={ref}
                 style={{ ...STATIC_STYLES, ...dynamicStyles, ...style }}
-                className="bg-background border border-background/50 relative"
+                className="bg-background border border-background/50 relative hover:shadow-lg transition-shadow cursor-pointer group
+                "
                 {...props}
             >
                 {file!.isUploading && (
@@ -66,6 +68,7 @@ function isValidUrl(url : string) {
                         <span className="text-white text-sm">Uploading...</span>
                     </div>
                 )}
+
                 
                 {fileURL && (
                     <>
@@ -85,8 +88,18 @@ function isValidUrl(url : string) {
                         </Button>
                         <Button 
                             disabled={file!.isUploading}
+                            variant={'destructive'}
+                            onClick={() => handleDelete!(file!.id)}
+                            className="absolute bottom-8 h-6 px-[7px] -right-4"
+                        >
+                           <Trash 
+                           className="h-3 w-3" />
+                        </Button>
+
+                        <Button 
+                            disabled={file!.isUploading}
                             variant={file!.isUploaded ? 'success' : 'destructive'}
-                            className="absolute bottom-0 h-6 px-2 -right-4"
+                            className="absolute bottom-0 h-6 px-2 -right-4 text-sm"
                         >
                             {index}
                         </Button>

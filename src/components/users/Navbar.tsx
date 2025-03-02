@@ -45,7 +45,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
             <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"
-                    className=""
+                    className=""    
                 >
                     <img src={Logo} alt="logo" className="w-40 md:w-60 hover:motion-safe:animate-spin-slow cursor-pointer" />
                 </Link>
