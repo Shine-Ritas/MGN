@@ -18,7 +18,6 @@ const UserLayout = () => {
   const userIsMaintenance = useUserAppSelector(selectIsMaintenance); // Maintenance state
   const [isReadMode, setIsReadMode] = useState(false);
   const { data } = useQuery('public/categories?limit=400');
-  const { data: banners } = useQuery(`users/banners`);
   const location = useLocation(); 
   const {isMobile} = useScreenDetector();
 
@@ -39,9 +38,7 @@ const UserLayout = () => {
     dispatch(setCategories(data?.categories.data));
   }, [data, dispatch]);
 
-  useEffect(() => {
-    dispatch(setBanners(banners?.banners));
-  }, [banners, dispatch]);
+ 
 
 
   // If the user-side maintenance mode is active, show the MaintenancePage component
@@ -63,8 +60,6 @@ const UserLayout = () => {
           </div>
         </div>
         {!isReadMode && <UserLayoutFooter />}
-
-        
       </div>
       {isReadMode && <DetailDrawer />}
     </div>

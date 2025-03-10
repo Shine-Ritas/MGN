@@ -64,10 +64,17 @@ export default function BotList() {
 
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+          !isLoading && data?.bots.length == 0 && 
+          <div className="min-w-full flex justify-center ">
+            <h4 className="">No bots yet</h4>
+          </div>
+        }
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {
           isLoading && <div>Loading...</div>
         }
+       
         {
           !isLoading && data?.bots?.map((bot) => (
             <BotCard key={bot.id} {...bot} />

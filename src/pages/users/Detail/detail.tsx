@@ -16,6 +16,7 @@ import { getRandomInterval } from "@/utilities/util";
 import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
 import { useParams } from "react-router-dom";
+import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-slice";
 
 // Utility: prefetch images by creating Image objects
 const prefetchImages = (imagePaths: string[]) => {
@@ -72,7 +73,7 @@ const Detail = () => {
     if (formattedImages.length > 0) {
       // Update total pages in the store
       dispatch(setField({ key: "totalPages", value: formattedImages.length }));
-      // Set current images based on pagination
+      dispatch(setField({ key: "serverResponse", value: data }));
       setCurrentImages(formattedImages.slice(startIndex, endIndex));
 
       // Prefetch adjacent images
@@ -88,6 +89,13 @@ const Detail = () => {
       prefetchImages([...nextImages, ...prevImages]);
     }
   }, [dispatch, formattedImages, startIndex, endIndex, max]);
+ 
+  useEffect(()=>{
+    data?.current_chapter && setTimeout(()=>{
+     dispatch(userReadedThisChapter({mogou_id:data?.current_chapter?.mogou_id,sub_mogou_id:data?.current_chapter?.id})as any);
+    }
+    ,1000)
+  },[data?.current_chapter,dispatch])
 
 
   // Effect: mobile-specific alert

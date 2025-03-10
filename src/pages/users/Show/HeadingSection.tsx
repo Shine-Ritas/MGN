@@ -22,7 +22,7 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
 
     return (
         <>
-            <Card className="py-3 border-none outline-none shadow-none bg-background lg:bg-sub-background">
+            <Card className="py-3 border-none outline-none shadow-none bg-background">
                 <CardContent className="grid md:grid-cols-5 mx-0 px-0 gap-10 xl:gap-4 ">
                     <div className="flex justify-center md:justify-normal md:col-span-2 xl:col-span-1">
                         <LazyLoadImage src={mogou?.cover}

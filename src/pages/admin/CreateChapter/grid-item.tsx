@@ -90,7 +90,7 @@ function isValidUrl(url : string) {
                             disabled={file!.isUploading}
                             variant={'destructive'}
                             onClick={() => handleDelete!(file!.id)}
-                            className="absolute bottom-8 h-6 px-[7px] -right-4"
+                            className="absolute bottom-8 h-7 px-[7px] -right-4 group-hover:inline hidden "
                         >
                            <Trash 
                            className="h-3 w-3" />

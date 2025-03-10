@@ -32,6 +32,10 @@ export const theme = {
         DEFAULT: "var(--neon-primary)",
         foreground: "var(--neon-primary-foreground)",
       },
+      "violet" : {
+        DEFAULT: "var(--violet)",
+        foreground: "var(--violet-foreground)",
+      },
       phover:"var(--phover)",
       secondary: {
         DEFAULT: "var(--secondary)",
