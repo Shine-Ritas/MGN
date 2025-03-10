@@ -116,7 +116,6 @@ export const initialState  :UserReadSetting = {
     progressBar: ProgressBarData["Bar"],
     backgroundColor: BackgroundColorData["Theme"],
     serverResponse : null,
-    navigate : null,
     nextUrl : "",
     prevUrl : "",
     disablePrev : false,

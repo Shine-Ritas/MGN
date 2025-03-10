@@ -7,7 +7,7 @@ import { ArrowRightIcon,StickyNote, Layers2,Palette , BookOpen,PanelLeftOpen, Pa
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 
 import { MemorizedIndexerButton } from "./drawer-button";
-import { handleChapterSwitch, setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { handleChapterSwitch, setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
 import MemoizedSettingButton from "./setting-button";
 import { useScreenDetector } from "@/hooks/useScreenDetector";

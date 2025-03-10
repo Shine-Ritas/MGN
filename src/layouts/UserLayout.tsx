@@ -7,7 +7,7 @@ import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { lazy, useEffect, useState } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
 import { Outlet ,useLocation } from "react-router-dom";
-import { selectIsMaintenance, setBanners } from "@/redux/slices/user-global";
+import { selectIsMaintenance } from "@/redux/slices/user-global";
 import MaintenancePage from "@/pages/errors/maitainence";
 import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
 import { useScreenDetector } from "@/hooks/useScreenDetector";

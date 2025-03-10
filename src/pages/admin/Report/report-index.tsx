@@ -32,7 +32,7 @@ export default function ReportPage() {
   const [selectedReport, setSelectedReport] = useState<any | null>(null)
 
   const { bunUrl, handleChange: handleFilter, getByKey } = useFilterState(initialState, ['page']);
-  const { data, isLoading, isFetching,refetch } = useQuery(`/admin/reports?${bunUrl}&limit=9`, () => { }, true);
+  const { data, isFetching,refetch } = useQuery(`/admin/reports?${bunUrl}&limit=9`, () => { }, true);
 
   const onSuccess = () => {
     refetch!()
