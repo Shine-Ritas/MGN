@@ -48,8 +48,14 @@ const Detail = () => {
       dispatch(setField({key:"currentId",value:data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug}));
       dispatch(setField({key:"currentPage",value:1}));
       dispatch(setField({key:"totalPages",value:1}));
-
     }
+
+    const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.next_chapter?.mogou_slug}/chapters/${data?.next_chapter?.slug}` : "";
+    const prevChapterUrl = data?.prev_chapter ? `/read/mogou/${data?.prev_chapter?.mogou_slug}/chapters/${data?.prev_chapter?.slug}` : "";
+
+    dispatch(setField({key:"prevUrl",value:prevChapterUrl}));
+    dispatch(setField({key:"nextUrl",value:nextChapterUrl}));
+
     return data?.current_chapter?.images;
   }, [data]);
 

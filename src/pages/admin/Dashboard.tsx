@@ -8,14 +8,13 @@ const RevenueGrowth = lazy(() => import("./Home/revenue-growth"));
 const DailyDashboard = lazy(() => import("./Home/daily-dashboard"));
 
 
-const TABS = ["Overview", "Daily", "User Growth", "Content Growth", "Revenue Growth",] as const;
+const TABS = [ "Daily", "User Growth", "Content Growth", "Revenue Growth",] as const;
 export type TabTypes = typeof TABS;
 export type TabType = typeof TABS[number];
 
 const TabContent = memo(({ tab }: { tab: TabType }) => {
   switch (tab) {
-    case "Overview":
-      return <CardsStats />;
+
     case "User Growth":
       return (
         <Suspense fallback={<LoadingSpinner />}>
@@ -41,7 +40,7 @@ const TabContent = memo(({ tab }: { tab: TabType }) => {
         </Suspense>
       );
     default:
-      return <CardsStats />;
+      return <DailyDashboard />;
   }
 });
 
@@ -56,7 +55,7 @@ const LoadingSpinner = () => (
 const MemoizedDashboardNav = memo(DashboardNav);
 
 const Dashboard = () => {
-  const [currentTab, setCurrentTab] = useState<TabType>("Overview");
+  const [currentTab, setCurrentTab] = useState<TabType>("Daily");
 
   // Memoize the tab change handler
   const handleTabChange = useCallback((tab: TabType) => {

@@ -88,7 +88,6 @@ const DetailDrawer = () => {
     const handleSetPage = useCallback(
         (action: "prefer" | "increase" | "decrease", value?: number) => {
             dispatch(setCurrentPage({ action, index: value }));
-            console.log(readSetting.redirectNow)
             if (readSetting.redirectNow) {
                 navigate(readSetting.redirectNow);  
             }
@@ -125,11 +124,14 @@ const DetailDrawer = () => {
     }
     , [sr, handlePreferPage]);
 
+
     const handleNextPage = useCallback(() => {
         handleSetPage("increase");
+      
     }, [handleSetPage]);
 
     const handlePrevPage = useCallback(() => {
+        console.log(readSetting)  
         handleSetPage("decrease");
     }, [handleSetPage]);
 

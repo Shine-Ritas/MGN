@@ -54,13 +54,7 @@ const updateStateAndPersist = <T extends keyof UserReadSetting>(
 
 export const handleChapterSwitch = (action: "prefer" | "next" | "prev",navigate) => {
     const state = loadFromLocalStorage("userReadSetting", initialState);
-
     let url = "";
-    state.prevUrl = `/read/mogou/${state?.serverResponse?.mogou?.slug}/chapters/${state?.serverResponse?.prev_chapter?.slug}`;
-    state.nextUrl = `/read/mogou/${state?.serverResponse?.mogou?.slug}/chapters/${state?.serverResponse?.next_chapter?.slug}`;
-
-    updateStateAndPersist(state, "prevUrl",state.prevUrl);
-    updateStateAndPersist(state, "nextUrl",state.nextUrl);  
     url = (action == "next") ? state.nextUrl : state.prevUrl;
     saveToLocalStorage("userReadSetting", state);
     navigate(url);
@@ -111,8 +105,8 @@ export const userReadSettingSlice = createSlice({
         newPage = newPage - max > 0 ? newPage - max : 1;
         (newPage == 1 && state.prevUrl) ?  updateStateAndPersist(state,"redirectNow",state.prevUrl) : updateStateAndPersist(state,"redirectNow",null)
       }
+
       updateStateAndPersist(state, "currentPage", newPage);
-      return state;
     },
     setField: <T extends keyof UserReadSetting>(
       state: UserReadSetting,
