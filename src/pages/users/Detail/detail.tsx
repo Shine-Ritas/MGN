@@ -16,6 +16,9 @@ import { getRandomInterval } from "@/utilities/util";
 import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
 import { useParams } from "react-router-dom";
+import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-slice";
+import route from "@/utilities/router";
+import { userRouteCollection } from "@/routes/data/user_route";
 
 // Utility: prefetch images by creating Image objects
 const prefetchImages = (imagePaths: string[]) => {
@@ -47,10 +50,16 @@ const Detail = () => {
       dispatch(setField({key:"currentId",value:data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug}));
       dispatch(setField({key:"currentPage",value:1}));
       dispatch(setField({key:"totalPages",value:1}));
-
     }
+
+    const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
+    const prevChapterUrl = data?.prev_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.prev_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
+
+    dispatch(setField({key:"prevUrl",value:prevChapterUrl}));
+    dispatch(setField({key:"nextUrl",value:nextChapterUrl}));
+
     return data?.current_chapter?.images;
-  }, [data]);
+  }, [data, dispatch, readSetting.currentId]);
 
   // Determine pagination values
   const max = readStyle.max ?? totalPages;
@@ -72,7 +81,7 @@ const Detail = () => {
     if (formattedImages.length > 0) {
       // Update total pages in the store
       dispatch(setField({ key: "totalPages", value: formattedImages.length }));
-      // Set current images based on pagination
+      dispatch(setField({ key: "serverResponse", value: data }));
       setCurrentImages(formattedImages.slice(startIndex, endIndex));
 
       // Prefetch adjacent images
@@ -87,7 +96,14 @@ const Detail = () => {
 
       prefetchImages([...nextImages, ...prevImages]);
     }
-  }, [dispatch, formattedImages, startIndex, endIndex, max]);
+  }, [dispatch, formattedImages, startIndex, endIndex, max, data]);
+ 
+  useEffect(()=>{
+    data?.current_chapter && setTimeout(()=>{
+     dispatch(userReadedThisChapter({mogou_id:data?.current_chapter?.mogou_id,sub_mogou_id:data?.current_chapter?.id})as any);
+    }
+    ,1000)
+  },[data?.current_chapter,dispatch])
 
 
   // Effect: mobile-specific alert

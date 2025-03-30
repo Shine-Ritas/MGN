@@ -9,6 +9,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import '../styles/admin-global.css';
 import { DeleteAlertProvider } from "@/contexts/DeleteAlertContext";
 import { getServerAdminPermissions } from "@/redux/slices/admin-permission-slice";
+import { getAppliactionConfig } from "@/redux/slices/application-config-slice";
 
 const AdminLayout = () => {
   const { data } = useQuery('admin/categories?limit=400');
@@ -25,12 +26,13 @@ const AdminLayout = () => {
     if (data?.categories.data) {
       dispatch(setCategories(data.categories.data));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   useEffect( () => { 
     dispatch( getServerAdminPermissions() as any );
+    dispatch( getAppliactionConfig() as any );
   }
-  ,[])
+  ,[dispatch])
   return (
     <div className="flex pt-8 h-screen max-h-screen  pb-10  px-6  lg:px-0 bg-[#f5f5f5] dark:bg-background">
 

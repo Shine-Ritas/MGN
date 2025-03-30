@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react'
-import { useRef } from 'react';
-import { ComicProgress, ComicType } from "@/data/data";
+import { useMemo, useRef } from 'react';
+import { ComicProgress, ComicType, OrderBy } from "@/data/data";
 
 import MultiSelectHandler from '@/components/ui/multi-select-handler';
 import { whereIn } from '@/utilities/util';
 import { useAppSelector } from '@/redux/hooks';
+import FormSelect from '@/components/ui/custom/FormSelect';
 
 
 type FilterComponentProps = {
@@ -19,9 +20,14 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
 
     const categories = useAppSelector((state) => state.categories.categories)!;
 
+    const selectedType = useMemo(() => whereIn(ComicType, getByKey('type')?.split(",") || [], 'title'), [getByKey]);
+    const selectedProgress = useMemo(() => whereIn(ComicProgress, getByKey('finish_status')?.split(",") || [], 'title'), [getByKey]);
+    const selectedGenres = useMemo(() => whereIn(categories, getByKey('genres')?.split(",") || [], 'title'), [getByKey, categories]);
+
+
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8 text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8 text-xs">
                 <div className="relative">
                     <Input
                         ref={searchInput}
@@ -34,7 +40,7 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                 </div>
 
                 <MultiSelectHandler
-                    selectedOptions={whereIn(ComicType, getByKey('type').split(","), 'title')}
+                    selectedOptions={selectedType}
                     options={ComicType}
                     placeHolder="Select Type"
                     onChange={
@@ -44,7 +50,7 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                 />
 
                 <MultiSelectHandler
-                    selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
+                    selectedOptions={selectedProgress}
                     options={ComicProgress}
                     placeHolder="Select Progress"
                     onChange={
@@ -53,16 +59,22 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                     labelExtractor={(option) => option.title} />
 
                 <MultiSelectHandler
-                    selectedOptions={whereIn(categories, getByKey('genres').split(","), 'title')}
+                    selectedOptions={selectedGenres}
                     options={categories}
-                    placeHolder="Select Progress"
-                    size='lg'
-                    onChange={
+                    placeHolder="Select Genres"
+                        onChange={
                         (value) => handleFilter("genres", value)
                     }
+                    size="lg"
                     labelExtractor={(option) => option.title} />
 
-
+                <FormSelect selectKey="order_by"
+                    defaultValue={getByKey('order_by') ?? undefined}
+                    collection={OrderBy}
+                    placeholder='Order By'
+                    setValue={(key,value)=>{
+                        handleFilter(key,value)
+                    }} />
 
                 <Button
                     size={'sm'}

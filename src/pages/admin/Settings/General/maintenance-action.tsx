@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { AlertTriangle, CheckCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import useMutate from '@/hooks/useMutate'
 
@@ -31,7 +30,7 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
   }
 
   return (
-    <Card className="w-full col-span-2">
+    <Card className="w-full col-span-1">
       <CardHeader>
         <CardTitle className="text-2xl">Application Status</CardTitle>
         <CardDescription>
@@ -39,23 +38,8 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <h3 className="text-lg font-medium">Maintenance Mode</h3>
-            <p className="text-sm text-muted-foreground">
-              {isMaintenanceMode
-                ? 'Your application is currently in maintenance mode'
-                : 'Your application is currently active'}
-            </p>
-          </div>
-          <Switch
-            disabled={isLoading}
-            checked={isMaintenanceMode}
-            onCheckedChange={toggleMaintenanceMode}
-            aria-label="Toggle maintenance mode"
-          />
-        </div>
-        <div className="mt-6 flex items-center gap-2">
+      
+        <div className="flex items-center gap-2">
           {isMaintenanceMode ? (
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
           ) : (

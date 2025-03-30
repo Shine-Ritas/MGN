@@ -7,10 +7,11 @@ import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { lazy, useEffect, useState } from "react";
 import { setCategories } from "@/redux/slices/category-slice";
 import { Outlet ,useLocation } from "react-router-dom";
-import { selectIsMaintenance, setBanners } from "@/redux/slices/user-global";
+import { selectIsMaintenance } from "@/redux/slices/user-global";
 import MaintenancePage from "@/pages/errors/maitainence";
 import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import { getAppliactionConfig } from "@/redux/slices/application-config-slice";
 
 const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
 
@@ -18,7 +19,6 @@ const UserLayout = () => {
   const userIsMaintenance = useUserAppSelector(selectIsMaintenance); // Maintenance state
   const [isReadMode, setIsReadMode] = useState(false);
   const { data } = useQuery('public/categories?limit=400');
-  const { data: banners } = useQuery(`users/banners`);
   const location = useLocation(); 
   const {isMobile} = useScreenDetector();
 
@@ -37,11 +37,10 @@ const UserLayout = () => {
 
   useEffect(() => {
     dispatch(setCategories(data?.categories.data));
+    dispatch( getAppliactionConfig() as any );
   }, [data, dispatch]);
 
-  useEffect(() => {
-    dispatch(setBanners(banners?.banners));
-  }, [banners, dispatch]);
+ 
 
 
   // If the user-side maintenance mode is active, show the MaintenancePage component
@@ -63,8 +62,6 @@ const UserLayout = () => {
           </div>
         </div>
         {!isReadMode && <UserLayoutFooter />}
-
-        
       </div>
       {isReadMode && <DetailDrawer />}
     </div>

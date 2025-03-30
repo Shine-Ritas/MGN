@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useState, useRef, useEffect, CSSProperties } from "react";
+import { TabType, TabTypes } from "../Dashboard";
 
 interface FrameProps {
-  tabs: string[];
-  currentTab: string;
-  setCurrentTab: (tab: string) => void;
+  tabs: TabTypes
+  currentTab: TabType;
+  setCurrentTab: (tab: TabType) => void;
 }
 
 const DashboardNav = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{

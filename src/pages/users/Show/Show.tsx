@@ -64,7 +64,7 @@ const Show = () => {
                 <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} />
             </div>
 
-            <div className="mt-12 grid md:grid-cols-8 gap-4 ">
+            <div className="mt-8 md:mt-4 grid md:grid-cols-8 gap-4 ">
                 <div className="md:col-span-6 ">
                     <ChapterTable mogous={mogous}   />
                 </div>

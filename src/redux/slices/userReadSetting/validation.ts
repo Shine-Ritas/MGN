@@ -29,5 +29,11 @@ const isValidOptionType = (option: any): option is OptionType => {
       imageFit: isValidOptionType(data.imageFit) ? data.imageFit : initialState.imageFit,
       progressBar: isValidOptionType(data.progressBar) ? data.progressBar : initialState.progressBar,
       backgroundColor: isValidOptionType(data.backgroundColor) ? data.backgroundColor : initialState.backgroundColor,
+      nextUrl: typeof data.nextUrl === 'string' ? data.nextUrl : initialState.nextUrl,
+      prevUrl: typeof data.prevUrl === 'string' ? data.prevUrl : initialState.prevUrl,
+      redirectNow: typeof data.redirectNow === 'boolean' ? data.redirectNow : initialState.redirectNow,
+      disablePrev: typeof data.disablePrev === 'boolean' ? data.disablePrev : initialState.disablePrev,
+      disableNext: typeof data.disableNext === 'boolean' ? data.disableNext : initialState.disableNext,
+      serverResponse: data.serverResponse,
     };
   };

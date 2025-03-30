@@ -54,14 +54,14 @@ export const ChapterTable = ({
     }, [mogous])
 
     useEffect(() => {
-        if (authUser?.subscription_end_date &&  isSubscriptionValid(authUser?.subscription_end_date) ) {
+        if (authUser?.subscription_end_date && isSubscriptionValid(authUser?.subscription_end_date)) {
             setUserCanReadAll(true);
         }
         else {
             setUserCanReadAll(false);
         }
     }
-    , [authUser])
+        , [authUser])
 
     const showAllChapters = () => {
         setLoading(true);
@@ -74,11 +74,11 @@ export const ChapterTable = ({
         if (userCanReadAll) {
             navigate(link);
         } else {
-        //    if( chapter.third_party_redirect && !chapter.subscription_only){
+            //    if( chapter.third_party_redirect && !chapter.subscription_only){
             // add target
             navigate(link);
 
-        //    }
+            //    }
         }
     }
 
@@ -93,16 +93,16 @@ export const ChapterTable = ({
                 </CardHeader>
                 <CardContent>
                     <Table
-                    // duration 2s
-                        divClassname="md:max-h-[70vh] overflow-y-auto transition duration-[2s] ease-in-out"
+                        // duration 2s
+                        divClassname="md:max-h-[70vh] overflow-y-auto transition ease-in-out"
                         className=" w-full">
 
                         <TableBody className="gap-10 w-full">
                             {
                                 chapters?.map((chapter, index) => (
-                                    <TableRow key={index} 
-                                    onClick={() => readTheChapter(chapter)}
-                                    className={`md:text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only,userCanReadAll)}
+                                    <TableRow key={index}
+                                        onClick={() => readTheChapter(chapter)}
+                                        className={`md:text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
                                         
                                      `}>
 
@@ -112,7 +112,7 @@ export const ChapterTable = ({
                                                 isNewChapter(chapter.created_at)
                                             }
                                             {
-                                                isNeedSubscriptionChapter(chapter?.subscription_only,userCanReadAll)
+                                                isNeedSubscriptionChapter(chapter?.subscription_only, userCanReadAll)
                                             }
                                         </TableCell>
                                         <TableCell
@@ -132,9 +132,9 @@ export const ChapterTable = ({
                         </TableBody>
                     </Table>
                 </CardContent>
-                {!showAll && <CardFooter className="justify-center border-t p-4">
+                {(!showAll && chapters.length > 10) && <CardFooter className="justify-center border-t p-4">
                     <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"
-                    aria-label="Show All Chapters"
+                        aria-label="Show All Chapters"
                         onClick={showAllChapters}>
                         {
                             loading ? (
@@ -164,7 +164,7 @@ const isNewChapter = (date: string | number | Date) => {
 }
 
 // return icon with unlock
-const isNeedSubscriptionChapter = (isSubscriptionNeed,isValid) => {
+const isNeedSubscriptionChapter = (isSubscriptionNeed, isValid) => {
     const isTrue = isSubscriptionNeed && !isValid;
     return isTrue ? (
         <div className="inline-flex items-center px-2 py-0 rounded-full text-[.7rem] font-semibold ms-5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-lg transition-all duration-300 ease-in-out hover:from-yellow-600 hover:to-yellow-700 hover:shadow-xl hover:scale-105">
@@ -176,8 +176,8 @@ const isNeedSubscriptionChapter = (isSubscriptionNeed,isValid) => {
 
 
 
-const chapterRowEffectClasses = (isSubscriptionNeed,isValid) => {
+const chapterRowEffectClasses = (isSubscriptionNeed, isValid) => {
     return (!isSubscriptionNeed || isValid) ?
-    "cursor-pointer hover:!bg-primary hover:text-white"
-    : "cursor-not-allowed text-muted-foreground"
+        "cursor-pointer hover:!bg-primary hover:text-white"
+        : "cursor-not-allowed text-muted-foreground"
 }

@@ -44,14 +44,16 @@ export function RegistrationChart({chartData}) {
               content={<ChartTooltipContent hideLabel hideIndicator />}
             />
             <Bar dataKey="count">
-              <LabelList position="top" dataKey="key" fillOpacity={1} />
+              <LabelList position="top" dataKey="key" 
+              fill="white"
+              fillOpacity={1} />
               {chartData.map((item) => (
                 <Cell
                   key={item.key}
                   fill={
                     item.count > 0
-                      ? "hsl(var(--chart-1))"
-                      : "hsl(var(--chart-2))"
+                      ? "hsl(var(--chart-neon-primary))"
+                      : "hsl(var(--chart-primary))"
                   }
                 />
               ))}

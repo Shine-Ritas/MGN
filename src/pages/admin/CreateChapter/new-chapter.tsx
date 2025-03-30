@@ -157,7 +157,7 @@ export default function NewChapter() {
             <div className="space-y-2">
 
               <FormInput
-                label='Third-Party URL'
+                label='Third-Party URL ( ads )'
                 defaultValue={""}
                 fieldError={errors?.third_party_url}
                 placeholder='https://example.com'

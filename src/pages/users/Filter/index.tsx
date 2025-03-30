@@ -17,6 +17,7 @@ const initlalFilterState = {
     finish_status: "",
     chapters_count_order: "",
     genres: "",
+    order_by: "",
     legal_only: false
 }
 
@@ -37,6 +38,7 @@ export default function Page() {
     const { data, isLoading, isFetching } = useQuery(
         `/users/filter?${bunUrl}`
     );
+
 
     if (isLoading) {
         return <div></div>
@@ -75,7 +77,7 @@ export default function Page() {
                 </div>
 
                 {/* Manga Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {data?.mogous?.data.map((mogou) => (
                         <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />
                     ))}

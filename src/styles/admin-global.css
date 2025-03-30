@@ -15,6 +15,7 @@
     --popover-foreground: #333; /* Darker text for popovers */
 
     --neon-primary: #8654d8; /* Slightly darker neon primary */
+    --violet : #7c3aed;
 
     --primary: rgb(133, 90, 240); /* Darker primary for emphasis */
     --phover: #9b79f0; /* Hover state with more contrast */
@@ -57,6 +58,8 @@
     --popover-foreground: #e5f6ff; 
 
     --neon-primary: #510abb; 
+    --violet : #7c3aed;
+
  
     --primary: #301f7b; 
     --phover : #311e7c; 
@@ -96,6 +99,8 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --chart-primary: 251 60% 30%;
+    --chart-neon-primary: 264 90% 39%;
   }
 }
  

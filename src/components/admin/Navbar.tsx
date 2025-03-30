@@ -1,10 +1,10 @@
 import { lazy, memo } from "react";
-import Logo from "@/assets/imgs/logo-icon.png";
-import LogoTitle from "@/assets/imgs/logo-title.png";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import {  Globe } from "lucide-react";
+import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
+import { useSelector } from "react-redux";
 
 const CommandSearch = lazy(() => import('./CommandSearch'))
 const AdminUserDropDown = lazy(() => import('@/components/ui/AdminUserDropDown'))
@@ -16,6 +16,8 @@ const MobileDrawer = lazy(() => import('./MobileDrawer'))
 
 const NavbarRaw = ({ title }: NavbarProps) => {
   const {isMobile} = useScreenDetector();
+  const applicationConfig = useSelector(selectApplicationConfig);
+
 
   return (
     <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-8" >
@@ -23,8 +25,8 @@ const NavbarRaw = ({ title }: NavbarProps) => {
 
         {!isMobile ?(  
           <div className="flex items-center gap-0">
-          <img src={Logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
-          <img src={LogoTitle} alt="logo-title" className="w-14  cursor-pointer " />
+          <img src={applicationConfig?.logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
+          <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
           </div>
         ) :
         (

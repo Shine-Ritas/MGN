@@ -26,5 +26,10 @@ export interface UserReadSetting {
   progressBar: ProgressBarType;
   modalBox: boolean;
   backgroundColor: BackgroundColorType;
-
+  serverResponse? : any;
+  nextUrl ?: string;
+  prevUrl ?: string;
+  disablePrev: boolean;
+  disableNext: boolean;
+  redirectNow?: string | null;
 }

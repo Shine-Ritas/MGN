@@ -114,7 +114,13 @@ export const initialState  :UserReadSetting = {
     readingDirection: ReadingDirectionData["LTR"],
     imageFit: ImageFitData["Contain"],
     progressBar: ProgressBarData["Bar"],
-    backgroundColor: BackgroundColorData["White"],
+    backgroundColor: BackgroundColorData["Theme"],
+    serverResponse : null,
+    nextUrl : "",
+    prevUrl : "",
+    disablePrev : false,
+    disableNext : false,
+    redirectNow : null,
 };
 
 export const toggleActionCollection = {

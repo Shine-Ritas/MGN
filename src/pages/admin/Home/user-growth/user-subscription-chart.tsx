@@ -23,11 +23,11 @@ const chartConfig = {
   },
   user: {
     label: "Users",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-neon-primary))",
   },
   non_user: {
-    label: "Non Users",
-    color: "hsl(var(--chart-2))",
+    label: "Guests",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 

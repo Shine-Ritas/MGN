@@ -10,6 +10,7 @@ import { Rating } from "@/components/ui/rating";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { EyeIcon } from "lucide-react";
+import DOMPurify from 'dompurify';
 
 interface HeadingSectionProps {
     mogou: MogouWithTotalCount,
@@ -22,11 +23,11 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
 
     return (
         <>
-            <Card className="py-3 border-none outline-none shadow-none bg-background lg:bg-sub-background">
+            <Card className="py-3 border-none outline-none shadow-none bg-background">
                 <CardContent className="grid md:grid-cols-5 mx-0 px-0 gap-10 xl:gap-4 ">
                     <div className="flex justify-center md:justify-normal md:col-span-2 xl:col-span-1">
                         <LazyLoadImage src={mogou?.cover}
-                            className="h-96 xl:h-80 object-cover"
+                            className="h-96 xl:h-80 object-cover rounded-sm"
                             alt={`Cover image of ${mogou?.title}`} 
                         />
 
@@ -60,9 +61,9 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                                 }
                             </span>
                         </div>
-                        <div className="flex">
-                            <span className="text-muted-foreground">
-                                <div dangerouslySetInnerHTML={{ __html: mogou?.description }} />
+                        <div className="flex max-h-28 ">
+                            <span className="text-muted-foreground max-h-28 overflow-y-auto">
+                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(mogou?.description) }} />
                             </span>
                         </div>
                     </div>
