@@ -28,7 +28,14 @@ export default function NotFoundError() {
         label: "Admin Login",
         path: "/admin/login"
       });
-    } else if (!isUserAuth && !isOnAdminRoute) {
+    } 
+    else if (isOnAdminRoute && isAdminAuth) {
+      setRedirectConfig({
+        label: "Admin Dashboard",
+        path: "/admin/dashboard"
+      });
+    }
+    else if (!isUserAuth && !isOnAdminRoute) {
       setRedirectConfig({
         label: "Login",
         path: "/login"
@@ -41,7 +48,7 @@ export default function NotFoundError() {
     }
   }, [isAdminAuth, isUserAuth, isOnAdminRoute]);
 
-  const windowGoBack = ()=>{
+  const windowGoBack = () => {
     window.history.go(-1);
   }
 

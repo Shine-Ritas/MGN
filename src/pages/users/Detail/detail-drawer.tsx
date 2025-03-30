@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback, useEffect } from "react";
-import { ArrowRightIcon,StickyNote, Layers2,Palette , BookOpen,PanelLeftOpen, PanelRightOpen, SendToBack, ImageMinus, RotateCwSquare, GalleryThumbnails, Rainbow, EyeOff,Scroll, Minus, LucideSettings } from "lucide-react";
+import { ArrowRightIcon} from "lucide-react";
 
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 
@@ -15,30 +15,11 @@ import { SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/use
 import MemoizedSettingOgButton from "./setting-og-button";
 import { useNavigate } from "react-router-dom";
 
-export const iconMap = {
-    Layers2,
-    PanelLeftOpen,
-    PanelRightOpen,
-    SendToBack,
-    ImageMinus,
-    RotateCwSquare,
-    GalleryThumbnails,
-    Rainbow,
-    EyeOff,
-    Minus,
-    LucideSettings,
-    Scroll,
-    StickyNote,
-    BookOpen ,
-    Palette
-};
-
-
-const MemoizedTitleSection = memo(({ onTogglePanel }: { onTogglePanel: () => void }) => {
+const MemoizedTitleSection = memo(({ title,onTogglePanel }: { title:string,onTogglePanel: () => void }) => {
     return (
         <SheetTitle>
             <div className="h3 flex justify-between px-4">
-                <h3>Title</h3>
+                <h3>{title}</h3>
                 <Button
                     variant="default"
                     size="sm"
@@ -87,12 +68,9 @@ const DetailDrawer = () => {
 
     const handleSetPage = useCallback(
         (action: "prefer" | "increase" | "decrease", value?: number) => {
-            dispatch(setCurrentPage({ action, index: value }));
-            if (readSetting.redirectNow) {
-                navigate(readSetting.redirectNow);  
-            }
+            dispatch(setCurrentPage({ action, index: value, navigate }));
         },
-        [dispatch]
+        [dispatch, navigate]
     );
 
     const handleTogglePanel = useCallback(() => {
@@ -110,11 +88,11 @@ const DetailDrawer = () => {
     const handleNextChapter = useCallback(() => {
         handleChapterSwitch("next",navigate);
     }
-    , [sr, handlePreferPage]);
+    , [navigate]);
 
     const handlePrevChapter = useCallback(() => {
         handleChapterSwitch("prev",navigate);
-    }, [sr, handlePreferPage]);
+    }, [navigate]);
 
     const handlePrefersChapter = useCallback((chapter_number : number) => {
         // find the chapter with the chapter_number
@@ -122,7 +100,7 @@ const DetailDrawer = () => {
         const url = `/read/mogou/${sr?.mogou?.slug}/chapters/${chapter.slug}`;
         navigate(url);
     }
-    , [sr, handlePreferPage]);
+    , [sr?.all_chapters, sr?.mogou?.slug, navigate]);
 
 
     const handleNextPage = useCallback(() => {
@@ -133,7 +111,7 @@ const DetailDrawer = () => {
     const handlePrevPage = useCallback(() => {
         console.log(readSetting)  
         handleSetPage("decrease");
-    }, [handleSetPage]);
+    }, [handleSetPage, readSetting]);
 
 
     const containerStyle = `${readSetting.showPanel ? "w-1/5" : "w-0"} bg-background h-screen fixed top-0 right-0 md:z-[90]`;
@@ -148,7 +126,7 @@ const DetailDrawer = () => {
 
                 <SheetContentBody type={content}>
                     <SheetHeader className="px-4 py-6">
-                        <MemoizedTitleSection onTogglePanel={handleTogglePanel} />
+                        <MemoizedTitleSection  title={"Chapter " + sr?.current_chapter?.chapter_number} onTogglePanel={handleTogglePanel} />
                     </SheetHeader>
                     <SheetDescription>
                         {/* Page Indexer */}

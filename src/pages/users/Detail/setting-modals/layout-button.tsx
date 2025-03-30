@@ -2,9 +2,9 @@ import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { SettingActionKey } from "@/redux/slices/userReadSetting/constants";
 import { selectSettingByKey, setRotation } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { memo, useCallback } from "react";
-import { iconMap } from "../detail-drawer";
 import { IconComponent } from "@/components/ui/icon-component";
 import { cn } from "@/utilities/util";
+import { iconMap } from "../drawer-icons";
 
 type LayoutButtonProps = {
     actionKey : SettingActionKey;

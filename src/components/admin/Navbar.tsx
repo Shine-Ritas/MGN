@@ -1,6 +1,4 @@
 import { lazy, memo } from "react";
-import Logo from "@/assets/imgs/logo-icon.png";
-import LogoTitle from "@/assets/imgs/logo-title.png";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -20,7 +18,6 @@ const NavbarRaw = ({ title }: NavbarProps) => {
   const {isMobile} = useScreenDetector();
   const applicationConfig = useSelector(selectApplicationConfig);
 
-  console.log(applicationConfig)
 
   return (
     <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-8" >
@@ -28,7 +25,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
 
         {!isMobile ?(  
           <div className="flex items-center gap-0">
-          <img src={Logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
+          <img src={applicationConfig?.logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
           <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
           </div>
         ) :

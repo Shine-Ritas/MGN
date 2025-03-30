@@ -1,6 +1,3 @@
-
-import type React from "react"
-
 import { useState, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +7,28 @@ import { useForm } from "react-hook-form"
 import FormInput from "@/components/ui/custom/FormInput"
 import useMutate from "@/hooks/useMutate"
 import useSecureStorage from "@/hooks/useSecureStorage"
+import { toast } from "@/components/ui/use-toast"
 
 
 const ApplicationEdit = ({ applicationConfig }) => {
 
-    const [logoPreview, setLogoPreview] = useState<string | null>(null)
+    const [logoPreview, setLogoPreview] = useState<string | null>(applicationConfig?.logo)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { remove } = useSecureStorage();
 
 
-    const onSuccessCallback = (data) => {
+    const onSuccessCallback = () => {
         remove("application-config");
-        console.log(data)
+
+        toast({
+            title: "Successful",
+            description: "Application was updated successfully",
+            variant: "success",
+        });
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000)
     }
 
     const [mutate, { isLoading }] = useMutate({ callback: onSuccessCallback });
@@ -42,9 +49,14 @@ const ApplicationEdit = ({ applicationConfig }) => {
         }
     }
 
-    const onSubmit = useCallback(async (data: any) => {
-        const response = await mutate("/admin/application-configs",data);
+    const onSubmit = useCallback(async (data: Record<string, any>) => {
 
+        const formData = new FormData();
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key])
+        })
+
+        return await mutate("/admin/application-configs", formData);
     }, [mutate]);
 
     const triggerFileInput = () => {
@@ -127,8 +139,8 @@ const ApplicationEdit = ({ applicationConfig }) => {
                 </CardContent>
                 <CardFooter>
                     <Button
-                    disabled={isLoading}
-                     type="submit" className="w-full">
+                        disabled={isLoading}
+                        type="submit" className="w-full">
                         Save Settings
                     </Button>
                 </CardFooter>

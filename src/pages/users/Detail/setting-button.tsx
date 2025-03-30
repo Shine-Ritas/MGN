@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { memo, useCallback, useState } from "react";
-import { iconMap } from "./detail-drawer";
+import { iconMap } from "./drawer-icons";
 import { SettingActionKey } from "@/redux/slices/userReadSetting/constants";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectSettingByKey, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";

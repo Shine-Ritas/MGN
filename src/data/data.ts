@@ -1,11 +1,28 @@
 
 export interface SelectCollectionType {
-    id: number;
+    id: number | string;
     title: string;
   }
   
 export interface ComicType extends SelectCollectionType { }
 export interface ComicProgress extends ComicType { }
+export interface OrderBy extends SelectCollectionType { }
+
+export const OrderBy: OrderBy[] = [
+  {
+    id: "latest",
+    title: 'Latest',
+  },
+  {
+    id: "popular",
+    title: 'Popular',
+  },
+  {
+    id: "rating",
+    title: 'Rating',
+  }
+
+]
 
 export const ComicType: ComicType[] = [
   {

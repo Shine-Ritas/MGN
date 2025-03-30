@@ -1,4 +1,4 @@
-import { iconMap } from "@/pages/users/Detail/detail-drawer";
+import { iconMap } from "@/pages/users/Detail/drawer-icons";
 import { memo } from "react";
 
 

@@ -2,7 +2,6 @@ import { CircleUser, Menu, Search } from "lucide-react"
 import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
-import Logo from "@/assets/imgs/logo-icon.png";
 import { Link } from "react-router-dom"
 import useSafeContent from "@/hooks/useSafeContent"
 import { Switch } from "../ui/switch"
@@ -20,6 +19,8 @@ import { isSubscriptionExpired } from "@/utilities/util";
 import { selectHeaderVisible } from "@/redux/slices/userReadSetting/selectors";
 import { toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { Input } from "../ui/input";
+import { useSelector } from "react-redux";
+import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 
@@ -27,6 +28,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
     const dispatch = useUserAppDispatch();
 
+    const applicationConfig = useSelector(selectApplicationConfig);
 
     const { safeContent, toggleSafeContent } = useSafeContent();
 
@@ -47,7 +49,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     to="/"
                     className=""    
                 >
-                    <img src={Logo} alt="logo" className="w-40 md:w-60 hover:motion-safe:animate-spin-slow cursor-pointer" />
+                    <img src={applicationConfig?.logo} alt="logo" className="w-40 md:w-60 hover:motion-safe:animate-spin-slow cursor-pointer" />
                 </Link>
                 {
                     !isMobile && <DesktopNavigation />

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { memo, useCallback, useState } from "react";
-import { iconMap } from "./detail-drawer";
+import { iconMap } from "./drawer-icons";
 
 
 type SettingButtonProps = {

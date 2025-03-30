@@ -202,17 +202,17 @@ export default function UploadComponent() {
             <h2 className="text-lg font-semibold">Watermark Upload</h2>
             {renderFileInput("water_mark", "Watermark Image", "water_mark")}
 
-            <h2 className="text-lg font-semibold mt-6">For Usage A</h2>
+            <h2 className="text-lg font-semibold mt-6">Intro and outro image</h2>
             <div className="grid gap-6 md:grid-cols-2">
               {renderFileInput("intro_a", "Intro Image", "intro_a")}
               {renderFileInput("outro_a", "Outro Image", "outro_a")}
             </div>
 
-            <h2 className="text-lg font-semibold mt-6">For Usage B</h2>
+            {/* <h2 className="text-lg font-semibold mt-6">For Usage B</h2>
             <div className="grid gap-6 md:grid-cols-2">
               {renderFileInput("intro_b", "Intro Image", "intro_b")}
               {renderFileInput("outro_b", "Outro Image", "outro_b")}
-            </div>
+            </div> */}
           </div>
         </CardContent>
       </Card>

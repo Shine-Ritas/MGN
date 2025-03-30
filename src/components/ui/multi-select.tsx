@@ -30,7 +30,7 @@ export function MultiSelectDropdown<T>({
   placeholder = "Select options",
 }: MultiSelectProps<T>) {
   const defaultClasses = {
-    buttonClassName: "min-w-[130px] max-w-[300px] h-full",
+    buttonClassName: "min-w-[130px]  h-full",
     dropdownClassName: "custom-dropdown",
     itemClassName: "custom-item",
     selectedItemClassName: "custom-selected-item",

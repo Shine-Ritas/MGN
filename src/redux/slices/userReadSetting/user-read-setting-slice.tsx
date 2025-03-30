@@ -5,6 +5,7 @@ import { UserReadSetting } from "./types";
 import readingStyleClasses from "@/utilities/read-helper";
 import { filterForDevices } from "@/utilities/read-action";
 import { validateUserReadSetting } from "./validation";
+import { NavigateFunction } from "react-router-dom";
 
 // Utility for persisting to localStorage
 const saveToLocalStorage = (key: string, value: any) => {
@@ -52,14 +53,14 @@ const updateStateAndPersist = <T extends keyof UserReadSetting>(
   saveToLocalStorage("userReadSetting", state);
 };
 
-export const handleChapterSwitch = (action: "prefer" | "next" | "prev",navigate) => {
-    const state = loadFromLocalStorage("userReadSetting", initialState);
-    let url = "";
-    url = (action == "next") ? state.nextUrl : state.prevUrl;
-    saveToLocalStorage("userReadSetting", state);
-    navigate(url);
+export const handleChapterSwitch = (action: "prefer" | "next" | "prev", navigate) => {
+  const state = loadFromLocalStorage("userReadSetting", initialState);
+  let url = "";
+  url = (action == "next") ? state.nextUrl : state.prevUrl;
+  saveToLocalStorage("userReadSetting", state);
+  navigate(url);
 }
-    
+
 
 
 export const userReadSettingSlice = createSlice({
@@ -88,26 +89,39 @@ export const userReadSettingSlice = createSlice({
       const collection = toggleActionCollection[key];
       updateStateAndPersist(state, `${key}`, collection[value]);
     },
-    setCurrentPage: (state, { payload }: PayloadAction<{ action: string; index?: number }>) => {
-      const { action, index } = payload;
-
+    setCurrentPage: (state, { payload }: PayloadAction<{ action: string; index?: number; navigate?: NavigateFunction }>) => {
+      const { action, index, navigate } = payload;
       const { max } = readingStyleClasses(state.readingStyle.value);
       const totalPages = state.totalPages || 0;
-
       let newPage = state.currentPage as number;
-      if (action === "prefer" && index !== undefined) newPage = index
-      else if (action === "increase") {
-        newPage = newPage + max < totalPages ? newPage + max : totalPages;
-       (newPage == totalPages && state.nextUrl) ?  updateStateAndPersist(state,"redirectNow",state.nextUrl) : updateStateAndPersist(state,"redirectNow",null)
 
-      }
-      else if (action === "decrease") {
-        newPage = newPage - max > 0 ? newPage - max : 1;
-        (newPage == 1 && state.prevUrl) ?  updateStateAndPersist(state,"redirectNow",state.prevUrl) : updateStateAndPersist(state,"redirectNow",null)
+      switch (action) {
+        case "prefer":
+          if (index !== undefined) newPage = index;
+          break;
+
+        case "increase": {
+          const nextPage = newPage + max;
+          if (nextPage > totalPages && newPage === totalPages) {
+            navigate!(state.nextUrl)
+          }
+          newPage = Math.min(nextPage, totalPages);
+          break;
+        }
+
+        case "decrease": {
+          const prevPage = newPage - max;
+          if (prevPage < 1 && newPage === 1) {
+            navigate!(state.prevUrl)
+          }
+          newPage = Math.max(prevPage, 1);
+          break;
+        }
       }
 
       updateStateAndPersist(state, "currentPage", newPage);
     },
+
     setField: <T extends keyof UserReadSetting>(
       state: UserReadSetting,
       { payload }: PayloadAction<{ key: T; value: UserReadSetting[T] }>

@@ -17,6 +17,8 @@ import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
 import { useParams } from "react-router-dom";
 import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-slice";
+import route from "@/utilities/router";
+import { userRouteCollection } from "@/routes/data/user_route";
 
 // Utility: prefetch images by creating Image objects
 const prefetchImages = (imagePaths: string[]) => {
@@ -50,14 +52,14 @@ const Detail = () => {
       dispatch(setField({key:"totalPages",value:1}));
     }
 
-    const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.next_chapter?.mogou_slug}/chapters/${data?.next_chapter?.slug}` : "";
-    const prevChapterUrl = data?.prev_chapter ? `/read/mogou/${data?.prev_chapter?.mogou_slug}/chapters/${data?.prev_chapter?.slug}` : "";
+    const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
+    const prevChapterUrl = data?.prev_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.prev_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
 
     dispatch(setField({key:"prevUrl",value:prevChapterUrl}));
     dispatch(setField({key:"nextUrl",value:nextChapterUrl}));
 
     return data?.current_chapter?.images;
-  }, [data]);
+  }, [data, dispatch, readSetting.currentId]);
 
   // Determine pagination values
   const max = readStyle.max ?? totalPages;
@@ -94,7 +96,7 @@ const Detail = () => {
 
       prefetchImages([...nextImages, ...prevImages]);
     }
-  }, [dispatch, formattedImages, startIndex, endIndex, max]);
+  }, [dispatch, formattedImages, startIndex, endIndex, max, data]);
  
   useEffect(()=>{
     data?.current_chapter && setTimeout(()=>{

@@ -1,4 +1,3 @@
-import { CardsStats } from "@/components/charts/Stats";
 import { lazy, Suspense, useState, useCallback, memo } from "react";
 import DashboardNav from "@/pages/admin/Home/dashboard-nav";
 

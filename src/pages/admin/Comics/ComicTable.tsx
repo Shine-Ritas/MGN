@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 
@@ -85,9 +84,6 @@ const ComicTable = () => {
           )}
         </div>
       </CardContent>
-      <CardFooter className=" flex items-center justify-center">
-
-      </CardFooter>
     </Card>
   );
 };
