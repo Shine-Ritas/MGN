@@ -37,6 +37,14 @@ const FormSelect = React.forwardRef<HTMLDivElement, FormSelectProps>(
       [collection]
     );
 
+    // if have default value, set it to the current value with setVauee
+    React.useEffect(() => {
+      if (defaultValue) {
+        setValue(selectKey, defaultValue);
+      }
+    }, [defaultValue, selectKey, setValue]);
+    
+
     // Handle value changes efficiently
     const handleChange = React.useCallback(
       (value: string) => {

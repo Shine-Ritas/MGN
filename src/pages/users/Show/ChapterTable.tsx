@@ -8,7 +8,6 @@ import {
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -25,6 +24,7 @@ import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { isSubscriptionValid } from "@/utilities/util";
 import { useNavigate } from "react-router-dom";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
 
 interface ChapterTableProps {
     mogous: any;
@@ -38,6 +38,7 @@ export const ChapterTable = ({
     const [loading, setLoading] = useState<boolean>(false);
     const [showAll, setShowAll] = useState<boolean>(false);
     const authUser = useUserAppSelector(selectAuthUser);
+    const {isMobile} = useScreenDetector();
     const navigate = useNavigate();
 
     const callback = (data: any) => {
@@ -87,14 +88,11 @@ export const ChapterTable = ({
             <Card x-chunk="dashboard-07-chunk-1">
                 <CardHeader>
                     <CardTitle>Chapters</CardTitle>
-                    <CardDescription>
-                        Lipsum dolor sit amet, consectetur adipiscing elit
-                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table
                         // duration 2s
-                        divClassname="md:max-h-[70vh] overflow-y-auto transition ease-in-out"
+                        divClassname="max-h-[70vh] overflow-y-auto transition ease-in-out"
                         className=" w-full">
 
                         <TableBody className="gap-10 w-full">
@@ -102,12 +100,12 @@ export const ChapterTable = ({
                                 chapters?.map((chapter, index) => (
                                     <TableRow key={index}
                                         onClick={() => readTheChapter(chapter)}
-                                        className={`md:text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
+                                        className={`text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
                                         
                                      `}>
 
-                                        <TableCell key={index} className="text-sm ">
-                                            Chapter {chapter.chapter_number} : {chapter.title.length > 60 ? chapter.title.slice(0, 60) + "..." : chapter.title}
+                                        <TableCell key={index} className=" ">
+                                            Chapter {chapter.chapter_number} { !isMobile &&  (chapter.title.length > 60 ? chapter.title.slice(0, 60) + "..." : chapter.title)}
                                             {
                                                 isNewChapter(chapter.created_at)
                                             }

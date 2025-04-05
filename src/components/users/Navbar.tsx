@@ -1,4 +1,4 @@
-import { CircleUser, Menu, Search } from "lucide-react"
+import { CircleUser, Menu } from "lucide-react"
 import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
@@ -18,7 +18,6 @@ import AlertBox from "../ui/AlertBox";
 import { isSubscriptionExpired } from "@/utilities/util";
 import { selectHeaderVisible } from "@/redux/slices/userReadSetting/selectors";
 import { toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
-import { Input } from "../ui/input";
 import { useSelector } from "react-redux";
 import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
 
@@ -43,13 +42,19 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
     const subscriptionStatus = isSubscriptionExpired(authUser?.subscription_end_date, authUser?.subscription_name);
 
     return (
-        <header className={`w-4/4 sticky ${isReadMode ? visibility.value : ""} transition-all  flex min-h-16 items-center gap-4 border-b bg-background px-4 md:px-24 z-[80] `}>
+        <header className={`w-4/4 sticky ${isReadMode ? visibility.value : ""} transition-all  flex min-h-16 items-center gap-4 border-b bg-background 
+        py-3 lg:py-0
+        px-4 md:px-12 lg:px-24 z-[80] `}>
             <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"
-                    className=""    
+                    className=""
                 >
-                    <img src={applicationConfig?.logo} alt="logo" className="w-40 md:w-60 hover:motion-safe:animate-spin-slow cursor-pointer" />
+                    <img
+                        src={applicationConfig?.logo}
+                        alt="logo"
+                        className="h-10 w-20 md:h-16 md:w-60 lg:w-28  object-contain cursor-pointer"
+                    />
                 </Link>
                 {
                     !isMobile && <DesktopNavigation />
@@ -70,21 +75,10 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     isMobile && <MobileSidebarSheet />
                 }
             </Sheet>
-            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-8">
 
-                <div className="ml-auto flex gap-4   sm:flex-initial">
-                    {
-                        !isMobile && (
-                            <div className="relative">
-                                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                                <Input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="pl-8 hidden md:block md:w-80 transition-all"
-                                />
-                            </div>
-                        )
-                    }
+                <div className="ml-auto flex  sm:flex-initial">
+
                     <div className="flex items-center gap-3">
                         <Label
                             aria-label="Safe Content"

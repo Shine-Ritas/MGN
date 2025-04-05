@@ -6,7 +6,6 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import { Button } from "@/components/ui/button"
 import { 
-  Bold, 
   Italic, 
   Underline as UnderlineIcon, 
   AlignLeft, 
@@ -73,9 +72,6 @@ export default function ReusableRichTextEditor({
 
   const toggleStyle = (style: string) => {
     switch (style) {
-      case 'bold':
-        editor.chain().focus().toggleBold().run()
-        break
       case 'italic':
         editor.chain().focus().toggleItalic().run()
         break
@@ -97,16 +93,6 @@ export default function ReusableRichTextEditor({
   return (
     <div className="w-full">
       <div className="mt-2 mb-4 flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={() => toggleStyle('bold')}
-          className={editor.isActive('bold') ? 'bg-muted' : ''}
-          disabled={disabled}
-        >
-          <Bold className="h-4 w-4" />
-        </Button>
         <Button
           type="button"
           variant="outline"

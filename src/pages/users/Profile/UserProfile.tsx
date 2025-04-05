@@ -27,7 +27,7 @@ export default function UserProfile() {
   data.user && dispatch(setUser(data?.user));
 
   return (
-    <div className="container mx-auto px-4 ">
+    <div className="pt-8">
       <Card className="mb-8">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

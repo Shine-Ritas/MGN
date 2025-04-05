@@ -62,7 +62,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
       status: mogou?.mogou?.status,
       legal_age: mogou?.mogou?.legal_age,
       rating: mogou?.mogou?.rating,
-      cover: mogou?.mogou?.cover
+      cover: mogou?.mogou?.cover,
     });
   }, [
     mogou, isLoading
@@ -119,7 +119,6 @@ const Action = ({ isEdit = false }: ActionProps) => {
       }
     }
     );
-
 
     !isEdit ? await mutate("admin/mogous", formData) : await mutate(`admin/mogous/${slug}`, formData) as any;
   };

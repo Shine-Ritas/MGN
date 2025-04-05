@@ -13,13 +13,15 @@ import MemoizedSettingButton from "./setting-button";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 import MemoizedSettingOgButton from "./setting-og-button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const MemoizedTitleSection = memo(({ title,onTogglePanel }: { title:string,onTogglePanel: () => void }) => {
+const MemoizedTitleSection = memo(({ title,slug,onTogglePanel }: { title:string,slug:string,onTogglePanel: () => void }) => {
     return (
         <SheetTitle>
             <div className="h3 flex justify-between px-4">
-                <h3>{title}</h3>
+                <Link
+                to={`/show/${slug}`}
+                className="hover:underline cursor-pointer">{title}</Link>
                 <Button
                     variant="default"
                     size="sm"
@@ -114,7 +116,7 @@ const DetailDrawer = () => {
     }, [handleSetPage, readSetting]);
 
 
-    const containerStyle = `${readSetting.showPanel ? "w-1/5" : "w-0"} bg-background h-screen fixed top-0 right-0 md:z-[90]`;
+    const containerStyle = `${readSetting.showPanel ? "w-1/5 px-2" : "w-0"} bg-background h-screen fixed top-0 right-0 md:z-[90]`;
 
 
 
@@ -125,12 +127,12 @@ const DetailDrawer = () => {
                 open={readSetting.showPanel}>
 
                 <SheetContentBody type={content}>
-                    <SheetHeader className="px-4 py-6">
-                        <MemoizedTitleSection  title={"Chapter " + sr?.current_chapter?.chapter_number} onTogglePanel={handleTogglePanel} />
+                    <SheetHeader className=" pt-8">
+                        <MemoizedTitleSection  title={sr?.mogou?.title} slug={sr?.mogou?.slug} onTogglePanel={handleTogglePanel} />
                     </SheetHeader>
                     <SheetDescription>
                         {/* Page Indexer */}
-                        <div className="flex flex-col gap-4 px-4 text-white pt-4">
+                        <div className="flex flex-col gap-4 px-4 text-white pt-6">
                         <MemorizedIndexerButton
                                 label="Chapters"
                                 selectOptions={allChapters}
