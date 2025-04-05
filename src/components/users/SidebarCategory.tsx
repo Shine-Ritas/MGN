@@ -1,25 +1,25 @@
 import { ComicType } from "@/data/data";
-import { Label } from "../ui/label";
 import { ComicCategory } from "@/pages/admin/Category/type";
-
-
-
+import { Link } from "react-router-dom";
 interface SidebarAccordionsType {
-    collection : ComicCategory[]| ComicType[]
+    collection : ComicCategory[]| ComicType[],
+    type?: string
 }
 
 const SidebarAccordions = ({
-    collection
+    collection,
+    type
 }:SidebarAccordionsType) => {
 
     return (
         <ul className="flex flex-col gap-4 text-muted-foreground ">
         {
             collection?.map((category) => (
-                <Label  key={category.id} title={category.title} className="hover:text-foreground" >
+                <Link 
+                    to={`/filter?${type}=${category.title}`}
+                    key={category.id} title={category.title} className="hover:text-foreground" >
                     <span>{category?.title}</span>
-                   
-                </Label>
+                </Link>
             ))
         }
     </ul>

@@ -13,9 +13,10 @@ import FormSelect from '@/components/ui/custom/FormSelect';
 type FilterComponentProps = {
     handleFilter: (key: string, value: any) => void;
     getByKey: (key: string) => any;
+    isMobile : boolean;
 }
 
-const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
+const FilterComponent = ({ handleFilter, getByKey,isMobile }: FilterComponentProps) => {
     const searchInput = useRef<HTMLInputElement>(null);
 
     const categories = useAppSelector((state) => state.categories.categories)!;
@@ -43,6 +44,7 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                     selectedOptions={selectedType}
                     options={ComicType}
                     placeHolder="Select Type"
+                    size={isMobile ? "md" : "sm"}
                     onChange={
                         (value) => handleFilter("type", value)
                     }
@@ -53,6 +55,8 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                     selectedOptions={selectedProgress}
                     options={ComicProgress}
                     placeHolder="Select Progress"
+                    size={isMobile ? "md" : "sm"}
+
                     onChange={
                         (value) => handleFilter("finish_status", value)
                     }
@@ -65,7 +69,7 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                         onChange={
                         (value) => handleFilter("genres", value)
                     }
-                    size="lg"
+                    size={isMobile ? "md" : "lg"}
                     labelExtractor={(option) => option.title} />
 
                 <FormSelect selectKey="order_by"
@@ -77,8 +81,9 @@ const FilterComponent = ({ handleFilter, getByKey }: FilterComponentProps) => {
                     }} />
 
                 <Button
-                    size={'sm'}
-                    className=" text-white px-4 py-2 rounded-sm !w-fit">
+                    size={"sm"}
+                    // onClick={
+                    className={`${isMobile ? "!w-full" : "col-span-1"} bg-primary`}>
                     Filter
                 </Button>
             </div>

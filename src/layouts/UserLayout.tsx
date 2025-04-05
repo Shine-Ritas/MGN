@@ -41,8 +41,6 @@ const UserLayout = () => {
   }, [data, dispatch]);
 
  
-
-
   // If the user-side maintenance mode is active, show the MaintenancePage component
   if (userIsMaintenance) {
     return <MaintenancePage />;
@@ -55,7 +53,7 @@ const UserLayout = () => {
         <div className="w-full ">
           <div className="flex flex-col gap-8 w-full ">
             <div className="flex w-full flex-col">
-              <div className="flex flex-col sm:gap-4 min-h-[65vh]">
+              <div className="flex flex-col sm:gap-4 min-h-[65vh]  py-3 lg:py-0 px-4 md:px-12 lg:px-24 ">
                 <Outlet />
               </div>
             </div>

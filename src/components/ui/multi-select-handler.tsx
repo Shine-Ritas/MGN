@@ -16,7 +16,7 @@ const getDropDownContentStyle = (size: string) => {
     case "sm":
       return "";
     case "md":
-      return "w-48";
+      return "!w-96 max-h-[60vh] overflow-y-scroll";
     case "lg":
       return "w-[520px] grid grid-cols-3 gap-1 py-3 pe-3";
     default:
@@ -29,7 +29,7 @@ const getDropDownItemStyle = (size: string) => {
     case "sm":
       return "";
     case "md":
-      return "w-48";
+      return "w-full";
     case "lg":
       return "text-xs";
     default:

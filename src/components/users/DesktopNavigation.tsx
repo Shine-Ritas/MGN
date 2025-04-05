@@ -2,10 +2,8 @@ import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Link } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
@@ -53,14 +51,7 @@ export function DesktopNavigation() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuLink
-                        href="/new-releases"
-                        className={navigationMenuTriggerStyle()}
-                    >
-                        New Releases
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
+               
             </NavigationMenuList>
         </NavigationMenu>
     )

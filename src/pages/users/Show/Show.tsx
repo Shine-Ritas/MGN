@@ -49,13 +49,13 @@ const Show = () => {
        <>
         <SEO title={`${mogous?.mogou?.title} - Manga Details`} description={mogous?.mogou?.description.slice(0, 150)} name="Manga Details" type="manga" />
 
-        <div className=" px-6 md:px-24 flex flex-col mt-8">
+        <div className="flex flex-col mt-8">
             <div id="popoverhe"></div>
             <div className="flex items-center gap-4 mb-6 ">
                 <Goback
                     size={"sm"}
                     to={'/'} />
-                <h1 className="flex-1 shrink-0 lg:whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                <h1 className="flex-1 shrink-0 lg:whitespace-nowrap text-xl font-semibold tracking-tight lg:grow-0">
                     {mogous?.mogou?.title}
                 </h1>
             </div>
@@ -64,11 +64,11 @@ const Show = () => {
                 <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} />
             </div>
 
-            <div className="mt-8 md:mt-4 grid md:grid-cols-8 gap-4 ">
-                <div className="md:col-span-6 ">
+            <div className=" lg:mt-4 grid lg:grid-cols-8 gap-4 ">
+                <div className="lg:col-span-6 ">
                     <ChapterTable mogous={mogous}   />
                 </div>
-                <div className="md:col-span-2 flex justify-start text-start">
+                <div className="lg:col-span-2 flex justify-start text-start">
                     {
                         mogous?.mogou && <Suspense fallback={<div>Loading...</div>}>
                             <RelatedMogou slug={mogous?.mogou.slug} />

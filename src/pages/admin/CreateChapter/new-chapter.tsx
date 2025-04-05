@@ -17,6 +17,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "@/components/ui/use-toast"
 import Goback from "@/components/goback-btn"
 import useQuery from "@/hooks/useQuery"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export type NewChapterInfo = {
   id: number | null | string;
@@ -27,13 +28,13 @@ export type NewChapterInfo = {
   thirdPartyUrl: string;
   isSubscriptionOnly: boolean;
   thirdPartyRedirect: boolean;
-  mogou_slug : string
+  mogou_slug: string
 }
 
 export default function NewChapter() {
 
-  const { slug:mogou_slug } = useParams<{ slug: string }>();
-  const {data,isLoading:isL} = useQuery(`admin/sub-mogous/get-latest-chapter/${mogou_slug}`)
+  const { slug: mogou_slug } = useParams<{ slug: string }>();
+  const { data, isLoading: isL } = useQuery(`admin/sub-mogous/get-latest-chapter/${mogou_slug}`)
 
   const [isCard1Submitted, setIsCard1Submitted] = useState(false)
   const [chapterInfo, setChapterInfo] = useState<NewChapterInfo>({
@@ -45,12 +46,12 @@ export default function NewChapter() {
     thirdPartyRedirect: false,
     thirdPartyUrl: "",
     isSubscriptionOnly: false,
-    mogou_slug : mogou_slug!
+    mogou_slug: mogou_slug!
   })
 
   const navigate = useNavigate();
 
-  const handleSwitchChange = (key : string, checked: boolean) => {
+  const handleSwitchChange = (key: string, checked: boolean) => {
     setChapterInfo((prev) => ({ ...prev, [key]: checked }))
   }
 
@@ -65,11 +66,11 @@ export default function NewChapter() {
   });
 
   useEffect(() => {
-    if(!isL){
+    if (!isL) {
       setValue("chapter_number", data?.chapter_number + 1)
     }
   },
-  [data, isL, setValue])
+    [data, isL, setValue])
 
   const { handleServerErrors } = useServerValidation();
 
@@ -82,7 +83,7 @@ export default function NewChapter() {
     setIsCard1Submitted(true);
     setChapterInfo((prev) => ({ ...prev, id: response.sub_mogou.id, slug: response.sub_mogou.slug }))
     navigate(`/admin/mogou/${mogou_slug}/chapters/edit/${response.sub_mogou.id}`, { replace: true })
-    
+
   }
 
   const [createChapter, { isLoading }] = useMutate({ callback: createOnSuccess, navigateBack: false });
@@ -104,15 +105,15 @@ export default function NewChapter() {
   return (
     <div className="w-full mx-auto py-4 space-y-4">
 
-    <div className="flex items-center justify-between gap-4 mb-10">
+      <div className="flex items-center justify-between gap-4 mb-10">
 
         <div className="flex gap-4 items-center">
-            <Goback to={-1} />
-            <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Chapters
-            </h1>
+          <Goback to={-1} />
+          <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+            Chapters
+          </h1>
         </div>
-    </div>
+      </div>
 
       {/* Card 1: Chapter Information Fields */}
       <Card>
@@ -166,15 +167,28 @@ export default function NewChapter() {
 
             </div>
 
-              <div className="flex items-center gap-4 py-2">
-                <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-4 py-2">
+              <div className="flex items-center space-x-2">
                 <Switch
                   id="isSubscriptionOnly"
                   checked={chapterInfo.isSubscriptionOnly}
                   disabled={isLoading || isCard1Submitted}
                   onCheckedChange={(checked) => handleSwitchChange("isSubscriptionOnly", checked)}
                 />
-                <Label htmlFor="isSubscriptionOnly">Subscription Only</Label>
+                <TooltipProvider delayDuration={300}   >
+                  <Tooltip >
+                    <TooltipTrigger asChild >
+                      <Label htmlFor="isSubscriptionOnly" className=" cursor-pointer">
+                        Subscription Only
+                      </Label>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="bg-accent mb-4" >
+                      <p>
+                        This chapter will be available only to subscribers.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -182,22 +196,34 @@ export default function NewChapter() {
                   id="ThirdPartyRedirect"
                   checked={chapterInfo.thirdPartyRedirect}
                   disabled={isLoading || isCard1Submitted}
-                  onCheckedChange={(checked) => handleSwitchChange("thirdPartyRedirect", checked)}
-                />
-                <Label htmlFor="ThirdPartyRedirect">Third Party Redirect</Label>
+                  onCheckedChange={(checked) => handleSwitchChange("thirdPartyRedirect", checked)}/>
+                <TooltipProvider  delayDuration={300}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Label htmlFor="ThirdPartyRedirect" className="cursor-pointer">
+                        Third Party Redirect
+                      </Label>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="bg-accent mb-4">
+                      <p>
+                        Redirect users to a third-party URL when accessing this chapter if user is not subscribed.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-              </div>
+            </div>
 
 
             <CardFooter className="px-0">
-              <Button 
-              disabled={isLoading || isCard1Submitted}
-              type="submit">Submit Chapter Information</Button>
+              <Button
+                disabled={isLoading || isCard1Submitted}
+                type="submit">Submit Chapter Information</Button>
             </CardFooter>
           </form>
         </CardContent>
       </Card>
-   
+
     </div>
   )
 }

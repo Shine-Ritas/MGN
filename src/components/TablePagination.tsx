@@ -66,7 +66,7 @@ export function TablePagination({
               handlePageChange(currentPage);
               setIsDialogOpen(true);
             }}
-            className="cursor-pointer"
+            className="cursor-pointer  bg-neon-primary hover:bg-primary text-white"
           >
             {currentPage}
           </PaginationLink>

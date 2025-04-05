@@ -1,8 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { MogouWithTotalCount } from "./type"
 import placeholder from '@/assets/imgs/place-holder/card_ph.png'
-
-
+import DOMPurify from 'dompurify';
 import { CalendarIcon, EyeIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { FaDiscord, FaTelegram } from "react-icons/fa6"
@@ -58,10 +57,7 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
                 </div>
 
                 <div className="text-sm text-muted-foreground w-[90%] h-28">
-                   
-                    {
-                        mogous.description.length > 120 ? mogous.description.slice(0, 120) + "..." : mogous.description
-                    }
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( mogous.description.length > 120 ? mogous.description.slice(0, 120) + "..." : mogous.description) }} />
                 </div>
 
 

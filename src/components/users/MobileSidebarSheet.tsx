@@ -28,7 +28,7 @@ const MobileSidebarSheet = () => {
                                Types
                             </AccordionTrigger>
                         <AccordionContent className='max-h-96 overflow-y-scroll '>
-                            <SidebarAccordions collection={ComicType} />
+                            <SidebarAccordions collection={ComicType} type="type" />
                         </AccordionContent>
                     </AccordionItem>
 
@@ -40,7 +40,7 @@ const MobileSidebarSheet = () => {
                                Categories
                             </AccordionTrigger>
                         <AccordionContent className=' h-96 overflow-y-scroll'>
-                        <SidebarCategory collection={categories} />
+                        <SidebarCategory collection={categories} type="genres" />
 
                         </AccordionContent>
                     </AccordionItem>
