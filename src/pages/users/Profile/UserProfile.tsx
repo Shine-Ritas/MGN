@@ -24,7 +24,7 @@ export default function UserProfile() {
   if (isLoading) {
     return <div>Loading...</div>
   }
-  data.user && dispatch(setUser(data?.user));
+  data?.user && dispatch(setUser(data?.user));
 
   return (
     <div className="pt-8">

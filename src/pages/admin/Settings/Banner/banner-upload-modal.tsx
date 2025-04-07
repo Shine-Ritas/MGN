@@ -61,7 +61,7 @@ const BannerUploadModal = ({ isOpen, onClose, data }: PartialDialogHookType) => 
     
       const [upload, { isLoading }] = useMutate({ callback: onSuccessCallback });
     
-      const handleSubmit = async (e: any) => {
+      const handleSubmit = async () => {
         const formData = new FormData()
         if (sourceType.value === 'file') {
             formData.append('cover_photo', uploadRef.current!.files![0])

@@ -9,7 +9,7 @@ import { useUserAppSelector } from '@/redux/hooks';
 import { selectAuthUser, selectSafeContent } from '@/redux/slices/user-global';
 import { ComicType } from '@/data/data';
 import { isSubscriptionValid } from '@/utilities/util';
-import MogouCard from './RecentlyUploadedCard';
+import MogouCard from './MogouCard';
 
 type handlePageChangeType = (page: number) => void;
 
@@ -46,7 +46,7 @@ const RecentlyUploaded = () => {
         <Card className='border-none  bg-background'>
             <CardTitle className='flex justify-between mb-12 flex-col md:flex-row px-6 md:px-0'>
                 <span className='text-2xl '>Recently Uploaded</span>
-                <div className="flex gap-12 mt-4 md:mt-0">
+                <div className="flex justify-between gap-12 mt-4 md:mt-0">
 
                     <ToggleGroup
                         onValueChange={(value) => handleCurrentTypeChange(value)}

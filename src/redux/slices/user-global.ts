@@ -31,6 +31,9 @@ export const userGlobalSlice = createSlice({
                 state.subscription = false;
             }
         },
+        setSubscriptionModalOpen(state, action: PayloadAction<boolean>) {
+            state.subscriptionModalOpen = action.payload;
+        },
         setSafeContent(state, action: PayloadAction<boolean>) {
             state.safeContent = action.payload;
         },
@@ -49,12 +52,15 @@ export const userGlobalSlice = createSlice({
         },
         setContinueReading(state, action: PayloadAction<string[]>) {
             state.continueReading = action.payload;
+        },
+        setSubscriptionModalData(state, action: PayloadAction<{ title: string; description: string } | null>) {
+            state.subscriptionModalData = action.payload;
         }
     },
 });
 
 
-export const { setAuth, setUser, setSafeContent,setBanners,setMaintenance,setUserLogout } = userGlobalSlice.actions;
+export const { setAuth, setUser, setSafeContent,setBanners,setMaintenance,setUserLogout,setSubscriptionModalOpen,setSubscriptionModalData } = userGlobalSlice.actions;
 export default userGlobalSlice.reducer;
 
 export const selectSafeContent = (state : UserRootState) => state.userGlobal.safeContent;
@@ -64,3 +70,4 @@ export const selectAuthUser = (state : UserRootState) => state.userGlobal.user;
 export const selectIsSubscription = (state : UserRootState) => state.userGlobal.subscription
 export const selectFavorite = (state : UserRootState) => state.userGlobal.favorite;
 export const selectContinueReading = (state : UserRootState) => state.userGlobal.continueReading;
+export const selectUserGlobal = (state : UserRootState) => state.userGlobal;

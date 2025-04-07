@@ -2,7 +2,7 @@ import FilterComponent from "./filter"
 import useFilterState from "@/hooks/useFilterState";
 import useQuery from "@/hooks/useQuery";
 import { isSubscriptionValid } from "@/utilities/util";
-import MogouCard from "../home/RecentlyUploadedCard";
+import MogouCard from "../home/MogouCard";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser, selectSafeContent } from "@/redux/slices/user-global";
 import { useEffect, useState } from "react";

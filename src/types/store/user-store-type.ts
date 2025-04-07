@@ -11,6 +11,10 @@ export interface User {
   subscription_name?: string;
 }
 
+type SubscriptionModalData = {
+  title: string;
+  description: string;
+};
 export interface UserGlobal {
   isAuth: boolean;
   user: null | User;
@@ -20,4 +24,6 @@ export interface UserGlobal {
   is_maintenance?: boolean;
   favorite: string[];
   continueReading: string[];
+  subscriptionModalOpen: boolean;
+  subscriptionModalData: null | SubscriptionModalData
 }

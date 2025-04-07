@@ -16,6 +16,8 @@ const userInitialState: UserGlobal = {
   is_maintenance: localStorage.getItem('is_maintenance') === 'true',
   favorite: [],
   continueReading: [],
+  subscriptionModalOpen: false,
+  subscriptionModalData: null,
 };
 
 export default userInitialState;

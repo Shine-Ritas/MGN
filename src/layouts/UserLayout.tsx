@@ -12,6 +12,7 @@ import MaintenancePage from "@/pages/errors/maitainence";
 import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getAppliactionConfig } from "@/redux/slices/application-config-slice";
+import { ToSubscribe } from "@/pages/users/home/subscription/to-subscribe";
 
 const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
 
@@ -50,6 +51,7 @@ const UserLayout = () => {
     <div className="flex h-screen">
       <div className={`flex h-fit flex-col md:px-0 transition-all ${containerWidth}`}>
         <Navbar isReadMode={isReadMode} />
+        <ToSubscribe />
         <div className="w-full ">
           <div className="flex flex-col gap-8 w-full ">
             <div className="flex w-full flex-col">

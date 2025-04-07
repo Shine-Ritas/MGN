@@ -31,6 +31,7 @@ export interface Category {
 export interface SubMogousType {
     id:number,
     title:string,
+    description:string,
     slug:string,
     view : number,
     chapter_number:number,
