@@ -87,7 +87,7 @@ export const ChapterTable = ({
         <>
             <Card x-chunk="dashboard-07-chunk-1">
                 <CardHeader>
-                    <CardTitle>Chapters</CardTitle>
+                    <CardTitle>All Chapters</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table
@@ -105,7 +105,7 @@ export const ChapterTable = ({
                                      `}>
 
                                         <TableCell key={index} className=" ">
-                                            Chapter {chapter.chapter_number} { !isMobile &&  (chapter.title.length > 60 ? chapter.title.slice(0, 60) + "..." : chapter.title)}
+                                            Chapter {chapter.chapter_number}  { !isMobile &&  (chapter.title.length > 60 ? ": " + chapter.title.slice(0, 60) + "..." : ": " + chapter.title)}
                                             {
                                                 isNewChapter(chapter.created_at)
                                             }
@@ -130,7 +130,7 @@ export const ChapterTable = ({
                         </TableBody>
                     </Table>
                 </CardContent>
-                {(!showAll && chapters.length > 10) && <CardFooter className="justify-center border-t p-4">
+                {(!showAll && chapters.length > 9) && <CardFooter className="justify-center border-t p-4">
                     <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"
                         aria-label="Show All Chapters"
                         onClick={showAllChapters}>

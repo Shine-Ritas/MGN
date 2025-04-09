@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
+const ToSubscribe  = lazy(() => import('@/pages/users/home/subscription/to-subscribe'));
 
 const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
@@ -146,6 +147,10 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     )
                 }
             </div>
+
+            {
+                !authUser && !isReadMode && <ToSubscribe />
+            }
         </header>
     )
 }

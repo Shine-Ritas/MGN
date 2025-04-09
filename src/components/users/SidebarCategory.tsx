@@ -12,7 +12,7 @@ const SidebarAccordions = ({
 }:SidebarAccordionsType) => {
 
     return (
-        <ul className="flex flex-col gap-4 text-muted-foreground ">
+        <ul className="flex flex-col gap-4 text-muted-foreground ps-4">
         {
             collection?.map((category) => (
                 <Link 

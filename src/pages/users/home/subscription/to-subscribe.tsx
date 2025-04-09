@@ -14,7 +14,7 @@ import { selectUserGlobal, setSubscriptionModalOpen } from "@/redux/slices/user-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function ToSubscribe() {
+export default function ToSubscribe() {
     const [open, setOpen] = useState(false);
 
     const userGlobal = useUserAppSelector(selectUserGlobal);
