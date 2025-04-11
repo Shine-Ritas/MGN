@@ -64,7 +64,7 @@ const ApplicationEdit = ({ applicationConfig }) => {
     }
 
     return (
-        <Card className="w-full  col-span-2">
+        <Card className="w-full col-span-3">
             <CardHeader>
                 <CardTitle className="text-2xl">Application Setting</CardTitle>
             </CardHeader>

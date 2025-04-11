@@ -28,6 +28,7 @@ export type MogouChapter = {
     title:string,
     slug:string,
     view : number,
+    description:string,
     chapter_number:number,
     created_at:string,
     subscription_only: boolean,

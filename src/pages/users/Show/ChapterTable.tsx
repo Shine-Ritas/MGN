@@ -20,8 +20,8 @@ import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
 import { MogouChapter } from "@/pages/admin/Comics/type";
 import useQuery from "@/hooks/useQuery";
-import { useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser } from "@/redux/slices/user-global";
+import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
+import { selectAuthUser, setSubscriptionModalData, setSubscriptionModalOpen } from "@/redux/slices/user-global";
 import { isSubscriptionValid } from "@/utilities/util";
 import { useNavigate } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
@@ -40,6 +40,8 @@ export const ChapterTable = ({
     const authUser = useUserAppSelector(selectAuthUser);
     const {isMobile} = useScreenDetector();
     const navigate = useNavigate();
+    const dispatch = useUserAppDispatch();
+
 
     const callback = (data: any) => {
         if (data) {
@@ -72,8 +74,13 @@ export const ChapterTable = ({
 
     const readTheChapter = (chapter: MogouChapter) => {
         const link = `/read/mogou/${mogous.mogou.slug}/chapters/${chapter.slug}`;
-        if (userCanReadAll) {
-            navigate(link);
+        if (chapter.subscription_only && !userCanReadAll) {
+            dispatch(setSubscriptionModalOpen(true));
+            dispatch(setSubscriptionModalData({
+                title: chapter.title,
+                description: chapter.description,
+            }))
+            return;
         } else {
             //    if( chapter.third_party_redirect && !chapter.subscription_only){
             // add target
@@ -104,7 +111,7 @@ export const ChapterTable = ({
                                         
                                      `}>
 
-                                        <TableCell key={index} className=" ">
+                                        <TableCell key={index} className="curor-pointer text-sm   flex items-center gap-2">
                                             Chapter {chapter.chapter_number}  { !isMobile &&  (chapter.title.length > 60 ? ": " + chapter.title.slice(0, 60) + "..." : ": " + chapter.title)}
                                             {
                                                 isNewChapter(chapter.created_at)
@@ -162,7 +169,7 @@ const isNewChapter = (date: string | number | Date) => {
 }
 
 // return icon with unlock
-const isNeedSubscriptionChapter = (isSubscriptionNeed, isValid) => {
+const isNeedSubscriptionChapter = (isSubscriptionNeed : boolean, isValid : boolean) => {
     const isTrue = isSubscriptionNeed && !isValid;
     return isTrue ? (
         <div className="inline-flex items-center px-2 py-0 rounded-full text-[.7rem] font-semibold ms-5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-lg transition-all duration-300 ease-in-out hover:from-yellow-600 hover:to-yellow-700 hover:shadow-xl hover:scale-105">
@@ -174,7 +181,7 @@ const isNeedSubscriptionChapter = (isSubscriptionNeed, isValid) => {
 
 
 
-const chapterRowEffectClasses = (isSubscriptionNeed, isValid) => {
+const chapterRowEffectClasses = (isSubscriptionNeed : boolean, isValid : boolean) => {
     return (!isSubscriptionNeed || isValid) ?
         "cursor-pointer hover:!bg-primary hover:text-white"
         : "cursor-not-allowed text-muted-foreground"
