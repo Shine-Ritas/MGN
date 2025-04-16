@@ -13,7 +13,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 const initlalFilterState = {
     search: "",
     page: 1,
-    limit: 12,
+    limit: 9,
     type: "",
     finish_status: "",
     chapters_count_order: "",
@@ -44,7 +44,7 @@ export default function Page() {
   
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-2xl font-bold text-white">Filter</h1>
+            <h1 className=""></h1>
             {isMobile && (
               <button
                 className=""

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import { rTitle } from '@/utilities/util';
 import { useUserAppDispatch } from '@/redux/hooks';
-import { setSubscriptionModalData, setSubscriptionModalOpen } from '@/redux/slices/user-global';
+import { handleRead } from '@/utilities/read-helper';
 
 type RecentlyUploadedCardProps = {
     mogou: RecentlyUploadedMogou,
@@ -19,18 +19,8 @@ const MogouCard = ({ mogou, userCanReadAll }: RecentlyUploadedCardProps) => {
     const dispatch = useUserAppDispatch();
 
     const handleClick = (sub_mogou: SubMogousType) => {
-
-        if (sub_mogou.subscription_only && !userCanReadAll) {
-            dispatch(setSubscriptionModalOpen(true));
-            dispatch(setSubscriptionModalData({
-                title: sub_mogou.title,
-                description: sub_mogou.description,
-            }))
-            return;
-        }
-        navigate(`/read/mogou/${mogou.slug}/chapters/${sub_mogou.slug}`);
+        handleRead(dispatch,userCanReadAll,navigate,sub_mogou,mogou.slug)
     }
-
 
     return (
         <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700 min-h-48">

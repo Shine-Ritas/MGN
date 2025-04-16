@@ -13,7 +13,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-
 import { Flame, Lock, PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
@@ -21,10 +20,11 @@ import { FaSpinner } from "react-icons/fa6";
 import { MogouChapter } from "@/pages/admin/Comics/type";
 import useQuery from "@/hooks/useQuery";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser, setSubscriptionModalData, setSubscriptionModalOpen } from "@/redux/slices/user-global";
+import { selectAuthUser } from "@/redux/slices/user-global";
 import { isSubscriptionValid } from "@/utilities/util";
 import { useNavigate } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import { handleRead } from "@/utilities/read-helper";
 
 interface ChapterTableProps {
     mogous: any;
@@ -71,23 +71,8 @@ export const ChapterTable = ({
         setShowAll(true);
     }
 
-
-    const readTheChapter = (chapter: MogouChapter) => {
-        const link = `/read/mogou/${mogous.mogou.slug}/chapters/${chapter.slug}`;
-        if (chapter.subscription_only && !userCanReadAll) {
-            dispatch(setSubscriptionModalOpen(true));
-            dispatch(setSubscriptionModalData({
-                title: chapter.title,
-                description: chapter.description,
-            }))
-            return;
-        } else {
-            //    if( chapter.third_party_redirect && !chapter.subscription_only){
-            // add target
-            navigate(link);
-
-            //    }
-        }
+    const readTheChapter = (chapter : MogouChapter)=>{
+        handleRead(dispatch,userCanReadAll,navigate,chapter,mogous.mogou.slug)
     }
 
     return (
@@ -107,7 +92,7 @@ export const ChapterTable = ({
                                 chapters?.map((chapter, index) => (
                                     <TableRow key={index}
                                         onClick={() => readTheChapter(chapter)}
-                                        className={`text-lg h-12 ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
+                                        className={`text-lg h-12 flex items-center justify-between ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
                                         
                                      `}>
 

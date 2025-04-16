@@ -3,6 +3,7 @@ import MaintenanceAction from "./General/maintenance-action"
 import useQuery from "@/hooks/useQuery"
 import ApplicationEdit from "./General/application-edit"
 import SocialAction from "./General/social-action"
+import UserAuthImage from "./General/user-auth-image"
 
 const GeneralSetting = () => {
     const { data, isLoading } = useQuery(`/application-configs`);
@@ -18,9 +19,10 @@ const GeneralSetting = () => {
                 <div className="grid auto-rows-max items-start gap-4 grid-cols-5 lg:col-span-5 lg:gap-8">
 
                     <ApplicationEdit applicationConfig={data} />
-                    <div className="col-span-2 flex flex-col gap-8">
+                    <div className="col-span-2 flex flex-col gap-4">
                     <MaintenanceAction isActive={data?.user_side_is_maintenance_mode} />
                     <SocialAction />
+                    <UserAuthImage />
                     </div>
                 </div>
 

@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Mail, CreditCard, UserRoundCog } from "lucide-react"
+import { Mail,UserRoundCog } from "lucide-react"
 import useQuery from "@/hooks/useQuery"
 import { UserSubscriptionHistoryType } from "@/pages/admin/Users/UserDetail"
 import UserSubscriptionHistory from "@/pages/admin/Users/UserSubscriptionHistory"
@@ -64,21 +63,10 @@ export default function UserProfile() {
       <UserSubscriptionHistory setCurrentTable={null} history={data?.subscriptions as UserSubscriptionHistoryType[] ?? []} />
 
       <h2 className="text-2xl font-bold mt-8 mb-6">BookMarked List</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-4 ">
         {data?.favorites.map((manga: any) => (
            <MogouFavoriteCard key={manga.id} mogou={manga} />
         ))}
-      </div>
-
-      <div className="mt-8 flex justify-center gap-4">
-        <Button className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4" />
-          View All Favorites
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <CreditCard className="w-4 h-4" />
-          Manage Subscription
-        </Button>
       </div>
     </div>
   )

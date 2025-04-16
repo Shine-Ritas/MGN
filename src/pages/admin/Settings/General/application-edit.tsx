@@ -83,6 +83,9 @@ const ApplicationEdit = ({ applicationConfig }) => {
 
                     <div className="space-y-2">
                         <Label htmlFor="logo">Logo</Label>
+                        <span className="block text-muted-foreground text-xs mb-1">
+                            Recommended size: 150x40px | Use PNG | Transparent background preferred
+                        </span>
                         <div className="flex flex-col items-center gap-4">
                             <div
                                 className="border-2 border-dashed border-gray-300 rounded-lg p-4 w-full flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
@@ -107,7 +110,7 @@ const ApplicationEdit = ({ applicationConfig }) => {
                                     type="file"
                                     id="logo"
                                     name="logo"
-                                    accept="image/*"
+                                    accept="image/png"
                                     onChange={handleLogoChange}
                                     className="hidden"
                                 />
