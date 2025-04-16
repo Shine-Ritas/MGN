@@ -4,6 +4,7 @@ import { EncryptStorage } from "@/utilities/encrypt-storage";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: config.baseUrl, // Your API base URL
+  credentials: "include",
   prepareHeaders: (headers) => {
     const encryptStorage = new EncryptStorage(config.secretKey);
 
@@ -13,13 +14,11 @@ const baseQuery = fetchBaseQuery({
       headers.set("Authorization", `Bearer ${token}`);
     }
     headers.set("Accept", "application/json");
+    headers.set("Content-Type", "application/json");
 
     return headers;
   },
-},
-
-
-);
+});
 
 export const queryApi = createApi({
   reducerPath: "queryApi",
@@ -31,8 +30,8 @@ export const queryApi = createApi({
         return {
           url,
           headers: { "Content-Type": "application/json" },
-      };
-      } ,
+        };
+      },
       keepUnusedDataFor: 3600,
     }),
     postData: builder.mutation<any, any>({
@@ -40,17 +39,13 @@ export const queryApi = createApi({
         return {
           // headers: { "Content-Type": "multipart/form-data" },
           url,
-          method: method || "POST", 
+          method: method || "POST",
           body: body,
           redirect: "manual",
         };
       },
-      
     }),
   }),
 });
 
-export const {
-  useGetDataQuery,
-  usePostDataMutation,
-} = queryApi;
+export const { useGetDataQuery, usePostDataMutation } = queryApi;
