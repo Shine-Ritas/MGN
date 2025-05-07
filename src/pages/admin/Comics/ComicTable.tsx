@@ -17,6 +17,8 @@ import ComicFilter from "./ComicFilter";
 import { Button } from "@/components/ui/button";
 import NoDataFound from "@/components/ui/no-data-found";
 import useFilterState from "@/hooks/useFilterState";
+import { PublishDialog } from "./PublishDialog";
+import { useState } from "react";
 
 const initlalFilterState = {
   search: "",
@@ -27,8 +29,23 @@ const initlalFilterState = {
   chapters_count_order: "",
 }
 
+export type PublishDataType = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  mogou_slug: string | null;
+  sub_mogou_slug: string | null;
+}
+
 const ComicTable = () => {
+  
   const navigate = useNavigate();
+  const [publishData, setPublishData] = useState({
+    open: false,
+    setOpen: (open: boolean) => setPublishData((prev) => ({ ...prev, open })),
+    mogou_slug: null,
+    sub_mogou_slug: null,
+
+  })
 
   const { bunUrl, handleChange : handleFilter,getByKey } = useFilterState(initlalFilterState,['page']);
 
@@ -78,11 +95,13 @@ const ComicTable = () => {
           ) : (
             <div className="grid md:grid-cols-2 gap-x-8 gap-y-12 ">
             { data.mogous.data.map((mogou: MogousType) => (
-                <ComicCard key={mogou.id} mogous={mogou} />
+                <ComicCard key={mogou.id} mogous={mogou} publishData={publishData} setPublishData={setPublishData} />
               ))}
             </div>
           )}
         </div>
+
+        <PublishDialog publishData={publishData} />
       </CardContent>
     </Card>
   );

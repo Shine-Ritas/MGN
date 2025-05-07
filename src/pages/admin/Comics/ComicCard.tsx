@@ -4,18 +4,31 @@ import placeholder from '@/assets/imgs/place-holder/card_ph.png'
 import DOMPurify from 'dompurify';
 import { CalendarIcon, EyeIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { FaDiscord, FaTelegram } from "react-icons/fa6"
+import { FaTelegram } from "react-icons/fa6"
 import { cn } from "@/utilities/util"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import { PublishDataType } from "./ComicTable";
+import { useCallback } from "react";
 
 type ComicTableProps = {
-    mogous: MogouWithTotalCount
+    mogous: MogouWithTotalCount,
+    publishData : PublishDataType,
+    setPublishData : any
 }
 
-const ComicCard = ({ mogous }: ComicTableProps) => {
+const ComicCard = ({ mogous,publishData,setPublishData}: ComicTableProps) => {
 
     const navigate = useNavigate();
+
+    const handlePublishClick = useCallback(() => {
+        setPublishData((prev: PublishDataType) => ({
+            ...prev,
+            open: true,
+            mogou_slug: mogous.slug,
+        }))
+    }
+    , [mogous.id, setPublishData])
 
     return (
         <div
@@ -85,8 +98,10 @@ const ComicCard = ({ mogous }: ComicTableProps) => {
 
             <div className="absolute top-16 right-3">
                 <div className="flex flex-col gap-4">
-                    <FaTelegram className="text-blue-800 text-2xl" />
-                    <FaDiscord className="text-gray-300 text-2xl" />
+                    <FaTelegram
+                        onClick={handlePublishClick}
+                        className="text-blue-800 text-2xl hover:text-blue-500 cursor-pointer"
+                    />
                 </div>
             </div>
 

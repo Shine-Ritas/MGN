@@ -13,9 +13,6 @@ const baseQuery = fetchBaseQuery({
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-    headers.set("Accept", "application/json");
-    headers.set("Content-Type", "application/json");
-
     return headers;
   },
 });
@@ -37,11 +34,11 @@ export const queryApi = createApi({
     postData: builder.mutation<any, any>({
       query: ({ url, body, method }) => {
         return {
-          // headers: { "Content-Type": "multipart/form-data" },
+          // headers: { "Content-Type": "multipart/form-data",},
           url,
           method: method || "POST",
           body: body,
-          redirect: "manual",
+          credentials: "include",
         };
       },
     }),
