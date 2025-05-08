@@ -10,16 +10,16 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { PublishDataType } from "./ComicTable";
 import { useCallback } from "react";
+import { usePublishContent } from "@/contexts/PublishContentContext";
 
 type ComicTableProps = {
     mogous: MogouWithTotalCount,
-    publishData : PublishDataType,
-    setPublishData : any
 }
 
-const ComicCard = ({ mogous,publishData,setPublishData}: ComicTableProps) => {
+const ComicCard = ({ mogous}: ComicTableProps) => {
 
     const navigate = useNavigate();
+    const { setPublishData } = usePublishContent();
 
     const handlePublishClick = useCallback(() => {
         setPublishData((prev: PublishDataType) => ({

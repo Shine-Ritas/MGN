@@ -33,7 +33,7 @@ export function RegistrationChart({chartData}) {
       <CardHeader>
         <CardTitle>User Regisration By Months</CardTitle>
         {/* <CardDescription>January - June 2024</CardDescription> */}
-        <CardDescription>{start_month} - {end_month} {currentYear}</CardDescription>
+        <CardDescription>{end_month} - {start_month} {currentYear}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

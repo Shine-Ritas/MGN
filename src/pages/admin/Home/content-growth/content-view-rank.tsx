@@ -16,7 +16,7 @@ const ContentViewRank = ({chartData}) => {
                 <TableRow >
                     {
                         headers.map((header, index) => (
-                            <TableHead className="indent-3">
+                            <TableHead  key={index} className="indent-3">
                                 {header}
                             </TableHead>
                         ))
@@ -25,6 +25,13 @@ const ContentViewRank = ({chartData}) => {
             </TableHeader>
             <TableBody>
                     {
+                        0 == chartData?.length ? (
+                            <TableRow>
+                                <TableCell colSpan={5} className="text-center">
+                                    No data available
+                                </TableCell>
+                            </TableRow>
+                        ) : 
                         chartData?.map((data, index) => (
                             <TableRow key={index} className="indent-3">
                                 <TableCell>{index + 1}</TableCell>

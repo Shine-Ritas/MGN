@@ -9,10 +9,8 @@ import ContentViewRank from "./content-growth/content-view-rank";
 
 const ContentGrowth = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
-
-
+  
   const { data, isLoading } = useQuery("/admin/dashboard/chapter-growth?date=" + date?.toISOString());
-
   return (
     <>
       <div className="flex justify-end">

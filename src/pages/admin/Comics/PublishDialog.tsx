@@ -12,20 +12,19 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/utilities/util"
-import { PublishDataType } from "./ComicTable"
 import useQuery from "@/hooks/useQuery"
 import useMutate from "@/hooks/useMutate"
 import { toast } from "@/components/ui/use-toast"
+import { usePublishContent } from "@/contexts/PublishContentContext"
 
-interface PublishDialogProps {
-  publishData: PublishDataType
-}
 
-export function PublishDialog({ publishData }: PublishDialogProps) {
+export function PublishDialog() {
   const [activeTab, setActiveTab] = useState("select")
   const [selectedChannels, setSelectedChannels] = useState<string[]>([])
   const [buttonText, setButtonText] = useState("Publish")
 
+  const  publishData  = usePublishContent();
+  
   const { data, isLoading } = useQuery(`admin/social-channels?type=telegram`)
 
   const afterPublish = () => {
@@ -60,11 +59,15 @@ export function PublishDialog({ publishData }: PublishDialogProps) {
     setButtonText("Publishing...")
     const response = await severPublish("admin/publish-content", {
       mogou_slug: publishData.mogou_slug,
+      sub_mogou_slug: publishData.sub_mogou_slug,
       social_channel_ids: activeTab === "select" ? selectedChannels : "all",
       type: publishData.sub_mogou_slug == null ? "mogou" : "sub_mogou",
     })
 
-    if (response?.error) publishData.setOpen(false)
+    if (response?.error) {
+      publishData.setOpen(false)
+      setButtonText("Publish")
+    }
   }, [publishData, selectedChannels, severPublish])
 
   const renderChannelList = () => (
@@ -161,7 +164,7 @@ export function PublishDialog({ publishData }: PublishDialogProps) {
             disabled={isPosting || (selectedChannels.length === 0 && activeTab === "select")}
             variant={buttonText === "Published" ? "success" : "default"}
             type="button"
-            className="w-full sm:w-auto rounded-lg text-base text-sm transition-all"
+            className="w-full sm:w-auto rounded-lg  text-sm transition-all"
           >
             <Send className="mr-2 h-3 w-3" />
             {buttonText}

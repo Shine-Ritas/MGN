@@ -6,6 +6,7 @@ import useQuery from '@/hooks/useQuery';
 import ChapterAnalysis from './Analysic';
 import { TablePagination } from '@/components/TablePagination';
 import { Button } from '@/components/ui/button';
+import { PublishDialog } from '../Comics/PublishDialog';
 
 const Chapters = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -67,6 +68,8 @@ const Chapters = () => {
                     </div>
                 </div>
             </div>
+
+            <PublishDialog />
         </main>
     )
 }

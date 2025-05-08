@@ -17,11 +17,16 @@ import { PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/utilities/util";
 import { Link, useParams } from "react-router-dom";
+import { usePublishContent } from "@/contexts/PublishContentContext";
+import { useCallback } from "react";
+import { PublishDataType } from "../Comics/ComicTable";
+import { FaTelegram } from "react-icons/fa6";
 
 
 type Chapter = {
     id: number,
     title: string,
+    slug: string,
     chapter_number: number,
     total_images: number,
     created_at: string,
@@ -44,6 +49,18 @@ export const ChapterTable = ({
 }: ChapterTableProps) => {
 
     const { slug: mogou_slug } = useParams<{ slug: string }>();
+
+    const { setPublishData } = usePublishContent();
+
+    const handlePublishClick = useCallback((slug: string) => {
+        setPublishData((prev: PublishDataType) => ({
+            ...prev,
+            open: true,
+            mogou_slug: mogou_slug,
+            sub_mogou_slug: slug,
+        }))
+    }
+        , [mogou_slug, setPublishData])
 
     return (
         <>
@@ -87,7 +104,7 @@ export const ChapterTable = ({
                                             }
                                         </TableCell>
 
-                                        <TableCell className="text-center w-32">
+                                        <TableCell className="text-center w-32 flex gap-2 items-center">
 
                                             {/* acrtion with eye icon */}
                                             <Link to={`/admin/mogou/${mogou_slug}/chapters/edit/${chapter.id}`}>
@@ -97,7 +114,15 @@ export const ChapterTable = ({
                                                     <PlusCircle className="h-3.5 w-3.5" />
                                                     View
                                                 </Button>
+
                                             </Link>
+                                            <Button size="sm"
+                                                className="gap-1 border-2 border-default"
+                                                onClick={() => handlePublishClick(chapter.slug)}
+                                            >
+                                                <FaTelegram className="h-3.5 w-3.5" />
+                                                Telegram
+                                            </Button>
 
 
                                         </TableCell>

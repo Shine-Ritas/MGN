@@ -27,7 +27,9 @@ export default function MonthPicker({date,setDate}) {
   const [open, setOpen] = useState(false)
 
   const handleMonthSelect = (monthIndex: number) => {
-    const newDate = new Date(year, monthIndex, 1)
+    // new dat should be end of the month
+    const newDate = new Date(year, monthIndex + 1, 0)
+
     setDate(newDate)
     setOpen(false)
   }

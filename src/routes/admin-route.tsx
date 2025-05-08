@@ -6,6 +6,7 @@ import { adminRouteCollection } from "@/routes/data/admin_route.ts";
 import { setting_routes } from "@/pages/admin/Settings/setting-route.tsx";
 import { bot_routes } from "@/pages/admin/apps/bots/bot-route.tsx";
 import { admin_routes } from "@/pages/admin/admins/admin-route.tsx";
+import { PublishContentProvider } from "@/contexts/PublishContentContext.tsx";
 
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard.tsx'));
 const Action = lazy(() => import('../pages/admin/Comics/Action.tsx'));
@@ -26,81 +27,90 @@ const Chapters = lazy(() => import('@/pages/admin/Chapters/Chapters.tsx'));
 
 const adminAuthenticatedRoutes: AppRouteInterface[] = [
   {
-    element: 
-    <Provider store={adminStore}>
-      <Suspense fallback={<div></div>}>
-        <AdminLayout />
-      </Suspense>
-    </Provider>
+    element:
+      <Provider store={adminStore}>
+        <Suspense fallback={<div></div>}>
+          <AdminLayout />
+        </Suspense>
+      </Provider>
     ,
-    children:[
-        setting_routes,
-        ...admin_routes,
-        ...bot_routes,
-        {
-          path: adminRouteCollection.dashboard,
-          element: <Dashboard />,
-        },
-        {
-          path: adminRouteCollection.mogous,
-          element: <ComicIndex />,
-        },
-        {
-          path: adminRouteCollection.mogouAction,
-          element: <Action />,
-        },
-        {
-          path: adminRouteCollection.mogouEdit,
-          element: <Action isEdit={true}/>,
-        },
-        {
-          path : adminRouteCollection.chapterIndex,
-          element : <Chapters />
-        },
-        {
-          path: adminRouteCollection.createChapter,
-          element: <NewChapter />
-        },
-        {
-          path: adminRouteCollection.editChapter,
-          element: <EditChapter />
-        },
-        {
-          path: adminRouteCollection.categories,
-          element: <CategoryIndex />,
-        },
-        {
-          path: adminRouteCollection.subscriptions,
-          element: <SubscriptionIndex />,
-        },
-        {
-          path: adminRouteCollection.addSubscription,
-          element: <SubscriptionCreateEdit />,
-        },
-        {
-          path: adminRouteCollection.editSubscription,
-          element: <SubscriptionCreateEdit isEdit={true} />,
-        },
-        {
-          path: adminRouteCollection.users,
-          element: <Users />,
-        },
-        {
-          path: adminRouteCollection.showUser,
-          element: <UserDetail />,
-        },
-        {
-          path: adminRouteCollection.addUser,
-          element: <AddUser />,
-        },
-        
-        {
-          path: adminRouteCollection.reports,
-          element: <Reportpage />
-        }
+    children: [
+      setting_routes,
+      ...admin_routes,
+      ...bot_routes,
+      {
+        path: adminRouteCollection.dashboard,
+        element: <Dashboard />,
+      },
+      {
+        path: adminRouteCollection.mogous,
+        element:
+          <PublishContentProvider>
+            <ComicIndex />
+          </PublishContentProvider>,
+      },
+      {
+        path: adminRouteCollection.mogouAction,
+        element: <Action />,
+      },
+      {
+        path: adminRouteCollection.mogouEdit,
+        element: <Action isEdit={true} />,
+      },
+      {
+        path: adminRouteCollection.chapterIndex,
+        element: 
+          <PublishContentProvider>
+            <Chapters />
+          </PublishContentProvider>,
+      },
+      {
+        path: adminRouteCollection.createChapter,
+        element: <NewChapter />
+      },
+      {
+        path: adminRouteCollection.editChapter,
+        element: 
+          <PublishContentProvider>
+            <EditChapter />
+          </PublishContentProvider>
+      },
+      {
+        path: adminRouteCollection.categories,
+        element: <CategoryIndex />,
+      },
+      {
+        path: adminRouteCollection.subscriptions,
+        element: <SubscriptionIndex />,
+      },
+      {
+        path: adminRouteCollection.addSubscription,
+        element: <SubscriptionCreateEdit />,
+      },
+      {
+        path: adminRouteCollection.editSubscription,
+        element: <SubscriptionCreateEdit isEdit={true} />,
+      },
+      {
+        path: adminRouteCollection.users,
+        element: <Users />,
+      },
+      {
+        path: adminRouteCollection.showUser,
+        element: <UserDetail />,
+      },
+      {
+        path: adminRouteCollection.addUser,
+        element: <AddUser />,
+      },
+
+      {
+        path: adminRouteCollection.reports,
+        element: <Reportpage />
+      }
     ]
   },
-  
+
 ];
 
 export default adminAuthenticatedRoutes;

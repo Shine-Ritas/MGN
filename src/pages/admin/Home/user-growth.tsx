@@ -5,10 +5,7 @@ import { UserLoginChart } from "./user-growth/user-login-chart"
 import { UserSubscriptionChart } from "./user-growth/user-subscription-chart"
 
 const UserGrowth = () => {
-
     const {data,isLoading} = useQuery("/admin/dashboard/user-growth");
-
-    
 
   return (
     <>
