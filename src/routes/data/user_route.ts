@@ -5,6 +5,7 @@ const userRoutes = {
   home: "/",
   show: "/show/:slug",
   login: "/login",
+  register: "/register",
   contact_us: "/contact_us",
   read: "/read/mogou/:mogou/chapters/:chapter",
   user_profile: "/user_profile",

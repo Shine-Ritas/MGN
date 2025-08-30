@@ -25,7 +25,7 @@ export function PublishDialog() {
 
   const  publishData  = usePublishContent();
   
-  const { data, isLoading } = useQuery(`admin/social-channels?type=telegram`)
+  const { data, isLoading } = useQuery(`admin/social-channels?type=telegram`,undefined,false,false,false)
 
   const afterPublish = () => {
     toast({

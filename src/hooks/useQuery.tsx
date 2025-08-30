@@ -15,7 +15,8 @@ const useQuery = (
     url?: string,
     callback?: (value: any, meta: any) => void,
     refetchOnUrlChange: boolean = true,
-    disableAutoFetch: boolean = false
+    disableAutoFetch: boolean = false,
+    showErrorToast : boolean = true
 ) => {
     if (!url) {
         return {};
@@ -60,7 +61,7 @@ const useQuery = (
                 dispatch(setMaintenance(true));
             }
 
-            if (errorMessage && lastErrorRef.current !== errorMessage && status !== 503) {
+            if (errorMessage && lastErrorRef.current !== errorMessage && status !== 503 && showErrorToast) {
                 toast({
                     title: "❗️Error",
                     description: errorMessage,
