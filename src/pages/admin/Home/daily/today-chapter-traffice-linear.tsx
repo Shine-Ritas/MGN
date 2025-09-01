@@ -28,7 +28,7 @@ const TodayChapterTrafficLinear = ({ chartData }) => {
               chartData?.map((chapter, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="font-medium">{chapter.sub_mogou_title} ({chapter.mogou_title} )</div>
+                    <div className="font-medium text-sm">{chapter.sub_mogou_title} ({chapter.mogou_title} )</div>
                     <div className="text-sm text-gray-400">{chapter.today_views} visitors</div>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">

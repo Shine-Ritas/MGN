@@ -22,7 +22,7 @@ const GeneralSetting = () => {
                     <div className="col-span-2 flex flex-col gap-4">
                     <MaintenanceAction isActive={data?.user_side_is_maintenance_mode} />
                     <SocialAction />
-                    <UserAuthImage />
+                    <UserAuthImage applicationConfig={data} />
                     </div>
                 </div>
 

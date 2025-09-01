@@ -1,10 +1,14 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Outlet } from 'react-router-dom'
-import BgImg from '@/assets/imgs/bg_03.jpg'
 import { Suspense } from 'react'
+import useQuery from '@/hooks/useQuery'
 
 
 const UserGuestLayout = () => {
+
+  const { isLoading: isLoadingApplicationConfig, data: applicationConfig } = useQuery(`application-configs`);
+
+
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
         {
@@ -14,7 +18,7 @@ const UserGuestLayout = () => {
         }
     <div className="hidden bg-muted lg:block">
       <LazyLoadImage
-        src={BgImg}
+        src={applicationConfig?.cover_photo}
         alt="Image"
         width="1920"
         height="1080"

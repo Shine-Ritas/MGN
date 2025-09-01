@@ -27,6 +27,7 @@ export type MogouChapter = {
     id:number,
     title:string,
     slug:string,
+    ulid:string,
     view : number,
     description:string,
     chapter_number:number,

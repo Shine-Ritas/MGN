@@ -143,7 +143,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     const uploadChunk = async (chunk: FileWithUniqueId[]) => {
       const formData = new FormData();
       formData.append("mogou_id", chapterInfo.mogou_id as string);
-      formData.append("sub_mogou_slug", chapterInfo.slug as string);
+      formData.append("ulid", chapterInfo.ulid as string);
       formData.append("watermark_apply", "1");
 
       chunk.forEach((file, index) => {
@@ -175,12 +175,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       await uploadChunk(chunk);
     }
 
-    // Notify user of successful upload
-    toast({
-      title: "Success",
-      description: `${toUploadContents.length} contents uploaded successfully.`,
-      variant: "success",
-    });
+   
   };
   return (
     <Card className="relative overflow-hidden">

@@ -8,8 +8,7 @@ import * as Yup from 'yup';
             .max(50, 'Title must not exceed 50 characters'),
 
         description : Yup.string()
-            .required('Description is required')
-            .min(3, 'Description must be at least 3 characters')
+            .nullable()
             .max(500, 'Description must not exceed 500 characters'),
         
         chapter_number : Yup.number()
