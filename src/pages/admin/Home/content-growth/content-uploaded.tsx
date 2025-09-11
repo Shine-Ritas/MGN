@@ -26,8 +26,8 @@ export function ContentUploaded({chartData}) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle className="text-sm sm:text-base lg:text-lg">Content Uploaded</CardTitle>
+        <CardDescription>Weekly upload statistics</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

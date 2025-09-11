@@ -45,8 +45,26 @@ const RecentlyUploaded = () => {
     return (
         <Card className='border-none  bg-background'>
             <CardTitle className='flex justify-between mb-12 flex-col md:flex-row px-6 md:px-0'>
-                <span className='text-2xl '>Recently Uploaded</span>
-                <div className="flex justify-between gap-12 mt-4 md:mt-0">
+                <div className="flex justify-between items-center">
+                    <span className='text-2xl '>Recently Uploaded</span>
+
+                    <div className="flex gap-4 md:hidden">
+                        <Button
+                            aria-label="Previous"
+                            disabled={isFetching || page === 1}
+                            onClick={() => handlePageChange(page - 1)} className="px-1 py-1 rounded-sm">
+                            <ChevronLeft />
+                        </Button>
+
+                        <Button
+                            aria-label="Next"
+                            disabled={isFetching || page === lastPage}
+                            onClick={() => handlePageChange(page + 1)} className="px-1 py-1 rounded-sm">
+                            <ChevronRight />
+                        </Button>
+                    </div>
+                </div>
+                <div className="flex justify-between md:gap-12 mt-4 md:mt-0">
 
                     <ToggleGroup
                         onValueChange={(value) => handleCurrentTypeChange(value)}
@@ -65,27 +83,26 @@ const RecentlyUploaded = () => {
                             ))
                         }
                     </ToggleGroup>
-
-                    <div className="flex gap-4">
+                    <div className="gap-4 hidden md:flex">
                         <Button
                             aria-label="Previous"
                             disabled={isFetching || page === 1}
-                            onClick={() => handlePageChange(page - 1)} className="px-2 py-1 rounded-sm">
+                            onClick={() => handlePageChange(page - 1)} className="px-1 py-1 rounded-sm">
                             <ChevronLeft />
                         </Button>
 
                         <Button
                             aria-label="Next"
                             disabled={isFetching || page === lastPage}
-                            onClick={() => handlePageChange(page + 1)} className="px-2 py-1 rounded-sm">
+                            onClick={() => handlePageChange(page + 1)} className="px-1 py-1 rounded-sm">
                             <ChevronRight />
                         </Button>
                     </div>
                 </div>
             </CardTitle>
             <CardContent className='mt-4 md:px-0'>
-                <div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {
                         !isLoading && MemorizedData?.mogous?.data.map((mogou) => (
                             <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />

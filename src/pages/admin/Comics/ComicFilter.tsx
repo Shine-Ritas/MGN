@@ -36,58 +36,104 @@ export default function ComicFilter({
   };
 
   return (
-    <div className="grid lg:grid-cols-6 gap-4 items-center lg:justify-end">
+    <div className="w-full">
+      {/* Mobile Layout */}
+      <div className="flex flex-col gap-3 xl:hidden">
+        <div className="relative">
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            ref={searchInput}
+            onKeyDownCapture={handleSearch}
+            type="text"
+            placeholder="Search comics..."
+            className="pl-8"
+          />
+        </div>
+        
+        <div className="grid grid-cols-2 gap-2">
+          <MultiSelectHandler
+            selectedOptions={whereIn(ComicType, getByKey('mogou_type').split(","), 'title')}
+            options={ComicType}
+            placeHolder="Type"
+            onChange={(value) => handleFilter("mogou_type", value)}
+            labelExtractor={(option) => option.title}
+          />
 
+          <MultiSelectHandler
+            selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
+            options={ComicProgress}
+            placeHolder="Status"
+            onChange={(value) => handleFilter("finish_status", value)}
+            labelExtractor={(option) => option.title}
+          />
+        </div>
 
-      <MultiSelectHandler
-        selectedOptions={whereIn(ComicType, getByKey('mogou_type').split(","), 'title')}
-        options={ComicType}
-        placeHolder="Select Type"
-        onChange={
-          (value) => handleFilter("mogou_type", value)
-        }
-        labelExtractor={(option) => option.title} />
+        <div className="grid grid-cols-2 gap-2">
+          <Select onValueChange={(value) => handleFilter("chapters_count_order", value)} defaultValue={""}>
+            <SelectTrigger aria-label="Order by chapters">
+              <SelectValue placeholder="Order by chapters" />
+            </SelectTrigger>
+            <SelectContent>
+              {total_chapter_filters.map((item) => (
+                <SelectItem key={item.value} value={`${item.value}`}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-      <MultiSelectHandler
-        selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
-        options={ComicProgress}
-        placeHolder="Select Finish Status"
-        onChange={
-          (value) => handleFilter("finish_status", value)
-        }
-        labelExtractor={(option) => option.title} />
+          <Button variant="outline" className="bg-background font-semibold text-xs">
+            Total: {data?.mogous?.total ?? 0}
+          </Button>
+        </div>
+      </div>
 
-      <Select onValueChange={(value) => handleFilter("chapters_count_order", value)}
-        defaultValue={""}
-      >
-        <SelectTrigger aria-label="Order by chapters" defaultValue={""}>
-          <SelectValue placeholder="Order by chapters" />
-        </SelectTrigger>
-        <SelectContent>
-          {
-            total_chapter_filters.map((item) => (
+      {/* Desktop Layout */}
+      <div className="hidden xl:grid xl:grid-cols-3 2xl:grid-cols-6 gap-4 items-center">
+        <MultiSelectHandler
+          selectedOptions={whereIn(ComicType, getByKey('mogou_type').split(","), 'title')}
+          options={ComicType}
+          placeHolder="Select Type"
+          onChange={(value) => handleFilter("mogou_type", value)}
+          labelExtractor={(option) => option.title}
+        />
+
+        <MultiSelectHandler
+          selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
+          options={ComicProgress}
+          placeHolder="Select Finish Status"
+          onChange={(value) => handleFilter("finish_status", value)}
+          labelExtractor={(option) => option.title}
+        />
+
+        <Select onValueChange={(value) => handleFilter("chapters_count_order", value)} defaultValue={""}>
+          <SelectTrigger aria-label="Order by chapters">
+            <SelectValue placeholder="Order by chapters" />
+          </SelectTrigger>
+          <SelectContent>
+            {total_chapter_filters.map((item) => (
               <SelectItem key={item.value} value={`${item.value}`}>
                 {item.label}
               </SelectItem>
-            ))
-          }
-        </SelectContent>
-      </Select>
+            ))}
+          </SelectContent>
+        </Select>
 
-      <div className="relative">
-        <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input
-          ref={searchInput}
-          onKeyDownCapture={handleSearch}
-          type="text"
-          placeholder="Search..."
-          className="pl-8 "
-        />
+        <div className="relative">
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            ref={searchInput}
+            onKeyDownCapture={handleSearch}
+            type="text"
+            placeholder="Search..."
+            className="pl-8"
+          />
+        </div>
+
+        <Button variant="outline" className="bg-background font-semibold col-span-2 2xl:col-span-1">
+          Total: {data?.mogous?.total ?? 0} results
+        </Button>
       </div>
-
-      <Button variant="outline" className="bg-background font-semibold">
-        Total : {data?.mogous?.total ?? 0} results
-      </Button>
     </div>
   );
 }

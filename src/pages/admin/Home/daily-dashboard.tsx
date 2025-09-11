@@ -15,7 +15,7 @@ const DailyDashboard = () => {
   return (
     <>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Today's Traffic"
           value={data?.traffics?.current}
@@ -60,10 +60,12 @@ const DailyDashboard = () => {
 
       </div>
 
-      <div className="grid grid-cols-4 gap-4 ">
-        <TodayChapterTrafficLinear chartData={data?.traffic_by_chapters} />
+      <div className="grid gap-4 grid-cols-1 xl:grid-cols-4">
+        <div className="xl:col-span-2">
+          <TodayChapterTrafficLinear chartData={data?.traffic_by_chapters} />
+        </div>
 
-        <div className="grid col-span-2 gird-rows-2 gap-3">
+        <div className="xl:col-span-2 grid lg:gap-4 grid-cols-1 ">
           <ShowTime upTime={data?.up_time} timeZone={data?.time_zone} />
           {!isLoading && <StorageCard percentage={(data?.disk_used_percentage).toFixed(2)} total={data?.disk_space} used={data?.disk_space_used} />}
         </div>

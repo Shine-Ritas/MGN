@@ -13,7 +13,7 @@ const SidebarRaw = () => {
   const logout = useLogout();
 
   return (
-    <div className="bg-popover dark:bg-primary-muted  w-[80px] h-full rounded-3xl shadow-lg ">
+    <div className="bg-popover dark:bg-primary-muted  w-[80px] h-[90%] rounded-3xl shadow-lg  fixed ">
       <div className="flex flex-col gap-8 pt-6 h-[90%] overflow-y-scroll">
         
         {Object.keys(icons).map((key) => {

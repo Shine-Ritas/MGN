@@ -7,8 +7,9 @@ import ChapterContentViewGrid from "./chapter-content-view-grid"
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from "@/components/ui/button"
 import useMutate from "@/hooks/useMutate"
-import { toast } from "@/components/ui/use-toast"
+import { Checkbox } from "@/components/ui/checkbox"
 import { extractZip } from "@/utilities/util"
+import { Label } from "@/components/ui/label"
 
 
 type ChapterContentProps = {
@@ -31,6 +32,7 @@ export interface FileWithUniqueId extends File {
 const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) => {
 
   const [chapterContent, setChapterContent] = useState<FileWithUniqueId[]>([])
+  const [applyWatermark, setApplyWatermark] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
   const [uploadToServer, { isLoading }] = useMutate();
@@ -144,7 +146,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       const formData = new FormData();
       formData.append("mogou_id", chapterInfo.mogou_id as string);
       formData.append("ulid", chapterInfo.ulid as string);
-      formData.append("watermark_apply", "1");
+      formData.append("watermark_apply", applyWatermark ? "1" : "0");
 
       chunk.forEach((file, index) => {
         // find the index of the file in the chapterContent array
@@ -187,24 +189,45 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
         </div>
       )}
       <CardHeader>
-        <CardTitle className="flex items-center">
-          Chapter Content
-          <div className="inline-flex items-center gap-1 text-xs mx-3">
-            <Button className="w-4 h-4 p-0 rounded-sm " variant={'destructive'}></Button><span>Not Uploaded</span>
+        {/* Title and Status Indicators */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+          <div className="flex flex-col gap-2">
+            <CardTitle className="flex items-center flex-wrap gap-3">
+              Chapter Content
+              <div className="flex items-center gap-4">
+                <div className="inline-flex items-center gap-1 text-xs">
+                  <Button className="w-4 h-4 p-0 rounded-sm " variant={'destructive'}></Button>
+                  <span>Not Uploaded</span>
+                </div>
+                <div className="inline-flex items-center gap-1 text-xs">
+                  <Button className="w-4 h-4 p-0 rounded-sm" variant={'success'}></Button>
+                  <span>Uploaded</span>
+                </div>
+              </div>
+            </CardTitle>
+            <CardDescription>Upload the chapter content as a ZIP or PDF file.</CardDescription>
           </div>
 
-          <div className="inline-flex items-center gap-1 text-xs  py-0">
-            <Button className="w-4 h-4 p-0 rounded-sm" variant={'success'}></Button><span>Uploaded</span>
+          {/* Controls - Stack on mobile, side by side on desktop */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            {/* Watermark Checkbox */}
+            <div className="flex items-center gap-3">
+              <Label>Apply Watermark</Label>
+              <Checkbox 
+                checked={applyWatermark}
+                onCheckedChange={(checked) => setApplyWatermark(checked as boolean)}
+              />
+            </div>
+
+            {/* Upload Button */}
+            <Button
+              disabled={isLoading}
+              onClick={upload}
+              className="w-full sm:w-auto">
+              Upload
+            </Button>
           </div>
-        </CardTitle>
-        <CardDescription>Upload the chapter content as a ZIP or PDF file.</CardDescription>
-
-        <Button
-          disabled={isLoading}
-          onClick={upload} className="absolute top-4 right-4">
-          Upload
-        </Button>
-
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {uploadProgress > 0 && (

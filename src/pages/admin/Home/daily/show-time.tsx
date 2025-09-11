@@ -38,7 +38,7 @@ export default function ShowTime({ upTime,timeZone}: ShowTimeProps) {
   }, []);
 
   return (
-    <div className="grid col-span-2 gap-3">
+    <div className="w-full">
       <Card className="backdrop-blur-sm overflow-hidden">
         <CardContent className="p-0">
           <div className="bg-gradient-to-br pt-3 pb-3 border-b">
@@ -52,7 +52,7 @@ export default function ShowTime({ upTime,timeZone}: ShowTimeProps) {
           </div>
           
           <div className="p-3">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-background rounded-md p-3 border">
                 <p className="text-xs text-muted-foreground mb-1">Uptime</p>
                 <p className="text-sm font-mono">{upTime}</p>

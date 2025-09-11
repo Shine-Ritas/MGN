@@ -41,7 +41,7 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
                                 MemorizedData?.mogous?.map((mogou) => (
                                     <CarouselItem
                                         key={mogou.id}
-                                        className="pl-1 basis-1/3 md:basis-1/4 lg:basis-[12.666667%] overflow-hidden cursor-pointer "
+                                        className="pl-1 basis-1/2 md:basis-1/4 lg:basis-[12.666667%] overflow-hidden cursor-pointer "
                                         role="listitem relative"
                                     >
                                         <div className="flex flex-col ">

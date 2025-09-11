@@ -6,7 +6,7 @@ import useQuery from '@/hooks/useQuery'
 
 const UserGuestLayout = () => {
 
-  const { isLoading: isLoadingApplicationConfig, data: applicationConfig } = useQuery(`application-configs`);
+  const {  data: applicationConfig } = useQuery(`application-configs`);
 
 
   return (

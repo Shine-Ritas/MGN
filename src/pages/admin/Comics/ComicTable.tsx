@@ -47,45 +47,45 @@ const ComicTable = () => {
 
   return (
     <Card className="min-h-full shadow-none">
-      <CardHeader className="flex flex-col-reverse lg:flex-row  items-start justify-between gap-4 min-h-[10vh]">
-        <ComicFilter
-          handleFilter={handleFilter}
-          getByKey={getByKey}
-          data={data}
-        />
-
-        <div className="flex gap-4 items-center">
-          <div className="flex ">{data && data.mogous.data.length > 0 && (
-            <TablePagination
-              url={data.mogous.path}
-              lastPage={data.mogous.last_page}
-              currentPage={getByKey("page")}
-              setCurrentPage={(page: number) => handleFilter("page", page)}
-              isFetching={isFetching}
-              paging={false}
-            />
-          )}</div>
-          <Button
-            size="sm"
-            className="h-8 lg:w-24 gap-1"
-            onClick={() => navigate(adminRouteCollection.mogouAction)}
-          >
-
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add</span>
-          </Button>
+      <CardHeader className="flex flex-col items-start justify-between gap-4 min-h-[10vh] px-4 xl:px-6">
+        <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <ComicFilter
+            handleFilter={handleFilter}
+            getByKey={getByKey}
+            data={data}
+          />
+          
+          <div className="flex flex-col xl:flex-row gap-2 xl:gap-4 items-stretch xl:items-center">
+            <div className="order-2 xl:order-1">{data && data.mogous.data.length > 0 && (
+              <TablePagination
+                url={data.mogous.path}
+                lastPage={data.mogous.last_page}
+                currentPage={getByKey("page")}
+                setCurrentPage={(page: number) => handleFilter("page", page)}
+                isFetching={isFetching}
+                paging={false}
+              />
+            )}</div>
+            <Button
+              size="sm"
+              className="h-10 xl:h-8 w-full xl:w-24 gap-1 order-1 xl:order-2"
+              onClick={() => navigate(adminRouteCollection.mogouAction)}
+            >
+              <PlusCircle className="h-3.5 w-3.5" />
+              <span className="whitespace-nowrap">Add Comic</span>
+            </Button>
+          </div>
         </div>
 
       </CardHeader>
-      <CardContent className="max-h-[70vh] overflow-y-scroll pt-4">
-        <div className=" 
-         ">
+      <CardContent className="max-h-[70vh] overflow-y-scroll pt-4 px-4 xl:px-6">
+        <div>
           {isLoading ? (
             <ContentTableRow />
           ) : data?.mogous?.data?.length === 0 ? (
             <NoDataFound />
           ) : (
-            <div className="grid md:grid-cols-2 gap-x-8 gap-y-12 ">
+            <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 2xl:gap-x-8 2xl:gap-y-12">
             { data.mogous.data.map((mogou: MogousType) => (
                 <ComicCard key={mogou.id} mogous={mogou}  />
               ))}

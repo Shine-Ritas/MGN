@@ -33,10 +33,10 @@ const MobileDrawer = () => {
           <IoMenu className="w-6 h-6" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm  pb-10 px-10">
+      <DrawerContent className="dark:bg-background bg-gray-100">
+        <div className="mx-auto w-full max-w-sm  pb-10 px-10 ">
           <DrawerHeader>
-            <DrawerTitle>Menu</DrawerTitle>
+            <DrawerTitle className="text-center">Menu</DrawerTitle>
           </DrawerHeader>
           <div className="flex gap-12 flex-wrap">
 
@@ -48,7 +48,7 @@ const MobileDrawer = () => {
                   <Button asChild size="icon" onClick={() => handleNavigation(menu)} className="w-16 h-16 pt-2 pb-1">
                     <div className="flex flex-col overflow-hidden gap-1">
                       <menu.Icon className="w-8 h-8" />
-                      <span className="text-[10px] text-muted-foreground text-wrap ">{
+                      <span className="text-[10px] dark:text-muted-foreground text-wrap ">{
                         menu.title
                       }</span>
                     </div>

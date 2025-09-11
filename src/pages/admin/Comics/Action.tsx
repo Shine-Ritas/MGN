@@ -136,7 +136,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
   }
 
   return (
-    <main className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8">
+    <main className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8 ">
       <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex-1 auto-rows-max gap-4" encType="multipart/form-data">
         <div className="flex items-center gap-4 mb-10">
           <Goback to={-1} />
@@ -153,8 +153,8 @@ const Action = ({ isEdit = false }: ActionProps) => {
           </div>
         </div>
         <div className="grid gap-4 lg:grid-cols-3 lg:gap-8">
-          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card>
+          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8 ">
+            <Card className="">
               <CardHeader>
                 <CardTitle>Customization</CardTitle>
                 <CardDescription>
@@ -162,7 +162,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-6">
+                <div className="grid gap-6 ">
                   <div className="grid gap-3 md:grid-cols-3">
                     <FormInput label="Title" placeholder="Title" defaultValue={mogou?.mogou?.title} register={register('title')} fieldError={errors?.title} />
                     <FormInput label="Author" placeholder="Author Name" defaultValue={mogou?.mogou?.author} register={register('author')} fieldError={errors?.author} />
@@ -306,8 +306,8 @@ const Action = ({ isEdit = false }: ActionProps) => {
             </Card>
             <PublishTab status={bindData.status} setStatus={setBindData} />
           </div>
-        </div>
-        <div className="flex items-center justify-center gap-2 md:hidden mt-4">
+        </div> 
+        <div className="flex items-center justify-center gap-2 md:hidden mt-4 mb-10">
           <Goback to="/comics" label="Discard" />
           <Button type="submit"
             disabled={isSubmiting}

@@ -47,7 +47,7 @@ const DashboardNav = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{
   return (
     <div className="flex justify-center items-center w-full">
       <Card className="w-full h-[80px] relative flex items-center">
-        <CardContent className="pt-4 w-full px-10">
+        <CardContent className="pt-4 w-full px-4 sm:px-6 md:px-10">
           <div className="relative">
             {/* Active Indicator */}
             <div
@@ -55,19 +55,19 @@ const DashboardNav = ({ tabs, currentTab, setCurrentTab }: FrameProps) =>{
               style={activeStyle}
             />
             {/* Tabs */}
-            <div className="relative flex space-x-[6px] justify-between items-center">
+            <div className="relative flex space-x-1 sm:space-x-2 md:space-x-[6px] justify-between items-center">
               {tabs.map((tab, index) => (
                 <div
                   key={index}
                   ref={(el) => (tabRefs.current[index] = el)}
-                  className={`px-3 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
+                  className={`px-1 sm:px-2 md:px-3 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
                     index === activeIndex
                       ? "text-[#0e0e10] dark:text-white"
                       : "text-[#0e0f1199] dark:text-[#ffffff99]"
                   }`}
                   onClick={() => switchTab(index)}
                 >
-                  <div className="text-sm font-[var(--www-mattmannucci-me-geist-regular-font-family)] leading-5 whitespace-nowrap flex items-center justify-center h-full">
+                  <div className="text-xs sm:text-sm font-[var(--www-mattmannucci-me-geist-regular-font-family)] leading-5 whitespace-nowrap flex items-center justify-center h-full">
                     {tab}
                   </div>
                 </div>

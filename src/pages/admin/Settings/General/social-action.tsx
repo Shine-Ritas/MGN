@@ -75,16 +75,18 @@ export default function SocialAction() {
   };
 
   return (
-    <div className="w-full col-span-1">
+    <div className="w-full">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <CardTitle className="text-lg md:text-xl">
             Social Links
-            <span className="text-muted-foreground text-xs">( Max : 3 )</span>
+            <span className="text-muted-foreground text-xs ml-1">( Max : 3 )</span>
           </CardTitle>
           <Button
             disabled={socialLinks?.data?.length == 3}
             onClick={handleAddSocialLink}
+            size="sm"
+            className="w-full sm:w-auto"
           >
             <Plus className="mr-2 h-4 w-4" />
             Add
@@ -92,9 +94,9 @@ export default function SocialAction() {
         </CardHeader>
         <CardContent>
           {!isLoading && (
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {socialLinks?.data.length === 0 ? (
-                <p className="text-center text-muted-foreground">
+                <p className="text-center text-muted-foreground text-sm">
                   No social links added yet. Click the button above to add your
                   first social link.
                 </p>

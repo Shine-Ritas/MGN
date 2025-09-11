@@ -71,14 +71,14 @@ export function PublishDialog() {
   }, [publishData, selectedChannels, severPublish])
 
   const renderChannelList = () => (
-    <div className="max-h-[320px] overflow-y-auto space-y-3 pr-2">
+    <div className="max-h-[280px] sm:max-h-[320px] overflow-y-auto space-y-2 sm:space-y-3 pr-2">
       {data?.channels?.map((channel) => {
         const isSelected = selectedChannels.includes(channel.id)
         return (
           <div
             key={channel.id}
             className={cn(
-              "flex items-center space-x-4 p-3 rounded-xl transition-all duration-200 cursor-pointer",
+              "flex items-center space-x-3 sm:space-x-4 p-2 sm:p-3 rounded-xl transition-all duration-200 cursor-pointer",
               isSelected
                 ? "bg-primary/10 border border-primary/20"
                 : "hover:bg-primary border border-transparent"
@@ -89,10 +89,10 @@ export function PublishDialog() {
               id={`channel-${channel.id}`}
               checked={isSelected}
               onCheckedChange={() => handleSelectChannel(channel.id)}
-              className="h-5 w-5 rounded-md border-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+              className="h-4 w-4 sm:h-5 sm:w-5 rounded-md border-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground flex-shrink-0"
             />
-            <div className="flex-1">
-              <div className="font-medium text-sm">
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-xs sm:text-sm truncate">
                 {channel.providers?.title} {channel.bot_type}
               </div>
               <div className="text-xs text-muted-foreground">
@@ -100,8 +100,8 @@ export function PublishDialog() {
               </div>
             </div>
             {isSelected && (
-              <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                <Check className="h-4 w-4 text-primary-foreground" />
+              <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <Check className="h-3 w-3 sm:h-4 sm:w-4 text-primary-foreground" />
               </div>
             )}
           </div>
@@ -111,9 +111,9 @@ export function PublishDialog() {
   )
 
   const renderAllSelectedMessage = () => (
-    <div className="text-center py-12 px-4 bg-muted/30 rounded-xl border">
-      <div className="text-lg font-medium mb-2">All Channels Selected</div>
-      <p className="text-muted-foreground">
+    <div className="text-center py-8 sm:py-12 px-3 sm:px-4 bg-muted/30 rounded-xl border">
+      <div className="text-base sm:text-lg font-medium mb-2">All Channels Selected</div>
+      <p className="text-sm sm:text-base text-muted-foreground">
         Your content will be published to all {data?.channels?.length ?? 0} channels
       </p>
     </div>
@@ -121,10 +121,10 @@ export function PublishDialog() {
 
   return (
     <Dialog open={publishData.open} onOpenChange={publishData.setOpen}>
-      <DialogContent className="sm:max-w-md rounded-xl border-0 shadow-lg">
+      <DialogContent className="w-[95vw] max-w-md sm:max-w-lg rounded-xl border-0 shadow-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader className="pb-4 border-b">
-          <DialogTitle className="text-xl font-semibold">Publish to Channels</DialogTitle>
-          <DialogDescription className="text-base opacity-80">
+          <DialogTitle className="text-lg sm:text-xl font-semibold">Publish to Channels</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base opacity-80">
             Choose where to publish your content
           </DialogDescription>
         </DialogHeader>
@@ -137,13 +137,13 @@ export function PublishDialog() {
           <TabsList className="grid w-full grid-cols-2 bg-transparent p-1 rounded-lg border">
             <TabsTrigger
               value="select"
-              className="rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-200"
+              className="rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-200 text-sm"
             >
               Select
             </TabsTrigger>
             <TabsTrigger
               value="all"
-              className="rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-200"
+              className="rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-200 text-sm"
             >
               All Channels
             </TabsTrigger>
@@ -158,13 +158,13 @@ export function PublishDialog() {
           </TabsContent>
         </Tabs>
 
-        <DialogFooter className="mt-6 pt-4 border-t">
+        <DialogFooter className="mt-4 sm:mt-6 pt-4 border-t">
           <Button
             onClick={handlePublish}
             disabled={isPosting || (selectedChannels.length === 0 && activeTab === "select")}
             variant={buttonText === "Published" ? "success" : "default"}
             type="button"
-            className="w-full sm:w-auto rounded-lg  text-sm transition-all"
+            className="w-full rounded-lg text-sm transition-all"
           >
             <Send className="mr-2 h-3 w-3" />
             {buttonText}

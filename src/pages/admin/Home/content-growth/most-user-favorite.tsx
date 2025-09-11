@@ -28,7 +28,7 @@ export function MostUserFavorite({chartData}) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top User Favorite Contents  This Month</CardTitle>
+        <CardTitle className="text-sm sm:text-base lg:text-lg">Top User Favorite Contents This Month</CardTitle>
         <CardDescription>This month</CardDescription>
       </CardHeader>
       <CardContent>

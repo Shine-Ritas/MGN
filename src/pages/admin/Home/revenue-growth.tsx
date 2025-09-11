@@ -14,18 +14,18 @@ const RevenueGrowth = () => {
 
     return (
         <>
-            <div className="flex justify-end">
+            <div className="flex justify-end mb-4">
                 <MonthPicker
                     date={date}
                     setDate={setDate}
                 />
             </div>
 
-            <div className="grid">
+            <div className="grid w-full mb-4">
                 {!isLoading && <IncomeChart chartData={data?.revenue_by_days_of_the_month}/>}
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {!isLoading && <TargetRadial chartData={data?.monthly_subscriptions}/>}
                 <PackageChart />
                 {!isLoading && <PackageBarChart chartData={data?.count_by_subscriptions} />}

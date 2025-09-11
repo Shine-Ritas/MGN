@@ -67,21 +67,22 @@ const UserAuthImage = ({ applicationConfig }) => {
     }
 
     return (
-        <Card className="w-full col-span-1">
+        <Card className="w-full">
             <CardHeader>
-                <CardTitle className=" flex justify-between items-center">
-                    <span>General Cover Image</span>
+                <CardTitle className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                    <span className="text-lg md:text-xl">General Cover Image</span>
 
                     <Button 
                         size={'sm'} 
                         onClick={handleUploadClick}
                         disabled={isLoading}
+                        className="w-full sm:w-auto"
                     >
                         {coverImagePreview ? (isLoading ? 'Saving...' : 'Save') : 'Upload'}
                     </Button>
                 </CardTitle>
                 <CardDescription>
-                    <span className="text-sm text-muted-foreground block">
+                    <span className="text-xs md:text-sm text-muted-foreground block">
                         Recommended: 1000×800px | JPG, PNG, or WEBP | 4:3 aspect ratio
                     </span>
                 </CardDescription>
@@ -90,8 +91,8 @@ const UserAuthImage = ({ applicationConfig }) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div
                         className="border-2 border-dashed
-                        h-80
-                        border-gray-300 rounded-lg p-4 w-full flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                        h-60 md:h-72 lg:h-80
+                        border-gray-300 rounded-lg p-3 md:p-4 w-full flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                         onClick={triggerFileInput}
                     >
                         {coverImagePreview ? (
@@ -104,8 +105,8 @@ const UserAuthImage = ({ applicationConfig }) => {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center py-4">
-                                <ImageIcon className="h-10 w-10 text-muted-foreground mb-2" />
-                                <p className="text-sm text-muted-foreground">Click to upload cover image</p>
+                                <ImageIcon className="h-8 w-8 md:h-10 md:w-10 text-muted-foreground mb-2" />
+                                <p className="text-xs md:text-sm text-muted-foreground text-center">Click to upload cover image</p>
                             </div>
                         )}
                         <input

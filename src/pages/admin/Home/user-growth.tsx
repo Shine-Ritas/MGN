@@ -9,10 +9,10 @@ const UserGrowth = () => {
 
   return (
     <>
-    <div className="grid">
+    <div className="grid w-full">
        {!isLoading && <UserSubscriptionChart chartData={data?.user_traffics}/>}
     </div>
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         {!isLoading && <RegistrationChart chartData={data?.registration_chart}/>}
         {!isLoading && <UserLocations chartData={data?.user_chart}/>}
         {!isLoading && <UserLoginChart chartData={data?.login_chart}/>}

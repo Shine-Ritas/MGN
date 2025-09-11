@@ -25,7 +25,7 @@ export function MostUploadedAdmin({ chartData }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Total Chapters Uploaded By Admins</CardTitle>
+        <CardTitle className="text-sm sm:text-base lg:text-lg">Total Chapters Uploaded By Admins</CardTitle>
         <CardDescription>
           Showing total chapters uploaded for this month
         </CardDescription>

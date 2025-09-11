@@ -8,7 +8,7 @@ import { NavLink, Outlet } from "react-router-dom"
 import { setting_routes } from "./Settings/setting-route"
 const Setting = () => {
     return (
-        <main className="grid lg:grid-cols-5 items-start gap-4 pt-4  md:gap-4 ">
+        <main className="grid lg:grid-cols-5 items-start gap-4 lg:pt-4  md:gap-4 ">
             <div className="lg:col-span-1">
                 <Card className="pt-4">
                     <CardContent>

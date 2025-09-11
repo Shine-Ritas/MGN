@@ -13,8 +13,8 @@ export interface MogousType {
     mogou_type:      number;
     released_year:   string;
     released_at:     string;
-    created_at:      null;
-    updated_at:      null;
+    created_at?:      string;
+    updated_at?:      string;
     status_name:     MogousStatusName;
     mogou_type_name: MogouTypeName;
     finish_status_name  : string;

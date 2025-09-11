@@ -36,7 +36,7 @@ export const ComicType: ComicType[] = [
   {
     id: 2,
     title: 'Comic',
-  }
+  },
 
 ]
 

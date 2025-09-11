@@ -10,7 +10,7 @@ const TodayChapterTrafficLinear = ({ chartData }) => {
     </div>
   );
   return (
-    <Card className="row-span-1 col-span-2">
+    <Card className="w-full">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-medium flex items-center">
           <TrendingUp className="mr-2 h-5 w-5 text-gray-400" />
@@ -28,8 +28,8 @@ const TodayChapterTrafficLinear = ({ chartData }) => {
               chartData?.map((chapter, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="font-medium text-sm">{chapter.sub_mogou_title} ({chapter.mogou_title} )</div>
-                    <div className="text-sm text-gray-400">{chapter.today_views} visitors</div>
+                    <div className="font-medium text-xs sm:text-sm truncate pr-2">{chapter.sub_mogou_title} ({chapter.mogou_title} )</div>
+                    <div className="text-xs sm:text-sm text-gray-400 whitespace-nowrap">{chapter.today_views} visitors</div>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
                     <div

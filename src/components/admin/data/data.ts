@@ -24,7 +24,7 @@ export const navigateMenu: NavigateMenu = {
     dashboard: { Icon: MdHomeFilled, to: adminRouteCollection.dashboard, tooltip: "Home", title: "Home" },
     comics: { Icon: SiBookstack, to: adminRouteCollection.mogous, tooltip: "comics", title: "Comics" },
     categories: { Icon: BiCategory, to: adminRouteCollection.categories, tooltip: "Manage Categories", title: "Categories" },
-    subscriptions: { Icon: MdSubscriptions, to: adminRouteCollection.subscriptions, tooltip: "Manage Subscriptions", title: "Subscriptions" },
+    subscriptions: { Icon: MdSubscriptions, to: adminRouteCollection.subscriptions, tooltip: "Manage Subscriptions", title: "Subs" },
     users: { Icon: FaUsersGear, to: adminRouteCollection.users, tooltip: "Manage Users", title: "Users" },
     apps: { Icon: TbAppsFilled, to: adminRouteCollection.apps, tooltip: "Your Apps", title: "Apps" },
     setting: { Icon: IoSettings, to: adminRouteCollection.generalSetting, tooltip: "Customize Your Application", title: "Setting" },

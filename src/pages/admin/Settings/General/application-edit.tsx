@@ -64,12 +64,12 @@ const ApplicationEdit = ({ applicationConfig }) => {
     }
 
     return (
-        <Card className="w-full col-span-3">
+        <Card className="w-full">
             <CardHeader>
-                <CardTitle className="text-2xl">Application Setting</CardTitle>
+                <CardTitle className="text-xl md:text-2xl">Application Setting</CardTitle>
             </CardHeader>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-4 md:space-y-6">
                     <div className="space-y-2">
                         <FormInput
                             divClassName=' items-center '
@@ -88,11 +88,11 @@ const ApplicationEdit = ({ applicationConfig }) => {
                         </span>
                         <div className="flex flex-col items-center gap-4">
                             <div
-                                className="border-2 border-dashed border-gray-300 rounded-lg p-4 w-full flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                                className="border-2 border-dashed border-gray-300 rounded-lg p-3 md:p-4 w-full flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                                 onClick={triggerFileInput}
                             >
                                 {logoPreview ? (
-                                    <div className="relative w-full h-40 flex items-center justify-center">
+                                    <div className="relative w-full h-32 md:h-40 flex items-center justify-center">
                                         <img
                                             src={logoPreview || "/placeholder.svg"}
                                             alt="Logo preview"
@@ -100,9 +100,9 @@ const ApplicationEdit = ({ applicationConfig }) => {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-4">
-                                        <ImageIcon className="h-10 w-10 text-muted-foreground mb-2" />
-                                        <p className="text-sm text-muted-foreground">Click to upload logo</p>
+                                    <div className="flex flex-col items-center justify-center py-3 md:py-4">
+                                        <ImageIcon className="h-8 w-8 md:h-10 md:w-10 text-muted-foreground mb-2" />
+                                        <p className="text-xs md:text-sm text-muted-foreground text-center">Click to upload logo</p>
                                     </div>
                                 )}
                                 <input
@@ -116,7 +116,7 @@ const ApplicationEdit = ({ applicationConfig }) => {
                                 />
                             </div>
                             {logoPreview && (
-                                <Button type="button" variant="outline" size="sm" onClick={triggerFileInput}>
+                                <Button type="button" variant="outline" size="sm" onClick={triggerFileInput} className="w-full md:w-auto">
                                     <UploadIcon className="h-4 w-4 mr-2" />
                                     Change Logo
                                 </Button>

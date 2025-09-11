@@ -51,7 +51,7 @@ const HomePage = () => {
       </div>
 
       <div className="w-full">
-        <ViewCarousel title="Recommended For You" url="recommended" />
+        <ViewCarousel title="Recommended " url="recommended" />
       </div>
 
       <Separator className="w-full h-1 bg-primary" />

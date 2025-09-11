@@ -34,11 +34,11 @@ const AdminLayout = () => {
   }
   ,[dispatch])
   return (
-    <div className="flex pt-8 h-screen max-h-screen  pb-10  px-6  lg:px-0 bg-[#f5f5f5] dark:bg-background">
+    <div className="flex pt-8 h-screen max-h-screen pb-10  px-6  lg:px-0 bg-[#f5f5f5] dark:bg-background">
 
       {
         !isMobile && (
-          <div className="hidden lg:w-[10%] min-w-[160px] lg:flex justify-center items-center ">
+          <div className="hidden lg:w-[10%] min-w-[160px] lg:flex justify-center items-center  ">
             <Sidebar />
           </div>
         )
@@ -46,11 +46,11 @@ const AdminLayout = () => {
 
       <div className="w-full lg:w-[90%] lg:pe-8 ">
 
-        <div className="flex flex-col gap-8 md:gap-4 w-full h-full  rounded-lg bg-transparent">
+        <div className="flex flex-col gap-4 w-full h-full  rounded-lg bg-transparent">
 
           <Navbar title={navbarTitle} />
 
-          <div className="flex flex-col sm:gap-4 h-full overflow-y-scroll ">
+          <div className="flex flex-col sm:gap-4 max-h-full">
             <Suspense fallback={<div>Loading...</div>}>
               <DeleteAlertProvider>
                 <Outlet context={{ updateNavbarTitle }} />

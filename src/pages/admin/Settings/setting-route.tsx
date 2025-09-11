@@ -32,12 +32,12 @@ export const setting_routes : AppRouteInterface = {
       {
         path: adminRouteCollection.generalUserAvatars,
         element: <GeneralUserAvatars />,
-        label: 'User Avatars'
+        label: 'Avatars'
       },
       {
         path : adminRouteCollection.generalPrefixUpload,
         element: <PrefixUpload />,
-        label: 'Prefix Upload'
+        label: 'Image'
       }
     ]
   }

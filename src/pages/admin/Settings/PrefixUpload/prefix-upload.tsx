@@ -8,6 +8,7 @@ import useMutate from '@/hooks/useMutate';
 import { toast } from '@/components/ui/use-toast';
 import useQuery from '@/hooks/useQuery';
 import { useIndexedDbImageCache } from '@/hooks/useIndexedDbImageCache';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type PrefixUploadState = {
   water_mark: any;
@@ -15,11 +16,20 @@ type PrefixUploadState = {
   outro_a: any;
   intro_b: any;
   outro_b: any;
+  watermark_position: string;
 };
 
 type UploadErrors = {
   [key in keyof PrefixUploadState]: string | null;
 };
+
+const watermarkPositions = [
+  'top-left',
+  'top-right',  
+  'center',
+  'bottom-left',
+  'bottom-right',
+]
 
 const initialUploadState: PrefixUploadState = {
   water_mark: null,
@@ -27,6 +37,7 @@ const initialUploadState: PrefixUploadState = {
   outro_a: null,
   intro_b: null,
   outro_b: null,
+  watermark_position: 'bottom-right',
 };
 
 const initialErrorState: UploadErrors = {
@@ -35,6 +46,7 @@ const initialErrorState: UploadErrors = {
   outro_a: null,
   intro_b: null,
   outro_b: null,
+  watermark_position: null,
 };
 
 const WATERMARK_MAX_WIDTH = 500; // Adjust as needed
@@ -60,17 +72,17 @@ export default function UploadComponent() {
   const {data,isLoading:isL} = useQuery("/application-configs");  
   const { getCachedImage,storeImage } = useIndexedDbImageCache();
 
-
   const [mutate, { isLoading }] = useMutate({callback:undefined,navigateBack:false,});
 
   useEffect(()=>{
     if(!isL){
       if(data){
         const keys = Object.keys(initialUploadState);
-        keys.map((key)=>{
 
-          data[key] != "" &&
+        keys.map((key)=>{
+          data[key] != "" && key != "watermark_position" &&
           getCachedImage(key,data[key],true).then((res)=>{
+            console.log(res)
             if(res){
               setUploadState((prevState) => ({
                 ...prevState,
@@ -78,11 +90,20 @@ export default function UploadComponent() {
               }));
             }
           })
+
+          if(key == "watermark_position"){
+            setUploadState((prevState) => ({
+              ...prevState,
+              watermark_position: data[key],
+            }));
+          }
+
         })
         
       }
     }
   },[data, getCachedImage, isL])
+
   
 
   const validateImageDimensions = (file: File, maxWidth: number, maxHeight: number): Promise<boolean> => {
@@ -125,13 +146,19 @@ export default function UploadComponent() {
   };
 
   const handleSubmit = async (type: keyof PrefixUploadState) => {
-    if (!uploadState[type]) {
+    // For watermark_position, we don't need a file, just the position value
+    if (type !== 'watermark_position' && !uploadState[type]) {
       console.error(`No file selected for ${type}`);
       return;
     }
 
     const formData = new FormData();
-    formData.append(type, uploadState[type]!);
+    
+    if (type === 'watermark_position') {
+      formData.append(type, uploadState[type]);
+    } else {
+      formData.append(type, uploadState[type]!);
+    }
 
     try {
       const response = await mutate("admin/application-configs", formData);
@@ -140,15 +167,42 @@ export default function UploadComponent() {
       if(!response.error){
         toast({
           title: "Success",
-          description: "Upload successful",
+          description: `${type === 'watermark_position' ? 'Watermark position' : 'Upload'} updated successfully`,
           variant: "success",
         });
     
-        storeImage(type,response[type]);
+        if (type !== 'watermark_position') {
+          storeImage(type,response[type]);
+        }
       }
 
     } catch (error) {
-      console.error(`Failed to upload ${type}:`, error);
+      console.error(`Failed to update ${type}:`, error);
+    }
+  };
+
+  const handleWatermarkPositionChange = async (position: string) => {
+    setUploadState((prevState) => ({
+      ...prevState,
+      watermark_position: position,
+    }));
+    
+    // Auto-submit after position change
+    const formData = new FormData();
+    formData.append('watermark_position', position);
+
+    try {
+      const response = await mutate("admin/application-configs", formData);
+      
+      if(!response.error){
+        toast({
+          title: "Success",
+          description: "Watermark position updated successfully",
+          variant: "success",
+        });
+      }
+    } catch (error) {
+      console.error('Failed to update watermark position:', error);
     }
   };
 
@@ -200,6 +254,29 @@ export default function UploadComponent() {
         <CardContent>
           <div className="space-y-6">
             <h2 className="text-lg font-semibold">Watermark Upload</h2>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <Select 
+                value={uploadState.watermark_position} 
+                onValueChange={handleWatermarkPositionChange}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Watermark Position" />
+                </SelectTrigger>
+                <SelectContent>
+                  {watermarkPositions.map((position) => (
+                    <SelectItem
+                      key={position}
+                      value={position}
+                    >
+                      {position.replace('-', ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+
             {renderFileInput("water_mark", "Watermark Image", "water_mark")}
 
             <h2 className="text-lg font-semibold mt-6">Intro and outro image</h2>

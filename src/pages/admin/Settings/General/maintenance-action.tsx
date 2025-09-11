@@ -30,22 +30,22 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
   }
 
   return (
-    <Card className="w-full col-span-1">
+    <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-2xl">Application Status</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-lg md:text-xl lg:text-2xl">Application Status</CardTitle>
+        <CardDescription className="text-sm">
             Toggle maintenance mode for your application to prevent users from accessing user-side.
         </CardDescription>
       </CardHeader>
       <CardContent>
       
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-4">
           {isMaintenanceMode ? (
-            <AlertTriangle className="h-5 w-5 text-yellow-500" />
+            <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-yellow-500 flex-shrink-0" />
           ) : (
-            <CheckCircle className="h-5 w-5 text-green-500" />
+            <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-500 flex-shrink-0" />
           )}
-          <span className="text-sm font-medium">
+          <span className="text-xs md:text-sm font-medium">
             {isMaintenanceMode ? 'Maintenance Mode Active' : 'Application Running Normally'}
           </span>
         </div>
@@ -53,7 +53,7 @@ export default function MaintenanceAction({isActive} : {isActive:boolean}) {
           disabled={isLoading}
           onClick={toggleMaintenanceMode}
           variant={isMaintenanceMode ? 'destructive' : 'default'}
-          className="mt-4 w-full"
+          className="w-full text-sm md:text-base"
         >
           {isMaintenanceMode ? 'Disable Maintenance Mode' : 'Enable Maintenance Mode'}
         </Button>
