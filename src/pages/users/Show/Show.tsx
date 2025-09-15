@@ -49,7 +49,7 @@ const Show = () => {
        <>
         <SEO title={`${mogous?.mogou?.title} - Manga Details`} description={mogous?.mogou?.description.slice(0, 150)} name="Manga Details" type="manga" />
 
-        <div className="flex flex-col mt-8">
+        <div className="flex flex-col mt-8 px-4 md:px-0">
             <div id="popoverhe"></div>
             <div className="flex items-center gap-4 mb-6 ">
                 <Goback

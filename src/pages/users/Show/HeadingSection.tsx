@@ -33,17 +33,19 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
 
                     </div>
                     <div className="text-center md:text-start col-span-full md:col-span-3 xl:col-span-3 flex flex-col gap-3 md:gap-4">
-                        <span className="text-xl md:text-3xl text-neon-primary font-semibold tracking-widest">
-                            {mogou?.finish_status_name}
-                        </span>
-                        <Label
-                        aria-label="Manga Title"
-                        className="text-lg md:text-4xl font-semibold">{mogou?.title}</Label>
+                        <div className="flex flex-col-reverse md:flex-col gap-3 md:gap-4">
+                            <span className="text-xl md:text-3xl text-neon-primary font-semibold tracking-widest hidden">
+                                {mogou?.finish_status_name}
+                            </span>
+                            <Label
+                            aria-label="Manga Title"
+                            className="text-lg md:text-4xl font-semibold">{mogou?.title}</Label>
+                        </div>
                         <div className="flex gap-4 text-3xl justify-between lg:justify-start">
                             <Button
                                 aria-label="Start reading the manga"
                                 className="bg-neon-primary text-white  py-6 text-lg px-8 flex items-center w-full lg:w-fit">
-                                Start Reading <FaCaretRight className="text-2xl" />
+                                Start Reading <FaCaretRight className="text-2xl hidden md:flex" />
                             </Button>
 
                             <BookMark

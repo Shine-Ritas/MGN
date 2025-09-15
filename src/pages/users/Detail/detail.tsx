@@ -15,7 +15,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getRandomInterval } from "@/utilities/util";
 import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-slice";
 import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
@@ -31,6 +31,9 @@ const prefetchImages = (imagePaths: string[]) => {
 const Detail = () => {
   // Always call hooks unconditionally
   const readSetting = useUserAppSelector(selectUserReadSetting);
+  const [searchParams, setSearchParams] = useSearchParams({last_page:"false"});
+  const last_page = searchParams.get("last_page") ?? "false"
+
   const {mogou,chapter} = useParams();
   const dispatch = useUserAppDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,6 +43,8 @@ const Detail = () => {
 
   // Call your query hook (always)
   const { data, isLoading } = useQuery(`/users/mogous/${mogou}/chapters/${chapter}`);
+
+  const navigate = useNavigate();
 
   // Process API data with useMemo
   const formattedImages = useMemo(() => {
@@ -95,6 +100,12 @@ const Detail = () => {
         .map((img: any) => img.path);
 
       prefetchImages([...nextImages, ...prevImages]);
+
+      if(last_page == "true"){
+        dispatch(setCurrentPage({ action: "prefer", index: formattedImages.length }));
+        // then remove the last_page from the search params
+        setSearchParams({});
+      }
     }
   }, [dispatch, formattedImages, startIndex, endIndex, max, data]);
  
@@ -126,9 +137,9 @@ const Detail = () => {
         handleVerticalClick(containerRef, clientY, dispatch, currentPage);
         return;
       }
-      handleHorizontalClick(currentTarget, clientX, readingDirection, dispatch);
+      handleHorizontalClick(currentTarget, clientX, readingDirection, dispatch,navigate);
     },
-    [readingStyle.value, readingDirection, dispatch, currentPage]
+    [readingStyle.value, readingDirection, dispatch, currentPage, navigate]
   );
 
   const handlePageClick = useCallback(

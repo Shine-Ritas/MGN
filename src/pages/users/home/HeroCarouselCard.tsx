@@ -38,6 +38,10 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                       ))
                     }
                   </div>
+
+                  <div className="flex gap-2 flex-wrap text-sm text-muted-foreground pe-4 md:hidden">
+                  {rTitle(mogou?.description, 120)}
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
 import { setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import React from "react";
+import { NavigateFunction } from "react-router-dom";
 
 // Define an explicit type for reading direction.
 export type ReadingDirection = "ltr" | "rtl";
@@ -28,7 +29,8 @@ export const handleHorizontalClick = (
   currentTarget: HTMLElement,
   clientX: number,
   readingDirection: { value: ReadingDirection },
-  dispatch: Dispatch<UnknownAction>
+  dispatch: Dispatch<UnknownAction>,
+  navigate: NavigateFunction
 ): void => {
   const { offsetWidth } = currentTarget;
   const middle = offsetWidth / 2;
@@ -51,10 +53,10 @@ export const handleHorizontalClick = (
   // Determine navigation action based on click position.
   if (clientX > middle + tolerance) {
     // For LTR reading, move forward; for RTL, move backward.
-    dispatch(setCurrentPage({ action: isLTR ? "increase" : "decrease" } as SetCurrentPagePayload));
+    dispatch(setCurrentPage({ action: isLTR ? "increase" : "decrease" , navigate } as SetCurrentPagePayload));
   } else if (clientX < middle - tolerance) {
     // For LTR reading, move backward; for RTL, move forward.
-    dispatch(setCurrentPage({ action: isLTR ? "decrease" : "increase" } as SetCurrentPagePayload));
+    dispatch(setCurrentPage({ action: isLTR ? "decrease" : "increase" , navigate } as SetCurrentPagePayload));
   }
 };
 
@@ -69,7 +71,7 @@ export const handleVerticalClick = (
   containerRef: React.RefObject<HTMLDivElement>,
   clientY: number,
   dispatch: Dispatch<UnknownAction>,
-  currentPage: number
+  currentPage: number,
 ): void => {
   const container = containerRef.current;
   if (!container) return;
@@ -77,7 +79,7 @@ export const handleVerticalClick = (
   const { offsetHeight } = containerRef.current;
   const middle = offsetHeight / 2;
   if (currentTime - lastTapTime <= doubleTapTimeout) {
-    dispatch(toggleValue("showPanel"));
+    dispatch(toggleValue("showPanel",));
     lastTapTime = 0;
     console.log('here')
     return;

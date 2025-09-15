@@ -112,7 +112,7 @@ export const userReadSettingSlice = createSlice({
         case "decrease": {
           const prevPage = newPage - max;
           if (prevPage < 1 && newPage === 1) {
-            navigate!(state.prevUrl)
+            navigate!(state.prevUrl+"?last_page=true")
           }
           newPage = Math.max(prevPage, 1);
           break;
