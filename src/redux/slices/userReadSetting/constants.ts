@@ -84,7 +84,7 @@ export const ImageFitData : Record<string, ImageFitType> = {
 export const BackgroundColorData : Record<string, BackgroundColorType> = {
     Theme: {
         label: "Theme",
-        value: "bg-slate-700",
+        value: "bg-background",
         iconName: "Palette",
     },
     White: {

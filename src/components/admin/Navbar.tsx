@@ -20,7 +20,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
 
 
   return (
-    <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-4 lg:py-8" >
+    <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-4 md:py-8" >
       <div className="flex items-center gap-10">
 
         {!isMobile ?(  

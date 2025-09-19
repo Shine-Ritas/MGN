@@ -10,6 +10,7 @@ import AdsBanner from "./banners/adsBanner"
 import ViewCarousel from "./MostViewCarousel"
 import SEO from "@/pages/seo"
 import useQuery from "@/hooks/useQuery"
+import { selectApplicationConfig } from "@/redux/slices/application-config-slice"
 
 const HomePage = () => {
 
@@ -21,7 +22,8 @@ const HomePage = () => {
   }, [banners, dispatch]);
 
   const isSubscribed = useUserAppSelector(selectIsSubscription);
-  console.log(isSubscribed);
+  const Setting = useUserAppSelector(selectApplicationConfig);
+  console.log(Setting);
 
 
   const scrollToTop = useCallback(() => {

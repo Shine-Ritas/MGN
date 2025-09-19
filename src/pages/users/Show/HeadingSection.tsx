@@ -12,14 +12,18 @@ import { selectAuthUser } from "@/redux/slices/user-global";
 import { EyeIcon } from "lucide-react";
 import DOMPurify from 'dompurify';
 
+import useReadChapter from "@/hooks/useReadChapter";
+
 interface HeadingSectionProps {
     mogou: MogouWithTotalCount,
     isFavorite: boolean,
+    mogous: any
 }
 
-const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
+const HeadingSection = ({ mogou, isFavorite,mogous }: HeadingSectionProps) => {
 
     const auth = useUserAppSelector(selectAuthUser);
+    const { readTheChapter } = useReadChapter();
 
     return (
         <>
@@ -44,7 +48,11 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                         <div className="flex gap-4 text-3xl justify-between lg:justify-start">
                             <Button
                                 aria-label="Start reading the manga"
-                                className="bg-neon-primary text-white  py-6 text-lg px-8 flex items-center w-full lg:w-fit">
+                                className="bg-neon-primary text-white  py-6 text-lg px-8 flex items-center w-full lg:w-fit"
+                                onClick={() => {
+                                    readTheChapter(mogous?.chapters[0],mogous);
+                                }}
+                            >
                                 Start Reading <FaCaretRight className="text-2xl hidden md:flex" />
                             </Button>
 
@@ -76,6 +84,9 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                             </p>
                             <p className="text-md">
                                 <span className="text-muted-foreground">Published At :</span> <span className="text-sm">{mogou?.released_at}</span>
+                            </p> 
+                            <p className="text-md md:hidden">
+                                <span className="text-muted-foreground">Status :</span> <span className="text-sm">{ mogou?.finish_status_name}</span>
                             </p>
                             <p className="text-md">
                                 <span className="text-muted-foreground">Genres :</span> <span className="text-sm">{
@@ -89,7 +100,7 @@ const HeadingSection = ({ mogou, isFavorite }: HeadingSectionProps) => {
                             <CardContent className="flex gap-4 items-center  md:h-20 px-6 py-0">
                                 <div className="w-1/3 text-xl whitespace-nowrap">
                                     {mogou?.rating} / 5
-                                </div>
+                                </div>“
                                 <div className="w-2/3 flex justify-start">
                                     <Rating rating={mogou?.rating} size={20} variant="default" disabled={true} />
                                 </div>

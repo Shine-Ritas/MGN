@@ -19,12 +19,8 @@ import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
 import { MogouChapter } from "@/pages/admin/Comics/type";
 import useQuery from "@/hooks/useQuery";
-import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser } from "@/redux/slices/user-global";
-import { isSubscriptionValid } from "@/utilities/util";
-import { useNavigate } from "react-router-dom";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
-import { handleRead } from "@/utilities/read-helper";
+import useReadChapter from "@/hooks/useReadChapter";
 
 interface ChapterTableProps {
     mogous: any;
@@ -34,13 +30,11 @@ export const ChapterTable = ({
     mogous
 }: ChapterTableProps) => {
     const [chapters, setChapters] = useState<MogouChapter[]>([]);
-    const [userCanReadAll, setUserCanReadAll] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [showAll, setShowAll] = useState<boolean>(false);
-    const authUser = useUserAppSelector(selectAuthUser);
     const {isMobile} = useScreenDetector();
-    const navigate = useNavigate();
-    const dispatch = useUserAppDispatch();
+
+    const { readTheChapter, userCanReadAll } = useReadChapter();
 
 
     const callback = (data: any) => {
@@ -56,24 +50,12 @@ export const ChapterTable = ({
         setChapters(mogous.chapters);
     }, [mogous])
 
-    useEffect(() => {
-        if (authUser?.subscription_end_date && isSubscriptionValid(authUser?.subscription_end_date)) {
-            setUserCanReadAll(true);
-        }
-        else {
-            setUserCanReadAll(false);
-        }
-    }
-        , [authUser])
 
     const showAllChapters = () => {
         setLoading(true);
         setShowAll(true);
     }
 
-    const readTheChapter = (chapter : MogouChapter)=>{
-        handleRead(dispatch,userCanReadAll,navigate,chapter,mogous.mogou.slug)
-    }
 
     return (
         <>
@@ -91,7 +73,7 @@ export const ChapterTable = ({
                             {
                                 chapters?.map((chapter, index) => (
                                     <TableRow key={index}
-                                        onClick={() => readTheChapter(chapter)}
+                                        onClick={() => readTheChapter(chapter,mogous)}
                                         className={`text-lg h-12 flex items-center justify-between ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
                                         
                                      `}>

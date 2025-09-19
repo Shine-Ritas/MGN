@@ -23,7 +23,7 @@ export const getAppliactionConfig = createAsyncThunk(
 
             const result = await dispatch(queryApi.endpoints.getData.initiate("/application-configs")).unwrap();
             
-            const expireTime = new Date().getTime() + 2 * 24 * 60 * 60 * 1000;
+            const expireTime = new Date().getTime() + 1 * 60 * 60 * 1000;
             ens_storage.set("application-config", JSON.stringify(result), expireTime);
 
             return result;  

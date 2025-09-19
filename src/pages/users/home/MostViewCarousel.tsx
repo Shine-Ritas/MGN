@@ -36,25 +36,35 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
                                     className="relative left-0" />
                             </div>
                         </div>
-                        <CarouselContent className="-ml-1 gap-4 mt-8" role="list">
+                        <CarouselContent className="-ml-1 gap-2 sm:gap-3 md:gap-4 mt-8" role="list">
                             {!isLoading ? (
                                 MemorizedData?.mogous?.map((mogou) => (
                                     <CarouselItem
                                         key={mogou.id}
-                                        className="pl-1 basis-1/2 md:basis-1/4 lg:basis-[12.666667%] overflow-hidden cursor-pointer "
-                                        role="listitem relative"
+                                        className="pl-1 basis-1/2 xs:basis-2/5 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-[14.28%] overflow-hidden cursor-pointer"
+                                        role="listitem"
                                     >
-                                        <div className="flex flex-col ">
+                                        <div className="flex flex-col group hover:scale-105 transition-transform duration-200 ease-in-out">
                                             <Link
                                                 aria-label={mogou?.title}
-                                                to={`/show/${mogou?.slug}`} className="relative aspect-[2/3] h-56">
-                                                <LazyLoadImage src={mogou.cover || "/placeholder.svg"}
-                                                    style={{ width: '100%', height: '100%' }}
-                                                    alt={mogou.title} className="object-cover" />
-                                                <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
+                                                to={`/show/${mogou?.slug}`} 
+                                                className="relative block"
+                                            >
+                                                <div className="aspect-[3/4] w-full overflow-hidden rounded-t-md bg-muted">
+                                                    <LazyLoadImage 
+                                                        src={mogou.cover || "/placeholder.svg"}
+                                                        alt={mogou.title} 
+                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                                        style={{ width: '100%', height: '100%' }}
+                                                    />
+                                                </div>
+                                                <MatureContentTag 
+                                                    isMatureContent={mogou.legal_age!} 
+                                                    className='absolute top-2 right-2 z-10' 
+                                                />
                                             </Link>
-                                            <div className="mogou-footer bg-primary h-10 flex  justify-center items-center rounded-b-sm ps-2">
-                                                <span className=" text-xxs text-center font-semibold text-white truncate">
+                                            <div className="mogou-footer bg-primary min-h-[2rem] sm:min-h-[2.5rem] flex justify-center items-center rounded-b-md px-2 py-1">
+                                                <span className="text-xs sm:text-sm text-center font-medium text-white truncate leading-tight">
                                                     {mogou?.title || 'Untitled'}
                                                 </span>
                                             </div>

@@ -9,6 +9,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // server:{
+  //   allowedHosts:["506a55aec323.ngrok-free.app"],
+  // }
   // server: {
   //   watch: {
   //     usePolling: false,

@@ -1,7 +1,7 @@
-import { FaTwitter, FaYoutube } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { selectApplicationConfig } from '@/redux/slices/application-config-slice';
+import { getIcon } from '@/pages/users/Auth/SocialIcon';
 
 const UserLayoutFooter = () => {
 
@@ -18,16 +18,16 @@ const UserLayoutFooter = () => {
               <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
             </Link>
 
-            <div className="flex items-center gap-4">
-              <Link to="#" className=" hover:text-gray-300">
-                <FaYoutube className="h-4 w-4" />
-                <span className="sr-only">YouTube</span>
-              </Link>
+            <div className="flex items-center gap-2">
 
-              <Link to="#" className=" hover:text-gray-300">
-                <FaTwitter className="h-4 w-4" />
-                <span className="sr-only">Twitter</span>
-              </Link>
+              {
+                applicationConfig?.socials?.map((social, index) => (
+                  <Link to={social.redirect_url} className=" hover:text-gray-300">
+                    {getIcon(social.icon?.toLowerCase(), "h-5 w-5")}
+                    <span className="sr-only">{social.name}</span>
+                  </Link>
+                ))
+              }
             </div>
 
 

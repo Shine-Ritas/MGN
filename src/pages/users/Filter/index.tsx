@@ -39,12 +39,14 @@ export default function Page() {
     if (isLoading) return <div></div>;
   
     return (
-      <div className="min-h-screen bg-slate-900">
-        <div className="container mx-auto px-4 py-6">
+      <div className="min-h-screen container px-4 md:px-0 md:contain-none">
+        <div className=" mx-auto py-6">
   
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <h1 className=""></h1>
+            {
+              !isMobile && <h1 className="text-3xl font-bold"></h1>
+            }
             {isMobile && (
               <button
                 className=""
@@ -78,7 +80,7 @@ export default function Page() {
           </div>
   
           {/* Manga Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {data?.mogous?.data.map((mogou) => (
               <MogouCard
                 key={mogou.id}

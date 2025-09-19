@@ -23,23 +23,23 @@ const MogouCard = ({ mogou, userCanReadAll }: RecentlyUploadedCardProps) => {
     }
 
     return (
-        <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700 min-h-48">
+        <div key={mogou.title} className="bg-slate-800/50 rounded-lg flex border border-slate-700 md:min-h-52 ">
             <div className='flex h-full w-full' >
                 <Link
                     aria-label={mogou?.title}
-                    to={`/show/${mogou?.slug}`} className="relative aspect-[2/3] w-1/3">
+                    to={`/show/${mogou?.slug}`} className="relative w-7/12  lg:w-5/12">
                     <LazyLoadImage src={mogou.cover || "/placeholder.svg"}
                         style={{ width: '100%', height: '100%' }}
-                        alt={mogou.title} className="object-cover" />
+                        alt={mogou.title} className="object-cover   min-h-52 lg:min-h-48 " />
                     <MatureContentTag isMatureContent={mogou.legal_age!} className='absolute top-1 right-0' />
                 </Link>
                 <div className="pb-4 pt-3 px-4 w-full">
-                    <div className="text-neon-primary  text-sm w-full">{mogou.mogou_type_name}</div>
-                    <h5 className="text-sm font-semibold text-white mb-1">{rTitle(mogou.title, 25)}</h5>
+                    <div className="text-neon-primary  text-sm w-full ">{mogou.mogou_type_name}</div>
+                    <h5 className="text-sm font-semibold text-white mb-1 max-w-fit ">{rTitle(mogou.title, 20)}</h5>
 
-                    <div className="flex flex-wrap ">
+                    <div className="flex flex-nowrap overflow-hidden ">
                         {
-                            mogou?.categories?.slice(0, 3).map((category, index) => {
+                            mogou?.categories?.slice(0, 2).map((category, index) => {
                                 return (
                                     <span key={index} className="text-xxs text-white/70 
                                     font-normal
@@ -52,7 +52,7 @@ const MogouCard = ({ mogou, userCanReadAll }: RecentlyUploadedCardProps) => {
                     <div className="flex flex-col w-full gap-2 mt-2 ">
 
                         {
-                            mogou?.sub_mogous?.map((sub_mogou, index) => {
+                            mogou?.sub_mogous?.slice(0, 3).map((sub_mogou, index) => {
 
                                 return (
                                     <div className="relative overflow-hidden min-w-full  " key={index}>

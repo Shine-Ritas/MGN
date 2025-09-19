@@ -15,12 +15,21 @@ export const theme = {
       "2xl": "1400px",
     },
   },
+  screens: {
+    'xs': '475px',
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
+    '2xl': '1536px',
+  },
   extend: {
     colors: {
       border: "var(--border)",
       input: "var(--input)",
       ring: "var(--ring)",
       background: "var(--background)",
+      "sec-background": "var(--sec-background)",
       foreground: "var(--foreground)",
       "sub-background": "var(--sub-background)",
       primary: {

@@ -61,14 +61,14 @@ const Show = () => {
             </div>
 
             <div className="">
-                <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} />
+                <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} mogous={mogous} />
             </div>
 
-            <div className=" lg:mt-4 grid lg:grid-cols-8 gap-4 ">
-                <div className="lg:col-span-6 ">
+            <div className=" lg:mt-4 grid xl:grid-cols-8 gap-4 ">
+                <div className="xl:col-span-6 ">
                     <ChapterTable mogous={mogous}   />
                 </div>
-                <div className="lg:col-span-2 flex justify-start text-start">
+                <div className="xl:col-span-2 flex justify-start text-start">
                     {
                         mogous?.mogou && <Suspense fallback={<div>Loading...</div>}>
                             <RelatedMogou slug={mogous?.mogou.slug} />

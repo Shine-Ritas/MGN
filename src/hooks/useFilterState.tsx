@@ -58,7 +58,6 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
     const [bunUrl, setBunUrl] = useState<string>("");
 
     const debouncedFilterParams = useDebounce(filterParams, debounceDelay);
-    console.log('time')
 
     const handleChange = useCallback((key: string, value: any) => {
      
