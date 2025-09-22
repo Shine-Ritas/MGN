@@ -5,7 +5,7 @@ import RecentlyUploaded from "./RecentlyUploaded"
 import { useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks"
-import {  selectIsSubscription, setBanners } from "@/redux/slices/user-global"
+import {   setBanners } from "@/redux/slices/user-global"
 import AdsBanner from "./banners/adsBanner"
 import ViewCarousel from "./MostViewCarousel"
 import SEO from "@/pages/seo"
@@ -21,7 +21,6 @@ const HomePage = () => {
     dispatch(setBanners(banners?.banners));
   }, [banners, dispatch]);
 
-  const isSubscribed = useUserAppSelector(selectIsSubscription);
   const Setting = useUserAppSelector(selectApplicationConfig);
   console.log(Setting);
 

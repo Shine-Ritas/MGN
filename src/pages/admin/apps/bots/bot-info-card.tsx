@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff, Edit, Trash2, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Edit, Trash2 } from 'lucide-react'
 import { useState } from "react"
 import { useDeleteAlert } from "@/contexts/DeleteAlertContext"
 
