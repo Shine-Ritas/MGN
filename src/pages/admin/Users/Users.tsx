@@ -1,6 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { EyeIcon, PlusCircle } from "lucide-react"
+import { EyeIcon } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from 'react-router-dom'
@@ -43,15 +43,14 @@ export default function Component() {
 
   return (
     <TooltipProvider>
-      <div className="py-4">
-
-        <div className="w-full flex justify-between">
-            <div className="">
+      <div className="pb-4">
+        <div className="rounded-xl border bg-popover text-card-foreground shadow py-5 flex flex-col lg:flex-row items-start justify-between gap-4 min-h-[10vh] px-4 xl:px-6">
+            <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4">
               <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total} submitUrl={submitUrl}/>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex ">{data && data.users.data.length > 0 && (
+            <div className="flex flex-col w-full xl:flex-row gap-2 xl:gap-4 items-stretch xl:items-center xl:justify-end">
+              <div className="order-2 xl:order-1 ">{data && data.users.data.length > 0 && (
               <TablePagination
                 url={data.users.path}
                 lastPage={data.users.last_page}
@@ -63,9 +62,10 @@ export default function Component() {
               />
             )}</div>
               <Button 
+              size={'sm'}
               onClick={() => navigate(adminRouteCollection.addUser)}
-              className="transition-all duration-300 hover:shadow-md">
-                <PlusCircle className="mr-2 h-4 w-4" /> New User
+              className="h-10 xl:h-8 w-full xl:w-24 gap-1 order-1 xl:order-2">
+                New
               </Button> 
             </div>
         </div>

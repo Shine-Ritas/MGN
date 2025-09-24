@@ -23,7 +23,7 @@ const readingStyleClasses = (type: string): ReadSettingReturnType => {
       };
     case "single-page":
       return {
-        class: "flex flex-col items-center gap-2",
+        class: "flex flex-col items-center justify-center gap-2",
         imageClass: "rounded shadow-md ", // Full height with centered content
         max: 1,
       };

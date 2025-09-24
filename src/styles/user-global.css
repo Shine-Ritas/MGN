@@ -6,7 +6,6 @@
   :root {
     --background: #ffffff;
     --sub-background: #e9f0f8;
-    --sec-background: #0c1321e3;
 
 
     --foreground: #0a0c21;
@@ -49,7 +48,7 @@
 
   .dark {
     --background: #0c1423;
-    --sec-background: #111824e3;
+    --sec-background: #111824;
     --sub-background : #0f0a24;
     --foreground: #e5f6ff; 
  

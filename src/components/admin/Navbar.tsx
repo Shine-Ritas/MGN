@@ -15,7 +15,7 @@ type NavbarProps = {
 const MobileDrawer = lazy(() => import('./MobileDrawer'))
 
 const NavbarRaw = ({ title }: NavbarProps) => {
-  const {isMobile} = useScreenDetector();
+  const {underDesktop} = useScreenDetector();
   const applicationConfig = useSelector(selectApplicationConfig);
 
 
@@ -23,7 +23,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
     <Card className="flex min-w-full justify-between px-4 md:h-[4vh] py-4 md:py-8" >
       <div className="flex items-center gap-10">
 
-        {!isMobile ?(  
+        {!underDesktop ?(  
           <div className="flex items-center gap-0">
           <img src={applicationConfig?.logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
           <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
@@ -55,7 +55,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
         </div>
         
         {
-          isMobile && (
+          underDesktop && (
             <MobileDrawer />
           )
         }

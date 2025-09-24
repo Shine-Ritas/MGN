@@ -7,7 +7,7 @@ import useSafeContent from "@/hooks/useSafeContent"
 import { Switch } from "../ui/switch"
 import { Label } from "../ui/label"
 import { DesktopNavigation } from "./DesktopNavigation";
-import { lazy } from "react";
+import { lazy, useCallback } from "react";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Badge } from "../ui/badge";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
-const ToSubscribe  = lazy(() => import('@/pages/users/home/subscription/to-subscribe'));
+const ToSubscribe = lazy(() => import('@/pages/users/home/subscription/to-subscribe'));
 
 const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
 
@@ -41,6 +41,12 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
     const logout = useLogout();
 
     const subscriptionStatus = isSubscriptionExpired(authUser?.subscription_end_date, authUser?.subscription_name);
+
+    const clearCache = useCallback(() => {
+        // clear localstorage
+        localStorage.clear();
+        window.location.reload();
+    }, []);
 
     return (
         <header className={`w-4/4 sticky ${isReadMode ? visibility.value : ""} transition-all  flex min-h-16 items-center gap-4 border-b bg-background 
@@ -110,29 +116,37 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                             <span className="sr-only">Toggle user menu</span>
                         </Button>
                     </DropdownMenuTrigger>
-                    {
-                        authUser ? (<DropdownMenuContent align="end" className="z-[999]">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="w-full">
-                                <Link className="w-full" to={userRouteCollection.user_profile}>Profile</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuContent align="end" className="z-[999]">
+                        <DropdownMenuItem
+                            onClick={clearCache}
+                        >
+                            <p className="w-full" >Clear Cache</p>
+                        </DropdownMenuItem>
+                        {
+                            authUser ? (
+                                <>
+                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="w-full">
+                                        <Link className="w-full" to={userRouteCollection.user_profile}>Profile</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>Settings</DropdownMenuItem>
 
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="font-bold w-full" asChild>
-                                <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
-                                    btnText={<>Logout</>} />
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                        ) : (<DropdownMenuContent className="z-[300]" align="end">
-                            <DropdownMenuItem >
-                                <a className="w-full" href="/login" >Login</a>
-                            </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="font-bold w-full" asChild>
+                                        <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
+                                            btnText={<>Logout</>} />
+                                    </DropdownMenuItem>
+                                </>
 
-                        </DropdownMenuContent>)
+                            ) : (
+                                <DropdownMenuItem >
+                                    <a className="w-full" href="/login" >Login</a>
+                                </DropdownMenuItem>
 
-                    }
+                            )
+                        }
+                    </DropdownMenuContent>
                 </DropdownMenu>
 
                 {

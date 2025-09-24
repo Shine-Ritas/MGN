@@ -2,15 +2,25 @@
 import { Card } from "@/components/ui/card"
 import { MemorizedLayoutButton } from "./layout-button"
 import { BackgroundColorData, HeaderVisibleData, ProgressBarData, ReadingDirectionData, ReadingStyleData, SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants"
+import { useScreenDetector } from "@/hooks/useScreenDetector"
 
 export default function SettingsPanel() {
+
+  const {isDesktop} = useScreenDetector();
+
+  // if not is desktop remove double page from reading styles
+  const filteredReadingStyles = isDesktop 
+    ? ReadingStyleData 
+    : Object.fromEntries(
+        Object.entries(ReadingStyleData).filter(([key]) => key !== "DoublePage")
+      );
 
   return (
     <Card className="w-full max-w-xl border-none bg-inherit h-[60vh] overflow-y-scroll text-white py-6 space-y-8">
       
       <div>
         <div className="grid grid-cols-3 gap-2">
-            <MemorizedLayoutButton actionKey={toggleActionCollectionKeys.readingStyle as SettingActionKey} collection={ReadingStyleData}/>
+            <MemorizedLayoutButton actionKey={toggleActionCollectionKeys.readingStyle as SettingActionKey} collection={filteredReadingStyles}/>
         </div>
       </div>
 

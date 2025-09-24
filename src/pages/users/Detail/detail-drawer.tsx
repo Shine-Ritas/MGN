@@ -19,7 +19,7 @@ const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: strin
     const navigate = useNavigate();
     return (
         <SheetTitle>
-            <div className="h3 flex items-center gap-4 px-4">
+            <div className="h3 flex items-center gap-4 lg:px-4">
                 <Button
                     variant="default"
                     size="sm"
@@ -53,14 +53,14 @@ const SheetContentBody = ({ type, children }) => {
 const DetailDrawer = () => {
     const dispatch = useUserAppDispatch();
     const readSetting = useUserAppSelector(selectUserReadSetting);
-    const { isMobile } = useScreenDetector();
-    const content = isMobile ? "content" : "description";
+    const { underDesktop } = useScreenDetector();
+    const content = underDesktop ? "content" : "description";
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        localStorage.setItem("currentDevice", isMobile ? "mobile" : "desktop");
-    }, [isMobile]);
+        localStorage.setItem("currentDevice", underDesktop ? "mobile" : "desktop");
+    }, [underDesktop]);
 
     const sr = readSetting.serverResponse;
 
@@ -118,7 +118,7 @@ const DetailDrawer = () => {
     }, [handleSetPage, readSetting]);
 
 
-    const containerStyle = `${readSetting.showPanel ? "w-1/5 px-2" : "w-0"} bg-sec-background h-screen fixed top-0 right-0 md:z-[90]`;
+    const containerStyle = `${readSetting.showPanel ? "w-1/5 md:w-2/6 xl:w-1/5 px-2" : "w-0 "} bg-sec-background h-screen fixed top-0 right-0 md:z-[90]`;
 
 
 
@@ -134,7 +134,7 @@ const DetailDrawer = () => {
                     </SheetHeader>
                     <SheetDescription>
                         {/* Page Indexer */}
-                        <div className="flex flex-col gap-4 px-4 text-white pt-6">
+                        <div className="flex flex-col gap-4 lg:px-4 text-white pt-6">
                             <MemorizedIndexerButton
                                 label="Chapters"
                                 selectOptions={allChapters}
@@ -158,7 +158,7 @@ const DetailDrawer = () => {
                         </div>
                         <Separator className="w-full h-1 bg-primary mt-8" />
 
-                        <div className="flex flex-col gap-4 px-4 text-white pt-4">
+                        <div className="flex flex-col gap-4 lg:px-4 text-white pt-4">
                             <MemoizedSettingButton
                                 settingActionKey={toggleActionCollectionKeys.headerVisible as SettingActionKey}
                             />

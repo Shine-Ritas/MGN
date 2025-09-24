@@ -24,8 +24,9 @@ export const useScreenDetector = () => {
   // Tailwind breakpoints: sm: 640px, md: 768px, lg: 1024px, xl: 1280px
   const isMobile = width < 768; // Below md breakpoint
   const isTablet = width >= 768 && width < 1024; // md to lg
+  const underDesktop = width < 1024;
   const isDesktop = width >= 768; // md and above (includes tablet and desktop)
   const isLargeDesktop = width >= 1024; // lg and above
 
-  return { isMobile, isTablet, isDesktop, isLargeDesktop, width };
+  return { isMobile, isTablet, isDesktop, isLargeDesktop, width, underDesktop };
 };

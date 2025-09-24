@@ -56,9 +56,9 @@ export default function ReportFilter({ getByKey, handleFilter, total }: ReportFi
   };
 
   return (
-    <div className="w-full justify-end flex gap-3">
+    <div className="w-full justify-start flex lg:flex-row lg:flex-nowrap gap-3 flex-wrap">
 
-      <div className="relative">
+      <div className="relative  w-full lg:w-fit">
         <Select onValueChange={onActiveFilterChange} defaultValue={getByKey("status")}>
           <SelectTrigger className="gap-3">
             <SelectValue placeholder="Filter User Status" />
@@ -76,7 +76,7 @@ export default function ReportFilter({ getByKey, handleFilter, total }: ReportFi
         </Select>
       </div>
       {/* Search Input */}
-      <div className="relative">
+      <div className="relative w-full lg:w-fit">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
           ref={searchInput}
@@ -87,7 +87,7 @@ export default function ReportFilter({ getByKey, handleFilter, total }: ReportFi
         />
       </div>
 
-      <Button variant="outline" className="bg-background font-semibold text-xs text-muted-foreground w-fit">
+      <Button variant="outline" className="bg-background font-semibold text-xs text-muted-foreground  w-full lg:w-fit">
         Total : {total ?? 0} results
       </Button>
     </div>

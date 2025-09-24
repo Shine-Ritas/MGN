@@ -20,13 +20,34 @@ import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-
 import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
 
-// Utility: prefetch images by creating Image objects
-const prefetchImages = (imagePaths: string[]) => {
-  imagePaths.forEach((path) => {
+// Utility: prefetch images sequentially (one by one)
+const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => void) => {
+  if (imagePaths.length === 0) {
+    onComplete?.();
+    return;
+  }
+
+  const prefetchNext = (index: number) => {
+    if (index >= imagePaths.length) {
+      onComplete?.();
+      return;
+    }
+
     const img = new Image();
-    img.src = path;
-  });
+    img.onload = () => {
+      // Wait a small delay before loading the next image to avoid overwhelming the browser
+      setTimeout(() => prefetchNext(index + 1), 100);
+    };
+    img.onerror = () => {
+      // Continue to next image even if one fails
+      setTimeout(() => prefetchNext(index + 1), 100);
+    };
+    img.src = imagePaths[index];
+  };
+
+  prefetchNext(0);
 };
+
 
 const Detail = () => {
   // Always call hooks unconditionally
@@ -38,6 +59,7 @@ const Detail = () => {
   const dispatch = useUserAppDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImages, setCurrentImages] = useState<any[]>([]);
+  const [prefetchedPages, setPrefetchedPages] = useState<Set<number>>(new Set());
   const { currentPage, totalPages, readingStyle, readingDirection } = readSetting;
   const readStyle = readingStyleClasses(readingStyle.value);
 
@@ -55,6 +77,8 @@ const Detail = () => {
       dispatch(setField({key:"currentId",value:data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug}));
       dispatch(setField({key:"currentPage",value:1}));
       dispatch(setField({key:"totalPages",value:1}));
+      // Reset prefetched pages when chapter changes
+      setPrefetchedPages(new Set());
     }
 
     const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
@@ -68,8 +92,8 @@ const Detail = () => {
 
   // Determine pagination values
   const max = readStyle.max ?? totalPages;
-  const startIndex = max === 100 ? 0 : currentPage - 1;
-  const endIndex = Math.min(formattedImages.length, startIndex + max);
+  const startIndex = readingStyle.value === "long-strip" ? 0 : currentPage - 1;
+  const endIndex = readingStyle.value === "long-strip" ? formattedImages.length : Math.min(formattedImages.length, startIndex + max);
 
   // More hooks that must always be called:
   const shortcutMap = useMemo(() => shortcutMapFactory(dispatch, readSetting), [
@@ -89,25 +113,72 @@ const Detail = () => {
       dispatch(setField({ key: "serverResponse", value: data }));
       setCurrentImages(formattedImages.slice(startIndex, endIndex));
 
-      // Prefetch adjacent images
-      const nextIndex = endIndex; // immediately after current set
-      const prevIndex = Math.max(0, startIndex - max);
-      const nextImages = formattedImages
-        .slice(nextIndex, nextIndex + max)
-        .map((img: any) => img.path);
-      const prevImages = formattedImages
-        .slice(prevIndex, prevIndex + max)
-        .map((img: any) => img.path);
-
-      prefetchImages([...nextImages, ...prevImages]);
-
       if(last_page == "true"){
         dispatch(setCurrentPage({ action: "prefer", index: formattedImages.length }));
         // then remove the last_page from the search params
         setSearchParams({});
       }
     }
-  }, [dispatch, formattedImages, startIndex, endIndex, max, data]);
+  }, [dispatch, formattedImages, startIndex, endIndex, max, data, readingStyle.value, last_page, setSearchParams]);
+
+  // Sequential prefetching effect (separate from image display)
+  useEffect(() => {
+    if (formattedImages.length === 0 || readingStyle.value === "long-strip") return;
+
+    const prefetchImages = () => {
+      const prefetchCount = 3; // Number of next/prev pages to prefetch
+      const pagesToPrefetch: number[] = [];
+      
+      // Prioritize next pages first
+      for (let i = 1; i <= prefetchCount; i++) {
+        const nextPageIndex = currentPage + i - 1; // Convert to 0-based index
+        if (nextPageIndex < formattedImages.length && !prefetchedPages.has(nextPageIndex)) {
+          pagesToPrefetch.push(nextPageIndex);
+        }
+      }
+
+      // Then add previous pages with lower priority
+      for (let i = 1; i <= Math.floor(prefetchCount / 2); i++) {
+        const prevPageIndex = currentPage - i - 1; // Convert to 0-based index
+        if (prevPageIndex >= 0 && !prefetchedPages.has(prevPageIndex)) {
+          pagesToPrefetch.push(prevPageIndex);
+        }
+      }
+
+      if (pagesToPrefetch.length > 0) {
+        // Prefetch one page at a time, starting with the most immediate next page
+        const pageIndexToPrefetch = pagesToPrefetch[0];
+        const startIdx = pageIndexToPrefetch;
+        const endIdx = Math.min(formattedImages.length, startIdx + readStyle.max);
+        
+        const imagesToPrefetch = formattedImages
+          .slice(startIdx, endIdx)
+          .map((img: any) => img?.path)
+          .filter(Boolean);
+
+        if (imagesToPrefetch.length > 0) {
+          // Mark this page as being prefetched
+          setPrefetchedPages(prev => {
+            const newSet = new Set(prev);
+            for (let i = startIdx; i < endIdx; i++) {
+              newSet.add(i);
+            }
+            return newSet;
+          });
+
+          // Start sequential prefetching for this page
+          prefetchImagesSequentially(imagesToPrefetch, () => {
+            console.log(`Prefetched page ${pageIndexToPrefetch + 1} (${imagesToPrefetch.length} images)`);
+          });
+        }
+      }
+    };
+
+    // Delay prefetching slightly to prioritize current page loading
+    const prefetchTimer = setTimeout(prefetchImages, 500);
+    
+    return () => clearTimeout(prefetchTimer);
+  }, [currentPage, formattedImages, readingStyle.value, readStyle.max, prefetchedPages]);
  
   useEffect(()=>{
     data?.current_chapter && setTimeout(()=>{

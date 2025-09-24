@@ -311,7 +311,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
           <Goback to="/comics" label="Discard" />
           <Button type="submit"
             disabled={isSubmiting}
-            size="sm" className="flex-1">
+            size="md" className="flex-1">
             Save
           </Button>
         </div>

@@ -49,12 +49,12 @@ export default function ReportPage() {
   return (
     <div className="pe-4 space-y-8">
       <Card>
-        <CardHeader className='w-full flex flex-row justify-between'>
+        <CardHeader className='w-full flex lg:flex-row lg:justify-between'>
           <div className="w-full flex flex-col gap-2">
             <CardTitle>Submitted Reports</CardTitle>
             <CardDescription>View and manage user-submitted reports</CardDescription>
           </div>
-          <div className="w-full flex gap-3">
+          <div className="w-full flex flex-col lg:flex-row gap-3">
             <ReportFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.reports?.total} />
             {data && data.reports.data.length > 0 && (
               <TablePagination
