@@ -154,7 +154,7 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                             <CardContent className="flex gap-4 items-center  md:h-20 px-6 py-0">
                                 <div className="w-1/3 text-xl whitespace-nowrap">
                                     {mogou?.rating} / 5
-                                </div>“
+                                </div>
                                 <div className="w-2/3 flex justify-start">
                                     <Rating rating={mogou?.rating} size={20} variant="default" disabled={true} />
                                 </div>
