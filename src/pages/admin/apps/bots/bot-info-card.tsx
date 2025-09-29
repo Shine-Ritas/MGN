@@ -1,16 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff, Edit, Trash2 } from 'lucide-react'
-import { useState } from "react"
-import { useDeleteAlert } from "@/contexts/DeleteAlertContext"
+import { Eye, EyeOff, Edit  } from 'lucide-react'
+import {  useState } from "react"
 
 const BotInfoCard = ({ bot }) => {
   const [showToken, setShowToken] = useState(false)
   const toggleTokenVisibility = () => setShowToken(!showToken)
 
-  const { openDeleteAlert } = useDeleteAlert();
-  console.log(openDeleteAlert)
 
   if (!bot) return (
     <Card>
@@ -68,22 +65,6 @@ const BotInfoCard = ({ bot }) => {
                 onChange={(e) => {/* Update bot type */ }}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <p className="text-2xl font-bold">{1000}</p>
-              <p className="text-sm text-muted-foreground">Total Users</p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-bold">{4}</p>
-              <p className="text-sm text-muted-foreground">Binded Channels</p>
-            </div>
-
-          </div>
-          <div className="flex space-x-2">
-            <Button><Edit className="mr-2 h-4 w-4" /> Edit Bot</Button>
-            <Button variant="outline"><Trash2 className="mr-2 h-4 w-4" /> Delete Bot</Button>
           </div>
         </div>
       </CardContent>

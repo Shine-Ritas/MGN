@@ -117,11 +117,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="z-[999]">
-                        <DropdownMenuItem
-                            onClick={clearCache}
-                        >
-                            <p className="w-full" >Clear Cache</p>
-                        </DropdownMenuItem>
+
                         {
                             authUser ? (
                                 <>
@@ -130,7 +126,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                                     <DropdownMenuItem className="w-full">
                                         <Link className="w-full" to={userRouteCollection.user_profile}>Profile</Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={clearCache}
+                                    >
+                                        <p className="w-full" >Clear Cache</p>
+                                    </DropdownMenuItem>
 
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="font-bold w-full" asChild>

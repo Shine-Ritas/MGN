@@ -25,6 +25,7 @@ const ComicCard = ({ mogous}: ComicTableProps) => {
         setPublishData((prev: PublishDataType) => ({
             ...prev,
             open: true,
+            sub_mogou_slug: null,
             mogou_slug: mogous.slug,
         }))
     }

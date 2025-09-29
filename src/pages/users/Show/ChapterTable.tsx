@@ -13,6 +13,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
+import { Skeleton } from "@/components/ui/skeleton"
+
 import { Flame, Lock, PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
@@ -27,7 +29,7 @@ interface ChapterTableProps {
 }
 
 export const ChapterTable = ({
-    mogous
+    mogous,
 }: ChapterTableProps) => {
     const [chapters, setChapters] = useState<MogouChapter[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -44,10 +46,12 @@ export const ChapterTable = ({
         }
     }
 
-    useQuery(`users/mogous/${mogous.mogou.slug}/getMoreChapters`, callback, true, !showAll);
+    useQuery(`users/mogous/${mogous?.mogou?.slug}/getMoreChapters`, callback, true, !showAll || !mogous?.mogou?.slug);
 
     useEffect(() => {
-        setChapters(mogous.chapters);
+        if (mogous?.chapters) {
+            setChapters(mogous.chapters);
+        }
     }, [mogous])
 
 
@@ -56,6 +60,26 @@ export const ChapterTable = ({
         setShowAll(true);
     }
 
+    // Show loading skeleton if mogous is not available
+    if (!mogous) {
+        return (
+            <Card x-chunk="dashboard-07-chunk-1">
+                <CardHeader>
+                    <CardTitle>All Chapters</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-3">
+                        {Array.from({ length: 6 }).map((_, index) => (
+                            <div key={index} className="flex items-center justify-between h-12 px-4">
+                                <Skeleton className="h-4 w-48" />
+                                <Skeleton className="h-4 w-20" />
+                            </div>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
         <>
@@ -64,45 +88,56 @@ export const ChapterTable = ({
                     <CardTitle>All Chapters</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table
-                        // duration 2s
-                        divClassname="max-h-[70vh] overflow-y-auto transition ease-in-out"
-                        className=" w-full">
+                    {loading ? (
+                        <div className="space-y-3">
+                            {Array.from({ length: 10 }).map((_, index) => (
+                                <div key={`loading-${index}`} className="flex items-center justify-between h-12 px-4">
+                                    <Skeleton className="h-4 w-48" />
+                                    <Skeleton className="h-4 w-20" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <Table
+                            // duration 2s
+                            divClassname="max-h-[70vh] overflow-y-auto transition ease-in-out"
+                            className=" w-full">
 
-                        <TableBody className="gap-10 w-full">
-                            {
-                                chapters?.map((chapter, index) => (
-                                    <TableRow key={index}
-                                        onClick={() => readTheChapter(chapter,mogous)}
-                                        className={`text-lg h-12 flex items-center justify-between ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
-                                        
-                                     `}>
+                            <TableBody className="gap-10 w-full">
+                                {
+                                    chapters?.map((chapter, index) => (
+                                        <TableRow key={index}
+                                            onClick={() => readTheChapter(chapter,mogous)}
+                                            className={`text-lg h-12 flex items-center justify-between ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
+                                            
+                                         `}>
 
-                                        <TableCell key={index} className="curor-pointer text-sm   flex items-center gap-2">
-                                            Chapter {chapter.chapter_number}  { !isMobile &&  (chapter.title.length > 60 ? ": " + chapter.title.slice(0, 60) + "..." : ": " + chapter.title)}
-                                            {
-                                                isNewChapter(chapter.created_at)
-                                            }
-                                            {
-                                                isNeedSubscriptionChapter(chapter?.subscription_only, userCanReadAll)
-                                            }
-                                        </TableCell>
-                                        <TableCell
-                                            className="text-right text-sm "
-                                        >
-                                            {
-                                                chapter.created_at
-                                            }
+                                            <TableCell key={index} className="curor-pointer text-sm   flex items-center gap-2">
+                                                Chapter {chapter.chapter_number}  { !isMobile &&  (chapter.title.length > 60 ? ": " + chapter.title.slice(0, 60) + "..." : ": " + chapter.title)}
+                                                {
+                                                    isNewChapter(chapter.created_at)
+                                                }
+                                                {
+                                                    isNeedSubscriptionChapter(chapter?.subscription_only, userCanReadAll)
+                                                }
+                                            </TableCell>
+                                            <TableCell
+                                                className="text-right text-sm "
+                                            >
+                                                {
+                                                    chapter.created_at
+                                                }
 
-                                        </TableCell>
+                                            </TableCell>
 
-                                    </TableRow>
+                                        </TableRow>
 
-                                ))
-                            }
+                                    ))
+                                }
 
-                        </TableBody>
-                    </Table>
+                            </TableBody>
+                        </Table>
+                    )}
                 </CardContent>
                 {(!showAll && chapters.length > 9) && <CardFooter className="justify-center border-t p-4">
                     <Button size="sm" variant="ghost" className="gap-1 border-2 border-default"

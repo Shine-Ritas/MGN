@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { Check, Send } from "lucide-react"
+import { Check, Send, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import { cn } from "@/utilities/util"
 import useQuery from "@/hooks/useQuery"
 import useMutate from "@/hooks/useMutate"
@@ -22,6 +25,8 @@ export function PublishDialog() {
   const [activeTab, setActiveTab] = useState("select")
   const [selectedChannels, setSelectedChannels] = useState<string[]>([])
   const [buttonText, setButtonText] = useState("Publish")
+  const [includeMessage, setIncludeMessage] = useState(false)
+  const [messageText, setMessageText] = useState("")
 
   const  publishData  = usePublishContent();
   
@@ -39,6 +44,8 @@ export function PublishDialog() {
       setSelectedChannels([])
       setActiveTab("select")
       setButtonText("Publish")
+      setIncludeMessage(false)
+      setMessageText("")
     }, 2000)
   }
 
@@ -62,16 +69,17 @@ export function PublishDialog() {
       sub_mogou_slug: publishData.sub_mogou_slug,
       social_channel_ids: activeTab === "select" ? selectedChannels : "all",
       type: publishData.sub_mogou_slug == null ? "mogou" : "sub_mogou",
+      text_content: includeMessage ? messageText : ""
     })
 
     if (response?.error) {
       publishData.setOpen(false)
       setButtonText("Publish")
     }
-  }, [publishData, selectedChannels, severPublish])
+  }, [publishData, selectedChannels, severPublish, includeMessage, messageText])
 
   const renderChannelList = () => (
-    <div className="max-h-[280px] sm:max-h-[320px] overflow-y-auto space-y-2 sm:space-y-3 pr-2">
+    <div className="max-h-[280px] sm:max-h-[320px] overflow-y-auto space-y-2 sm:space-y-3 pr-2 ">
       {data?.channels?.map((channel) => {
         const isSelected = selectedChannels.includes(channel.id)
         return (
@@ -80,8 +88,8 @@ export function PublishDialog() {
             className={cn(
               "flex items-center space-x-3 sm:space-x-4 p-2 sm:p-3 rounded-xl transition-all duration-200 cursor-pointer",
               isSelected
-                ? "bg-primary/10 border border-primary/20"
-                : "hover:bg-primary border border-transparent"
+                ? "bg-primary/10 border  border-primary"
+                : "hover:bg-primary border"
             )}
             onClick={() => handleSelectChannel(channel.id)}
           >
@@ -157,6 +165,44 @@ export function PublishDialog() {
             {renderAllSelectedMessage()}
           </TabsContent>
         </Tabs>
+
+        {/* Message Toggle Section */}
+        <div className="mt-6 space-y-4 p-4 rounded-xl bg-muted/30 border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+              <Label htmlFor="include-message" className="text-sm font-medium cursor-pointer">
+                Add custom message
+              </Label>
+            </div>
+            <Switch
+              id="include-message"
+              checked={includeMessage}
+              onCheckedChange={setIncludeMessage}
+              className="data-[state=checked]:bg-primary"
+            />
+          </div>
+          
+          {includeMessage && (
+            <div className="space-y-2 animate-in slide-in-from-top-2 duration-200">
+              <Label htmlFor="message-text" className="text-xs text-muted-foreground">
+                Message content
+              </Label>
+              <Textarea
+                id="message-text"
+                placeholder="Enter your message here..."
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+                className="min-h-[80px] resize-none rounded-lg border-2 focus:border-primary transition-colors"
+                maxLength={500}
+              />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>This message will be sent before your content</span>
+                <span>{messageText.length}/500</span>
+              </div>
+            </div>
+          )}
+        </div>
 
         <DialogFooter className="mt-4 sm:mt-6 pt-4 border-t">
           <Button

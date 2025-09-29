@@ -12,9 +12,11 @@ import { MostViewed } from './types';
 import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { MatureContentTag } from '@/components/ui/maturecontenttag';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
     const { data, isLoading } = useQuery(`users/carousel/${url}`);
+  
 
     const MemorizedData = React.useMemo(() => {
         return data;
@@ -72,8 +74,9 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
                                     </CarouselItem>
                                 ))
                             ) : (
-                                <div className="loading-placeholder" role="status">
-                                    <p>Loading content...</p>
+                                <div className="loading-placeholder flex gap-3" role="status">
+                                         <Skeleton className="h-[260px] w-[180px] rounded-xl" />
+                                         <Skeleton className="h-[260px] w-[180px] rounded-xl" />
                                 </div>
                             )}
                         </CarouselContent>

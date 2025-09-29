@@ -41,9 +41,6 @@ const Show = () => {
         </div>
     }
 
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
 
     return (
        <>
@@ -61,7 +58,7 @@ const Show = () => {
             </div>
 
             <div className="">
-                <HeadingSection mogou={mogous?.mogou} isFavorite={mogous?.is_favorite} mogous={mogous} />
+                <HeadingSection mogous={mogous} loading={isLoading}/>
             </div>
 
             <div className=" lg:mt-4 grid xl:grid-cols-8 gap-4 ">

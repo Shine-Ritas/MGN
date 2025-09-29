@@ -1,4 +1,5 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import useQuery from "@/hooks/useQuery";
 import { Link } from "react-router-dom";
 
@@ -20,7 +21,20 @@ const RelatedMogou = ({slug} : RelatedMogouProps) => {
         </CardTitle>
 
         {
-          (!isLoading ) && (
+          isLoading ? (
+            <CardContent className="grid grid-cols-1 gap-y-4 mt-8 w-full px-0">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <Skeleton className="w-20 h-28 rounded-md" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                    <Skeleton className="h-3 w-1/3" />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          ) : (
             <CardContent 
             className="grid grid-cols-1 gap-y-4 mt-8 w-full px-0"
             >

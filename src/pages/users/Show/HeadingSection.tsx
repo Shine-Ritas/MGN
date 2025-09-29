@@ -1,4 +1,3 @@
-import {  MogouWithTotalCount } from "@/pages/admin/Comics/type"
 
 import { FaCaretRight } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -7,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Rating } from "@/components/ui/rating";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { EyeIcon } from "lucide-react";
@@ -15,15 +15,69 @@ import DOMPurify from 'dompurify';
 import useReadChapter from "@/hooks/useReadChapter";
 
 interface HeadingSectionProps {
-    mogou: MogouWithTotalCount,
-    isFavorite: boolean,
-    mogous: any
+    mogous: any,
+    loading: boolean | undefined
 }
 
-const HeadingSection = ({ mogou, isFavorite,mogous }: HeadingSectionProps) => {
+const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
+
+    const mogou = mogous?.mogou;
+    const isFavorite = mogous?.is_favorite;
 
     const auth = useUserAppSelector(selectAuthUser);
     const { readTheChapter } = useReadChapter();
+
+    if (loading || !mogous) {
+        return (
+            <Card className="py-3 border-none outline-none shadow-none bg-background">
+                <CardContent className="grid md:grid-cols-5 mx-0 px-0 gap-10 xl:gap-4">
+                    {/* Cover Image Skeleton */}
+                    <div className="flex justify-center md:justify-normal md:col-span-2 xl:col-span-1">
+                        <Skeleton className="h-96 xl:h-80 w-64 rounded-sm" />
+                    </div>
+                    
+                    {/* Main Content Skeleton */}
+                    <div className="text-center md:text-start col-span-full md:col-span-3 xl:col-span-3 flex flex-col gap-3 md:gap-4">
+                        <div className="flex flex-col-reverse md:flex-col gap-3 md:gap-4">
+                            <Skeleton className="h-8 md:h-12 w-3/4 mx-auto md:mx-0" />
+                        </div>
+                        <div className="flex gap-4 justify-between lg:justify-start">
+                            <Skeleton className="h-12 w-full lg:w-48" />
+                            <Skeleton className="h-12 w-12" />
+                        </div>
+                        <div className="flex gap-4 justify-center md:justify-start">
+                            <Skeleton className="h-4 w-16" />
+                            <Skeleton className="h-4 w-24" />
+                        </div>
+                        <div className="flex max-h-28">
+                            <div className="flex flex-col gap-2 w-full">
+                                <Skeleton className="h-4 w-full" />
+                                <Skeleton className="h-4 w-5/6" />
+                                <Skeleton className="h-4 w-4/5" />
+                                <Skeleton className="h-4 w-3/4" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Side Info Skeleton */}
+                    <div className="col-span-full xl:col-span-1 flex flex-wrap xl:flex-col gap-4 xl:justify-start justify-between">
+                        <div className="flex flex-col gap-3">
+                            <Skeleton className="h-4 w-32" />
+                            <Skeleton className="h-4 w-36" />
+                            <Skeleton className="h-4 w-28" />
+                            <Skeleton className="h-4 w-40" />
+                        </div>
+                        <Card className="bg-secondary mt-4 w-full min-h-20 flex items-center">
+                            <CardContent className="flex gap-4 items-center md:h-20 px-6 py-0">
+                                <Skeleton className="h-6 w-16" />
+                                <Skeleton className="h-5 w-24" />
+                            </CardContent>
+                        </Card>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
         <>

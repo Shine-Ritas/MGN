@@ -55,21 +55,24 @@ const MobileSidebarSheet = () => {
                         </AccordionContent>
                     </AccordionItem>
 
-                    {
-                        !authUser && <Link
-                            to="/login"
-                            className="text-xl flex items-center justify-between">
-                            Login
-                        </Link>
-                    }
-                    {
-                        authUser && (
-                            <div className="flex ">
-                                <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
-                                    btnText={<>Logout</>} />
-                            </div>
-                        )
-                    }
+                    <div className="mt-3">
+                        {
+                            !authUser && <Link
+                                to="/login"
+                                className="text-xl flex items-center justify-between">
+                                Login
+                            </Link>
+                        }
+                        {
+                            authUser && (
+                                <div className="flex  ">
+                                    <AlertBox alertTitle="Logout" alertDescription="Are you sure you want to logout?" alertActionConfirmText="Logout" alertConfirmAction={logout}
+                                        btnText={<>Logout</>} />
+                                </div>
+                            )
+                        }
+                    </div>
+
                 </Accordion>
 
             </nav>
