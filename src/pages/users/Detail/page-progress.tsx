@@ -17,7 +17,7 @@ interface PageProgressBarProps {
 
 export function PageProgressBar({
   totalPages,
-  width = 'w-full',
+  width = 'max-w-[100vw] overflow-hidden',
   className,
   onClick,
   type
@@ -32,7 +32,7 @@ export function PageProgressBar({
 
   return (
     <div
-      className={cn("flex rounded-full overflow-visible opacity-50 hover:opacity-80  transition-all divide-x-2 h-1 hover:h-2", width, className)}
+      className={cn("flex rounded-full overflow-visible opacity-50 hover:opacity-80 transition-all divide-x-2 h-1 hover:h-2", width, className)}
       role="progressbar"
     >
       {Array.from({ length: totalPages }, (_, index) => (

@@ -25,26 +25,23 @@ const UserSubscriptionHistory = ({ history ,setCurrentTable } : UserSubscription
 
             </CardHeader>
             <CardContent>
-                <Table >
-                    <TableHeader className='min-w-full'>
-                        <TableRow>
-                            <TableHead className='w-1/6'></TableHead>
-                            <TableHead className='w-2/6'>Subscription Name</TableHead>
-                            <TableHead  className='w-2/6'>Subscription Price</TableHead>
-                            <TableHead >Date</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                </Table>
-
-                <div className="overflow-y-auto">
-                    <Table divClassname='max-h-72'>
-                        <TableBody className='overscroll-y-scroll ' >
+                <div className="overflow-x-auto">
+                    <Table className="min-w-full">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className='min-w-[60px]'></TableHead>
+                                <TableHead className='min-w-[180px]'>Subscription Name</TableHead>
+                                <TableHead className='min-w-[140px]'>Subscription Price</TableHead>
+                                <TableHead className='min-w-[120px]'>Date</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className='max-h-72 overflow-y-auto'>
                             {history?.map((histroy,index) => (
                                 <TableRow key={Math.random() * 1000} >
-                                    <TableCell className='w-1/6 indent-6' >{index + 1}</TableCell>
-                                    <TableCell className='w-2/6' >{histroy.title}</TableCell>
-                                    <TableCell className='w-2/6' >{histroy.price}</TableCell>
-                                    <TableCell  className='w-3/12'>{histroy.created_at}</TableCell>
+                                    <TableCell className='min-w-[60px] text-center' >{index + 1}</TableCell>
+                                    <TableCell className='min-w-[180px]' >{histroy.title}</TableCell>
+                                    <TableCell className='min-w-[140px]' >{histroy.price}</TableCell>
+                                    <TableCell className='min-w-[120px]'>{histroy.created_at}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
