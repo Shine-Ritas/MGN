@@ -28,13 +28,20 @@ const MobileSidebarSheet = () => {
     const logout = useLogout();
 
     return (
-        <SheetContent side="left">
-            <nav className="grid gap-4 text-lg font-medium text-muted-foreground pt-12 min-h-[85vh]">
+        <SheetContent side="left" className='w-[60vw]'>
+            <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[85vh]">
+ 
+                <Link
+                    to="/"
+                    className="flex h-10 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full">
+                    Home
+                </Link>
 
-                <Accordion type="multiple">
+                <Accordion type="multiple" data-state='open'>
+
                     <AccordionItem value="item-1" className='border-none '>
                         <AccordionTrigger
-                            className="hover:no-underline text-lg b">
+                            className="hover:no-underline text-lg">
                             Types
                         </AccordionTrigger>
                         <AccordionContent className='max-h-96 overflow-y-scroll '>
@@ -59,7 +66,7 @@ const MobileSidebarSheet = () => {
                         {
                             !authUser && <Link
                                 to="/login"
-                                className="text-xl flex items-center justify-between">
+                                className="text-lg flex items-center justify-between">
                                 Login
                             </Link>
                         }

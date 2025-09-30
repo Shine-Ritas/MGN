@@ -60,26 +60,29 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
     const debouncedFilterParams = useDebounce(filterParams, debounceDelay);
 
     const handleChange = useCallback((key: string, value: any) => {
-     
-        if (Object.prototype.hasOwnProperty.call(filterParams, key)) {
-            setFilterParams((prevParams) => ({
+        setFilterParams((prevParams) => {
+            // Check if the key exists in the initial state
+            if (!Object.prototype.hasOwnProperty.call(initialState, key)) {
+                return prevParams;
+            }
+
+            const newParams = {
                 ...prevParams,
                 [key]: value,
-            }));
-        }
+            };
 
-        changeOnReset.length > 0 && changeOnReset.map((changeKey) => {
-            if (Object.prototype.hasOwnProperty.call(filterParams, changeKey) && key !== changeKey
-            ){
-                setFilterParams((prevParams) => ({
-                    ...prevParams,
-                    [changeKey]: initialState[changeKey],
-                }));
+            // Reset specified keys when any other key changes
+            if (changeOnReset.length > 0) {
+                changeOnReset.forEach((changeKey) => {
+                    if (Object.prototype.hasOwnProperty.call(initialState, changeKey) && key !== changeKey) {
+                        newParams[changeKey] = initialState[changeKey];
+                    }
+                });
             }
-        }
-        );
 
-    }, [changeOnReset, filterParams, initialState]);
+            return newParams;
+        });
+    }, [changeOnReset, initialState]);
 
     const resetFilters = useCallback(() => {
         setFilterParams(initialState);
@@ -91,8 +94,8 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
 
     const submitUrl = useCallback(() => {
         const searchParams = new URLSearchParams();
-        Object.keys(filterParams).forEach((key) => {
-            const value = filterParams[key];
+        Object.keys(debouncedFilterParams).forEach((key) => {
+            const value = debouncedFilterParams[key];
             if (Array.isArray(value)) {
                 if (value.length > 0) {
                     searchParams.set(key, value.join(','));
@@ -105,12 +108,11 @@ const useFilterState = (initialState: Record<string, any>, changeOnReset: string
 
         const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
         window.history.replaceState(null, "", newUrl);
-    }
-    , [filterParams]);
+    }, [debouncedFilterParams]);
 
     useEffect(() => {
         submitUrl();
-    }, [debouncedFilterParams, submitUrl]);
+    }, [submitUrl]);
 
     return { bunUrl, handleChange, resetFilters, getByKey, filterParams,submitUrl };
 };

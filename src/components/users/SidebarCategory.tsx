@@ -17,7 +17,9 @@ const SidebarAccordions = ({
             collection?.map((category) => (
                 <Link 
                     to={`/filter?${type}=${category.title}`}
-                    key={category.id} title={category.title} className="hover:text-foreground" >
+                    key={category.id} 
+                    title={category.title} 
+                    className="hover:text-foreground" >
                     <span>{category?.title}</span>
                 </Link>
             ))

@@ -26,7 +26,7 @@ const NavbarRaw = ({ title }: NavbarProps) => {
         {!underDesktop ?(  
           <div className="flex items-center gap-0">
           <img src={applicationConfig?.logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
-          <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
+          <h4 className="text-logo-text font-bold text-lg">{applicationConfig?.title}</h4>
           </div>
         ) :
         (

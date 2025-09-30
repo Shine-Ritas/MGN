@@ -116,8 +116,10 @@ export default function FilterPage() {
 
     // Sync safe mode with legal_only filter
     useEffect(() => {
-        handleFilter('legal_only', isSafeMode);
-    }, [isSafeMode, handleFilter]);
+        if (getByKey('legal_only') !== isSafeMode) {
+            handleFilter('legal_only', isSafeMode);
+        }
+    }, [isSafeMode, handleFilter, getByKey]);
 
     // Derived values
     const userCanReadAll = isSubscriptionValid(authUser?.subscription_end_date);

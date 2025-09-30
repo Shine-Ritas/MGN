@@ -32,6 +32,7 @@ export const theme = {
       "sec-background": "var(--sec-background)",
       foreground: "var(--foreground)",
       "sub-background": "var(--sub-background)",
+      "logo-text" : "var(--logo-text)",
       primary: {
         DEFAULT: "var(--primary)",
         foreground: "var(--primary-foreground)",

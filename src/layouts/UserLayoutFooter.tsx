@@ -15,7 +15,7 @@ const UserLayoutFooter = () => {
 
             <Link to="#" className=" hover:text-gray-300 flex items-center justify-between">
               <img src={applicationConfig?.logo} alt="logo" className="w-8 hover:motion-safe:animate-spin-slow cursor-pointer " />
-              <h4 className="text-neon-primary font-bold text-lg">{applicationConfig?.title}</h4>
+              <h4 className="text-logo-text font-bold text-lg">{applicationConfig?.title}</h4>
             </Link>
 
             <div className="flex items-center gap-2">
