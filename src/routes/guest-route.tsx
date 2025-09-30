@@ -2,10 +2,12 @@ import { lazy, Suspense } from 'react';
 import { AppRouteInterface } from './type';
 import { adminStore } from '@/redux/stores/adminStore';
 import { Provider } from 'react-redux';
-import UserGuestLayout from "@/pages/users/Auth/UserGuestLayout";
 import { userStore } from '@/redux/stores/userStore';
 import { userRouteCollection } from './data/user_route';
-import UserRegister from '@/pages/users/Auth/Register';
+
+// Lazy load all components for better code splitting
+const UserGuestLayout = lazy(() => import("@/pages/users/Auth/UserGuestLayout"));
+const UserRegister = lazy(() => import('@/pages/users/Auth/Register'));
 const UserLogin = lazy(() => import('@/pages/users/Auth/Login.tsx'));
 const ContactUs = lazy(() => import('@/pages/users/Auth/ContactUs.tsx'));
 const Login = lazy(() => import('@/pages/admin/Login/Login.tsx'));
@@ -20,7 +22,9 @@ const adminGuestRoutes: AppRouteInterface[] = [
         path: "admin/login",
         element: (
             <Provider store={adminStore}>
-                <Login />
+                <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                    <Login />
+                </Suspense>
             </Provider>
         )
     },
@@ -32,27 +36,35 @@ const userGuestRoutes: AppRouteInterface[] = [
         path: undefined,
         element: (
             <Provider store={userStore}>
-                <UserGuestLayout />
+                <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                    <UserGuestLayout />
+                </Suspense>
             </Provider>
         ),
         children: [
             {
                 path: userRouteCollection.login,
                 element: (
-                    <UserLogin />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <UserLogin />
+                    </Suspense>
                 )
             },
             {
                 path: userRouteCollection.register,
                 element: (
-                    <UserRegister />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <UserRegister />
+                    </Suspense>
                 )
             },
 
             {
                 path: userRouteCollection.contact_us,
                 element: (
-                    <ContactUs />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <ContactUs />
+                    </Suspense>
                 )
             },
         ]
@@ -70,25 +82,33 @@ const userGuestRoutes: AppRouteInterface[] = [
             {
                 path: userRouteCollection.home,
                 element: (
-                    <HomePage />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <HomePage />
+                    </Suspense>
                 ),
             },
             {
                 path: userRouteCollection.show,
                 element: (
-                    <Show />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <Show />
+                    </Suspense>
                 ),
             },
             {
                 path: userRouteCollection.read,
                 element: (
-                    <DetailPage />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <DetailPage />
+                    </Suspense>
                 ),
             },
             {
                 path : userRouteCollection.filter_type,
                 element: (
-                    <FilterPage />
+                    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                        <FilterPage />
+                    </Suspense>
                 )
             }
 

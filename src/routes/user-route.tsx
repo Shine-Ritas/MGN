@@ -22,7 +22,9 @@ export const userAuthenticatedRoutes: AppRouteInterface[] = [
       {
           path: userRouteCollection.user_profile,
           element: (
-            <UserProfile />
+            <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+              <UserProfile />
+            </Suspense>
           )
       }
     ]

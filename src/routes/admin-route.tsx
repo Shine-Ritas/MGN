@@ -40,73 +40,130 @@ const adminAuthenticatedRoutes: AppRouteInterface[] = [
       ...bot_routes,
       {
         path: adminRouteCollection.dashboard,
-        element: <Dashboard />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Dashboard />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.mogous,
-        element:
-          <PublishContentProvider>
-            <ComicIndex />
-          </PublishContentProvider>,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <PublishContentProvider>
+              <ComicIndex />
+            </PublishContentProvider>
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.mogouAction,
-        element: <Action />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Action />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.mogouEdit,
-        element: <Action isEdit={true} />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Action isEdit={true} />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.chapterIndex,
-        element: 
-          <PublishContentProvider>
-            <Chapters />
-          </PublishContentProvider>,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <PublishContentProvider>
+              <Chapters />
+            </PublishContentProvider>
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.createChapter,
-        element: <NewChapter />
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <NewChapter />
+          </Suspense>
+        )
       },
       {
         path: adminRouteCollection.editChapter,
-        element: 
-          <PublishContentProvider>
-            <EditChapter />
-          </PublishContentProvider>
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <PublishContentProvider>
+              <EditChapter />
+            </PublishContentProvider>
+          </Suspense>
+        )
       },
       {
         path: adminRouteCollection.categories,
-        element: <CategoryIndex />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <CategoryIndex />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.subscriptions,
-        element: <SubscriptionIndex />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <SubscriptionIndex />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.addSubscription,
-        element: <SubscriptionCreateEdit />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <SubscriptionCreateEdit />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.editSubscription,
-        element: <SubscriptionCreateEdit isEdit={true} />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <SubscriptionCreateEdit isEdit={true} />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.users,
-        element: <Users />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Users />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.showUser,
-        element: <UserDetail />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <UserDetail />
+          </Suspense>
+        ),
       },
       {
         path: adminRouteCollection.addUser,
-        element: <AddUser />,
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <AddUser />
+          </Suspense>
+        ),
       },
 
       {
         path: adminRouteCollection.reports,
-        element: <Reportpage />
+        element: (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Reportpage />
+          </Suspense>
+        )
       }
     ]
   },
