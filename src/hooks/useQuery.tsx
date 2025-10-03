@@ -53,8 +53,8 @@ const useQuery = (
             const { status, data: errorData } = error as QueryErrorInterface;
             const errorMessage = errorData?.message || '';
 
-            if (status === 401) {
-                logout(false); // Trigger logout on unauthorized access
+            if (status == 401) {
+                logout(true); // Trigger logout on unauthorized access
             }
 
             if (status === 503) {

@@ -27,7 +27,7 @@ const MogouCard = ({ mogou, userCanReadAll }: RecentlyUploadedCardProps) => {
             <div className='flex h-full w-full' >
                 <Link
                     aria-label={mogou?.title}
-                    to={`/show/${mogou?.slug}`} className="relative w-7/12  lg:w-5/12">
+                    to={`/show/${mogou?.slug}`} className="relative w-4/12 md:w-7/12  lg:w-5/12">
                     <LazyLoadImage src={mogou.cover || "/placeholder.svg"}
                         style={{ width: '100%', height: '100%' }}
                         alt={mogou.title} className="object-cover   min-h-52 lg:min-h-48 " />

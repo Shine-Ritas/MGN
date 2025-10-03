@@ -9,6 +9,10 @@ import useAdsRef from "@/hooks/useAdsRef";
 import SEO from "@/pages/seo";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserComment } from "./UserComment";
+import { Comment } from "./types";
+import { useUserAppSelector } from "@/redux/hooks";
+import { selectAuthUser } from "@/redux/slices/user-global";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -33,10 +37,51 @@ const RelatedMogouSkeleton = () => (
     </Card>
 );
 
+const mockComments: Comment[] = [
+    {
+      id: 1,
+      content: "This manga chapter was absolutely amazing! The art style is incredible.",
+      user_id: 1,
+      user_name: "Naruto Fan",
+      user_profile_url: "/anime-fan.png",
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      child_comments: [
+        {
+          id: 2,
+          content: "I totally agree! The fight scenes were so well drawn.",
+          user_id: 2,
+          user_name: "Manga Reader",
+          user_profile_url: "/manga-reader.jpg",
+          created_at: new Date(Date.now() - 1800000).toISOString(),
+          parent_comment_id: 1,
+        },
+        {
+          id: 3,
+          content: "The character development in this arc is top tier!",
+          user_id: 3,
+          user_name: "Otaku Master",
+          user_profile_url: "/otaku.jpg",
+          created_at: new Date(Date.now() - 900000).toISOString(),
+          parent_comment_id: 1,
+        },
+      ],
+    },
+    {
+      id: 4,
+      content: "Can't wait for the next chapter! When does it release?",
+      user_id: 4,
+      user_name: "Weekly Reader",
+      user_profile_url: "/person-reading.png",
+      created_at: new Date(Date.now() - 7200000).toISOString(),
+      child_comments: [],
+    },
+  ]
+
 const Show = () => {
     const { slug } = useParams<{ slug: string }>();
     const { data: mogous, isLoading, isFetching } = useQuery(`users/mogous/${slug}`);
     const { reAds } = useAdsRef({ adsOn: true });
+    const authUser = useUserAppSelector(selectAuthUser);
 
     // Handle scroll and ads refresh when fetching completes
     useEffect(() => {
@@ -100,8 +145,16 @@ const Show = () => {
                 {/* Main Content Grid */}
                 <div className="lg:mt-4 grid xl:grid-cols-8 gap-4">
                     {/* Chapter Table Section */}
-                    <div className="xl:col-span-6">
+                    <div className="xl:col-span-6  flex flex-col gap-5">
                         <ChapterTable mogous={mogous} />
+
+                        <UserComment 
+                            comments={mockComments} 
+                            authUser={authUser}
+                            onSubmitComment={(content,image,parentId)=>{
+                                return Promise.resolve();
+                            }} 
+                        />
                     </div>
                     
                     {/* Related Manga Section */}

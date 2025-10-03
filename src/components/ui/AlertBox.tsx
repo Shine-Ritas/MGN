@@ -36,8 +36,8 @@ const AlertBox = ({
             className={className}
             >{btnText}</AlertDialogTrigger>
             <AlertDialogContent >
+                <AlertDialogTitle className="text-center">{alertTitle}</AlertDialogTitle>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>{alertTitle}</AlertDialogTitle>
                     <AlertDialogDescription>
                        {alertDescription}
                     </AlertDialogDescription>

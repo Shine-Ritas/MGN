@@ -71,7 +71,7 @@ export const ImageFitData : Record<string, ImageFitType> = {
     },
     Cover: {
         label: "Image-Fit: Cover",
-        value: "object-cover w-full",
+        value: "object-cover w-auto",
         iconName: "RotateCwSquare",
     },
     Fill: {

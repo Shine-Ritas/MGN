@@ -102,7 +102,7 @@ const RecentlyUploaded = () => {
             </CardTitle>
             <CardContent className='mt-4 md:px-0'>
                 <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
                     {
                         !isLoading && MemorizedData?.mogous?.data.map((mogou) => (
                             <MogouCard key={mogou.id} mogou={mogou} userCanReadAll={isSubscriptionValid(authUser?.subscription_end_date)} />

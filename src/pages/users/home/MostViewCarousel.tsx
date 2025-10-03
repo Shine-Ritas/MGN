@@ -14,6 +14,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { MatureContentTag } from '@/components/ui/maturecontenttag';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const imageSizeClass=  "aspect-[3/4] w-full overflow-hidden rounded-t-md bg-muted"
+
 const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
     const { data, isLoading } = useQuery(`users/carousel/${url}`);
   
@@ -43,7 +45,7 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
                                 MemorizedData?.mogous?.map((mogou) => (
                                     <CarouselItem
                                         key={mogou.id}
-                                        className="pl-1 basis-1/2 xs:basis-2/5 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-[14.28%] overflow-hidden cursor-pointer"
+                                        className="pl-1 basis-1/3  sm:basis-1/4 md:basis-1/5 lg:basis-[16.28%] xl:basis-[14.28%] 2xl:basis-[12.28%] overflow-hidden cursor-pointer"
                                         role="listitem"
                                     >
                                         <div className="flex flex-col group hover:scale-105 transition-transform duration-200 ease-in-out">
@@ -52,11 +54,11 @@ const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
                                                 to={`/show/${mogou?.slug}`} 
                                                 className="relative block"
                                             >
-                                                <div className="aspect-[3/4] w-full overflow-hidden rounded-t-md bg-muted">
+                                                <div className={imageSizeClass}>
                                                     <LazyLoadImage 
                                                         src={mogou.cover || "/placeholder.svg"}
                                                         alt={mogou.title} 
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                                        className="w-full h-full object-cover transition-transform duration-300" 
                                                         style={{ width: '100%', height: '100%' }}
                                                     />
                                                 </div>

@@ -8,7 +8,13 @@ import FormInput from "@/components/ui/custom/FormInput"
 import useMutate from "@/hooks/useMutate"
 import useSecureStorage from "@/hooks/useSecureStorage"
 import { toast } from "@/components/ui/use-toast"
+import FormSelect from "@/components/ui/custom/FormSelect"
 
+
+const ActiveSelect = [
+    { id: 1, title: "True" },
+    { id: 0, title: "False" },
+];
 
 const ApplicationEdit = ({ applicationConfig }) => {
 
@@ -53,7 +59,7 @@ const ApplicationEdit = ({ applicationConfig }) => {
 
         const formData = new FormData();
         Object.keys(data).forEach((key) => {
-            formData.append(key, data[key])
+            formData.append(key, data[key]);
         })
 
         return await mutate("/admin/application-configs", formData);
@@ -138,6 +144,19 @@ const ApplicationEdit = ({ applicationConfig }) => {
                     <div className="space-y-2">
                         <FormInput
                             label='Monthly Subscriptions Target' defaultValue={applicationConfig?.monthly_subscriptions_target} placeholder='Enter You Daily Target' register={register("monthly_subscriptions_target")} />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="active">Add Prefix And Suffix To Every Chapter ?</Label>
+                         <FormSelect
+                            selectKey="prefix_active"
+                            collection={ActiveSelect}
+                            defaultValue={applicationConfig?.prefix_active ? "1" : "0"}
+                            setValue={setValue}
+                            errors={errors}
+                            className="w-full"
+                            placeholder="Select True Or False"
+                         />
                     </div>
                 </CardContent>
                 <CardFooter>

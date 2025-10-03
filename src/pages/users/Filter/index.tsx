@@ -78,6 +78,9 @@ const ResultsCount = ({ total, isLoading }) => (
     </span>
 );
 
+
+const mogouLayouClass = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6";
+
 // Main Loading Skeleton for entire page
 const PageLoadingSkeleton = () => (
     <div className="min-h-screen container px-4 md:px-0 md:contain-none">
@@ -93,7 +96,7 @@ const PageLoadingSkeleton = () => (
                 </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className={mogouLayouClass}>
                 {Array.from({ length: 8 }).map((_, index) => (
                     <MogouCardSkeleton key={index} />
                 ))}
@@ -101,6 +104,7 @@ const PageLoadingSkeleton = () => (
         </div>
     </div>
 );
+
 
 export default function FilterPage() {
     const [showFilter, setShowFilter] = useState(false);
@@ -165,7 +169,7 @@ export default function FilterPage() {
 
                 {/* Loading State for Manga Grid */}
                 {isFetching && !isLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className={mogouLayouClass}>
                         {Array.from({ length: 8 }).map((_, index) => (
                             <MogouCardSkeleton key={`loading-${index}`} />
                         ))}
@@ -173,7 +177,7 @@ export default function FilterPage() {
                 ) : (
                     <>
                         {/* Manga Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                        <div className={mogouLayouClass}>
                             {mangaList.map((mogou) => (
                                 <MogouCard
                                     key={mogou.id}
