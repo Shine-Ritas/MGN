@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -6,11 +6,13 @@ import { Reply, ChevronDown, ChevronUp } from "lucide-react"
 import { Comment } from "./types"
 import { User } from "@/types/store/user-store-type"
 import { ReplyInput } from "./ReplyInput"
+import useMutate from "@/hooks/useMutate"
+import useQuery from "@/hooks/useQuery"
 
 interface CommentItemProps {
   comment: Comment
   authUser?: User | null
-  onSubmitReply: (content: string, image?: File, parentId: number) => Promise<void>
+  onSubmitReply: (content: string, image?: File, parentId?: number) => Promise<void>
   isSubmitting?: boolean
 }
 
@@ -21,22 +23,23 @@ export function CommentItem({
   isSubmitting = false 
 }: CommentItemProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
-  const [expandedReplies, setExpandedReplies] = useState<Set<number>>(new Set())
+  const [expandedReplies, setExpandedReplies] = useState<Comment[]>([])
+  const [disableLoadComment,setDisableLoadComment] = useState(true)
+  const [showReplies, setShowReplies] = useState(false)
+
+  const [postComment] = useMutate({ callback: undefined, navigateBack: false });
+
+  const { data, refetch } = useQuery(`users/comments/getReplies?comment_id=${comment.id}`,undefined,false,disableLoadComment);
+
+  useEffect(() => {
+    if (data?.childComments) {
+      setExpandedReplies(data.childComments)
+    }
+  }, [data])
+
 
   const isAuthenticated = !!authUser
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return ""
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-
-    if (diffInSeconds < 60) return "just now"
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`
-    return date.toLocaleDateString()
-  }
 
   const getUserInitials = (name?: string) => {
     if (!name) return "U"
@@ -48,21 +51,30 @@ export function CommentItem({
       .slice(0, 2)
   }
 
-  const toggleReplies = (commentId: number) => {
-    setExpandedReplies((prev) => {
-      const newSet = new Set(prev)
-      if (newSet.has(commentId)) {
-        newSet.delete(commentId)
+  const toggleReplies = useCallback((commentId:number)=>{
+      if(!showReplies) {
+        // Show replies - load data if not already loaded
+        if(disableLoadComment) {
+          setDisableLoadComment(false)
+        } else {
+          refetch?.()
+        }
+        setShowReplies(true)
       } else {
-        newSet.add(commentId)
+        // Hide replies
+        setShowReplies(false)
       }
-      return newSet
-    })
-  }
+  },[showReplies, disableLoadComment, refetch])
 
-  const handleReplySubmit = async (content: string, image?: File, parentId: number) => {
-    await onSubmitReply(content, image, parentId)
-    setExpandedReplies((prev) => new Set(prev).add(comment.id))
+
+  const handleReplySubmit = async (content: string, image?: File, parentId?: number) => {
+     await postComment("users/mogous/comments", { 
+      text: content,
+      image_path: image || undefined,
+      mogou_id: 1,
+      parent_comment_id: comment.id,
+    })
+    refetch?.()
   }
 
   return (
@@ -71,16 +83,18 @@ export function CommentItem({
       <Card className="p-4 border border-border/50 hover:border-border transition-colors">
         <div className="flex gap-3">
           <Avatar className="h-10 w-10 shrink-0">
-            <AvatarImage src={comment.user_profile_url || "/placeholder.svg"} alt={comment.user_name} />
-            <AvatarFallback className="bg-primary/10 text-primary font-medium">
-              {getUserInitials(comment.user_name)}
+            <AvatarImage src={comment.user.avatar?.avatar_url_path || "/placeholder.svg"} alt={comment.user.name} />
+            <AvatarFallback
+            style={{ backgroundColor: comment.user.background_color }}
+            className={`  border border-primary text-black font-medium`}>
+              {getUserInitials(comment.user.name)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="font-semibold text-sm">{comment.user_name || "Anonymous"}</span>
+              <span className="font-semibold text-sm">{comment.user.name || "Anonymous"}</span>
               <span className="text-xs text-muted-foreground">•</span>
-              <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
+              <span className="text-xs text-muted-foreground">{comment.created_at}</span>
             </div>
             {comment.content && (
               <p className="text-sm text-foreground mb-3 break-words leading-relaxed">
@@ -108,14 +122,14 @@ export function CommentItem({
                   Reply
                 </Button>
               )}
-              {comment.child_comments && comment.child_comments.length > 0 && (
+              {comment.child_comments_count > 0 && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => toggleReplies(comment.id)}
                   className="text-xs h-8 px-3 text-muted-foreground hover:text-foreground"
                 >
-                  {expandedReplies.has(comment.id) ? (
+                  {showReplies ? (
                     <>
                       <ChevronUp className="h-3 w-3 mr-1" />
                       Hide replies
@@ -123,7 +137,7 @@ export function CommentItem({
                   ) : (
                     <>
                       <ChevronDown className="h-3 w-3 mr-1" />
-                      See replies ({comment.child_comments.length})
+                      See replies 
                     </>
                   )}
                 </Button>
@@ -136,7 +150,7 @@ export function CommentItem({
         {replyingTo === comment.id && (
           <ReplyInput
             authUser={authUser}
-            parentCommentUserName={comment.user_name || "Anonymous"}
+            parentCommentUserName={comment.user.name || "Anonymous"}
             onSubmitReply={(content, image) => handleReplySubmit(content, image, comment.id)}
             onCancel={() => setReplyingTo(null)}
             isSubmitting={isSubmitting}
@@ -144,22 +158,24 @@ export function CommentItem({
         )}
 
         {/* Child Comments */}
-        {comment.child_comments && comment.child_comments.length > 0 && expandedReplies.has(comment.id) && (
+        {showReplies && expandedReplies && expandedReplies.length > 0 && (
           <div className="mt-4 ml-13 space-y-3">
-            {comment.child_comments.map((reply) => (
+            {expandedReplies.map((reply: Comment) => (
               <div key={reply.id} className="p-4 rounded-lg bg-muted/20 border border-border/30">
                 <div className="flex gap-3">
-                  <Avatar className="h-8 w-8 shrink-0">
-                    <AvatarImage src={reply.user_profile_url || "/placeholder.svg"} alt={reply.user_name} />
-                    <AvatarFallback className="bg-primary border-neon-primary border-2 text-foreground font-medium text-xs">
-                      {getUserInitials(reply.user_name)}
-                    </AvatarFallback>
-                  </Avatar>
+                <Avatar className="h-10 w-10 shrink-0">
+                  <AvatarImage src={reply.user.avatar?.avatar_url_path || "/placeholder.svg"} alt={reply.user.name} />
+                  <AvatarFallback
+                  style={{ backgroundColor: reply.user.background_color }}
+                  className={`  border border-primary text-black font-medium`}>
+                    {getUserInitials(reply.user.name)}
+                  </AvatarFallback>
+                </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="font-semibold text-sm">{reply.user_name || "Anonymous"}</span>
+                          <span className="font-semibold text-sm">{reply.user.name || "Anonymous"}</span>
                       <span className="text-xs text-muted-foreground">•</span>
-                      <span className="text-xs text-muted-foreground">{formatDate(reply.created_at)}</span>
+                      <span className="text-xs text-muted-foreground">{reply.created_at}</span>
                     </div>
                     {reply.content && (
                       <p className="text-sm text-foreground mb-2 break-words leading-relaxed">
@@ -186,6 +202,18 @@ export function CommentItem({
                         Reply
                       </Button>
                     )}
+                    {
+                      reply.child_comments_count > 0 && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs h-8 px-3 text-muted-foreground hover:text-foreground"
+                        >
+                          <Reply className="h-3 w-3 mr-1" />
+                          replies
+                        </Button>
+                      )
+                    }
                   </div>
                 </div>
               </div>

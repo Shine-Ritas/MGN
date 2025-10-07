@@ -9,6 +9,8 @@ export interface User {
   active: number;
   subscription_end_date?: string;
   subscription_name?: string;
+  avatar?: Avatar;
+  background_color?: string;
 }
 
 type SubscriptionModalData = {
@@ -26,4 +28,14 @@ export interface UserGlobal {
   continueReading: string[];
   subscriptionModalOpen: boolean;
   subscriptionModalData: null | SubscriptionModalData
+}
+
+export interface Avatar {
+  id: number;
+  avatar_name: string;
+  avatar_path: string;
+  avatar_type: string | null;
+  created_at: string;
+  updated_at: string;
+  avatar_url_path: string;
 }

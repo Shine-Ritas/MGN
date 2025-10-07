@@ -5,6 +5,7 @@ import { Rating } from '@/components/ui/rating'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { rTitle } from '@/utilities/util'
+import DOMPurify from 'dompurify';
 
 
 
@@ -27,7 +28,9 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
 
                 <div className="flex flex-col gap-3 text-sm">
                   <span className="hidden md:flex  font-semibold h-12 overflow-hidden text-gray-300">
-                    {rTitle(mogou?.description, 100)}
+
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rTitle(mogou?.description,30)) }} />
+
                   </span>
                   <Rating rating={mogou?.rating} totalStars={5} size={20} variant="yellow" disabled={true} />
 

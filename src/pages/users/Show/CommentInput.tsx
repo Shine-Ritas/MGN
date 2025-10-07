@@ -6,18 +6,22 @@ import { Card } from "@/components/ui/card"
 import { ImageIcon, Send, X, LogIn } from "lucide-react"
 import { Link } from "react-router-dom"
 import { User } from "@/types/store/user-store-type"
+import { Comment } from "./types"
+import useMutate from "@/hooks/useMutate"
 
 interface CommentInputProps {
   authUser?: User | null
-  onSubmitComment: (content: string, image?: File, parentId?: number) => Promise<void>
+  refetch: any
   placeholder?: string
   isSubmitting?: boolean
+  setComments: (value: React.SetStateAction<Comment[]>) => void
 }
 
 export function CommentInput({ 
   authUser, 
-  onSubmitComment, 
+  refetch, 
   placeholder = "Share your thoughts about this chapter...",
+  setComments,
   isSubmitting = false 
 }: CommentInputProps) {
   const [newComment, setNewComment] = useState("")
@@ -25,8 +29,10 @@ export function CommentInput({
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const [postComment, { isLoading }] = useMutate({ callback: undefined, navigateBack: false });
+
   const isAuthenticated = !!authUser
-  const currentUserName = authUser?.name || "Guest"
+  const currentUserName = authUser?.name
 
   const getUserInitials = (name?: string) => {
     if (!name) return "U"
@@ -56,8 +62,13 @@ export function CommentInput({
     if (!newComment.trim() && !selectedImage) return
 
     try {
-      await onSubmitComment(newComment, selectedImage || undefined)
+      await postComment("users/mogous/comments", { 
+        text: newComment,
+        image_path: selectedImage || undefined,
+        mogou_id: 1,
+      })
       setNewComment("")
+        refetch();
       clearImage()
     } catch (error) {
       console.error("Failed to submit comment:", error)
@@ -68,9 +79,6 @@ export function CommentInput({
     return (
       <Card className="p-6 border-2 border-dashed border-muted-foreground/30 bg-muted/20">
         <div className="flex flex-col items-center justify-center text-center space-y-4">
-          <div className="p-3 rounded-full bg-muted">
-            <LogIn className="h-6 w-6 text-muted-foreground" />
-          </div>
           <div className="space-y-2">
             <h4 className="font-semibold text-lg">Join the Discussion</h4>
             <p className="text-sm text-muted-foreground max-w-md">
@@ -99,9 +107,11 @@ export function CommentInput({
     <Card className="p-4 border-2 border-border/50 hover:border-border transition-colors">
       <div className="flex gap-3">
         <Avatar className="h-10 w-10 shrink-0">
-          <AvatarImage src={undefined} alt={currentUserName} />
-          <AvatarFallback className="bg-primary/10 text-primary font-medium">
-            {getUserInitials(currentUserName)}
+          <AvatarImage src={authUser?.avatar?.avatar_url_path || "/placeholder.svg"} alt={currentUserName} />
+          <AvatarFallback
+          style={{ backgroundColor: authUser?.background_color }}
+          className=" text-black font-medium border border-primary">
+            {getUserInitials(authUser?.name)}
           </AvatarFallback>
         </Avatar>
         <div className="flex-1 space-y-3">
@@ -109,7 +119,7 @@ export function CommentInput({
             placeholder={placeholder}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="min-h-[80px] resize-none text-sm border-0 bg-muted/30 focus:bg-background transition-colors"
+            className="min-h-[80px] resize-none text-sm border-0  bg-input transition-colors"
             disabled={isSubmitting}
           />
           {imagePreview && (
@@ -141,7 +151,7 @@ export function CommentInput({
               variant="outline" 
               size="sm" 
               onClick={() => fileInputRef.current?.click()} 
-              disabled={isSubmitting}
+              disabled={isLoading}
               className="h-8"
             >
               <ImageIcon className="h-4 w-4 mr-2" />

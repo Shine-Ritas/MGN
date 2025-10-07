@@ -10,7 +10,6 @@ import SEO from "@/pages/seo";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserComment } from "./UserComment";
-import { Comment } from "./types";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 
@@ -36,46 +35,6 @@ const RelatedMogouSkeleton = () => (
         </CardContent>
     </Card>
 );
-
-const mockComments: Comment[] = [
-    {
-      id: 1,
-      content: "This manga chapter was absolutely amazing! The art style is incredible.",
-      user_id: 1,
-      user_name: "Naruto Fan",
-      user_profile_url: "/anime-fan.png",
-      created_at: new Date(Date.now() - 3600000).toISOString(),
-      child_comments: [
-        {
-          id: 2,
-          content: "I totally agree! The fight scenes were so well drawn.",
-          user_id: 2,
-          user_name: "Manga Reader",
-          user_profile_url: "/manga-reader.jpg",
-          created_at: new Date(Date.now() - 1800000).toISOString(),
-          parent_comment_id: 1,
-        },
-        {
-          id: 3,
-          content: "The character development in this arc is top tier!",
-          user_id: 3,
-          user_name: "Otaku Master",
-          user_profile_url: "/otaku.jpg",
-          created_at: new Date(Date.now() - 900000).toISOString(),
-          parent_comment_id: 1,
-        },
-      ],
-    },
-    {
-      id: 4,
-      content: "Can't wait for the next chapter! When does it release?",
-      user_id: 4,
-      user_name: "Weekly Reader",
-      user_profile_url: "/person-reading.png",
-      created_at: new Date(Date.now() - 7200000).toISOString(),
-      child_comments: [],
-    },
-  ]
 
 const Show = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -148,17 +107,19 @@ const Show = () => {
                     <div className="xl:col-span-6  flex flex-col gap-5">
                         <ChapterTable mogous={mogous} />
 
-                        <UserComment 
-                            comments={mockComments} 
+                        {
+                            mogous?.mogou && 
+                            <UserComment 
+                            mogou={mogous.mogou}
                             authUser={authUser}
-                            onSubmitComment={(content,image,parentId)=>{
-                                return Promise.resolve();
-                            }} 
                         />
+                        }
+                        
                     </div>
                     
-                    {/* Related Manga Section */}
-                    <div className="xl:col-span-2 flex justify-start text-start">
+                    {/* Related Ma
+                    nga Section */}
+                    <div className="xl:col-span-2 flex justify-start text-start h-fit">
                         {mogous?.mogou && (
                             <Suspense fallback={<RelatedMogouSkeleton />}>
                                 <RelatedMogou slug={mogous.mogou.slug} />

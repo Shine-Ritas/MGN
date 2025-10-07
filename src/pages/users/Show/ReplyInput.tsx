@@ -8,7 +8,7 @@ import { User } from "@/types/store/user-store-type"
 interface ReplyInputProps {
   authUser?: User | null
   parentCommentUserName: string
-  onSubmitReply: (content: string, image?: File, parentId: number) => Promise<void>
+  onSubmitReply: (content: string, image?: File, parentId?: number) => Promise<void>
   onCancel: () => void
   isSubmitting?: boolean
 }
@@ -72,18 +72,20 @@ export function ReplyInput({
 
   return (
     <div className="mt-4 ml-13 flex gap-3">
-      <Avatar className="h-8 w-8 shrink-0">
-        <AvatarImage src={undefined} alt={currentUserName} />
-        <AvatarFallback className="bg-primary/10 text-primary font-medium text-xs">
-          {getUserInitials(currentUserName)}
-        </AvatarFallback>
-      </Avatar>
+        <Avatar className="h-10 w-10 shrink-0">
+          <AvatarImage src={authUser?.avatar?.avatar_url_path || "/placeholder.svg"} alt={currentUserName} />
+          <AvatarFallback
+          style={{ backgroundColor: authUser?.background_color }}
+          className=" text-black font-medium border border-primary">
+            {getUserInitials(authUser?.name)}
+          </AvatarFallback>
+        </Avatar>
       <div className="flex-1 space-y-3">
         <Textarea
           placeholder={`Reply to ${parentCommentUserName}...`}
           value={replyContent}
           onChange={(e) => setReplyContent(e.target.value)}
-          className="min-h-[60px] text-sm resize-none border-0 bg-muted/30 focus:bg-background transition-colors"
+          className="min-h-[60px] text-sm resize-none border-0 bg-input focus:bg-input transition-colors"
           disabled={isSubmitting}
           autoFocus
         />
