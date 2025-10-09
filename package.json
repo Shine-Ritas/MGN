@@ -67,8 +67,6 @@
     "jszip": "^3.10.1",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.370.0",
-    "npm": "^10.9.0",
-    "npx": "^3.0.0",
     "numeral": "^2.0.6",
     "path": "^0.12.7",
     "react": "^18.2.0",

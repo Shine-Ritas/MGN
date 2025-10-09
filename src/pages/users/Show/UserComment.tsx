@@ -116,7 +116,7 @@ export function UserComment({
             
             {/* Load More Button */}
             {hasMore && (
-              <div className="flex justify-center pt-4">
+              <div className="flex justify-center">
                 <Button
                   onClick={loadMore}
                   disabled={loadingMore}
@@ -130,7 +130,7 @@ export function UserComment({
                       Loading...
                     </>
                   ) : (
-                    "Load More Comments"
+                    "Load More"
                   )}
                 </Button>
               </div>

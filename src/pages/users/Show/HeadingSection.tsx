@@ -82,15 +82,15 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
     return (
         <>
             <Card className="py-3 border-none outline-none shadow-none bg-background">
-                <CardContent className="grid md:grid-cols-5 mx-0 px-0 gap-10 xl:gap-4 ">
-                    <div className="flex justify-center md:justify-normal md:col-span-2 xl:col-span-1">
+                <CardContent className="grid md:grid-cols-8 mx-0 px-0 gap-10 xl:gap-4 ">
+                    <div className="flex justify-center md:justify-normal md:col-span-3 xl:col-span-2 ">
                         <LazyLoadImage src={mogou?.cover}
-                            className="h-96 xl:h-80 object-cover rounded-sm"
+                            className="h-96 xl:h-84 object-cover rounded-sm"
                             alt={`Cover image of ${mogou?.title}`} 
                         />
 
                     </div>
-                    <div className="text-center md:text-start col-span-full md:col-span-3 xl:col-span-3 flex flex-col gap-3 md:gap-4">
+                    <div className="text-center md:text-start col-span-full md:col-span-3 xl:col-span-4 flex flex-col gap-3 md:gap-4">
                         <div className="flex flex-col-reverse md:flex-col gap-3 md:gap-4">
                             <span className="text-xl md:text-3xl text-neon-primary font-semibold tracking-widest hidden">
                                 {mogou?.finish_status_name}
@@ -131,7 +131,7 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                             </span>
                         </div>
                     </div>
-                    <div className="col-span-full xl:col-span-1 flex flex-wrap xl:flex-col gap-4 xl:justify-start justify-between ">
+                    <div className="col-span-full xl:col-span-2 flex flex-wrap xl:flex-col gap-4 xl:justify-start justify-between ">
                         <div className="flex flex-col gap-1">
                             <p className="text-md">
                                 <span className="text-muted-foreground">Author :</span> <span className="text-sm">{mogou?.author}</span>

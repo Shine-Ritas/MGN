@@ -12,6 +12,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { UserComment } from "./UserComment";
 import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
+import { Separator } from "@/components/ui/separator";
+import { useScreenDetector } from "@/hooks/useScreenDetector";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -41,6 +43,8 @@ const Show = () => {
     const { data: mogous, isLoading, isFetching } = useQuery(`users/mogous/${slug}`);
     const { reAds } = useAdsRef({ adsOn: true });
     const authUser = useUserAppSelector(selectAuthUser);
+
+    const {isLargeDesktop} = useScreenDetector();
 
     // Handle scroll and ads refresh when fetching completes
     useEffect(() => {
@@ -116,6 +120,8 @@ const Show = () => {
                         }
                         
                     </div>
+
+                    {!isLargeDesktop && <Separator />}
                     
                     {/* Related Ma
                     nga Section */}

@@ -161,7 +161,7 @@ export function CommentItem({
         {showReplies && expandedReplies && expandedReplies.length > 0 && (
           <div className="mt-4 ml-13 space-y-3">
             {expandedReplies.map((reply: Comment) => (
-              <div key={reply.id} className="p-4 rounded-lg bg-muted/20 border border-border/30">
+              <div key={reply.id} className="p-4 rounded-lg bg-popover border border-border/30 lg:ml-20 ml-10 ">
                 <div className="flex gap-3">
                 <Avatar className="h-10 w-10 shrink-0">
                   <AvatarImage src={reply.user.avatar?.avatar_url_path || "/placeholder.svg"} alt={reply.user.name} />
