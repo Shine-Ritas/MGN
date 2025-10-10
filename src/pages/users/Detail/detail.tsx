@@ -68,27 +68,45 @@ const Detail = () => {
 
   const navigate = useNavigate();
 
-  // Process API data with useMemo
+  // Process API data with useMemo (only derive data, no side effects)
   const formattedImages = useMemo(() => {
     if (!data) return [];
-    const id = data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug;
+    return data?.current_chapter?.images || [];
+  }, [data]);
 
-    if(readSetting.currentId != id){
-      dispatch(setField({key:"currentId",value:data?.current_chapter?.mogou_id + "-" + data?.current_chapter.slug}));
-      dispatch(setField({key:"currentPage",value:1}));
-      dispatch(setField({key:"totalPages",value:1}));
-      // Reset prefetched pages when chapter changes
+  // Compute chapter ID and URLs
+  const chapterId = useMemo(() => {
+    if (!data?.current_chapter) return null;
+    return data.current_chapter.mogou_id + "-" + data.current_chapter.slug;
+  }, [data]);
+
+  const chapterUrls = useMemo(() => {
+    if (!data) return { nextUrl: "", prevUrl: "" };
+    const nextChapterUrl = data?.next_chapter 
+      ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` 
+      : route(userRouteCollection.show, {slug: data?.mogou?.slug});
+    const prevChapterUrl = data?.prev_chapter 
+      ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.prev_chapter?.slug}` 
+      : route(userRouteCollection.show, {slug: data?.mogou?.slug});
+    return { nextUrl: nextChapterUrl, prevUrl: prevChapterUrl };
+  }, [data]);
+
+  // Handle chapter changes and URL updates in useEffect
+  useEffect(() => {
+    if (!chapterId) return;
+
+    // Check if chapter has changed
+    if (readSetting.currentId !== chapterId) {
+      dispatch(setField({key: "currentId", value: chapterId}));
+      dispatch(setField({key: "currentPage", value: 1}));
+      dispatch(setField({key: "totalPages", value: 1}));
       setPrefetchedPages(new Set());
     }
 
-    const nextChapterUrl = data?.next_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
-    const prevChapterUrl = data?.prev_chapter ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.prev_chapter?.slug}` : route(userRouteCollection.show,{slug:data?.mogou?.slug});
-
-    dispatch(setField({key:"prevUrl",value:prevChapterUrl}));
-    dispatch(setField({key:"nextUrl",value:nextChapterUrl}));
-
-    return data?.current_chapter?.images;
-  }, [data, dispatch, readSetting.currentId]);
+    // Update chapter URLs
+    dispatch(setField({key: "prevUrl", value: chapterUrls.prevUrl}));
+    dispatch(setField({key: "nextUrl", value: chapterUrls.nextUrl}));
+  }, [chapterId, chapterUrls, dispatch, readSetting.currentId]);
 
   // Determine pagination values
   const max = readStyle.max ?? totalPages;

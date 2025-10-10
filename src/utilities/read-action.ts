@@ -14,7 +14,6 @@ interface SetCurrentPagePayload {
   index?: number;
 }
 
-const currentTime = Date.now();
 const doubleTapTimeout = 300;
 
 /**
@@ -36,6 +35,7 @@ export const handleHorizontalClick = (
   const middle = offsetWidth / 2;
   const tolerance = offsetWidth * 0.2;
   const isLTR = readingDirection.value === "ltr";
+  const currentTime = Date.now();
 
   // Check for a double tap at the center region to toggle the panel.
   if (
@@ -61,11 +61,34 @@ export const handleHorizontalClick = (
 };
 
 /**
- * Handles vertical click events to scroll to the next image.
+ * Finds the currently most visible image in the viewport.
+ */
+const findCurrentlyVisibleImage = (images: HTMLImageElement[]): number => {
+  const viewportMiddle = window.innerHeight / 2 + window.scrollY;
+  let closestIndex = 0;
+  let closestDistance = Infinity;
+
+  images.forEach((img, index) => {
+    const rect = img.getBoundingClientRect();
+    const imgMiddle = rect.top + window.scrollY + rect.height / 2;
+    const distance = Math.abs(imgMiddle - viewportMiddle);
+    
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  return closestIndex;
+};
+
+/**
+ * Handles vertical click events to scroll to the next or previous image in long-strip mode.
  *
  * @param containerRef - A reference to the container element holding images.
+ * @param clientY - The vertical coordinate (clientY) of the click.
  * @param dispatch - The Redux dispatch function.
- * @param currentPage - The current page (index) value.
+ * @param currentPage - The current page (index) value (unused but kept for compatibility).
  */
 export const handleVerticalClick = (
   containerRef: React.RefObject<HTMLDivElement>,
@@ -76,30 +99,41 @@ export const handleVerticalClick = (
   const container = containerRef.current;
   if (!container) return;
 
-  const { offsetHeight } = containerRef.current;
-  const middle = offsetHeight / 2;
+  const currentTime = Date.now();
+  const viewportHeight = window.innerHeight;
+  const middleThreshold = viewportHeight / 2;
+
+  // Check for double tap to toggle the panel (anywhere on screen)
   if (currentTime - lastTapTime <= doubleTapTimeout) {
-    dispatch(toggleValue("showPanel",));
+    dispatch(toggleValue("showPanel"));
     lastTapTime = 0;
-    console.log('here')
     return;
   }
 
-  const images = Array.from(container.querySelectorAll("img")) as HTMLImageElement[];
+  lastTapTime = currentTime;
 
-  if (clientY > middle) {
-    const nextImage = images[currentPage] || images[currentPage - 1];
+  const images = Array.from(container.querySelectorAll("img")) as HTMLImageElement[];
+  if (images.length === 0) return;
+
+  // Find the currently visible image based on viewport position
+  const currentVisibleIndex = findCurrentlyVisibleImage(images);
+
+  // Click on bottom half = go to next image
+  if (clientY > middleThreshold) {
+    const nextIndex = Math.min(currentVisibleIndex + 1, images.length - 1);
+    const nextImage = images[nextIndex];
     if (nextImage) {
       nextImage.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
+  } 
+  // Click on top half = go to previous image
   else {
-    const prevImage = images[currentPage - 2] ;
+    const prevIndex = Math.max(currentVisibleIndex - 1, 0);
+    const prevImage = images[prevIndex];
     if (prevImage) {
       prevImage.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
-
 };
 
 
