@@ -13,32 +13,30 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+
+
+// {
+//   "label": "Week 1",
+//   "revenue": 2409000
+// }
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-primary))",
   },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-neon-primary))",
-  },
 } satisfies ChartConfig
 
-export function PackageChart() {
+export function PackageChart({chartData}) {
+  const dateRange = chartData && chartData.length > 0 
+    ? `${chartData[0]?.label} - ${chartData[chartData.length - 1]?.label}`
+    : "No data available";
+
   return (
     <Card> 
       <CardHeader>
         <CardTitle>Line Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>{dateRange}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -52,24 +50,16 @@ export function PackageChart() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
-              dataKey="desktop"
+              dataKey="revenue"
               type="monotone"
               stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={false}
-            />
-            <Line
-              dataKey="mobile"
-              type="monotone"
-              stroke="var(--color-mobile)"
               strokeWidth={2}
               dot={false}
             />

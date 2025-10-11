@@ -122,7 +122,7 @@ const ChapterContentViewGrid = ({ uploadedData = [], setUploadedData }: { upload
                 disabled={isLoading || isDeleting}
                 items={uploadedData.map(item => ({ id: item.name }))}
                 strategy={rectSortingStrategy}>
-                <div className='grid grid-cols-1 gap-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 px-6 py-4'>
+                <div className='grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 px-6 py-4'>
                     {items.map((item, index) => (
                         <SortableItem
                             handleDelete={handleDelete}

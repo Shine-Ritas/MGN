@@ -74,7 +74,17 @@ export function CommentItem({
       mogou_id: 1,
       parent_comment_id: comment.id,
     })
-    refetch?.()
+    
+    // Only refetch if replies are currently shown and query has been started
+    if (showReplies && !disableLoadComment) {
+      refetch?.()
+    } else {
+      // If replies aren't shown, enable the query for when they expand it next time
+      setDisableLoadComment(false)
+    }
+    
+    // Close the reply input after successful submission
+    setReplyingTo(null)
   }
 
   return (

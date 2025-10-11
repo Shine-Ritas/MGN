@@ -46,14 +46,14 @@ const SubscriptionIndex = () => {
 
     return (
         <Card className="min-h-[80vh] flex-1 items-start gap-4 px-4 sm:px-6 sm:py-4 md:gap-8">
-            <div className="mx-auto flex-1 auto-rows-max grid grid-cols-1 gap-3">
+            <div className="mx-auto flex-1 auto-rows-max grid grid-cols-1 md:gap-3">
 
-                <Tabs defaultValue="all" className="w-full justify-between mb-3">
+                <Tabs defaultValue="all" className="w-full justify-between mb-3 overflow-x-scroll mt-8 md:mt-0">
                     <div className="flex items-center w-full justify-between">
 
                         <div className="flex items-center gap-4 me-4">
 
-                            <Label >Sort By :</Label>
+                            <Label className="hidden sm:flex" >Sort By :</Label>
 
                             <SingleFilterSelect data={sortSubscription} onSelect={(value:any) => subscriptionCountOnChange(value)} placeholder="Sort By Sub Count" />
 

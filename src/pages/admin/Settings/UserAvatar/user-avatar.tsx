@@ -136,9 +136,10 @@ export default function AdvancedAdminAvatarManagement() {
         </div>
         <Button
           onClick={handleDeleteSelected}
+          variant={"destructive"}
           disabled={!selectedAvatars.length || isServerActionLoading}
         >
-          <Trash2 className="h-4 w-4 mr-2" /> Delete Selected
+          <Trash2 className="h-4 w-4 mr-2" /> Delete
         </Button>
       </div>
 

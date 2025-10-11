@@ -1,9 +1,8 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { EyeIcon } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { adminRouteCollection } from '@/routes/data/admin_route'
 import useQuery from '@/hooks/useQuery'
 import { SubscribedUser } from './types'
@@ -30,27 +29,27 @@ const getSubscriptionStatusColor = (date: string) => {
 const initialState = {
   active: "",
   subscriptions: "",
-  search : "",
-  page : 1,
+  search: "",
+  page: 1,
 }
 
 export default function Component() {
-  const { bunUrl, handleChange : handleFilter,getByKey,submitUrl } = useFilterState(initialState,['page']);
+  const { bunUrl, handleChange: handleFilter, getByKey, submitUrl } = useFilterState(initialState, ['page']);
 
   const navigate = useNavigate();
 
-  const {data , isLoading,isFetching} = useQuery(`/admin/users?${bunUrl}&limit=9`);
+  const { data, isLoading, isFetching } = useQuery(`/admin/users?${bunUrl}&limit=9`);
 
   return (
     <TooltipProvider>
       <div className="pb-4">
         <div className="rounded-xl border bg-popover text-card-foreground shadow py-5 flex flex-col lg:flex-row items-start justify-between gap-4 min-h-[10vh] px-4 xl:px-6">
-            <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-              <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total} submitUrl={submitUrl}/>
-            </div>
+          <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+            <UserFilter getByKey={getByKey} handleFilter={handleFilter} total={data?.users.total} submitUrl={submitUrl} />
+          </div>
 
-            <div className="flex flex-col w-full xl:flex-row gap-2 xl:gap-4 items-stretch xl:items-center xl:justify-end">
-              <div className="order-2 xl:order-1 ">{data && data.users.data.length > 0 && (
+          <div className="flex flex-col w-full xl:flex-row gap-2 xl:gap-4 items-stretch xl:items-center xl:justify-end">
+            <div className="order-2 xl:order-1 ">{data && data.users.data.length > 0 && (
               <TablePagination
                 url={data.users.path}
                 lastPage={data.users.last_page}
@@ -61,30 +60,30 @@ export default function Component() {
                 hideLabel={true}
               />
             )}</div>
-              <Button 
+            <Button
               size={'sm'}
               onClick={() => navigate(adminRouteCollection.addUser)}
               className="h-10 xl:h-8 w-full xl:w-24 gap-1 order-1 xl:order-2">
-                New
-              </Button> 
-            </div>
+              New
+            </Button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
           {isLoading ? (
             // Skeleton loader
             Array.from({ length: 3 }).map((_, index) => (
               <Card key={index} className="w-full h-64 animate-pulse bg-muted" />
             ))
           ) : (
-            data?.users?.data.map((user : SubscribedUser) => (
+            data?.users?.data.map((user: SubscribedUser) => (
               <Card key={user.id} className="w-full overflow-hidden hover:shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start space-x-4">
                       <Tooltip>
                         <TooltipTrigger>
-                          <UserAvatar user={user}  shape="rounded"/>
+                          <UserAvatar user={user} shape="rounded" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>User since {user.created_at}</p>
@@ -106,21 +105,19 @@ export default function Component() {
                       {getSubscriptionStatusColor(user.subscription_end_date).text}
                     </Badge>
                   </div>
-                  <div className="text-sm text-muted-foreground mb-4">
-                    Last login: {user.last_login_at}
+                  <div className="flex justify-between items-center text-sm ">
+                    <div className="text-muted-foreground ">
+                      Last login: {user.last_login_at}
+                    </div>
+                    <Link
+                    className="underline hover:text-muted-foreground"
+                      to={adminRouteCollection.showUser.replace(":id", user.id as unknown as string)}
+                    >
+                         View Profile
+                    </Link>
                   </div>
                 </CardContent>
-                <CardFooter className="bg-accent p-4">
-                  <div className="w-full flex justify-between items-center">
-                   <div className=""></div>
-                    <Button
-                    onClick={() => navigate(adminRouteCollection.showUser.replace(":id", user.id as unknown as string))}
-                    size="sm" 
-                    className="transition-all duration-300 hover:shadow-md">
-                      <EyeIcon className="mr-2 h-4 w-4" /> View Profile
-                    </Button>
-                  </div>
-                </CardFooter>
+
               </Card>
             ))
           )}

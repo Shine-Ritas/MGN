@@ -27,7 +27,7 @@ const RevenueGrowth = () => {
 
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {!isLoading && <TargetRadial chartData={data?.monthly_subscriptions}/>}
-                <PackageChart />
+                {!isLoading && <PackageChart chartData={data?.revenue_by_weeks} />}
                 {!isLoading && <PackageBarChart chartData={data?.count_by_subscriptions} />}
             </div>
 

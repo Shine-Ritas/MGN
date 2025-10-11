@@ -27,7 +27,7 @@ const chartConfig = {
     color: "hsl(var(--chart-4))",
   },
   random: {
-    label: "Random",
+    label: "OutCome",
     color: "hsl(var(--chart-neon-primary))",
   },
 } satisfies ChartConfig
