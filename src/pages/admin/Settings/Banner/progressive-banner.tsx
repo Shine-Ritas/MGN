@@ -24,6 +24,11 @@ const ProgressiveBanner = ({ banner, onOpen }: ProgressiveBannerProps) => {
 
   const [mutate, { isLoading }] = useMutate({ callback: onSuccessCallback });
 
+  const isVideoFile = (url: string | null | undefined): boolean => {
+    if (!url) return false;
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
+    return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+  }
 
   const handleModalOpen = () => {
     onOpen(banner)
@@ -54,12 +59,25 @@ const ProgressiveBanner = ({ banner, onOpen }: ProgressiveBannerProps) => {
       <div className="">
         <Card className="flex h-fit w-full items-center justify-center rounded-md border border-dashed border-muted text-sm min-h-24">
           {
-            (banner.cover_photo_url) ? (
-              <LazyLoadImage
-                src={banner.text_url || banner.cover_photo_url}
-                alt="banner one"
-                className="w-full h-full max-h-60 "
-              />
+            (banner.cover_photo_url || banner.text_url) ? (
+              isVideoFile(banner.text_url || banner.cover_photo_url) ? (
+                <video
+                  src={banner.text_url || banner.cover_photo_url}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full max-h-60"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <LazyLoadImage
+                  src={banner.text_url || banner.cover_photo_url}
+                  alt="banner one"
+                  className="w-full h-full max-h-60 "
+                />
+              )
             ) :
               (
                 <></>

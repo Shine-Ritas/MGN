@@ -60,7 +60,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     <img
                         src={applicationConfig?.logo}
                         alt="logo"
-                        className="h-10 w-20 md:h-16 md:w-60 lg:w-28  object-contain cursor-pointer"
+                        className=" max-h-24 object-contain cursor-pointer"
                     />
                 </Link>
                 {

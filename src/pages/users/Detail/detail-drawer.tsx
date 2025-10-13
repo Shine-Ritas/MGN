@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
@@ -14,6 +14,7 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 import MemoizedSettingOgButton from "./setting-og-button";
 import { Link, useNavigate } from "react-router-dom";
+import { ReportIssueModal } from "./report-issue-modal";
 
 const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: string }) => {
     const navigate = useNavigate();
@@ -57,6 +58,7 @@ const DetailDrawer = () => {
     const content = underDesktop ? "content" : "description";
 
     const navigate = useNavigate();
+    const [reportModalOpen, setReportModalOpen] = useState(false);
 
     useEffect(() => {
         localStorage.setItem("currentDevice", underDesktop ? "mobile" : "desktop");
@@ -88,6 +90,10 @@ const DetailDrawer = () => {
     const handleSettingModal = useCallback(() => {
         dispatch(toggleValue("modalBox"));
     }, [dispatch]);
+
+    const handleReportModal = useCallback(() => {
+        setReportModalOpen(true);
+    }, []);
 
     const handleNextChapter = useCallback(() => {
         handleChapterSwitch("next", navigate);
@@ -180,10 +186,22 @@ const DetailDrawer = () => {
                                 iconName={"LucideSettings"}
 
                             />
+                            <MemoizedSettingOgButton
+                                onClick={handleReportModal}
+                                label={"Report Issue"}
+                                iconName={"AlertCircle"}
+
+                            />
                         </div>
                     </SheetDescription>
                 </SheetContentBody>
             </Sheet>
+
+            <ReportIssueModal
+                open={reportModalOpen}
+                onOpenChange={setReportModalOpen}
+                currentUrl={window.location.href}
+            />
         </div>
     );
 };

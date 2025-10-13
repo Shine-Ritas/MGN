@@ -14,6 +14,7 @@ import CardCarouselSlider from '@/pages/users/home/carousel/CardCarouselSlider'
 import MCardCarouselSlider from '@/pages/users/home/carousel/MCardCarouselSlider'
 import AlertBox from '@/components/ui/AlertBox'
 import { BiTrash } from 'react-icons/bi'
+import DOMPurify from 'dompurify';
 
 
 export interface FindMogouItemType extends MogousType {
@@ -138,9 +139,9 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
                   <Label htmlFor={`toggle-${product.id}`} className="text-sm font-medium">
                     {product.title}
                   </Label>
-                  <p className="text-sm text-muted-foreground pe-10">{
-                      product.description.length > 170 ? product.description.slice(0,170) + "..." : product.description
-                    }</p>
+                  <p className="text-sm text-muted-foreground pe-10">
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description.length > 170 ? product.description.slice(0,170) + "..." : product.description) }} />
+                    </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch

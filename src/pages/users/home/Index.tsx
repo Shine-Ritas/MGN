@@ -5,25 +5,22 @@ import RecentlyUploaded from "./RecentlyUploaded"
 import { useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks"
-import {   setBanners } from "@/redux/slices/user-global"
+import {   selectBanners, setBanners } from "@/redux/slices/user-global"
 import AdsBanner from "./banners/adsBanner"
 import ViewCarousel from "./MostViewCarousel"
 import SEO from "@/pages/seo"
 import useQuery from "@/hooks/useQuery"
-import { selectApplicationConfig } from "@/redux/slices/application-config-slice"
 
 const HomePage = () => {
 
-  const { data: banners } = useQuery(`users/banners`);
+  const { data: banners,isLoading } = useQuery(`users/banners`);
   const dispatch = useUserAppDispatch();
 
   useEffect(() => {
     dispatch(setBanners(banners?.banners));
   }, [banners, dispatch]);
 
-  const Setting = useUserAppSelector(selectApplicationConfig);
-  console.log(Setting);
-
+  const adverties = useUserAppSelector(selectBanners);
 
   const scrollToTop = useCallback(() => {
     window.scrollTo({
@@ -31,6 +28,7 @@ const HomePage = () => {
       behavior: "smooth"
     })
   }, []);
+
 
   return (
 
@@ -47,7 +45,7 @@ const HomePage = () => {
 
       <div className="w-full ">
         {
-          (banners?.length > 0 && banners[0].active == true) && <AdsBanner banner={banners[0]} />
+          !isLoading && (adverties?.length > 0 && adverties[0].active == true) && <AdsBanner banner={adverties[0]} />
         }
       </div>
 
@@ -70,7 +68,7 @@ const HomePage = () => {
 
       <div className="w-full">
         {
-          (banners?.length > 0 && banners[2].active == true) && <AdsBanner banner={banners[2]} />
+          !isLoading && (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
         }
       </div>
 
