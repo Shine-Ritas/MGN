@@ -140,9 +140,19 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                                 </>
 
                             ) : (
-                                <DropdownMenuItem >
-                                    <a className="w-full" href="/login" >Login</a>
-                                </DropdownMenuItem>
+                                <>
+                                    <DropdownMenuItem
+                                        onClick={clearCache}
+                                    >
+                                        <p className="w-full" >Clear Cache</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem >
+                                        <a className="w-full" href="/login" >Login</a>
+                                    </DropdownMenuItem>
+
+                                </>
+
+
 
                             )
                         }
@@ -163,7 +173,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
             </div>
 
             {
-                !authUser && !isReadMode && <ToSubscribe />
+                (!authUser || !isReadMode) && <ToSubscribe />
             }
         </header>
     )

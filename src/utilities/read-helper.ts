@@ -31,7 +31,7 @@ const readingStyleClasses = (type: string): ReadSettingReturnType => {
       return {
         class:
           "flex flex-col items-center gap-1 max-h-screen overflow-y-scroll",
-        imageClass: "w-4/5 h-auto", // Long strip with consistent width
+        imageClass: "w-full lg:w-4/5 h-auto", // Long strip with consistent width
         max: 100,
       };
     default:

@@ -19,6 +19,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-slice";
 import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
+import DetailLoadingSkeleton from "./loading-skeleton";
 
 // Utility: prefetch images sequentially (one by one)
 const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => void) => {
@@ -60,6 +61,8 @@ const Detail = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImages, setCurrentImages] = useState<any[]>([]);
   const [prefetchedPages, setPrefetchedPages] = useState<Set<number>>(new Set());
+  const isScrollingRef = useRef<boolean>(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { currentPage, totalPages, readingStyle, readingDirection } = readSetting;
   const readStyle = readingStyleClasses(readingStyle.value);
 
@@ -219,16 +222,71 @@ const Detail = () => {
     }
   }, [isMobile, showAlert]);
 
+  // Effect: handle scroll detection for mobile devices
+  useEffect(() => {
+    if (!isMobile || readingStyle.value !== "long-strip") return;
+
+    const handleScroll = () => {
+      isScrollingRef.current = true;
+      
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Set a timeout to reset the scrolling flag after scroll ends
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 150); // 150ms delay to detect scroll end
+    };
+
+    const handleTouchStart = () => {
+      // Mark as potentially scrolling when touch starts
+      isScrollingRef.current = true;
+    };
+
+    const handleTouchEnd = () => {
+      // Reset scrolling flag after a short delay when touch ends
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 100);
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll, { passive: true });
+      container.addEventListener('touchstart', handleTouchStart, { passive: true });
+      container.addEventListener('touchend', handleTouchEnd, { passive: true });
+      
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchend', handleTouchEnd);
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+      };
+    }
+  }, [isMobile, readingStyle.value]);
+
   // Handlers (using useCallback)
   const handleScreenClick = useCallback(
     ({ clientX, clientY, currentTarget }: React.MouseEvent<HTMLDivElement>) => {
+      // Prevent click handling during scroll on mobile devices in long-strip mode
+      if (isMobile && readingStyle.value === "long-strip" && isScrollingRef.current) {
+        return;
+      }
+
       if (readingStyle.value === "long-strip") {
         handleVerticalClick(containerRef, clientY, dispatch, currentPage);
         return;
       }
       handleHorizontalClick(currentTarget, clientX, readingDirection, dispatch,navigate);
     },
-    [readingStyle.value, readingDirection, dispatch, currentPage, navigate]
+    [readingStyle.value, readingDirection, dispatch, currentPage, navigate, isMobile]
   );
 
   const handlePageClick = useCallback(
@@ -246,7 +304,7 @@ const Detail = () => {
   return (
     <>
       {(isLoading || !data) ? (
-        <div>Loading...</div>
+        <DetailLoadingSkeleton />
       ) : (
         <>
           <div

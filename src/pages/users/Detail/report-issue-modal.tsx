@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { AlertCircle, Upload, X } from "lucide-react";
+import useMutate from "@/hooks/useMutate";
+import { toast } from "@/components/ui/use-toast"
 
 interface ReportIssueModalProps {
     open: boolean;
@@ -23,7 +25,20 @@ export const ReportIssueModal = ({ open, onOpenChange, currentUrl }: ReportIssue
     const [description, setDescription] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const submtiOnSuccess = () => {
+        toast({
+            title: "Submitted Report",
+            description: "We will review your report and get back to you shortly.",
+            variant: "success",
+        });
+        setTimeout(() => {
+            resetForm();
+            onOpenChange(false);
+        }, 1000);
+    }
+
+    const [postReportIssue, { isLoading: isSubmitting }] = useMutate({ callback: submtiOnSuccess, navigateBack: false });
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -44,33 +59,13 @@ export const ReportIssueModal = ({ open, onOpenChange, currentUrl }: ReportIssue
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
-        // TODO: Implement API request here
-        // const formData = new FormData();
-        // formData.append('title', title);
-        // formData.append('description', description);
-        // formData.append('current_url', currentUrl);
-        // if (image) formData.append('image', image);
-        
-        // After successful submission:
-        // - Reset form
-        // - Close modal
-        // - Show success message
-        
-        console.log({
+        await postReportIssue("users/create-report", {
             title,
             description,
             current_url: currentUrl,
             image,
         });
-
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
-            resetForm();
-            onOpenChange(false);
-        }, 1000);
     };
 
     const resetForm = () => {
@@ -89,7 +84,7 @@ export const ReportIssueModal = ({ open, onOpenChange, currentUrl }: ReportIssue
 
     return (
         <Dialog open={open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto z-[300]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <AlertCircle className="h-5 w-5" />

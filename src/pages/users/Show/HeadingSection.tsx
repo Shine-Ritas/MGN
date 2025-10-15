@@ -125,8 +125,8 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                                 }
                             </span>
                         </div>
-                        <div className="flex max-h-28 ">
-                            <span className="text-muted-foreground max-h-28 overflow-y-auto">
+                        <div className="flex  ">
+                            <span className="text-muted-foreground max-h-40 md:max-h-48 overflow-y-auto">
                                 <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(mogou?.description) }} />
                             </span>
                         </div>

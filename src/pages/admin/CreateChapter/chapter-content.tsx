@@ -55,7 +55,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     setUploadProgress(0);
   
     for (const file of acceptedFiles) {
-      if (file.type === "application/zip") {
+      if (file.type === "application/zip" || file.name.toLowerCase().endsWith('.cbz')) {
         try {
             const images = await extractZip(file);
             const sortedImages = images.sort((a, b) =>
@@ -114,6 +114,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
     accept: {
       'image/*': ['.png', '.jpeg', 'jpg'],
       'application/zip': ['.zip'],
+      'application/x-cbz': ['.cbz'],
     },
     maxSize: 500 * 1024 * 2048, // 200MB
   });
@@ -205,7 +206,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
                 </div>
               </div>
             </CardTitle>
-            <CardDescription>Upload the chapter content as a ZIP or PDF file.</CardDescription>
+            <CardDescription>Upload the chapter content as a ZIP, CBZ, or PDF file.</CardDescription>
           </div>
 
           {/* Controls - Stack on mobile, side by side on desktop */}
@@ -243,7 +244,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
               {isDragActive ? (
                 <p>Drop the files here...</p>
               ) : (
-                <p>Drag 'n' drop a Zip file here, or click to select a file</p>
+                <p>Drag 'n' drop a Zip or CBZ file here, or click to select a file</p>
               )}
               <p className="text-sm text-muted-foreground mt-2">(PNG, 100x100 to 1000x1000 pixels, max 200MB)</p>
             </div>

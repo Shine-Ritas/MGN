@@ -23,7 +23,7 @@ const useLogout = () => {
 
     setTimeout(()=>{
       window.location.href = navigateTo;
-    },2000);
+    },1000);
   }, [dispatch, get]);
 
   return useMemo(() => logout, [logout]);

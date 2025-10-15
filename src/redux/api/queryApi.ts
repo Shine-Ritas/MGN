@@ -26,7 +26,7 @@ export const queryApi = createApi({
       query: (url: string) => {
         return {
           url,
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", },
         };
       },
       keepUnusedDataFor: 3600,
@@ -34,7 +34,7 @@ export const queryApi = createApi({
     postData: builder.mutation<any, any>({
       query: ({ url, body, method }) => {
         return {
-          // headers: { "Content-Type": "multipart/form-data",},
+          headers: { "Accept": "application/json",},
           url,
           method: method || "POST",
           body: body,

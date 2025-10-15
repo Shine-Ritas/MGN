@@ -29,7 +29,7 @@ const MobileSidebarSheet = () => {
 
     return (
         <SheetContent side="left" className='w-[60vw]'>
-            <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[85vh]">
+            <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[80vh]">
  
                 <Link
                     to="/"
@@ -93,6 +93,7 @@ const MobileSidebarSheet = () => {
                                 socialLink={social}
                                 onEdit={() => { }}
                                 iconOnly={true}
+                                size='w-6 h-6'
                             />
                         ))
                     }

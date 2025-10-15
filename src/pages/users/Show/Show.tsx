@@ -102,17 +102,17 @@ const Show = () => {
 
                 {/* Manga Details Section */}
                 <div className="mb-4">
-                    <HeadingSection mogous={mogous} loading={isLoading} />
+                    <HeadingSection mogous={isLoading || isFetching ? undefined : mogous} loading={isLoading || isFetching} />
                 </div>
 
                 {/* Main Content Grid */}
                 <div className="lg:mt-4 grid xl:grid-cols-8 gap-4">
                     {/* Chapter Table Section */}
                     <div className="xl:col-span-6  flex flex-col gap-5">
-                        <ChapterTable mogous={mogous} />
+                        <ChapterTable mogous={isLoading || isFetching ? undefined : mogous} />
 
                         {
-                            mogous?.mogou && 
+                            !isLoading && !isFetching && mogous?.mogou && 
                             <UserComment 
                             mogou={mogous.mogou}
                             authUser={authUser}
@@ -126,11 +126,12 @@ const Show = () => {
                     {/* Related Ma
                     nga Section */}
                     <div className="xl:col-span-2 flex justify-start text-start h-fit">
-                        {mogous?.mogou && (
+                        {!isLoading && !isFetching && mogous?.mogou && (
                             <Suspense fallback={<RelatedMogouSkeleton />}>
                                 <RelatedMogou slug={mogous.mogou.slug} />
                             </Suspense>
                         )}
+                        {(isLoading || isFetching) && <RelatedMogouSkeleton />}
                     </div>
                 </div>
             </div>

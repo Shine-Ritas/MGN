@@ -13,7 +13,7 @@ const startYear = 1980;
 const currentYear = new Date().getFullYear();
 
 export default function YearSelect({ selectKey, setValue, errors, defaultValue }: FormSelectProps) {
-  const [selectedYear, setSelectedYear] = useState<string>(defaultValue || "");
+  const [selectedYear, setSelectedYear] = useState<string>("");
 
   // Memoizing the years array to avoid recalculating it on every render
   const years = useMemo(() => {
@@ -26,8 +26,9 @@ export default function YearSelect({ selectKey, setValue, errors, defaultValue }
 
   useEffect(() => {
     if (defaultValue) {
-      setSelectedYear(defaultValue); // Set the default value if available
-      setValue(selectKey, defaultValue); // Update the form value
+      const yearString = String(defaultValue); // Ensure it's a string
+      setSelectedYear(yearString);
+      setValue(selectKey, yearString);
     }
   }, [defaultValue, selectKey, setValue]);
 
@@ -35,6 +36,8 @@ export default function YearSelect({ selectKey, setValue, errors, defaultValue }
     setSelectedYear(value); // Update the selected year
     setValue(selectKey, value); // Pass the selected value to the parent form handler
   };
+
+  console.log('defaultValue:', defaultValue, 'selectedYear:', selectedYear)
 
   return (
     <>

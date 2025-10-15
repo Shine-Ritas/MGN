@@ -10,8 +10,6 @@ import useQuery from "@/hooks/useQuery";
 import ContentTableRow from "@/components/ui/custom/ContentTableRow";
 import { MogousType } from "./type";
 import { adminRouteCollection } from "@/routes/data/admin_route";
-import { PlusCircle } from "lucide-react";
-
 import ComicCard from "./ComicCard";
 import ComicFilter from "./ComicFilter";
 import { Button } from "@/components/ui/button";
@@ -71,7 +69,6 @@ const ComicTable = () => {
               className="h-10 xl:h-8 w-full xl:w-24 gap-1 order-1 xl:order-2"
               onClick={() => navigate(adminRouteCollection.mogouAction)}
             >
-              <PlusCircle className="h-3.5 w-3.5" />
               <span className="whitespace-nowrap">Add Comic</span>
             </Button>
           </div>

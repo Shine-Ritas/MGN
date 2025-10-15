@@ -15,12 +15,13 @@ import { SettingActionKey, toggleActionCollectionKeys } from "@/redux/slices/use
 import MemoizedSettingOgButton from "./setting-og-button";
 import { Link, useNavigate } from "react-router-dom";
 import { ReportIssueModal } from "./report-issue-modal";
+import { rTitle } from "@/utilities/util";
 
 const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: string }) => {
     const navigate = useNavigate();
     return (
         <SheetTitle>
-            <div className="h3 flex items-center gap-4 lg:px-4">
+            <div className=" flex items-center gap-4 lg:px-4">
                 <Button
                     variant="default"
                     size="sm"
@@ -30,7 +31,7 @@ const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: strin
                 </Button>
                 <Link
                     to={`/show/${slug}`}
-                    className="hover:underline cursor-pointer">{title}</Link>
+                    className="hover:underline cursor-pointe text-sm lg:text-md">{rTitle(title,30)}</Link>
 
             </div>
         </SheetTitle>

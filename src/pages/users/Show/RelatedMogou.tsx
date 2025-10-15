@@ -1,6 +1,8 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import useQuery from "@/hooks/useQuery";
+import { useUserAppSelector } from "@/redux/hooks";
+import { selectSafeContent } from "@/redux/slices/user-global";
 import { Link } from "react-router-dom";
 
 
@@ -10,7 +12,9 @@ interface RelatedMogouProps {
 
 const RelatedMogou = ({slug} : RelatedMogouProps) => {
 
-  const { data: relatedMogous, isLoading } = useQuery(`users/mogous/${slug}/related`);
+  const isSafeMode = useUserAppSelector(selectSafeContent);
+
+  const { data: relatedMogous, isLoading } = useQuery(`users/mogous/${slug}/related?legal_only=${isSafeMode}`);
 
 
   return (

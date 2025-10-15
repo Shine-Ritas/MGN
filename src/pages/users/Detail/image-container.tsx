@@ -5,6 +5,7 @@ import readingStyleClasses from "@/utilities/read-helper";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import useEffectAfterMount from "@/hooks/useEffectAfterMount";
 import { setField } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { Loader2 } from "lucide-react";
 
 interface ImageContainerProps {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -107,12 +108,25 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
 
 
+  const LoadingPlaceholder = () => (
+    <div className={`${readStyle.imageClass} ${readSetting.imageFit.value} flex items-center justify-center bg-gray-900/50 min-h-[600px]`}>
+      <Loader2 className="h-12 w-12 animate-spin text-neon-primary" />
+    </div>
+  );
+
   return (
     <div className={`${readStyle.class} overscroll-y-scroll min-h-screen`} id="imageContainer" ref={containerRef}>
       {currentImages.map(({ id, path }, index) => (
-        <LazyLoadImage key={id} src={path} alt={id} data-sid={index + 1}
-        id="parentContainer"
-        className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`} />
+        <LazyLoadImage 
+          key={id} 
+          src={path} 
+          alt={id} 
+          data-sid={index + 1}
+          id="parentContainer"
+          className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`}
+          placeholder={<LoadingPlaceholder />}
+          effect="opacity"
+        />
       ))}
     </div>
   );

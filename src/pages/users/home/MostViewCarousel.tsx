@@ -13,13 +13,16 @@ import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { MatureContentTag } from '@/components/ui/maturecontenttag';
 import { Skeleton } from '@/components/ui/skeleton';
+import { selectSafeContent } from '@/redux/slices/user-global';
+import { useUserAppSelector } from '@/redux/hooks';
 
 const imageSizeClass=  "aspect-[3/4] w-full overflow-hidden rounded-t-md bg-muted"
 
 const ViewCarousel = ({ title, url }: { title: string; url: string }) => {
-    const { data, isLoading } = useQuery(`users/carousel/${url}`);
-  
+    const isSafeMode = useUserAppSelector(selectSafeContent);
 
+    const { data, isLoading } = useQuery(`users/carousel/${url}?legal_only=${isSafeMode}`);
+  
     const MemorizedData = React.useMemo(() => {
         return data;
     }, [data]) as MostViewed;

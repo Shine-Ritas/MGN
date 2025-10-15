@@ -59,6 +59,12 @@ const HomePage = () => {
         <RecentlyUploaded />
       </div>
 
+      <div className="w-full">
+        {
+          !isLoading && (adverties?.length > 0 && adverties[1].active == true) && <AdsBanner banner={adverties[1]} />
+        }
+      </div>
+
       <Separator className="w-full h-1 bg-primary" />
 
 

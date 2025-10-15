@@ -29,7 +29,7 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                 <div className="flex flex-col gap-3 text-sm">
                   <span className="hidden md:flex  font-semibold h-12 overflow-hidden text-gray-300">
 
-                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rTitle(mogou?.description,30)) }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rTitle(mogou?.description,80)) }} />
 
                   </span>
                   <Rating rating={mogou?.rating} totalStars={5} size={20} variant="yellow" disabled={true} />
@@ -42,8 +42,8 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                     }
                   </div>
 
-                  <div className="flex gap-2 flex-wrap text-sm text-muted-foreground pe-4 md:hidden">
-                  {rTitle(mogou?.description, 120)}
+                  <div className="flex gap-2 flex-wrap text-sm text-muted-foreground pe-4 md:hidden max-w-fit overflow-hidden">
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rTitle(mogou?.description,90)) }} />
                   </div>
                 </div>
               </div>

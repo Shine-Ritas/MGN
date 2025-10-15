@@ -22,7 +22,9 @@ const UserLayoutFooter = () => {
 
               {
                 applicationConfig?.socials?.map((social, index) => (
-                  <Link to={social.redirect_url} className=" hover:text-gray-300">
+                  <Link
+                  key={index}
+                  to={social.redirect_url} className=" hover:text-gray-300">
                     {getIcon(social.icon?.toLowerCase(), "h-5 w-5")}
                     <span className="sr-only">{social.name}</span>
                   </Link>
@@ -35,9 +37,9 @@ const UserLayoutFooter = () => {
           <p className="mt-4 md:mt-0 text-xs text-gray-300 hidden md:flex">&copy; 2024 NorthSide Wizards Team. All rights reserved.</p>
         </div>
       </div>
-      <div className="w-full bg-primary md:h-12 px-4 md:px-24 py-4 flex justify-center items-center text-xs md:text-xs text-center">
+      <div className="w-full bg-primary md:h-12 px-4 md:px-24 py-4 flex justify-center items-center text-xs text-center">
         All the comics on this website are only previews of the original comics, there may be many language errors, character names, and story lines. For the original version, please buy the comic if it's available in your city.
-      </div>
+      </div>  
 
     </footer>
   )
