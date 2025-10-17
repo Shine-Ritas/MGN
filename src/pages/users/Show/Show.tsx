@@ -14,6 +14,8 @@ import { useUserAppSelector } from "@/redux/hooks";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { Separator } from "@/components/ui/separator";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import AdultContentModal from "@/components/ui/adult-content-modal";
+import useAdultContentGuard from "@/hooks/useAdultContentGuard";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -45,6 +47,22 @@ const Show = () => {
     const authUser = useUserAppSelector(selectAuthUser);
 
     const {isLargeDesktop} = useScreenDetector();
+    
+    // Check if content has adult categories
+    const hasAdultContent = mogous?.mogou?.categories?.some(
+        (category: any) => category.is_adult === true
+    ) || false;
+
+    // Use adult content guard hook
+    const { 
+        showAdultModal, 
+        handleAcceptAdultContent, 
+        handleDeclineAdultContent 
+    } = useAdultContentGuard({
+        hasAdultContent,
+        isLoading: isLoading || isFetching,
+        redirectPath: "/"
+    });
 
     // Handle scroll and ads refresh when fetching completes
     useEffect(() => {
@@ -86,6 +104,12 @@ const Show = () => {
                 description={mogous?.mogou?.description?.slice(0, 150) || 'Manga details page'} 
                 name="Manga Details" 
                 type="manga" 
+            />
+
+            <AdultContentModal 
+                isOpen={showAdultModal}
+                onAccept={handleAcceptAdultContent}
+                onDecline={handleDeclineAdultContent}
             />
 
             <div className="flex flex-col mt-8 px-4 md:px-0">

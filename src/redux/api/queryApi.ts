@@ -45,4 +45,4 @@ export const queryApi = createApi({
   }),
 });
 
-export const { useGetDataQuery, usePostDataMutation } = queryApi;
+export const { useGetDataQuery, usePostDataMutation,useLazyGetDataQuery } = queryApi;

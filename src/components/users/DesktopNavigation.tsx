@@ -5,16 +5,24 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/utilities/util";
 import { forwardRef } from "react";
 import { ComicType } from "@/data/data";
+import useLazyQuery from "@/hooks/useLazyQuery";
 
 export function DesktopNavigation() {
 
     const categories = useAppSelector((state) => state.categories.categories)!;
 
+    const navigate = useNavigate();
+
+    const { executeQuery } = useLazyQuery({
+        callback:(data,meta)=>{
+            navigate(`show/${data.mogou.slug}`)
+        }
+    });
 
     return (
         <NavigationMenu>
@@ -51,6 +59,8 @@ export function DesktopNavigation() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
+                <div
+                onClick={() => executeQuery('users/random/mogous')}>Random</div>
                
             </NavigationMenuList>
         </NavigationMenu>

@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { PlusCircle } from "lucide-react"
 import { Category } from "./type"
 import { categoryValidationSchema } from "./CategoryValidation"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import useMutate from "@/hooks/useMutate"
 import InputError from "@/components/ui/input-error"
@@ -43,7 +44,7 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen,ref
 
 
   const {
-    register,reset, handleSubmit, setError, formState: { errors }
+    register, reset, handleSubmit, setError, control, formState: { errors }
   } = useForm<Category>({
     resolver: yupResolver(categoryValidationSchema)
   });
@@ -53,11 +54,12 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen,ref
       if (category) {
         reset({
           title: category.title,
-          
+          is_adult: category.is_adult || false,
         });
       } else {
         reset({
           title: "",
+          is_adult: false,
         });
       }
     }, [category, reset]);
@@ -121,8 +123,25 @@ export function CategoryModal({ initCategory, setInitCategory, open, setOpen,ref
                 defaultValue={category?.title}
                 className="col-span-3"
               />
-            <InputError field={errors.title} />
+              <InputError field={errors.title} />
+            </div>
 
+            <div className="flex items-center justify-between gap-4">
+              <Label htmlFor="is_adult" className="text-left">
+                Adult Content
+              </Label>
+              <Controller
+                name="is_adult"
+                control={control}
+                defaultValue={category?.is_adult || false}
+                render={({ field }) => (
+                  <Switch
+                    id="is_adult"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
             </div>
           </div>
           <DialogFooter>

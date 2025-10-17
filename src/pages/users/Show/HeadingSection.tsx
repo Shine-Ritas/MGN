@@ -3,6 +3,7 @@ import { FaCaretRight } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BookMark from "@/components/ui/bookmark";
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Rating } from "@/components/ui/rating";
@@ -142,13 +143,20 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                             <p className="text-md md:hidden">
                                 <span className="text-muted-foreground">Status :</span> <span className="text-sm">{ mogou?.finish_status_name}</span>
                             </p>
-                            <p className="text-md">
-                                <span className="text-muted-foreground">Genres :</span> <span className="text-sm">{
-                                    mogou?.categories.map((category) => {
-                                        return category.title
-                                    }).join(", ")
-                                }</span>
-                            </p>
+                            <div className="text-md flex flex-wrap items-center gap-2">
+                                <span className="text-muted-foreground">Genres :</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {mogou?.categories.map((category: any, index: number) => (
+                                        <Badge 
+                                            key={index} 
+                                            variant={category.is_adult ? "default" : "secondary"}
+                                            className={category.is_adult ? "bg-primary" : ""}
+                                        >
+                                            {category.title}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                         <Card className="bg-secondary mt-4 w-full min-h-20 flex items-center">
                             <CardContent className="flex gap-4 items-center  md:h-20 px-6 py-0">

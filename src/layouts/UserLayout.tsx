@@ -12,6 +12,7 @@ import MaintenancePage from "@/pages/errors/maitainence";
 import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getAppliactionConfig } from "@/redux/slices/application-config-slice";
+import GoogleTestAd from "@/components/GoogleTestAds";
 
 
 const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
@@ -60,6 +61,8 @@ const UserLayout = () => {
             </div>
           </div>
         </div>
+
+        <GoogleTestAd />
         {!isReadMode && <UserLayoutFooter />}
       </div>
       {isReadMode && <DetailDrawer />}

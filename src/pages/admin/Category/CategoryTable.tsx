@@ -78,6 +78,7 @@ const CategoryTable = () => {
                             <TableHead>
                                 Total Comics Count
                             </TableHead>
+                            <TableHead>Adult Content</TableHead>
                             <TableHead className="hidden md:table-cell">Created at</TableHead>
                             <TableHead>
                                 <span className="sr-only">Actions</span>
@@ -144,6 +145,11 @@ const CategoryTableRow = ({ category, index, setCategory, setOpen,refetch }: {
                 {category?.mogous_count}
             </Badge>
         </TableCell>
+        <TableCell>
+            <Badge variant={category?.is_adult ? "destructive" : "secondary"}>
+                {category?.is_adult ? "18+" : "All Ages"}
+            </Badge>
+        </TableCell>
 
         <TableCell className="hidden md:table-cell">
             2023-07-12 10:42 AM
@@ -163,6 +169,7 @@ const CategoryTableRow = ({ category, index, setCategory, setOpen,refetch }: {
                             setCategory({
                                 id: category?.id,
                                 title: category?.title,
+                                is_adult: category?.is_adult,
                             })
                             setOpen(true)
                         }}
