@@ -3,7 +3,6 @@ import { FaCaretRight } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BookMark from "@/components/ui/bookmark";
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Rating } from "@/components/ui/rating";
@@ -14,6 +13,7 @@ import { EyeIcon } from "lucide-react";
 import DOMPurify from 'dompurify';
 
 import useReadChapter from "@/hooks/useReadChapter";
+import CategoryBadge from "@/components/ui/mogou-card/category-badge";
 
 interface HeadingSectionProps {
     mogous: any,
@@ -27,6 +27,7 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
 
     const auth = useUserAppSelector(selectAuthUser);
     const { readTheChapter } = useReadChapter();
+
 
     if (loading || !mogous) {
         return (
@@ -147,13 +148,9 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                                 <span className="text-muted-foreground">Genres :</span>
                                 <div className="flex flex-wrap gap-2">
                                     {mogou?.categories.map((category: any, index: number) => (
-                                        <Badge 
-                                            key={index} 
-                                            variant={category.is_adult ? "default" : "secondary"}
-                                            className={category.is_adult ? "bg-primary" : ""}
-                                        >
-                                            {category.title}
-                                        </Badge>
+                                        <CategoryBadge 
+                                        onClick={() => window.location.href = `/filter?genres=${category.title}`}
+                                        category={category} index={index} />
                                     ))}
                                 </div>
                             </div>

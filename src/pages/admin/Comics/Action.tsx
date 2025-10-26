@@ -35,6 +35,7 @@ import useQuery from "@/hooks/useQuery"
 import useEffectAfterMount from "@/hooks/useEffectAfterMount"
 import { goTo } from "@/utilities/util"
 import YearSelect from "@/components/ui/year-select"
+import { adminRouteCollection } from "@/routes/data/admin_route"
 
 interface ActionProps {
   isEdit?: boolean;
@@ -139,12 +140,12 @@ const Action = ({ isEdit = false }: ActionProps) => {
     <main className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8 ">
       <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex-1 auto-rows-max gap-4" encType="multipart/form-data">
         <div className="flex items-center gap-4 mb-10">
-          <Goback to={-1} />
+          <Goback to={adminRouteCollection.mogous} />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             {isEdit ? "Edit Comic" : "Create Comic"}
           </h1>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
-            <Goback to={-1} label="Discard" />
+            <Goback to={adminRouteCollection.mogous} label="Discard" />
             <Button
               disabled={isSubmiting}
               type="submit" size="sm">

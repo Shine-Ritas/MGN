@@ -7,9 +7,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Badge } from '@/components/ui/badge';
 import { useAppSelector } from '@/redux/hooks';
 import { Input } from '@/components/ui/input';
+import CategoryBadge from '@/components/ui/mogou-card/category-badge';
 
 interface CategorySelectProps {
     holderCategories: ComicCategory[],
@@ -47,10 +47,7 @@ const CategorySelect = ({ holderCategories, setHolderCategories }: CategorySelec
                             holderCategories?.map((category: ComicCategory) => {
                                 return (
                                     <div key={category.id! + Math.random()*10}>
-                                        <Badge
-                                            onClick={() => removeCategory(category)}
-                                            className='cursor-pointer'
-                                        >{category.title}</Badge>
+                                        <CategoryBadge category={category} index={category.id!} onClick={() => removeCategory(category)} />
                                     </div>
                                 )
                             })
@@ -93,10 +90,7 @@ const CategorySelect = ({ holderCategories, setHolderCategories }: CategorySelec
                                 }
                                 return (
                                     <div key={category.id}>
-                                        <Badge
-                                            className='cursor-pointer'
-                                            onClick={() => addCategory(category)}
-                                        >{category.title}</Badge>
+                                        <CategoryBadge category={category} index={category.id!} onClick={() => addCategory(category)} />
                                     </div>
                                 )
                             })

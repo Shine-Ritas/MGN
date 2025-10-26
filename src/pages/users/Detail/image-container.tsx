@@ -109,7 +109,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
 
   const LoadingPlaceholder = () => (
-    <div className={`${readStyle.imageClass} ${readSetting.imageFit.value} flex items-center justify-center bg-gray-900/50 min-h-[600px]`}>
+    <div className={`${readStyle.imageClass} ${readSetting.imageFit.value} flex items-center justify-center  min-h-[400px] w-full`}>
       <Loader2 className="h-12 w-12 animate-spin text-neon-primary" />
     </div>
   );
@@ -123,6 +123,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
           alt={id} 
           data-sid={index + 1}
           id="parentContainer"
+          wrapperClassName="!flex justify-center "
           className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`}
           placeholder={<LoadingPlaceholder />}
           effect="opacity"

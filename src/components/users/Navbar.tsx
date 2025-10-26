@@ -1,4 +1,4 @@
-import { CircleUser, Menu } from "lucide-react"
+import { CircleUser, Menu, MenuIcon } from "lucide-react"
 import { Sheet, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
@@ -82,7 +82,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     isMobile && <MobileSidebarSheet />
                 }
             </Sheet>
-            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-8">
+            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
                 <div className="ml-auto flex  sm:flex-initial">
 
@@ -163,9 +163,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     isReadMode && (
                         <div className="">
                             <Button
+                            size="icon"
+                            className="rounded-full"
                                 onClick={() => dispatch(toggleValue("showPanel"))}
                             >
-                                Menu
+                                <MenuIcon className="h-5 w-5" />
                             </Button>
                         </div>
                     )

@@ -140,7 +140,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       })
     );
 
-    const chunkSize = 5;
+    const chunkSize = 3;
 
     // Helper function to upload a single chunk
     const uploadChunk = async (chunk: FileWithUniqueId[]) => {

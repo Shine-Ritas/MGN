@@ -47,21 +47,21 @@ const Show = () => {
     const { reAds } = useAdsRef({ adsOn: true });
     const authUser = useUserAppSelector(selectAuthUser);
 
-  const adverties = useUserAppSelector(selectBanners);
+    const adverties = useUserAppSelector(selectBanners);
 
 
-    const {isLargeDesktop} = useScreenDetector();
-    
+    const { isLargeDesktop } = useScreenDetector();
+
     // Check if content has adult categories
     const hasAdultContent = mogous?.mogou?.categories?.some(
         (category: any) => category.is_adult === true
     ) || false;
 
     // Use adult content guard hook
-    const { 
-        showAdultModal, 
-        handleAcceptAdultContent, 
-        handleDeclineAdultContent 
+    const {
+        showAdultModal,
+        handleAcceptAdultContent,
+        handleDeclineAdultContent
     } = useAdultContentGuard({
         hasAdultContent,
         isLoading: isLoading || isFetching,
@@ -80,7 +80,7 @@ const Show = () => {
     useEffect(() => {
         if (mogous?.mogou?.title) {
             document.title = `${mogous.mogou.title} - Manga Details`;
-            
+
             const metaDescription = document.querySelector('meta[name="description"]') as HTMLMetaElement;
             if (metaDescription && mogous.mogou.description) {
                 metaDescription.content = mogous.mogou.description.slice(0, 150);
@@ -103,14 +103,14 @@ const Show = () => {
 
     return (
         <>
-            <SEO 
-                title={`${mogous?.mogou?.title || 'Loading...'} - Manga Details`} 
-                description={mogous?.mogou?.description?.slice(0, 150) || 'Manga details page'} 
-                name="Manga Details" 
-                type="manga" 
+            <SEO
+                title={`${mogous?.mogou?.title || 'Loading...'} - Manga Details`}
+                description={mogous?.mogou?.description?.slice(0, 150) || 'Manga details page'}
+                name="Manga Details"
+                type="manga"
             />
 
-            <AdultContentModal 
+            <AdultContentModal
                 isOpen={showAdultModal}
                 onAccept={handleAcceptAdultContent}
                 onDecline={handleDeclineAdultContent}
@@ -119,7 +119,7 @@ const Show = () => {
             <div className="flex flex-col mt-8 px-4 md:px-0">
                 {/* Ads anchor point */}
                 <div id="popoverhe"></div>
-                
+
                 {/* Header Section */}
                 <div className="flex items-center gap-4 mb-6">
                     <Goback size="sm" to="/" />
@@ -141,22 +141,22 @@ const Show = () => {
 
                         <div className="w-full">
                             {
-                                (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
+                                (adverties?.length > 0 && adverties[1].active == true) && <AdsBanner banner={adverties[1]} />
                             }
                         </div>
 
                         {
-                            !isLoading && !isFetching && mogous?.mogou && 
-                            <UserComment 
-                            mogou={mogous.mogou}
-                            authUser={authUser}
-                        />
+                            !isLoading && !isFetching && mogous?.mogou &&
+                            <UserComment
+                                mogou={mogous.mogou}
+                                authUser={authUser}
+                            />
                         }
-                        
+
                     </div>
 
                     {!isLargeDesktop && <Separator />}
-                    
+
                     {/* Related Ma
                     nga Section */}
                     <div className="xl:col-span-2 flex justify-start text-start h-fit">
@@ -167,6 +167,12 @@ const Show = () => {
                         )}
                         {(isLoading || isFetching) && <RelatedMogouSkeleton />}
                     </div>
+                </div>
+
+                <div className="w-full">
+                    {
+                        (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
+                    }
                 </div>
             </div>
         </>

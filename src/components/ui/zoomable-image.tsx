@@ -1,3 +1,4 @@
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Dialog, DialogContent, DialogTrigger } from './dialog'
 import { DetailedHTMLProps, ImgHTMLAttributes } from 'react'
 
@@ -10,11 +11,10 @@ export default function ZoomableImage({
   return (
     <Dialog >
       <DialogTrigger asChild>
-        <img
+        <LazyLoadImage
           src={src}
           alt={alt || ''}
           className={className}
-         
           onClick={(e) => {
             e.stopPropagation()
           }}

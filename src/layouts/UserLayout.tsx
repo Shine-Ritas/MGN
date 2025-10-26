@@ -12,6 +12,7 @@ import MaintenancePage from "@/pages/errors/maitainence";
 import { selectReadSettingPanel } from "@/redux/slices/userReadSetting/selectors";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { getAppliactionConfig } from "@/redux/slices/application-config-slice";
+import { useInspectionProtection } from "@/hooks/useInspectionProtection";
 
 
 const DetailDrawer = lazy(() => import('@/pages/users/Detail/detail-drawer'));
@@ -23,6 +24,8 @@ const UserLayout = () => {
   const location = useLocation(); 
   const {isMobile} = useScreenDetector();
 
+  // Protection against inspection
+  useInspectionProtection();
 
   const isMenuOpen = useUserAppSelector(selectReadSettingPanel);
   const dispatch = useUserAppDispatch();

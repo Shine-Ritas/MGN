@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback, useEffect, useState } from "react";
-import { ArrowLeftIcon } from "lucide-react";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { MemorizedIndexerButton } from "./drawer-button";
 import { handleChapterSwitch, setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
@@ -15,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ReportIssueModal } from "./report-issue-modal";
 import { rTitle } from "@/utilities/util";
 import { selectAuthUser } from "@/redux/slices/user-global";
+import { MdHome } from "react-icons/md";
 
 const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: string }) => {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: strin
                     size="sm"
                     onClick={() => navigate(`/show/${slug}`)}
                 >
-                    <ArrowLeftIcon size={16} />
+                    <MdHome size={16} />
                 </Button>
                 <Link
                     to={`/show/${slug}`}

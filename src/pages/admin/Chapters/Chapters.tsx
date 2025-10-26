@@ -7,6 +7,7 @@ import ChapterAnalysis from './Analysic';
 import { TablePagination } from '@/components/TablePagination';
 import { Button } from '@/components/ui/button';
 import { PublishDialog } from '../Comics/PublishDialog';
+import { adminRouteCollection } from '@/routes/data/admin_route';
 
 const Chapters = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -29,7 +30,7 @@ const Chapters = () => {
                 <div className="flex items-center justify-between gap-4 mb-10">
 
                     <div className="flex gap-4 items-center">
-                        <Goback to={-1} />
+                        <Goback to={adminRouteCollection.mogous} />
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                             Chapters
                         </h1>

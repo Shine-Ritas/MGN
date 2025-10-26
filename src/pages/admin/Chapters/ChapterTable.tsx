@@ -104,7 +104,7 @@ export const ChapterTable = ({
                                             }
                                         </TableCell>
 
-                                        <TableCell className="text-center w-32 flex gap-2 items-center">
+                                        <TableCell className="text-center w-32 flex gap-2 items-center overfls">
 
                                             {/* acrtion with eye icon */}
                                             <Link to={`/admin/mogou/${mogou_slug}/chapters/edit/${chapter.id}`}>
@@ -121,7 +121,7 @@ export const ChapterTable = ({
                                                 onClick={() => handlePublishClick(chapter.slug)}
                                             >
                                                 <FaTelegram className="h-3.5 w-3.5" />
-                                                Telegram
+                                                
                                             </Button>
 
 
