@@ -76,7 +76,7 @@ export const ImageFitData : Record<string, ImageFitType> = {
     },
     Fill: {
         label: "Image-Fit: Fill",
-        value: "object-fill",
+        value: "object-fill px-4  lg:px-0 !w-[100%]",
         iconName:"GalleryThumbnails"
     }
 }

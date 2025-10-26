@@ -20,6 +20,7 @@ import { userReadedThisChapter } from "@/redux/slices/userReadSetting/user-read-
 import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
 import DetailLoadingSkeleton from "./loading-skeleton";
+import DetailHeader from "./detail-header";
 
 // Utility: prefetch images sequentially (one by one)
 const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => void) => {
@@ -311,6 +312,9 @@ const Detail = () => {
             className={`${readSetting.backgroundColor.value} cursor-pointer relative min-h-screen`}
             onClick={handleScreenClick}
           >
+
+            <DetailHeader />
+
             <ImageContainer
               containerRef={containerRef}
               currentImages={currentImages}

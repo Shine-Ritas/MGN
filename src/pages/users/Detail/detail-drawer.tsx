@@ -3,9 +3,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback, useEffect, useState } from "react";
 import { ArrowLeftIcon } from "lucide-react";
-
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
-
 import { MemorizedIndexerButton } from "./drawer-button";
 import { handleChapterSwitch, setCurrentPage, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
@@ -16,6 +14,7 @@ import MemoizedSettingOgButton from "./setting-og-button";
 import { Link, useNavigate } from "react-router-dom";
 import { ReportIssueModal } from "./report-issue-modal";
 import { rTitle } from "@/utilities/util";
+import { selectAuthUser } from "@/redux/slices/user-global";
 
 const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: string }) => {
     const navigate = useNavigate();
@@ -60,6 +59,8 @@ const DetailDrawer = () => {
 
     const navigate = useNavigate();
     const [reportModalOpen, setReportModalOpen] = useState(false);
+
+    const authUser = useUserAppSelector(selectAuthUser);
 
     useEffect(() => {
         localStorage.setItem("currentDevice", underDesktop ? "mobile" : "desktop");
@@ -187,11 +188,11 @@ const DetailDrawer = () => {
                                 iconName={"LucideSettings"}
 
                             />
-                            <MemoizedSettingOgButton
+                             <MemoizedSettingOgButton
                                 onClick={handleReportModal}
                                 label={"Report Issue"}
-                                iconName={"AlertCircle"}
-
+                                iconName={"ShieldAlert"}
+                                forceDisabled={!authUser}
                             />
                         </div>
                     </SheetDescription>

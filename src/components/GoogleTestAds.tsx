@@ -41,6 +41,7 @@ export default function GoogleTestAd() {
       ins.setAttribute("data-ad-client", "ca-pub-9433165378532456");
       ins.setAttribute("data-ad-slot", "4739513364");
       ins.setAttribute("data-ad-format", "auto");
+      ins.setAttribute("data-adtest", "on");
       ins.setAttribute("data-full-width-responsive", "true");
 
       adRef.current.appendChild(ins);

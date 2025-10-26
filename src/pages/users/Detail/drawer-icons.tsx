@@ -14,7 +14,8 @@ import {
     LucideSettings,
     StickyNote,
     BookOpen,
-    Palette
+    Palette,
+    ShieldAlert
 } from "lucide-react";
 
 export const iconMap = {
@@ -32,5 +33,6 @@ export const iconMap = {
     Scroll,
     StickyNote,
     BookOpen,
-    Palette
+    Palette,
+    ShieldAlert
 };

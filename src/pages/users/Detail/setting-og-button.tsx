@@ -7,9 +7,10 @@ type SettingButtonProps = {
     onClick: () => void;
     label: string;
     iconName: string;
+    forceDisabled?: boolean;
 };
 
-const SettingButton = ({ onClick, label, iconName }: SettingButtonProps) => {
+const SettingButton = ({ onClick, label, iconName, forceDisabled = false }: SettingButtonProps) => {
         const [isDisabled, setIsDisabled] = useState(false);
         const IconComponent = iconMap[iconName];
 
@@ -22,7 +23,7 @@ const SettingButton = ({ onClick, label, iconName }: SettingButtonProps) => {
         return (
             <Button
                 onClick={handleClick}
-                disabled={isDisabled}
+                disabled={isDisabled || forceDisabled}
                 variant="outline"
                 size="sm"
                 className="w-full flex justify-between items-center py-6 px-4 text-sm bg-secondary"

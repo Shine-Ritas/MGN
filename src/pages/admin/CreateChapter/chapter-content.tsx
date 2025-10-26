@@ -206,7 +206,7 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
                 </div>
               </div>
             </CardTitle>
-            <CardDescription>Upload the chapter content as a ZIP, CBZ, or PDF file.</CardDescription>
+            <CardDescription>Upload the chapter content as a ZIP, CBZ, or PDF file. ( Compressed files are recommended to faster uplaod )</CardDescription>
           </div>
 
           {/* Controls - Stack on mobile, side by side on desktop */}

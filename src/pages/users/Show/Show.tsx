@@ -11,11 +11,12 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserComment } from "./UserComment";
 import { useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser } from "@/redux/slices/user-global";
+import { selectAuthUser, selectBanners } from "@/redux/slices/user-global";
 import { Separator } from "@/components/ui/separator";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import AdultContentModal from "@/components/ui/adult-content-modal";
 import useAdultContentGuard from "@/hooks/useAdultContentGuard";
+import AdsBanner from "../home/banners/adsBanner";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -45,6 +46,9 @@ const Show = () => {
     const { data: mogous, isLoading, isFetching } = useQuery(`users/mogous/${slug}`);
     const { reAds } = useAdsRef({ adsOn: true });
     const authUser = useUserAppSelector(selectAuthUser);
+
+  const adverties = useUserAppSelector(selectBanners);
+
 
     const {isLargeDesktop} = useScreenDetector();
     
@@ -134,6 +138,12 @@ const Show = () => {
                     {/* Chapter Table Section */}
                     <div className="xl:col-span-6  flex flex-col gap-5">
                         <ChapterTable mogous={isLoading || isFetching ? undefined : mogous} />
+
+                        <div className="w-full">
+                            {
+                                (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
+                            }
+                        </div>
 
                         {
                             !isLoading && !isFetching && mogous?.mogou && 
