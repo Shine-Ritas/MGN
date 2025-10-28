@@ -12,15 +12,17 @@ import useQuery from "@/hooks/useQuery"
 interface CommentItemProps {
   comment: Comment
   authUser?: User | null
-  onSubmitReply: (content: string, image?: File, parentId?: number) => Promise<void>
-  isSubmitting?: boolean
+  isSubmitting?: boolean,
+  commentPayload : any
+  onUpdateCommentCount?: (commentId: number) => void
 }
 
 export function CommentItem({ 
   comment, 
   authUser, 
-  onSubmitReply, 
-  isSubmitting = false 
+  isSubmitting = false ,
+  commentPayload,
+  onUpdateCommentCount
 }: CommentItemProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [expandedReplies, setExpandedReplies] = useState<Comment[]>([])
@@ -71,7 +73,7 @@ export function CommentItem({
      await postComment("users/mogous/comments", { 
       text: content,
       image_path: image || undefined,
-      mogou_id: 1,
+      mogou_id: commentPayload.mogou_id,
       parent_comment_id: comment.id,
     })
     
@@ -82,6 +84,10 @@ export function CommentItem({
       // If replies aren't shown, enable the query for when they expand it next time
       setDisableLoadComment(false)
     }
+
+    // Update comment count in parent component instead of direct mutation
+    onUpdateCommentCount?.(comment.id)
+
     
     // Close the reply input after successful submission
     setReplyingTo(null)

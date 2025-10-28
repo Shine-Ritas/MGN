@@ -23,11 +23,11 @@ export function UserComment({
   authUser,
   className,
 }: UserCommentProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [comments, setComments] = useState<Comment[]>([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
+  const [commentPayload,setCommentPayload] = useState<any>(null)
 
   const { data, refetch } = useQuery(`users/comments/get?mogou_id=${mogou.id}&sub_mogou_id=${subMogou?.id ?? ''}&page=${page}`);
 
@@ -41,6 +41,10 @@ export function UserComment({
         setComments(prev => [...prev, ...(data.comments.data || [])])
       }
       
+      setCommentPayload({
+        mogou_id: mogou.id,
+        sub_mogou_id: subMogou?.id ?? null
+      })
       // Check if there are more pages
       setHasMore(data.comments.current_page < data.comments.last_page)
     }
@@ -57,21 +61,19 @@ export function UserComment({
     }
   }
 
-  const handleSubmit = async (content: string, image?: File, parentId?: number) => {
-    setIsSubmitting(true)
-    try {
-      // Reset to first page and refetch when new comment is added
-      setPage(1)
-      if (refetch) {
-        await refetch()
-      }
-    } finally {
-      setIsSubmitting(false)
-    }
+
+  const handleUpdateCommentCount = (commentId: number) => {
+    setComments(prevComments => 
+      prevComments.map(comment => 
+        comment.id === commentId 
+          ? { ...comment, child_comments_count: comment.child_comments_count + 1 }
+          : comment
+      )
+    )
   }
 
   return (
-    <div className={cn("w-full mx-auto space-y-6 max-h-[60vh] overflow-y-scroll", className)}>
+    <div className={cn("w-full mx-auto space-y-6", className)}>
       {/* Comment Section Header */}
       <div className="flex items-center gap-2 mb-4">
         <MessageCircle className="h-5 w-5 text-muted-foreground" />
@@ -79,13 +81,12 @@ export function UserComment({
         <span className="text-sm text-muted-foreground">({comments.length})</span>
       </div>
 
+    <div className="w-full max-h-[60vh] overflow-y-scroll space-y-6">
       {/* Comment Input */}
       <CommentInput
         authUser={authUser}
         refetch={refetch}
-        setComments={setComments}
-        isSubmitting={isSubmitting}
-
+        commentPayload={commentPayload}
       />
 
       {/* Comments List */}
@@ -109,8 +110,8 @@ export function UserComment({
                 key={comment.id}
                 comment={comment}
                 authUser={authUser}
-                onSubmitReply={handleSubmit}
-                isSubmitting={isSubmitting}
+                commentPayload={commentPayload}
+                onUpdateCommentCount={handleUpdateCommentCount}
               />
             ))}
             
@@ -137,6 +138,7 @@ export function UserComment({
             )}
           </>
         )}
+      </div>
       </div>
     </div>
   )

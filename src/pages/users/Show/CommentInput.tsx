@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card"
 import { ImageIcon, Send, X, LogIn } from "lucide-react"
 import { Link } from "react-router-dom"
 import { User } from "@/types/store/user-store-type"
-import { Comment } from "./types"
 import useMutate from "@/hooks/useMutate"
 
 interface CommentInputProps {
@@ -14,15 +13,15 @@ interface CommentInputProps {
   refetch: any
   placeholder?: string
   isSubmitting?: boolean
-  setComments: (value: React.SetStateAction<Comment[]>) => void
+  commentPayload : any
 }
 
 export function CommentInput({ 
   authUser, 
   refetch, 
   placeholder = "Share your thoughts about this chapter...",
-  setComments,
-  isSubmitting = false 
+  isSubmitting = false ,
+  commentPayload
 }: CommentInputProps) {
   const [newComment, setNewComment] = useState("")
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -65,7 +64,7 @@ export function CommentInput({
       await postComment("users/mogous/comments", { 
         text: newComment,
         image_path: selectedImage || undefined,
-        mogou_id: 1,
+        ...commentPayload
       })
       setNewComment("")
         refetch();
