@@ -10,6 +10,7 @@ import useMutate from "@/hooks/useMutate"
 import { Checkbox } from "@/components/ui/checkbox"
 import { extractZip } from "@/utilities/util"
 import { Label } from "@/components/ui/label"
+import { toast } from "@/components/ui/use-toast"
 
 
 type ChapterContentProps = {
@@ -76,6 +77,23 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
       console.warn("No valid images found.");
       return;
     }
+
+    // ✅ Filter out files larger than 4MB and notify via toast
+    const MAX_BYTES = 5 * 1024 * 1024;
+    const oversizedFiles = allExtractedImages.filter((f) => f.size > MAX_BYTES);
+    const validImages = allExtractedImages.filter((f) => f.size <= MAX_BYTES);
+
+    if (oversizedFiles.length > 0) {
+      const listed = oversizedFiles.slice(0, 5).map((f) => f.name).join(", ");
+      const more = oversizedFiles.length > 5 ? ` and ${oversizedFiles.length - 5} more` : "";
+      toast({
+        title: "Some files were skipped",
+        description: `Images over 4MB were removed: ${listed}${more}`,
+        variant: "destructive",
+      });
+    }
+
+    allExtractedImages = validImages;
   
     // ✅ Chunk processing for performance
     const CHUNK_SIZE = 20;
@@ -206,14 +224,14 @@ const ChapterContent = ({ isCard1Submitted, chapterInfo }: ChapterContentProps) 
                 </div>
               </div>
             </CardTitle>
-            <CardDescription>Upload the chapter content as a ZIP, CBZ, or PDF file. ( Compressed files are recommended to faster uplaod )</CardDescription>
+            <CardDescription>Upload a ZIP, CBZ, or PNG file. ( Please keep the tab alive until the upload is complete )</CardDescription>
           </div>
 
           {/* Controls - Stack on mobile, side by side on desktop */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {/* Watermark Checkbox */}
             <div className="flex items-center gap-3">
-              <Label>Apply Watermark</Label>
+              <Label>Watermark</Label>
               <Checkbox 
                 checked={applyWatermark}
                 onCheckedChange={(checked) => setApplyWatermark(checked as boolean)}

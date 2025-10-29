@@ -8,6 +8,7 @@ import { TablePagination } from '@/components/TablePagination';
 import { Button } from '@/components/ui/button';
 import { PublishDialog } from '../Comics/PublishDialog';
 import { adminRouteCollection } from '@/routes/data/admin_route';
+import { PlusCircleIcon } from 'lucide-react';
 
 const Chapters = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -39,8 +40,9 @@ const Chapters = () => {
                     <div className="">
                         <Button 
                         onClick={() => navigate(`/admin/mogou/${slug}/chapters/create`)}
-                        size="sm" variant={"neon"} className="h-10 gap-1">
-                            Add New Chapter
+                        size="sm" variant={"neon"} className=" gap-1">
+                            <PlusCircleIcon className='size-4'/>
+                            <span className='hidden md:flex'>New Chapter</span>
                         </Button>
                     </div>
                 </div>

@@ -43,7 +43,7 @@ export function MultiSelectDropdown<T>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
+        <Button variant="background" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
           <span className="truncate">{selectedLabels || placeholder}</span>
           <ChevronDown className="h-4 w-4 opacity-50 ml-2" />
         </Button>

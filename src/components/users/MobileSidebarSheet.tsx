@@ -1,5 +1,5 @@
 import { SheetContent, SheetFooter } from '../ui/sheet'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
     Accordion,
     AccordionContent,
@@ -16,6 +16,7 @@ import AlertBox from '../ui/AlertBox'
 import { useSelector } from 'react-redux'
 import { selectApplicationConfig } from '@/redux/slices/application-config-slice'
 import SocialLinkItem from '../ui/social-link-item'
+import useLazyQuery from '@/hooks/useLazyQuery'
 
 
 const MobileSidebarSheet = () => {
@@ -27,17 +28,25 @@ const MobileSidebarSheet = () => {
 
     const logout = useLogout();
 
+    const navigate = useNavigate();
+    const { executeQuery } = useLazyQuery({
+        callback: (data, meta) => {
+            navigate(`show/${data.mogou.slug}`)
+        }
+    });
+
     return (
         <SheetContent side="left" className='w-[60vw]'>
             <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[80vh]">
- 
-                <Link
-                    to="/"
-                    className="flex h-10 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full">
-                    Home
-                </Link>
+
 
                 <Accordion type="multiple" data-state='open'>
+
+                <Link
+                    to="/"
+                    className="flex  py-4 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full">
+                    Home
+                </Link>
 
                     <AccordionItem value="item-1" className='border-none '>
                         <AccordionTrigger
@@ -62,7 +71,14 @@ const MobileSidebarSheet = () => {
                         </AccordionContent>
                     </AccordionItem>
 
-                    <div className="mt-3">
+
+                    <div
+                        onClick={() => executeQuery('users/random/mogous')}
+                        className="flex  py-4 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full cursor-pointer">
+                        Random
+                    </div>
+
+                    <div className=" py-4">
                         {
                             !authUser && <Link
                                 to="/login"

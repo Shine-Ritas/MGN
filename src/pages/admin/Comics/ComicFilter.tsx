@@ -69,8 +69,9 @@ export default function ComicFilter({
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <Select onValueChange={(value) => handleFilter("chapters_count_order", value)} defaultValue={""}>
-            <SelectTrigger aria-label="Order by chapters">
+          <Select 
+          onValueChange={(value) => handleFilter("chapters_count_order", value)} defaultValue={""}>
+            <SelectTrigger aria-label="Order by chapters" >
               <SelectValue placeholder="Order by chapters" />
             </SelectTrigger>
             <SelectContent>
@@ -82,7 +83,7 @@ export default function ComicFilter({
             </SelectContent>
           </Select>
 
-          <Button variant="outline" className="bg-background font-semibold text-xs">
+          <Button variant="outline" className="bg-background font-semibold text-xs ">
             Total: {data?.mogous?.total ?? 0}
           </Button>
         </div>

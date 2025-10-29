@@ -52,21 +52,21 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
         <header className={`w-4/4 sticky ${isReadMode ? visibility.value : ""} transition-all  flex min-h-16 items-center gap-4 border-b bg-background 
         py-3 lg:py-0
         px-4 md:px-12 lg:px-24 z-[80] `}>
-            <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+            <div className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"
-                    className=""
+                    className="w-full shrink-0"
                 >
                     <img
                         src={applicationConfig?.logo}
                         alt="logo"
-                        className=" max-h-24 object-contain cursor-pointer"
+                        className="object-contain w-auto h-8 sm:h-9 md:h-10 lg:h-10  cursor-pointer"
                     />
                 </Link>
                 {
                     !isMobile && <DesktopNavigation />
                 }
-            </nav>
+            </div>
             <Sheet>
                 <SheetTrigger asChild>
                     <Button

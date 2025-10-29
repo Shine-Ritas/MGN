@@ -218,7 +218,7 @@ export default function NewChapter() {
             <CardFooter className="px-0">
               <Button
                 disabled={isLoading || isCard1Submitted}
-                type="submit">Submit Chapter Information</Button>
+                type="submit">Submit</Button>
             </CardFooter>
           </form>
         </CardContent>

@@ -21,6 +21,7 @@ import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
 import DetailLoadingSkeleton from "./loading-skeleton";
 import DetailHeader from "./detail-header";
+import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 
 // Utility: prefetch images sequentially (one by one)
 const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => void) => {
@@ -98,6 +99,15 @@ const Detail = () => {
   // Handle chapter changes and URL updates in useEffect
   useEffect(() => {
     if (!chapterId) return;
+
+    if(data?.mogou?.mogou_type_name == "Manhwa"){
+      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['LongStrip']}));
+      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Cover']}));
+
+    }else{
+      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['SinglePage']}));
+      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Contain']}));
+    }
 
     // Check if chapter has changed
     if (readSetting.currentId !== chapterId) {

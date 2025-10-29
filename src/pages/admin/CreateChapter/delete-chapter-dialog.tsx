@@ -35,12 +35,12 @@ export default function DeleteConfirmationDialog({ chapterTitle,handleDelete,onL
       <DialogTrigger asChild>
         <Button variant="destructive" size="sm">
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete Chapter
+          Delete
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Delete Chapter</DialogTitle>
+          <DialogTitle>Delete</DialogTitle>
           <DialogDescription>
             Are you sure you want to delete &quot;{chapterTitle}&quot;? This action cannot be undone.
           </DialogDescription>

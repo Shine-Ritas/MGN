@@ -34,7 +34,7 @@ const ComicCard = ({ mogous}: ComicTableProps) => {
     return (
         <div
             className=
-                "bg-popover h-auto sm:h-64 shadow flex flex-col sm:flex-row shadow-neon-primary relative cursor-pointer group transition-all hover:-translate-y-3 rounded-md hover:-translate-x-1 hover:shadow-md hover:shadow-neon-primary pb-4 md:pb-0">
+                "bg-popover h-auto sm:h-64 shadow flex flex-col sm:flex-row shadow-neon-primary relative cursor-pointer group transition-all rounded-md pb-4 md:pb-0">
             <div className="w-full sm:w-1/4 flex justify-center">
                 <LazyLoadImage
                     src={mogous.cover}
@@ -72,26 +72,26 @@ const ComicCard = ({ mogous}: ComicTableProps) => {
                 <div className="text-sm text-muted-foreground flex-1 min-h-0">
                     <div className="line-clamp-3" dangerouslySetInnerHTML={{ 
                         __html: DOMPurify.sanitize( 
-                            mogous.description.length > (window.innerWidth < 640 ? 80 : 120) 
-                                ? mogous.description.slice(0, window.innerWidth < 640 ? 80 : 120) + "..." 
+                            mogous.description.length > (window.innerWidth < 640 ? 80 : 300) 
+                                ? mogous.description.slice(0, window.innerWidth < 640 ? 80 : 300) + "..." 
                                 : mogous.description
                         ) 
                     }} />
                 </div>
 
                 {/* button with chapters and Edit */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mt-auto">
+                <div className="flex flex-row items-stretch sm:items-center gap-2 sm:gap-4 mt-auto">
                     <Button
                         size={"sm"}
                         onClick={() => navigate(`/admin/mogou/${mogous.slug}/chapters`)}
-                        className="px-4 py-2 rounded-md hover:bg-accent text-xs sm:text-sm"
+                        className="px-4 py-2 rounded-md hover:bg-accent text-xs sm:text-sm w-1/2 md:w-fit"
                     >
                         Chapters
                     </Button>
                     <Button
                         size={"sm"}
                         onClick={() => navigate(`/admin/mogou/edit/${mogous.slug}`)}
-                        className="px-4 py-2 rounded-md hover:bg-accent text-xs sm:text-sm"
+                        className="px-4 py-2 rounded-md hover:bg-accent text-xs sm:text-sm w-1/2 md:w-fit"
                     >
                         Edit
                     </Button>

@@ -62,7 +62,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 p-2 sm:p-4 lg:p-6">
+    <div className="flex flex-col gap-4  lg:p-6">
       <MemoizedDashboardNav
         tabs={TABS}
         currentTab={currentTab}
