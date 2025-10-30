@@ -55,7 +55,7 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
             <div className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <Link
                     to="/"
-                    className="w-full shrink-0"
+                    className=" shrink-0"
                 >
                     <img
                         src={applicationConfig?.logo}

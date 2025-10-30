@@ -53,12 +53,12 @@ const updateStateAndPersist = <T extends keyof UserReadSetting>(
   saveToLocalStorage("userReadSetting", state);
 };
 
-export const handleChapterSwitch = (action: "prefer" | "next" | "prev", navigate) => {
+export const handleChapterSwitch = (action: "prefer" | "next" | "prev") => {
   const state = loadFromLocalStorage("userReadSetting", initialState);
   let url = "";
   url = (action == "next") ? state.nextUrl : state.prevUrl;
   saveToLocalStorage("userReadSetting", state);
-  navigate(url);
+  window.location.href = url;
 }
 
 

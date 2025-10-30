@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useCallback } from "react";
-import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
+import React, { useRef, useCallback } from "react";
+import { useUserAppSelector } from "@/redux/hooks";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
 import readingStyleClasses from "@/utilities/read-helper";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import useEffectAfterMount from "@/hooks/useEffectAfterMount";
-import { setField } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { Loader2 } from "lucide-react";
+import { useMagnifier } from "@/hooks/useMagnifier";
 
 interface ImageContainerProps {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -13,77 +13,20 @@ interface ImageContainerProps {
 }
 
 const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentImages }) => {
-  const dispatch = useUserAppDispatch();
   const readSetting = useUserAppSelector(selectUserReadSetting);
   const readStyle = readingStyleClasses(readSetting.readingStyle.value);
-  
-  const observerTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastPageUpdateRef = useRef<number>(0);
-
-  // Track visible page in long-strip mode for display purposes only
-  useEffect(() => {
-    let observer: IntersectionObserver | undefined;
-    if (readSetting.readingStyle.value === "long-strip" && currentImages.length > 0) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          const visibleEntries = entries.filter(entry => entry.isIntersecting);
-          
-          if (visibleEntries.length > 0) {
-            const mostVisible = visibleEntries.reduce((max, current) => 
-              current.intersectionRatio > max.intersectionRatio ? current : max
-            );
-            
-            const currentImage = mostVisible.target as HTMLImageElement;
-            const sid = currentImage.getAttribute("data-sid");
-            const pageNumber = parseInt(sid as string);
-            
-            // Update display page without triggering other effects
-            if (readSetting.currentPage !== pageNumber && 
-                Date.now() - lastPageUpdateRef.current > 500) {
-              
-              if (observerTimeoutRef.current) {
-                clearTimeout(observerTimeoutRef.current);
-              }
-              
-              observerTimeoutRef.current = setTimeout(() => {
-                lastPageUpdateRef.current = Date.now();
-                // Only update for display purposes in the drawer
-                dispatch(setField({ key: "currentPage", value: pageNumber }));
-              }, 200);
-            }
-          }
-        },
-        { 
-          root: null,
-          threshold: [0.3, 0.5, 0.7],
-          rootMargin: '0px'
-        }
-      );
-      
-      const timeoutId = setTimeout(() => {
-        const imageElements = containerRef.current?.querySelectorAll("img");
-        imageElements?.forEach((img) => observer?.observe(img));
-      }, 100);
-
-      return () => {
-        clearTimeout(timeoutId);
-        if (observerTimeoutRef.current) {
-          clearTimeout(observerTimeoutRef.current);
-        }
-        observer?.disconnect();
-      };
-    }
-    return () => {
-      if (observerTimeoutRef.current) {
-        clearTimeout(observerTimeoutRef.current);
-      }
-      observer?.disconnect();
-    };
-  }, [dispatch, containerRef, readSetting.readingStyle.value, currentImages, readSetting.currentPage]);
 
   // Scroll to page when manually selected via progress bar in long-strip mode
   const scrollToPageRef = useRef(readSetting.currentPage);
   const userInitiatedScrollRef = useRef(false);
+  const {
+    lensVisible,
+    lensBackground,
+    lensPosition,
+    lensDiameter,
+    lensElRef,
+    handlers,
+  } = useMagnifier({ lensDiameter: 140, lensZoom: 2, longPressDelayMs: 250, offsetY: 140 });
   
   const handleScrollToPage = useCallback(() => {
     if (userInitiatedScrollRef.current) {
@@ -114,8 +57,26 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
     </div>
   );
 
+  // Note: magnifier is managed by the hook via pointer events
+
   return (
-    <div className={`${readStyle.class} overscroll-y-scroll min-h-screen`} id="imageContainer" ref={containerRef}>
+    <div
+      className={`${readStyle.class} overscroll-y-scroll min-h-screen`}
+      id="imageContainer"
+      ref={containerRef}
+      onPointerDown={handlers.onPointerDown}
+      onPointerMove={handlers.onPointerMove}
+      onPointerUp={handlers.onPointerUp}
+      onPointerCancel={handlers.onPointerCancel}
+      onPointerLeave={handlers.onPointerLeave}
+      onTouchStart={handlers.onTouchStart}
+      onTouchMove={handlers.onTouchMove}
+      onTouchEnd={handlers.onTouchEnd}
+      onTouchCancel={handlers.onTouchCancel}
+      onContextMenu={(e) => e.preventDefault()}
+      // allow normal scroll when not active; disable while active to keep pointer events smooth
+      style={{ touchAction: lensVisible ? "none" : "auto" }}
+    >
       {currentImages.map(({ id, path }, index) => (
         <LazyLoadImage 
           key={id} 
@@ -125,10 +86,35 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
           id="parentContainer"
           wrapperClassName="!flex justify-center "
           className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`}
-          placeholder={<LoadingPlaceholder />}
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
+          style={{ userSelect: "none", WebkitTouchCallout: "none" as any }}
+          onLoad={() => {
+            return <LoadingPlaceholder />
+          }}
           effect="opacity"
+
         />
       ))}
+      {lensVisible && lensBackground && (
+        <div
+          ref={lensElRef}
+          aria-hidden
+          className="pointer-events-none fixed z-50 rounded-full shadow-xl ring-2 ring-white/70 will-change-transform"
+          style={{
+            left: 0,
+            top: 0,
+            width: `${lensDiameter}px`,
+            height: `${lensDiameter}px`,
+            transform: `translate3d(${lensPosition.x}px, ${lensPosition.y}px, 0)`,
+            backgroundImage: `url(${lensBackground.image})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `${lensBackground.size.w}px ${lensBackground.size.h}px`,
+            backgroundPosition: `${lensBackground.position.x}px ${lensBackground.position.y}px`,
+            boxShadow: "0 10px 25px rgba(0,0,0,0.35)",
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -169,7 +169,7 @@ const Show = () => {
                     </div>
                 </div>
 
-                <div className="w-full">
+                <div className="w-full mt-6 md:mt-0">
                     {
                         (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
                     }

@@ -24,11 +24,11 @@ const DetailHeader = () => {
     );
     
     const handlePrevChapter = () => {
-      handleChapterSwitch("prev", navigate);
+      handleChapterSwitch("prev");
     };
     
     const handleNextChapter = () => {
-      handleChapterSwitch("next", navigate);
+      handleChapterSwitch("next");
     };
     
     const handleGoToDetail = () => {
@@ -36,21 +36,21 @@ const DetailHeader = () => {
     };
     
   return (
-    <div className="pt-2">
-          <div className="flex items-center justify-between">
+    <div className="md:pt-2">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="px-4 md:px-12 lg:px-24 flex flex-col">
-              <span className="text-lg">{chapter?.current_chapter?.title}</span>
+              <span className="text-md md:text-lg">{chapter?.current_chapter?.title}</span>
               <span className="text-neon-primary">{chapter?.mogou.title}</span>
             </div>
 
-            <div className="flex items-center gap-2 px-4 md:px-12 lg:px-24">
+            <div className="flex items-center gap-2 px-4 md:px-12 lg:px-24 mt-2 md:mt-0 ">
               {!hasPreviousChapter && !hasNextChapter ? (
                 // Only one chapter exists - show single Detail button
                 <Button
                   variant={"secondary"}
                   size="sm"
                   onClick={handleGoToDetail}
-                  className="flex items-center gap-1  "
+                  className="flex items-center gap-1   "
                 >
                   Home
                 </Button>
@@ -61,7 +61,7 @@ const DetailHeader = () => {
                       variant="default"
                       size="sm"
                       onClick={handlePrevChapter}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 w-1/2 md:w-fit"
                     >
                       <ChevronLeftIcon size={16} />
                       Previous
@@ -70,7 +70,7 @@ const DetailHeader = () => {
                     <Button
                       size="sm"
                       onClick={handleGoToDetail}
-                      className="flex items-center gap-1 bg-primary hover:bg-primary/90"
+                      className="flex items-center gap-1 bg-primary hover:bg-primary/90 w-1/2 md:w-fit "
                     >
                       Detail
                     </Button>
@@ -81,7 +81,7 @@ const DetailHeader = () => {
                       variant="default"
                       size="sm"
                       onClick={handleNextChapter}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 w-1/2 md:w-fit"
                     >
                       Next
                       <ChevronRightIcon size={16} />
@@ -90,7 +90,7 @@ const DetailHeader = () => {
                     <Button
                       size="sm"
                       onClick={handleGoToDetail}
-                      className="flex items-center gap-1 bg-primary hover:bg-primary/90"
+                      className="flex items-center gap-1 bg-primary hover:bg-primary/90 w-1/2 md:w-fit"
                     >
                       Detail
                     </Button>

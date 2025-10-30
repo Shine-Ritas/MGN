@@ -12,7 +12,7 @@ const AdsBanner = ({ banner }: { banner: Banner }) => {
 
 
   return (
-    <div className="w-full lg:p-4  flex justify-center md:max-h-60 overflow-hidden ">
+    <div className="w-full lg:p-4  flex justify-center md:max-h-60 overflow-hidden px-6">
       <a
         href={banner?.redirect_url}
         target="_blank"

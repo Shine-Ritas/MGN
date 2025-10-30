@@ -47,7 +47,7 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
         description: "flex",
         sideInfoDetails: "flex flex-col gap-1",
         sideInfoDetailsSkeleton: "flex flex-col gap-3",
-        ratingCard: "bg-secondary mt-4 w-full min-h-20 flex items-center",
+        ratingCard: " mt-4 w-full min-h-20 flex items-center",
         ratingCardContent: "flex gap-4 items-center md:h-20 px-6 py-0"
     };
 

@@ -61,28 +61,6 @@ export const handleHorizontalClick = (
 };
 
 /**
- * Finds the currently most visible image in the viewport.
- */
-const findCurrentlyVisibleImage = (images: HTMLImageElement[]): number => {
-  const viewportMiddle = window.innerHeight / 2 + window.scrollY;
-  let closestIndex = 0;
-  let closestDistance = Infinity;
-
-  images.forEach((img, index) => {
-    const rect = img.getBoundingClientRect();
-    const imgMiddle = rect.top + window.scrollY + rect.height / 2;
-    const distance = Math.abs(imgMiddle - viewportMiddle);
-    
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestIndex = index;
-    }
-  });
-
-  return closestIndex;
-};
-
-/**
  * Handles vertical click events to scroll to the next or previous image in long-strip mode.
  *
  * @param containerRef - A reference to the container element holding images.
@@ -112,26 +90,23 @@ export const handleVerticalClick = (
 
   lastTapTime = currentTime;
 
-  const images = Array.from(container.querySelectorAll("img")) as HTMLImageElement[];
-  if (images.length === 0) return;
+  // Scroll a small amount instead of jumping between images
+  const scrollAmount = Math.max(100, Math.round(viewportHeight * 0.9));
 
-  // Find the currently visible image based on viewport position
-  const currentVisibleIndex = findCurrentlyVisibleImage(images);
+  // Prefer scrolling the container if it is scrollable; fallback to window
+  const canScrollContainer = container.scrollHeight > container.clientHeight;
 
-  // Click on bottom half = go to next image
   if (clientY > middleThreshold) {
-    const nextIndex = Math.min(currentVisibleIndex + 1, images.length - 1);
-    const nextImage = images[nextIndex];
-    if (nextImage) {
-      nextImage.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (canScrollContainer) {
+      container.scrollBy({ top: scrollAmount, behavior: "smooth" });
+    } else {
+      window.scrollBy({ top: scrollAmount, behavior: "smooth" });
     }
-  } 
-  // Click on top half = go to previous image
-  else {
-    const prevIndex = Math.max(currentVisibleIndex - 1, 0);
-    const prevImage = images[prevIndex];
-    if (prevImage) {
-      prevImage.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    if (canScrollContainer) {
+      container.scrollBy({ top: -scrollAmount, behavior: "smooth" });
+    } else {
+      window.scrollBy({ top: -scrollAmount, behavior: "smooth" });
     }
   }
 };

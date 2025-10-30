@@ -18,7 +18,7 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
       className="">
         <Card className="h-52 border-x-neon-primary border-x-2 z-80 pb-4  hover:bg-phover overflow-hidden group transition-all">
           <CardContent className="flex w-full p-0">
-            <div className="side-a w-3/4 ps-4">
+            <div className="side-a w-4/6 ps-4">
               <div className="flex flex-col py-4 gap-3">
 
                 <div className="">
@@ -48,10 +48,10 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                 </div>
               </div>
             </div>
-            <div className="side-b w-1/4">
+            <div className="side-b w-2/6">
                 <div
                   aria-label={mogou?.title}
-                  className="relative aspect-[2/3] h-56">
+                  className="relative aspect-[2/3] h-56 ">
                   <LazyLoadImage src={mogou.cover || "/placeholder.svg"}
                     style={{ width: '100%', height: '100%' }}
                     alt={mogou.title} 

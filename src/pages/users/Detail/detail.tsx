@@ -64,7 +64,6 @@ const Detail = () => {
   const [currentImages, setCurrentImages] = useState<any[]>([]);
   const [prefetchedPages, setPrefetchedPages] = useState<Set<number>>(new Set());
   const isScrollingRef = useRef<boolean>(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { currentPage, totalPages, readingStyle, readingDirection } = readSetting;
   const readStyle = readingStyleClasses(readingStyle.value);
 
@@ -232,56 +231,6 @@ const Detail = () => {
       showAlertAtRandomInterval();
     }
   }, [isMobile, showAlert]);
-
-  // Effect: handle scroll detection for mobile devices
-  useEffect(() => {
-    if (!isMobile || readingStyle.value !== "long-strip") return;
-
-    const handleScroll = () => {
-      isScrollingRef.current = true;
-      
-      // Clear existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      
-      // Set a timeout to reset the scrolling flag after scroll ends
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 150); // 150ms delay to detect scroll end
-    };
-
-    const handleTouchStart = () => {
-      // Mark as potentially scrolling when touch starts
-      isScrollingRef.current = true;
-    };
-
-    const handleTouchEnd = () => {
-      // Reset scrolling flag after a short delay when touch ends
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 100);
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll, { passive: true });
-      container.addEventListener('touchstart', handleTouchStart, { passive: true });
-      container.addEventListener('touchend', handleTouchEnd, { passive: true });
-      
-      return () => {
-        container.removeEventListener('scroll', handleScroll);
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchend', handleTouchEnd);
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
-      };
-    }
-  }, [isMobile, readingStyle.value]);
 
   // Handlers (using useCallback)
   const handleScreenClick = useCallback(

@@ -37,16 +37,16 @@ const MobileSidebarSheet = () => {
 
     return (
         <SheetContent side="left" className='w-[60vw]'>
-            <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[80vh]">
+            <nav className="flex flex-col  text-lg font-medium text-muted-foreground pt-12 min-h-[85vh]">
 
 
-                <Accordion type="multiple" data-state='open'>
-
-                <Link
+                    <Link
                     to="/"
-                    className="flex  py-4 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full">
+                    className="flex  py-3 z-40 items-center justify-between text-lg font-medium transition-colors hover:text-accent-foreground w-full">
                     Home
                 </Link>
+
+                <Accordion type="multiple" data-state='open'>
 
                     <AccordionItem value="item-1" className='border-none '>
                         <AccordionTrigger

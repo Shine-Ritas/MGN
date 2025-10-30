@@ -98,12 +98,12 @@ const DetailDrawer = () => {
     }, []);
 
     const handleNextChapter = useCallback(() => {
-        handleChapterSwitch("next", navigate);
+        handleChapterSwitch("next");
     }
         , [navigate]);
 
     const handlePrevChapter = useCallback(() => {
-        handleChapterSwitch("prev", navigate);
+        handleChapterSwitch("prev");
     }, [navigate]);
 
     const handlePrefersChapter = useCallback((chapter_number: number) => {
