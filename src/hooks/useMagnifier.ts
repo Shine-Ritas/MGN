@@ -5,6 +5,7 @@ type UseMagnifierOptions = {
   lensZoom?: number;
   longPressDelayMs?: number;
   offsetY?: number; // pixels to lift lens above finger
+  stickToInitialImage?: boolean; // do not retarget image during drag
 };
 
 type Handlers = {
@@ -27,6 +28,7 @@ export function useMagnifier({
   lensZoom: initialLensZoom = 2.2,
   longPressDelayMs = 220,
   offsetY = 32,
+  stickToInitialImage = true,
 }: UseMagnifierOptions = {}) {
   const lensDiameter = initialLensDiameter;
   const lensZoom = initialLensZoom;
@@ -99,7 +101,7 @@ export function useMagnifier({
       const isInsideCurrentRect = rect
         ? pt.x >= rect.left && pt.x <= rect.right && pt.y >= rect.top && pt.y <= rect.bottom
         : false;
-      if (!targetImg || !rect || !isInsideCurrentRect) {
+      if (!targetImg || !rect || (!isInsideCurrentRect && !stickToInitialImage)) {
         const elementAtPoint = document.elementFromPoint(pt.x, pt.y) as HTMLElement | null;
         const foundImg = elementAtPoint?.closest("img.content-image") as HTMLImageElement | null;
         if (foundImg) {
@@ -109,8 +111,10 @@ export function useMagnifier({
             targetRectRef.current = foundRect;
             targetImg = foundImg;
             rect = foundRect;
-            const bgSizeWInit = foundRect.width * lensZoom;
-            const bgSizeHInit = foundRect.height * lensZoom;
+            const natWInit = foundImg.naturalWidth || foundRect.width;
+            const natHInit = foundImg.naturalHeight || foundRect.height;
+            const bgSizeWInit = natWInit * lensZoom;
+            const bgSizeHInit = natHInit * lensZoom;
             setLensBackground(prev => {
               const imgSrc = foundImg.currentSrc || foundImg.src;
               if (!prev || prev.image !== imgSrc || prev.size.w !== bgSizeWInit || prev.size.h !== bgSizeHInit) {
@@ -129,6 +133,9 @@ export function useMagnifier({
       const clampedX = Math.max(0, Math.min(rect.width, pt.x - rect.left));
       const clampedY = Math.max(0, Math.min(rect.height, pt.y - rect.top));
 
+      // Map in CSS pixel space for exact alignment with finger position
+      const bgSizeW = rect.width * lensZoom;
+      const bgSizeH = rect.height * lensZoom;
       const bgPosX = -clampedX * lensZoom + lensDiameter / 2;
       const bgPosY = -clampedY * lensZoom + lensDiameter / 2;
 
@@ -138,6 +145,7 @@ export function useMagnifier({
       if (lensEl) {
         lensEl.style.transform = `translate3d(${pt.x - lensDiameter / 2}px, ${pt.y - lensDiameter / 2 - lensOffsetY}px, 0)`;
         lensEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+        lensEl.style.backgroundSize = `${bgSizeW}px ${bgSizeH}px`;
       } else {
         setLensPosition({ x: pt.x - lensDiameter / 2, y: pt.y - lensDiameter / 2 - lensOffsetY });
       }

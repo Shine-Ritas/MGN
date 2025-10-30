@@ -50,7 +50,7 @@ const DetailHeader = () => {
                   variant={"secondary"}
                   size="sm"
                   onClick={handleGoToDetail}
-                  className="flex items-center gap-1   "
+                  className="flex items-center gap-1 w-full md:w-fit  "
                 >
                   Home
                 </Button>

@@ -26,7 +26,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
     lensDiameter,
     lensElRef,
     handlers,
-  } = useMagnifier({ lensDiameter: 140, lensZoom: 2, longPressDelayMs: 250, offsetY: 140 });
+  } = useMagnifier({ lensDiameter: 140, lensZoom: .9, longPressDelayMs: 250, offsetY: 140, stickToInitialImage: true });
   
   const handleScrollToPage = useCallback(() => {
     if (userInitiatedScrollRef.current) {
@@ -61,7 +61,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
   return (
     <div
-      className={`${readStyle.class} overscroll-y-scroll min-h-screen`}
+      className={`${readStyle.class} overscroll-y-scroll `}
       id="imageContainer"
       ref={containerRef}
       onPointerDown={handlers.onPointerDown}
@@ -75,7 +75,13 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
       onTouchCancel={handlers.onTouchCancel}
       onContextMenu={(e) => e.preventDefault()}
       // allow normal scroll when not active; disable while active to keep pointer events smooth
-      style={{ touchAction: lensVisible ? "none" : "auto" }}
+      style={{
+        touchAction: lensVisible ? "none" : "auto",
+        overscrollBehavior: lensVisible ? "contain" : undefined,
+        userSelect: "none",
+        WebkitTouchCallout: "none" as any,
+        WebkitUserSelect: "none" as any,
+      }}
     >
       {currentImages.map(({ id, path }, index) => (
         <LazyLoadImage 
