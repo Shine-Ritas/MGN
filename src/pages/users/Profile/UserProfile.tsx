@@ -83,7 +83,7 @@ export default function UserProfile() {
       <UserSubscriptionHistory setCurrentTable={null} history={data?.subscriptions as UserSubscriptionHistoryType[] ?? []} />
 
       <h2 className="text-2xl font-bold mt-8 mb-6">BookMarked List</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-4 ">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-4 flex-wrap w-full">
         {data?.favorites.map((manga: any) => (
            <MogouFavoriteCard key={manga.id} mogou={manga} />
         ))}

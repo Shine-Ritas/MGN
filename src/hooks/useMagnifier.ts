@@ -97,6 +97,15 @@ export function useMagnifier({
       let targetImg = targetImgRef.current;
       let rect = targetRectRef.current;
 
+      // If we have a target image, refresh its rect to ensure it's up to date
+      if (targetImg && stickToInitialImage) {
+        const freshRect = targetImg.getBoundingClientRect();
+        if (freshRect.width && freshRect.height) {
+          rect = freshRect;
+          targetRectRef.current = freshRect;
+        }
+      }
+
       // If we don't have a target, try to find one under the point
       const isInsideCurrentRect = rect
         ? pt.x >= rect.left && pt.x <= rect.right && pt.y >= rect.top && pt.y <= rect.bottom
@@ -238,7 +247,7 @@ export function useMagnifier({
     if (activeTouchIdRef.current !== null) return; // ignore pointer if touch already active
     // Only single-finger/touch or primary pointer
     if (activePointerIdRef.current !== null) return;
-    if (e.pointerType !== "touch" && e.pointerType !== "pen") return;
+    if (e.pointerType !== "touch" && e.pointerType !== "pen" && e.pointerType !== "mouse") return;
     activePointerIdRef.current = e.pointerId;
     isActiveRef.current = false;
     clearLongPressTimer();
@@ -259,7 +268,7 @@ export function useMagnifier({
   const onPointerDownImage: Handlers["onPointerDownImage"] = (e) => {
     if (activeTouchIdRef.current !== null) return;
     if (activePointerIdRef.current !== null) return;
-    if (e.pointerType !== "touch" && e.pointerType !== "pen") return;
+    if (e.pointerType !== "touch" && e.pointerType !== "pen" && e.pointerType !== "mouse") return;
     const img = e.currentTarget as HTMLImageElement;
     const rect = img.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
@@ -270,12 +279,32 @@ export function useMagnifier({
     clearLongPressTimer();
     const { clientX, clientY } = e;
     pressOriginRef.current = { x: clientX, y: clientY };
+    
+    // Set lens background immediately when starting on image
+    const natWInit = img.naturalWidth || rect.width;
+    const natHInit = img.naturalHeight || rect.height;
+    const bgSizeWInit = natWInit * lensZoom;
+    const bgSizeHInit = natHInit * lensZoom;
+    const imgSrc = img.currentSrc || img.src;
+    setLensBackground(prev => {
+      if (!prev || prev.image !== imgSrc || prev.size.w !== bgSizeWInit || prev.size.h !== bgSizeHInit) {
+        return { image: imgSrc, size: { w: bgSizeWInit, h: bgSizeHInit }, position: { x: 0, y: 0 } };
+      }
+      return prev;
+    });
+    
     try { (img as any).setPointerCapture?.(e.pointerId); } catch {}
     longPressTimerRef.current = window.setTimeout(() => {
+      // Refresh rect when activating (in case image moved/scaled)
+      const freshRect = img.getBoundingClientRect();
+      if (freshRect.width && freshRect.height) {
+        targetRectRef.current = freshRect;
+      }
       isActiveRef.current = true;
       setLensVisible(true);
       updateLensForPoint(clientX, clientY);
       attachGlobalTouchMoveBlocker();
+      attachDocumentPointerHandlers();
     }, longPressDelayMs);
   };
 

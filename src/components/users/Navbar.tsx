@@ -1,5 +1,4 @@
-import { CircleUser, Menu, MenuIcon } from "lucide-react"
-import { Sheet, SheetTrigger } from "../ui/sheet"
+import { CircleUser, MenuIcon } from "lucide-react"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { Link } from "react-router-dom"
@@ -20,6 +19,7 @@ import { selectHeaderVisible } from "@/redux/slices/userReadSetting/selectors";
 import { toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import { useSelector } from "react-redux";
 import { selectApplicationConfig } from "@/redux/slices/application-config-slice";
+import { MangaSearch } from "./manga-search"
 
 const MobileSidebarSheet = lazy(() => import('./MobileSidebarSheet'));
 const ToSubscribe = lazy(() => import('@/pages/users/home/subscription/to-subscribe'));
@@ -67,24 +67,11 @@ const Navbar = ({ isReadMode }: { isReadMode: boolean }) => {
                     !isMobile && <DesktopNavigation />
                 }
             </div>
-            <Sheet>
-                <SheetTrigger asChild>
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        className="shrink-0 md:hidden"
-                    >
-                        <Menu className="h-5 w-5" />
-                        <span className="sr-only">Toggle navigation menu</span>
-                    </Button>
-                </SheetTrigger>
-                {
-                    isMobile && <MobileSidebarSheet />
-                }
-            </Sheet>
+            <MobileSidebarSheet />
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
-                <div className="ml-auto flex  sm:flex-initial">
+                <div className=" justify-end w-full flex  sm:flex-initial gap-4">
+                    {!isMobile && <MangaSearch />}
 
                     <div className="flex items-center gap-3">
                         <Label

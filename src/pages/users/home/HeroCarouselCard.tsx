@@ -12,7 +12,7 @@ import DOMPurify from 'dompurify';
 const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
   return (
     <CarouselItem 
-    key={mogou.id} className="pl-1 md:basis-1/2  overflow-hidden cursor-pointer ">
+    key={mogou.id} className="pl-1 md:basis-1/2 overflow-hidden cursor-pointer ">
       <Link 
       to={`/show/${mogou.slug}`}
       className="">
@@ -48,7 +48,7 @@ const HeroCarouselCard = ({ mogou }: { mogou: MogousElement }) => {
                 </div>
               </div>
             </div>
-            <div className="side-b w-2/6">
+            <div className="side-b w-2/6 flex justify-end">
                 <div
                   aria-label={mogou?.title}
                   className="relative aspect-[2/3] h-56 ">

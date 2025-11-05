@@ -43,7 +43,7 @@ export function MultiSelectDropdown<T>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="background" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
+        <Button variant="outline" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
           <span className="truncate">{selectedLabels || placeholder}</span>
           <ChevronDown className="h-4 w-4 opacity-50 ml-2" />
         </Button>
@@ -56,6 +56,7 @@ export function MultiSelectDropdown<T>({
               key={labelExtractor(option)}
               checked={isSelected}
               onCheckedChange={() => onChange(option)}
+              onSelect={(e) => e.preventDefault()}
               className={`${mergedClasses.itemClassName} ${isSelected ? mergedClasses.selectedItemClassName : ""} cursor-pointer `}
             >
               {labelExtractor(option)}

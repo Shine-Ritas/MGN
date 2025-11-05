@@ -57,7 +57,7 @@ const FormSelect = React.forwardRef<HTMLDivElement, FormSelectProps>(
     return (
       <div className={cn("space-y-2", className)} ref={ref}>
         <Select value={currentValue} onValueChange={handleChange} {...props}>
-          <SelectTrigger id={selectKey} aria-label={`Select ${selectKey}`}>
+          <SelectTrigger id={selectKey} aria-label={`Select ${selectKey}`} className="bg-card  focus:!ring-input">
             <SelectValue placeholder={placeholder ?? "Select an option"} />
           </SelectTrigger>
           <SelectContent>{options}</SelectContent>

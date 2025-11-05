@@ -35,7 +35,7 @@ const FilterComponent = ({ handleFilter, getByKey,isMobile }: FilterComponentPro
                         onKeyUp={(e) => e.key === "Enter" && handleFilter("search", e.currentTarget.value)}
                         type="text"
                         placeholder="Search ..."
-                        className="pl-3"
+                        className="pl-3 bg-card  focus:!ring-input"
                     />
                     <Search className="absolute right-3 top-1.5 h-5 w-5 text-gray-400" />
                 </div>

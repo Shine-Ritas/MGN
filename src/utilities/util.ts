@@ -42,7 +42,7 @@ export const isSubscriptionExpired = (
   subscription_name?: string,
 ): { variant: variantInterface; message: string } => {
   if (!date) {
-    return { variant: "destructive", message: "No Subscription" };
+    return { variant: "destructive", message: "Free" };
   }
   return new Date(date) < new Date()
     ? { variant: "destructive", message: "Expired" }

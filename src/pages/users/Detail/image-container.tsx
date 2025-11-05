@@ -94,6 +94,8 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
           className={`${readStyle.imageClass} ${readSetting.imageFit.value} content-image`}
           draggable={false}
           onDragStart={(e) => e.preventDefault()}
+          onPointerDown={handlers.onPointerDownImage}
+          onTouchStart={handlers.onTouchStartImage}
           style={{ userSelect: "none", WebkitTouchCallout: "none" as any }}
           onLoad={() => {
             return <LoadingPlaceholder />

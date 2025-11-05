@@ -171,6 +171,7 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                                 <div className="flex flex-wrap gap-2">
                                     {mogou?.categories.map((category: any, index: number) => (
                                         <CategoryBadge 
+                                        key={category.id || category.title || index}
                                         onClick={() => window.location.href = `/filter?genres=${category.title}`}
                                         category={category} index={index} />
                                     ))}
