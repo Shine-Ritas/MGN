@@ -19,6 +19,7 @@ interface MultiSelectProps<T> {
     selectedItemClassName: string;
   }>;
   placeholder?: string;
+  variant?: any; 
 }
 
 export function MultiSelectDropdown<T>({
@@ -28,6 +29,7 @@ export function MultiSelectDropdown<T>({
   labelExtractor,
   customClassNames = {},
   placeholder = "Select options",
+  variant = "outline",
 }: MultiSelectProps<T>) {
   const defaultClasses = {
     buttonClassName: "min-w-[130px]  h-full",
@@ -43,7 +45,7 @@ export function MultiSelectDropdown<T>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
+        <Button variant={variant} className={`flex items-center justify-between overflow-hidden ${mergedClasses.buttonClassName}`}>
           <span className="truncate">{selectedLabels || placeholder}</span>
           <ChevronDown className="h-4 w-4 opacity-50 ml-2" />
         </Button>

@@ -7,7 +7,6 @@ import {
 import { TablePagination } from "@/components/TablePagination";
 import { useNavigate } from "react-router-dom";
 import useQuery from "@/hooks/useQuery";
-import ContentTableRow from "@/components/ui/custom/ContentTableRow";
 import { MogousType } from "./type";
 import { adminRouteCollection } from "@/routes/data/admin_route";
 import ComicCard from "./ComicCard";
@@ -16,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import NoDataFound from "@/components/ui/no-data-found";
 import useFilterState from "@/hooks/useFilterState";
 import { PublishDialog } from "./PublishDialog";
+import { Loader2 } from "lucide-react";
 
 const initlalFilterState = {
   search: "",
@@ -75,15 +75,21 @@ const ComicTable = () => {
         </div>
 
       </CardHeader>
-      <CardContent className="max-h-[70vh] overflow-y-scroll pt-4 px-4 xl:px-6">
+      <CardContent className="max-h-[70vh] overflow-y-scroll pt-4 px-4 xl:px-6 relative">
+        {(isLoading || isFetching) && (
+          <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span className="text-sm">Loading...</span>
+            </div>
+          </div>
+        )}
         <div>
-          {isLoading ? (
-            <ContentTableRow />
-          ) : data?.mogous?.data?.length === 0 ? (
+          {data?.mogous?.data?.length === 0 && !isLoading ? (
             <NoDataFound />
           ) : (
             <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 2xl:gap-x-8 2xl:gap-y-12">
-            { data.mogous.data.map((mogou: MogousType) => (
+            { data?.mogous?.data?.map((mogou: MogousType) => (
                 <ComicCard key={mogou.id} mogous={mogou}  />
               ))}
             </div>

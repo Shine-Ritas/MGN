@@ -31,7 +31,7 @@ const SubscriptionTable = ({ countBy, priceBy }: { countBy: string, priceBy: str
         price_by: priceBy
       });
 
-    const { data, isLoading, isFetching } = useQuery(`admin/subscriptions?${queryParams}`);
+    const { data, isLoading, isFetching,refetch } = useQuery(`admin/subscriptions?${queryParams}`);
 
     return (
         <div className=" flex flex-col w-full min-h-full justify-between   gap-4">
@@ -73,7 +73,7 @@ const SubscriptionTable = ({ countBy, priceBy }: { countBy: string, priceBy: str
                                 (
                                     data.subscriptions.data.length === 0 ? <ContentTableRow content="No data Found" /> :
                                         data.subscriptions.data.map((sub: SubscriptionType) => {
-                                            return <SubscriptionTableRow key={sub.id} index={sub.id as number} subscription={sub} />
+                                            return <SubscriptionTableRow key={sub.id} index={sub.id as number} subscription={sub} refetchTable={refetch} />
                                         })
                                 )
                         }

@@ -22,14 +22,17 @@ import useMutate from "@/hooks/useMutate";
 
 interface SubscriptionTableRowProps {
     index: number;
-    subscription:SubscriptionType
+    subscription:SubscriptionType,
+    refetchTable: any
 }
 
-const SubscriptionTableRow = ({index,subscription} : SubscriptionTableRowProps) => {
+const SubscriptionTableRow = ({index,subscription,refetchTable} : SubscriptionTableRowProps) => {
 
     const navigate = useNavigate();
 
-    const [postSubscription, { isLoading }] = useMutate({callback:()=>{}});
+    const [postSubscription, { isLoading }] = useMutate({callback:()=>{
+        refetchTable()
+    }});
 
     const deleteSubscription = async (id: number) => {
         await postSubscription(`admin/subscriptions/${id}`) as any;

@@ -92,6 +92,7 @@ export default function ComicFilter({
       {/* Desktop Layout */}
       <div className="hidden xl:grid xl:grid-cols-3 2xl:grid-cols-6 gap-4 items-center">
         <MultiSelectHandler
+          variant="background" 
           selectedOptions={whereIn(ComicType, getByKey('mogou_type').split(","), 'title')}
           options={ComicType}
           placeHolder="Select Type"
@@ -100,6 +101,8 @@ export default function ComicFilter({
         />
 
         <MultiSelectHandler
+          variant="background" 
+
           selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
           options={ComicProgress}
           placeHolder="Select Finish Status"

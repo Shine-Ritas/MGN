@@ -9,6 +9,7 @@ interface MultiSelectHandlerProps<T> {
   selectedOptions?: T[]; // We no longer need selectedOptions as it's managed internally
   placeHolder?:string;
   size?: "sm" | "md" | "lg";
+  variant?: string;
 }
 
 const getDropDownContentStyle = (size: string) => {
@@ -44,6 +45,7 @@ function MultiSelectHandler<T>({
   selectedOptions = [], // Default empty array if no initial selectedOptions are passed
   placeHolder = "Select options",
   size = "sm",
+  variant = "outline",
 }: MultiSelectHandlerProps<T>) {
   const [selected, setSelected] = useState<T[]>(selectedOptions);
 
@@ -68,6 +70,7 @@ function MultiSelectHandler<T>({
       customClassNames={{ dropdownClassName: getDropDownContentStyle(size),
         itemClassName : getDropDownItemStyle(size)
        }}
+       variant={variant}
     />
   );
 }
