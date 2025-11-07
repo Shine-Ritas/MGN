@@ -2,7 +2,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Table, TableHeader,TableHead, TableRow, TableBody, TableCell } from "@/components/ui/table"
 
 
-const headers = ['#','Chapter Name','Title','Views (24h)','Views (1m)']
+const headers = ['#','Chapter Name','Title','Views (24h)','Views (30D)']
 
 const ContentViewRank = ({chartData}) => {
   return (

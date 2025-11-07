@@ -55,6 +55,7 @@ export default function ComicFilter({
             selectedOptions={whereIn(ComicType, getByKey('mogou_type').split(","), 'title')}
             options={ComicType}
             placeHolder="Type"
+            variant="background"
             onChange={(value) => handleFilter("mogou_type", value)}
             labelExtractor={(option) => option.title}
           />
@@ -63,6 +64,7 @@ export default function ComicFilter({
             selectedOptions={whereIn(ComicProgress, getByKey('finish_status').split(","), 'title')}
             options={ComicProgress}
             placeHolder="Status"
+            variant="background"
             onChange={(value) => handleFilter("finish_status", value)}
             labelExtractor={(option) => option.title}
           />
