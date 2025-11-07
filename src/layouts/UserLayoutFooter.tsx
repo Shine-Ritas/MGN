@@ -34,7 +34,7 @@ const UserLayoutFooter = () => {
 
 
           </div>
-          <p className="mt-4 md:mt-0 text-xs text-gray-300 hidden md:flex">&copy; 2024 NorthSide Wizards Team. All rights reserved.</p>
+          <p className="mt-4 md:mt-0 text-xs text-gray-300 hidden md:flex">&copy; 2025 NorthSide Wizards Team. All rights reserved.</p>
         </div>
       </div>
       <div className="w-full bg-primary md:h-12 px-4 md:px-24 py-4 flex justify-center items-center text-xs text-center">

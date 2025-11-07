@@ -21,7 +21,7 @@ import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
 import DetailLoadingSkeleton from "./loading-skeleton";
 import DetailHeader from "./detail-header";
-import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
+// import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 
 // Utility: prefetch images sequentially (one by one)
 const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => void) => {
@@ -99,14 +99,14 @@ const Detail = () => {
   useEffect(() => {
     if (!chapterId) return;
 
-    if(data?.mogou?.mogou_type_name == "Manhwa"){
-      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['LongStrip']}));
-      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Cover']}));
+    // if(data?.mogou?.mogou_type_name == "Manhwa"){
+    //   dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['LongStrip']}));
+    //   dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Cover']}));
 
-    }else{
-      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['SinglePage']}));
-      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Contain']}));
-    }
+    // }else{
+    //   dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['SinglePage']}));
+    //   dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Contain']}));
+    // }
 
     // Check if chapter has changed
     if (readSetting.currentId !== chapterId) {
@@ -278,12 +278,13 @@ const Detail = () => {
               containerRef={containerRef}
               currentImages={currentImages}
             />
-            <PageProgressBar
+            { readingStyle.value != "long-strip" && <PageProgressBar
               className={`sticky bottom-[6px] left-0 ${readSetting.progressBar.value}`}
               totalPages={totalPages}
               onClick={handlePageClick}
               type={readSetting.progressBar.value}
             />
+            }
           </div>
           <SettingModal isOpen={readSetting.modalBox} shortCuts={shortcutMap} />
           {isVisible && <AlertComponent message={message} />}

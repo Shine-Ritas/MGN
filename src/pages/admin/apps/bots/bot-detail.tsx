@@ -15,15 +15,10 @@ const pulseAnimation = `
 `;
 
 
-const posts = [
-  { content: "Welcome to our new bot!", publishedOn: "2023-05-01 09:00", channel: "General Chat", status: "Published" },
-  { content: "Maintenance scheduled for tomorrow", publishedOn: "2023-05-02 14:30", channel: "Announcements", status: "Published" },
-  { content: "New feature release!", publishedOn: "2023-05-03 10:15", channel: "General Chat", status: "Failed" },
-]
-
 const BotDetail = ()=>{
   const { id } = useParams<{ id: string }>();
   const { data,isLoading,refetch} = useQuery(`admin/bot-publisher/${id}/detail`);
+  const { data: posts,isLoading: postsLoading} = useQuery(`admin/bot-publisher/${id}/posts`);
 
   if(isLoading){
     return <div>Loading...</div>
@@ -32,6 +27,8 @@ const BotDetail = ()=>{
   eventEmitter.on("channelListUpdated", () => {
     refetch?.()
   })
+
+  console.log(posts);
 
 
   return (
@@ -49,7 +46,9 @@ const BotDetail = ()=>{
           {!isLoading && <BotInfoCard bot={data?.bots}/>}
           {!isLoading && <ChannelList bot={data?.bots}/>}
         </div>
-        <PostHistory posts={posts}/>
+        {
+          !postsLoading && <PostHistory posts={posts?.posts}/>
+        }
       </div>
     </>
   )

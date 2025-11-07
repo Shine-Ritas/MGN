@@ -2,6 +2,7 @@ import { Bookmark, BookmarkCheck } from 'lucide-react';
 import React from 'react'
 import { Button } from './button';
 import useMutate from '@/hooks/useMutate';
+import { TooltipTrigger } from './tooltip';
 
 const contentVariants = {
     default: {
@@ -33,14 +34,14 @@ const BookMark = ({
         setIsMarked(!isMarked);
     }
 
-    const [mutate,{isLoading}] = useMutate({callback:onSuccessCallback,navigateBack:false});
-    
+    const [mutate, { isLoading }] = useMutate({ callback: onSuccessCallback, navigateBack: false });
+
     const icon = isMarked ? <BookmarkCheck /> : <Bookmark />
-    const context = isMarked ? "Favorited" : "Favorite" ;
+    const context = isMarked ? "Favorited" : "Favorite";
     const handleClick = async () => {
 
         const url = isMarked ? 'users/user-favorites/remove' : 'users/user-favorites/add';
-        await mutate(url,{
+        await mutate(url, {
             mogou_id,
             user_id
         });
@@ -49,15 +50,28 @@ const BookMark = ({
     const markedColor = isMarked ? 'bg-primary' : contentVariants[variant].color;
 
     return (
-        <Button 
-        onClick={handleClick}
-        disabled={isLoading || isDisabled}
-        className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}>
-            {icon} 
-            <span className='hidden md:inline'>
-            {context}
-            </span>
-        </Button>
+        (!isLoading && !isDisabled) ?
+            <Button
+                onClick={handleClick}
+                disabled={isLoading || isDisabled}
+                className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}>
+                {icon}
+                <span className='hidden md:inline'>
+                    {context}
+                </span>
+            </Button>
+            :
+            <TooltipTrigger>
+                <Button
+                    onClick={handleClick}
+                    disabled={isLoading || isDisabled}
+                    className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}>
+                    {icon}
+                    <span className='hidden md:inline'>
+                        {context}
+                    </span>
+                </Button>
+            </TooltipTrigger>
     )
 }
 
