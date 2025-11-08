@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -9,12 +8,20 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { TablePagination } from "@/components/TablePagination"
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-const PostHistory = ({posts}) => {
+interface PostHistoryProps {
+    posts: any;
+    currentPage: number;
+    lastPage: number;
+    setCurrentPage: (page: number) => void;
+    isFetching?: boolean;
+    url?: string;
+}
+
+const PostHistory = ({posts, currentPage, lastPage, setCurrentPage, isFetching = false, url = ""}: PostHistoryProps) => {
     const postsData = posts?.data || []
-    const currentPage = posts?.current_page || 1
-    const lastPage = posts?.last_page || 1
-    const total = posts?.total || 0
 
     const formatDate = (dateString: string) => {
         if (!dateString) return '-'
@@ -44,7 +51,8 @@ const PostHistory = ({posts}) => {
                 <CardTitle>Post History</CardTitle>
             </CardHeader>
             <CardContent>
-                <Table>
+                <ScrollArea className="!max-h-[40vh] overflow-y-scroll">
+                <Table className="">
                     <TableHeader>
                         <TableRow>
                             <TableHead>Content</TableHead>
@@ -53,7 +61,7 @@ const PostHistory = ({posts}) => {
                             <TableHead>Status</TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
+                    <TableBody >
                         {postsData.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center text-muted-foreground">
@@ -78,27 +86,19 @@ const PostHistory = ({posts}) => {
                         )}
                     </TableBody>
                 </Table>
-                <div className="flex justify-between items-center mt-4">
-                    <Button
-                        variant="outline"
-                        onClick={() => {
-                            // Handle pagination - would need to call API with page parameter
-                        }}
-                        disabled={currentPage === 1}
-                    >
-                        Previous
-                    </Button>
-                    <span>Page {currentPage} of {lastPage} ({total} total)</span>
-                    <Button
-                        variant="outline"
-                        onClick={() => {
-                            // Handle pagination - would need to call API with page parameter
-                        }}
-                        disabled={currentPage >= lastPage}
-                    >
-                        Next
-                    </Button>
-                </div>
+                </ScrollArea>
+                {postsData.length > 0 && (
+                    <div className="mt-4">
+                        <TablePagination
+                            url={url}
+                            lastPage={lastPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            isFetching={isFetching}
+                            paging={false}
+                        />
+                    </div>
+                )}
             </CardContent>
         </Card>
     )

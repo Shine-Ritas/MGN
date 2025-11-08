@@ -12,8 +12,8 @@ import FormSelect from "@/components/ui/custom/FormSelect"
 
 
 const ActiveSelect = [
-    { id: 1, title: "True" },
-    { id: 0, title: "False" },
+    { id: 1, title: "Active" },
+    { id: 0, title: "Inactive" },
 ];
 
 const ApplicationEdit = ({ applicationConfig }) => {

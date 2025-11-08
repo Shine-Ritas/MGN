@@ -56,7 +56,7 @@ export default function ReportFilter({ getByKey, handleFilter, total }: ReportFi
   };
 
   return (
-    <div className="w-full justify-start flex lg:flex-row lg:flex-nowrap gap-3 flex-wrap">
+    <div className="w-full justify-end flex lg:flex-row lg:flex-nowrap gap-3 flex-wrap">
 
       <div className="relative  w-full lg:w-fit">
         <Select onValueChange={onActiveFilterChange} defaultValue={getByKey("status")}>

@@ -226,6 +226,7 @@ export default function UploadComponent() {
         id={id}
         type="file"
         accept="image/*"
+        className='file:text-white'
         onChange={(e) => handleFileUpload(e, type)}
       />
       {uploadState[type] && (
