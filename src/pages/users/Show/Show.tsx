@@ -11,12 +11,13 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserComment } from "./UserComment";
 import { useUserAppSelector } from "@/redux/hooks";
-import { selectAuthUser, selectBanners } from "@/redux/slices/user-global";
+import { selectAuthUser } from "@/redux/slices/user-global";
 import { Separator } from "@/components/ui/separator";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import AdultContentModal from "@/components/ui/adult-content-modal";
 import useAdultContentGuard from "@/hooks/useAdultContentGuard";
 import AdsBanner from "../home/banners/adsBanner";
+import useBanners from "@/hooks/useBanners";
 
 const RelatedMogou = lazy(() => import('./RelatedMogou'));
 
@@ -47,7 +48,7 @@ const Show = () => {
     const { reAds } = useAdsRef({ adsOn: true });
     const authUser = useUserAppSelector(selectAuthUser);
 
-    const adverties = useUserAppSelector(selectBanners);
+    const adverties = useBanners();
 
 
     const { isLargeDesktop } = useScreenDetector();
@@ -78,6 +79,7 @@ const Show = () => {
 
     // Update document meta when mogous data is available
     useEffect(() => {
+
         if (mogous?.mogou?.title) {
             document.title = `${mogous.mogou.title} - Manga Details`;
 
@@ -86,6 +88,7 @@ const Show = () => {
                 metaDescription.content = mogous.mogou.description.slice(0, 150);
             }
         }
+        
     }, [mogous]);
 
     // Handle not found case
@@ -141,7 +144,7 @@ const Show = () => {
 
                         <div className="w-full">
                             {
-                                (adverties?.length > 0 && adverties[1].active == true) && <AdsBanner banner={adverties[1]} />
+                                (adverties?.length > 0 && adverties[1]?.active == true) && <AdsBanner banner={adverties[1]} />
                             }
                         </div>
 
@@ -171,7 +174,7 @@ const Show = () => {
 
                 <div className="w-full mt-6 md:mt-0">
                     {
-                        (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
+                        (adverties?.length > 0 && adverties[2]?.active == true) && <AdsBanner banner={adverties[2]} />
                     }
                 </div>
             </div>

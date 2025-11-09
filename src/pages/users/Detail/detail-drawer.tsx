@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
@@ -19,20 +19,17 @@ import { MdHome } from "react-icons/md";
 const MemoizedTitleSection = memo(({ title, slug }: { title: string, slug: string }) => {
     const navigate = useNavigate();
     return (
-        <SheetTitle>
-            <div className=" flex items-center gap-4 lg:px-4">
-                <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => navigate(`/show/${slug}`)}
-                >
-                    <MdHome size={16} />
-                </Button>
-                <Link
-                    to={`/show/${slug}`}
-                    className="hover:underline cursor-pointe text-sm lg:text-md">{rTitle(title,30)}</Link>
-
-            </div>
+        <SheetTitle className="flex items-center gap-4 lg:px-4">
+            <Button
+                variant="default"
+                size="sm"
+                onClick={() => navigate(`/show/${slug}`)}
+            >
+                <MdHome size={16} />
+            </Button>
+            <Link
+                to={`/show/${slug}`}
+                className="hover:underline cursor-pointe text-sm lg:text-md">{rTitle(title,30)}</Link>
         </SheetTitle>
     );
 });
@@ -43,9 +40,9 @@ const SheetContentBody = ({ type, children }) => {
         <>
             {type === "content" ? <SheetContent
                 className="z-[150]"
-            >{children}</SheetContent> : <SheetDescription
-                className="z-[150]"
-            >{children}</SheetDescription>}
+            >{children}</SheetContent> : <div
+                className="z-[150] text-sm text-muted-foreground"
+            >{children}</div>}
         </>
     );
 }
@@ -140,7 +137,7 @@ const DetailDrawer = () => {
                     <SheetHeader className=" pt-8">
                         <MemoizedTitleSection title={sr?.mogou?.title} slug={sr?.mogou?.slug}  />
                     </SheetHeader>
-                    <SheetDescription>
+                    <div className="text-sm text-muted-foreground">
                         {/* Page Indexer */}
                         <div className="flex flex-col gap-4 lg:px-4 text-white pt-6">
                             <MemorizedIndexerButton
@@ -195,7 +192,7 @@ const DetailDrawer = () => {
                                 forceDisabled={!authUser}
                             />
                         </div>
-                    </SheetDescription>
+                    </div>
                 </SheetContentBody>
             </Sheet>
 

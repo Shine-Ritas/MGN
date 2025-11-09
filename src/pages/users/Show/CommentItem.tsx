@@ -28,6 +28,7 @@ export function CommentItem({
   const [expandedReplies, setExpandedReplies] = useState<Comment[]>([])
   const [disableLoadComment,setDisableLoadComment] = useState(true)
   const [showReplies, setShowReplies] = useState(false)
+  const [expandedContents, setExpandedContents] = useState<Set<number>>(new Set())
 
   const [postComment] = useMutate({ callback: undefined, navigateBack: false });
 
@@ -51,6 +52,32 @@ export function CommentItem({
       .join("")
       .toUpperCase()
       .slice(0, 2)
+  }
+
+  const CONTENT_LIMIT = 200
+
+  const toggleContentExpansion = (id: number) => {
+    setExpandedContents(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const getTruncatedContent = (content: string, id: number) => {
+    const isExpanded = expandedContents.has(id)
+    if (content.length <= CONTENT_LIMIT) {
+      return { text: content, shouldShowButton: false }
+    }
+    return {
+      text: isExpanded ? content : content.slice(0, CONTENT_LIMIT),
+      shouldShowButton: true,
+      isExpanded
+    }
   }
 
   const toggleReplies = useCallback((commentId:number)=>{
@@ -112,11 +139,29 @@ export function CommentItem({
               <span className="text-xs text-muted-foreground">•</span>
               <span className="text-xs text-muted-foreground">{comment.created_at}</span>
             </div>
-            {comment.content && (
-              <p className="text-sm text-foreground mb-3 break-words leading-relaxed">
-                {comment.content}
-              </p>
-            )}
+            {comment.content && (() => {
+              const { text, shouldShowButton, isExpanded } = getTruncatedContent(comment.content, comment.id)
+              return (
+                <div className="mb-3">
+                  <p className="text-sm text-foreground break-words leading-relaxed">
+                    {text}
+                    {!isExpanded && shouldShowButton && (
+                      <span className="text-muted-foreground">...</span>
+                    )}
+                  </p>
+                  {shouldShowButton && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => toggleContentExpansion(comment.id)}
+                      className="text-xs h-7 px-2 mt-1 text-muted-foreground hover:text-foreground"
+                    >
+                      {isExpanded ? "See less" : "See more"}
+                    </Button>
+                  )}
+                </div>
+              )
+            })()}
             {comment.image_path && (
               <div className="mb-3">
                 <img
@@ -193,11 +238,29 @@ export function CommentItem({
                       <span className="text-xs text-muted-foreground">•</span>
                       <span className="text-xs text-muted-foreground">{reply.created_at}</span>
                     </div>
-                    {reply.content && (
-                      <p className="text-sm text-foreground mb-2 break-words leading-relaxed">
-                        {reply.content}
-                      </p>
-                    )}
+                    {reply.content && (() => {
+                      const { text, shouldShowButton, isExpanded } = getTruncatedContent(reply.content, reply.id)
+                      return (
+                        <div className="mb-2">
+                          <p className="text-sm text-foreground break-words leading-relaxed">
+                            {text}
+                            {!isExpanded && shouldShowButton && (
+                              <span className="text-muted-foreground">...</span>
+                            )}
+                          </p>
+                          {shouldShowButton && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleContentExpansion(reply.id)}
+                              className="text-xs h-7 px-2 mt-1 text-muted-foreground hover:text-foreground"
+                            >
+                              {isExpanded ? "See less" : "See more"}
+                            </Button>
+                          )}
+                        </div>
+                      )
+                    })()}
                     {reply.image_path && (
                       <div className="mb-2">
                         <img

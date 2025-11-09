@@ -61,7 +61,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ containerRef, currentIm
 
   return (
     <div
-      className={`${readStyle.class} overscroll-y-scroll `}
+      className={`${readStyle.class} overscroll-y-scroll min-h-[90vh] `}
       id="imageContainer"
       ref={containerRef}
       onPointerDown={handlers.onPointerDown}

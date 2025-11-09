@@ -3,8 +3,9 @@ import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors"
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleChapterSwitch } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { userRouteCollection } from "@/routes/data/user_route";
 
 const DetailHeader = () => {
 
@@ -40,7 +41,9 @@ const DetailHeader = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="px-4 md:px-12 lg:px-24 flex flex-col">
               <span className="text-md md:text-lg">{chapter?.current_chapter?.title}</span>
-              <span className="text-neon-primary">{chapter?.mogou.title}</span>
+              <Link
+              to={userRouteCollection.show.replace("{slug}", chapter?.mogou?.slug || "")}
+              className="text-neon-primary">{chapter?.mogou.title}</Link>
             </div>
 
             <div className="flex items-center gap-2 px-4 md:px-12 lg:px-24 mt-2 md:mt-0 ">

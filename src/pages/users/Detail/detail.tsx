@@ -12,7 +12,7 @@ import { handleHorizontalClick, handleVerticalClick } from "@/utilities/read-act
 import { useTemporaryAlert } from "@/hooks/useTemporaryAlert";
 import { AlertComponent } from "@/components/ui/alert-component";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
-import { getRandomInterval } from "@/utilities/util";
+import { getRandomInterval, isSubscriptionValid } from "@/utilities/util";
 import FloatingToggle from "@/components/ui/floating-ball";
 import useQuery from "@/hooks/useQuery";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -21,6 +21,9 @@ import route from "@/utilities/router";
 import { userRouteCollection } from "@/routes/data/user_route";
 import DetailLoadingSkeleton from "./loading-skeleton";
 import DetailHeader from "./detail-header";
+import { selectAuthUser } from "@/redux/slices/user-global";
+import { Lock, Crown } from "lucide-react";
+import Goback from "@/components/goback-btn";
 // import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 
 // Utility: prefetch images sequentially (one by one)
@@ -63,6 +66,7 @@ const Detail = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImages, setCurrentImages] = useState<any[]>([]);
   const [prefetchedPages, setPrefetchedPages] = useState<Set<number>>(new Set());
+  const [userCanRead, setUserCanRead] = useState(true);
   const isScrollingRef = useRef<boolean>(false);
   const { currentPage, totalPages, readingStyle, readingDirection } = readSetting;
   const readStyle = readingStyleClasses(readingStyle.value);
@@ -71,6 +75,7 @@ const Detail = () => {
   const { data, isLoading } = useQuery(`/users/mogous/${mogou}/chapters/${chapter}`);
 
   const navigate = useNavigate();
+  const authUser = useUserAppSelector(selectAuthUser);
 
   // Process API data with useMemo (only derive data, no side effects)
   const formattedImages = useMemo(() => {
@@ -218,6 +223,15 @@ const Detail = () => {
     ,1000)
   },[data?.current_chapter,dispatch])
 
+  // Check subscription requirement
+  useEffect(() => {
+    if (data?.current_chapter?.subscription_only && !isSubscriptionValid(authUser?.subscription_end_date)) {
+      setUserCanRead(false);
+    } else {
+      setUserCanRead(true);
+    }
+  }, [data?.current_chapter, authUser]);
+
 
   // Effect: mobile-specific alert
   useEffect(() => {
@@ -259,6 +273,36 @@ const Detail = () => {
   const handleTogglePanel = useCallback(() => {
     dispatch(toggleValue("showPanel"));
   }, [dispatch]);
+
+  // Handle subscription required case
+  if (!isLoading && data && !userCanRead) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-background">
+        <div className="flex flex-col items-center gap-4 max-w-md text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-muted to-phover shadow-lg">
+            <Lock className="h-8 w-8 text-primary-foreground" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-muted to-phover">
+              Premium Content
+            </h2>
+            <p className="text-sm text-muted-foreground mt-2">
+              This chapter requires a subscription to access.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 rounded-md bg-gradient-to-r from-primary-muted/10 to-phover/10 p-3 border border-border shadow-sm mt-2">
+            <Crown className="h-5 w-5 text-gold" />
+            <p className="text-sm font-medium text-foreground">
+              Unlock this chapter and all premium features with a subscription.
+            </p>
+          </div>
+          <div className="mt-4">
+            <Goback size="sm" to={data?.mogou ? route(userRouteCollection.show, {slug: data.mogou.slug}) : "/"} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Instead of returning early, conditionally render in the returned JSX.
   return (

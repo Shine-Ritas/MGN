@@ -11,6 +11,8 @@ import { useScreenDetector } from "@/hooks/useScreenDetector";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Filter } from "lucide-react";
+import AdsBanner from "../home/banners/adsBanner";
+import useBanners from "@/hooks/useBanners";
 
 
 const INITIAL_FILTER_STATE = {
@@ -79,7 +81,7 @@ const ResultsCount = ({ total, isLoading }) => (
 );
 
 
-const mogouLayouClass = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6";
+const mogouLayouClass = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mt-6";
 
 // Main Loading Skeleton for entire page
 const PageLoadingSkeleton = () => (
@@ -117,6 +119,7 @@ export default function FilterPage() {
     const { bunUrl, handleChange: handleFilter, getByKey } = useFilterState(INITIAL_FILTER_STATE, ['page']);
     const { isMobile } = useScreenDetector();
     const { data, isLoading, isFetching } = useQuery(`/users/filter?${bunUrl}`);
+    const adverties = useBanners();
 
     // Sync safe mode with legal_only filter
     useEffect(() => {
@@ -140,6 +143,7 @@ export default function FilterPage() {
 
     return (
         <div className="min-h-screen container px-4 md:px-0 md:mx-0 md:max-w-full">
+
             <div className="md:mx-auto py-6">
                 {/* Header Section */}
                 <div className="flex items-center justify-between mb-8">
@@ -155,7 +159,7 @@ export default function FilterPage() {
                 </div>
 
                 {/* Filter Section */}
-                <div className="grid grid-cols-12 mb-6">
+                <div className="grid grid-cols-12 ">
                     {(!isMobile || showFilter) && (
                         <div className="col-span-12 w-full">
                             <FilterComponent
@@ -166,6 +170,10 @@ export default function FilterPage() {
                         </div>
                     )}
                 </div>
+
+                {
+                        (adverties?.length > 0 && adverties[1].active == true) && <AdsBanner banner={adverties[1]} />
+                    }
 
                 {/* Loading State for Manga Grid */}
                 {isFetching && !isLoading ? (
@@ -215,6 +223,12 @@ export default function FilterPage() {
                     </>
                 )}
             </div>
+
+            <div className="w-full mt-6 md:mt-0">
+                    {
+                        (adverties?.length > 0 && adverties[2].active == true) && <AdsBanner banner={adverties[2]} />
+                    }
+                </div>
         </div>
     );
 }

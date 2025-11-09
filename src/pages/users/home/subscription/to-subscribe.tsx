@@ -50,8 +50,8 @@ export default function ToSubscribe() {
                 <div className="absolute inset-0 bg-gradient-to-br opacity-70">
                     <div className="absolute inset-0 backdrop-blur-[2px]" />
                 </div>
-                <div className="absolute -top-12 -right-12 h-24 w-24 rounded-full bg-purple-500/20 blur-xl" />
-                <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-indigo-500/20 blur-lg" />
+                <div className="absolute -top-12 -right-12 h-24 w-24 rounded-full bg-primary/20 blur-xl" />
+                <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-neon-primary/20 blur-lg" />
 
                 <motion.div
                     className="absolute top-0 right-0 h-full w-1/2 opacity-10"
@@ -59,25 +59,25 @@ export default function ToSubscribe() {
                     animate={{ opacity: 0.1 }}
                     transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
                 >
-                    <div className="h-full w-full bg-gradient-to-b from-purple-500/30 via-transparent to-transparent" />
+                    <div className="h-full w-full bg-gradient-to-b from-primary/30 via-transparent to-transparent" />
                 </motion.div>
 
                 {/* Header with lock icon */}
                 <DialogHeader className="relative">
                     <motion.div
-                        className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-indigo-700 shadow-lg"
+                        className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-neon-primary shadow-lg"
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.5, type: "spring" }}
                     >
-                        <Lock className="h-6 w-6 text-white" />
+                        <Lock className="h-6 w-6 text-primary-foreground" />
                     </motion.div>
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <DialogTitle className="text-center text-xl font-bold mt-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-indigo-700">
+                        <DialogTitle className="text-center text-xl font-bold mt-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-neon-primary">
                             Premium Content
                         </DialogTitle>
                         <DialogDescription className="text-center">
@@ -94,17 +94,17 @@ export default function ToSubscribe() {
                     transition={{ delay: 0.1, duration: 0.3 }}
                 >
                     <div className="absolute -right-4 -top-4">
-                            <Sparkles className="h-8 w-8 text-amber-400 drop-shadow-md" />
+                            <Sparkles className="h-8 w-8 text-gold drop-shadow-md" />
                     </div>
 
-                    <h3 className="mb-2 font-semibold text-gray-400">{title}</h3>
-                    <p className="text-sm text-gray-500">{description}</p>
+                    <h3 className="mb-2 font-semibold text-muted-foreground">{title}</h3>
+                    <p className="text-sm text-muted-foreground">{description}</p>
 
-                    <div className="mt-4 flex items-center gap-2 rounded-md bg-gradient-to-r p-3 border border-slate-800 shadow-sm">
+                    <div className="mt-4 flex items-center gap-2 rounded-md bg-gradient-to-r p-3 border border-input shadow-sm">
                         
-                            <Crown className="h-5 w-5 text-amber-500 drop-shadow-sm" />
+                            <Crown className="h-5 w-5 text-gold drop-shadow-sm" />
                    
-                        <p className="text-sm font-medium text-gray-300">
+                        <p className="text-sm font-medium text-foreground">
                             Unlock this chapter and all premium content with a subscription.
                         </p>
                     </div>
@@ -115,7 +115,7 @@ export default function ToSubscribe() {
                     <motion.div className="w-full" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                         <Button
                             onClick={handleSubscribe}
-                            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all duration-300"
+                            className="w-full bg-gradient-to-r from-primary to-neon-primary text-primary-foreground hover:from-primary hover:to-primary-muted shadow-md hover:shadow-lg transition-all duration-300"
                             size="lg"
                         >
                             Subscribe Now
@@ -130,7 +130,7 @@ export default function ToSubscribe() {
                     >
                         <Button
                             variant="ghost"
-                            className="w-full text-gray-400 hover:text-gray-500 hover:bg-transparent"
+                            className="w-full text-muted-foreground hover:text-foreground hover:bg-transparent"
                             onClick={() => handleToggle(false)}
                         >
                             Maybe Later

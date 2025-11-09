@@ -40,8 +40,25 @@ export const ChapterTable = ({
 
 
     const callback = (data: any) => {
-        if (data) {
-            setChapters(data?.chapters);
+        if (data && data?.chapters) {
+            setChapters(prevChapters => {
+                // If we already have chapters, check if the new data is actually different
+                if (prevChapters.length > 0) {
+                    // If lengths are different, definitely update
+                    if (data.chapters.length !== prevChapters.length) {
+                        return data.chapters;
+                    }
+                    // If lengths are the same, check if content is different
+                    // Compare by chapter_number to avoid unnecessary rerenders
+                    const isDifferent = prevChapters.some((chapter, idx) => 
+                        chapter.chapter_number !== data.chapters[idx]?.chapter_number
+                    );
+                    // Only update if content is actually different
+                    return isDifferent ? data.chapters : prevChapters;
+                }
+                // No previous chapters, always update
+                return data.chapters;
+            });
             setLoading(false);
         }
     }
@@ -56,7 +73,10 @@ export const ChapterTable = ({
 
 
     const showAllChapters = () => {
-        setLoading(true);
+        // Only show loading if we don't have chapters yet
+        if (chapters.length === 0) {
+            setLoading(true);
+        }
         setShowAll(true);
     }
 
@@ -106,13 +126,13 @@ export const ChapterTable = ({
                             <TableBody className="gap-10 w-full">
                                 {
                                     chapters?.map((chapter, index) => (
-                                        <TableRow key={index}
+                                        <TableRow key={chapter.id || chapter.chapter_number || index}
                                             onClick={() => readTheChapter(chapter,mogous)}
                                             className={`text-lg h-12 flex items-center justify-between ${chapterRowEffectClasses(chapter?.subscription_only, userCanReadAll)}
                                             
                                          `}>
 
-                                            <TableCell key={index} className="curor-pointer text-sm   flex items-center gap-2">
+                                            <TableCell className="curor-pointer text-sm   flex items-center gap-2">
                                                 Chapter {chapter.chapter_number}  { !isMobile &&  (chapter.title.length > 60 ? ": " + chapter.title.slice(0, 60) + "..." : ": " + chapter.title)}
                                                 {
                                                     isNewChapter(chapter.created_at)
