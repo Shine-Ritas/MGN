@@ -43,29 +43,27 @@ export default function UserProfile() {
   data?.user && dispatch(setUser(data?.user));
 
   return (
-    <div className="pt-8  px-4 md:px-0">
+    <div className="pt-8 px-4 md:px-0">
       <div className="mb-6">
         <Goback to={-1} />
       </div>
       <Card className="mb-8">
         <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-
-          <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-            <DialogTrigger >
-                  <UserAvatar user={data?.user} shape='rounded' />
-            </DialogTrigger>
-             {
-               modalOpen && <Suspense fallback={<UserProfileModalSkeleton />}>
-                    <UserProfileModal user={data?.user} />
-                  </Suspense>
-             }
-          </Dialog>
-            <div className="flex-1 text-center md:text-left">
-              <h1 className="text-3xl font-bold mb-2">{storedUser?.name}</h1>
-              {/* <p className="text-muted-foreground mb-4">{userData.bio}</p> */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <div className="flex items-center gap-2 ">
+          <div className="flex flex-col md:flex-row items-start gap-6">
+            <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+              <DialogTrigger className="self-center">
+                <UserAvatar user={data?.user} shape='rounded' />
+              </DialogTrigger>
+              {modalOpen && (
+                <Suspense fallback={<UserProfileModalSkeleton />}>
+                  <UserProfileModal user={data?.user} />
+                </Suspense>
+              )}
+            </Dialog>
+            <div className="flex-1 text-left">
+              <h1 className="text-3xl font-bold mb-4">{storedUser?.name}</h1>
+              <div className="flex flex-col sm:flex-row gap-4 justify-start">
+                <div className="flex items-center gap-2">
                   <UserRoundCog className="w-4 h-4" />
                   <span className="text-muted-foreground">{storedUser?.user_code}</span>
                 </div>
@@ -73,7 +71,6 @@ export default function UserProfile() {
                   <Mail className="w-4 h-4" />
                   <span className="text-muted-foreground">{storedUser?.email}</span>
                 </div>
-
               </div>
             </div>
           </div>
@@ -82,7 +79,7 @@ export default function UserProfile() {
 
       <UserSubscriptionHistory setCurrentTable={null} history={data?.subscriptions as UserSubscriptionHistoryType[] ?? []} />
 
-      <h2 className="text-2xl font-bold mt-8 mb-6">BookMarked List</h2>
+      <h2 className="text-2xl font-bold mt-8 mb-6">Bookmarked List</h2>
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-4 flex-wrap w-full">
         {data?.favorites.map((manga: any) => (
            <MogouFavoriteCard key={manga.id} mogou={manga} />
