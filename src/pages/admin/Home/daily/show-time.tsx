@@ -1,20 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { useState, useEffect, useMemo } from 'react';
 
-// Date formatting utilities
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
-
-const timeFormatter = new Intl.DateTimeFormat('en-US', {
-  hour12: false,
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-});
-
 // Component-specific types
 interface ShowTimeProps {
   upTime: string;
@@ -25,9 +11,27 @@ export default function ShowTime({ upTime,timeZone}: ShowTimeProps) {
   const [currentTime, setCurrentTime] = useState(() => new Date());
   
 
-  // Memoize formatted values
-  const formattedTime = useMemo(() => timeFormatter.format(currentTime), [currentTime]);
-  const formattedDate = useMemo(() => dateFormatter.format(currentTime), [currentTime]);
+  // Memoize formatted values with timezone
+  const formattedTime = useMemo(() => {
+    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: timeZone,
+    });
+    return timeFormatter.format(currentTime);
+  }, [currentTime, timeZone]);
+
+  const formattedDate = useMemo(() => {
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: timeZone,
+    });
+    return dateFormatter.format(currentTime);
+  }, [currentTime, timeZone]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

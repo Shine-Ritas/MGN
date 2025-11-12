@@ -89,7 +89,7 @@ const ProgressiveBanner = ({ banner, onOpen }: ProgressiveBannerProps) => {
       <Card className="flex  bg-background flex-row items-center justify-between space-x-3 h-20 rounded-md border px-4">
 
         <Label htmlFor={banner.id.toString()} className='mt-0'>
-          Show {banner.name} To Non-Subscribers
+           {banner.name}'s Visibility
         </Label>
 
         <Switch

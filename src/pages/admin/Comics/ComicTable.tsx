@@ -88,7 +88,7 @@ const ComicTable = () => {
           {data?.mogous?.data?.length === 0 && !isLoading ? (
             <NoDataFound />
           ) : (
-            <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 2xl:gap-x-8 2xl:gap-y-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 2xl:gap-x-8 2xl:gap-y-12">
             { data?.mogous?.data?.map((mogou: MogousType) => (
                 <ComicCard key={mogou.id} mogous={mogou}  />
               ))}
