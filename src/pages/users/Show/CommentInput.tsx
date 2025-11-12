@@ -1,15 +1,15 @@
 import React, { useState, useRef } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import { ImageIcon, Send, X, LogIn } from "lucide-react"
 import { Link } from "react-router-dom"
-import { User } from "@/types/store/user-store-type"
 import useMutate from "@/hooks/useMutate"
+import UserAvatar from "@/components/users/UserAvatar"
+import { SubscribedUser } from "@/pages/admin/Users/types"
 
 interface CommentInputProps {
-  authUser?: User | null
+  authUser?: SubscribedUser | null
   refetch: any
   placeholder?: string
   isSubmitting?: boolean
@@ -31,17 +31,6 @@ export function CommentInput({
   const [postComment, { isLoading }] = useMutate({ callback: undefined, navigateBack: false });
 
   const isAuthenticated = !!authUser
-  const currentUserName = authUser?.name
-
-  const getUserInitials = (name?: string) => {
-    if (!name) return "U"
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2)
-  }
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -105,14 +94,9 @@ export function CommentInput({
   return (
     <Card className="p-4 border-2 border-border/50 hover:border-border transition-colors">
       <div className="flex gap-3">
-        <Avatar className="h-10 w-10 shrink-0">
-          <AvatarImage src={authUser?.avatar?.avatar_url_path || "/placeholder.svg"} alt={currentUserName} />
-          <AvatarFallback
-          style={{ backgroundColor: authUser?.background_color }}
-          className=" text-black font-medium border border-primary">
-            {getUserInitials(authUser?.name)}
-          </AvatarFallback>
-        </Avatar>
+
+         <UserAvatar user={authUser}  size="xs" shape="rounded"/>
+
         <div className="flex-1 space-y-3">
           <Textarea
             placeholder={placeholder}

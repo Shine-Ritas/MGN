@@ -47,12 +47,12 @@ const UserInfoDetail = ({user,setCurrentUser}:{user : SubscribedUser,setCurrentU
     <Card className="col-span-2 md:col-span-1">
     <CardHeader className='relative'>
       <CardTitle>User Details</CardTitle>
-      <CardDescription>Manage your profile information and account settings</CardDescription>
+      <CardDescription >Manage User Details</CardDescription>
 
       <Button
       disabled={isSubmiting}
       onClick={handleSubmit(onSubmit)}
-      className='absolute right-5 top-3' size="lg">Save Changes</Button>
+      className='absolute right-5 top-3' size="md">Update</Button>
     </CardHeader>
     <CardContent className="space-y-4">
       <div className="space-y-2">

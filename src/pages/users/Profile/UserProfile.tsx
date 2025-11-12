@@ -21,7 +21,7 @@ const UserProfileModal = lazy(() => import('./UserAvatarModal'));
 export default function UserProfile() {
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { data, isLoading } = useQuery(`/users/profile`, undefined, true);
+  const { data, isLoading, refetch } = useQuery(`/users/profile`, undefined, true);
 
   const storedUser = useUserAppSelector(selectAuthUser);
   const dispatch = useUserAppDispatch();
@@ -56,7 +56,7 @@ export default function UserProfile() {
               </DialogTrigger>
               {modalOpen && (
                 <Suspense fallback={<UserProfileModalSkeleton />}>
-                  <UserProfileModal user={data?.user} />
+                  <UserProfileModal user={data?.user} onProfileUpdate={refetch} onClose={() => setModalOpen(false)} />
                 </Suspense>
               )}
             </Dialog>

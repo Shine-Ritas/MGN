@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Reply, ChevronDown, ChevronUp } from "lucide-react"
@@ -8,6 +7,7 @@ import { User } from "@/types/store/user-store-type"
 import { ReplyInput } from "./ReplyInput"
 import useMutate from "@/hooks/useMutate"
 import useQuery from "@/hooks/useQuery"
+import UserAvatar from "@/components/users/UserAvatar"
 
 interface CommentItemProps {
   comment: Comment
@@ -42,17 +42,6 @@ export function CommentItem({
 
 
   const isAuthenticated = !!authUser
-
-
-  const getUserInitials = (name?: string) => {
-    if (!name) return "U"
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2)
-  }
 
   const CONTENT_LIMIT = 200
 
@@ -125,14 +114,8 @@ export function CommentItem({
       {/* Parent Comment */}
       <Card className="p-4 border border-border/50 hover:border-border transition-colors">
         <div className="flex gap-3">
-          <Avatar className="h-10 w-10 shrink-0">
-            <AvatarImage src={comment.user.avatar?.avatar_url_path || "/placeholder.svg"} alt={comment.user.name} />
-            <AvatarFallback
-            style={{ backgroundColor: comment.user.background_color }}
-            className={`  border border-primary text-black font-medium`}>
-              {getUserInitials(comment.user.name)}
-            </AvatarFallback>
-          </Avatar>
+         
+          <UserAvatar user={comment.user}  size="xs" shape="rounded"/>
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="font-semibold text-sm">{comment.user.name || "Anonymous"}</span>
@@ -224,14 +207,7 @@ export function CommentItem({
             {expandedReplies.map((reply: Comment) => (
               <div key={reply.id} className="p-4 rounded-lg bg-popover border border-border/30 lg:ml-20 ml-10 ">
                 <div className="flex gap-3">
-                <Avatar className="h-10 w-10 shrink-0">
-                  <AvatarImage src={reply.user.avatar?.avatar_url_path || "/placeholder.svg"} alt={reply.user.name} />
-                  <AvatarFallback
-                  style={{ backgroundColor: reply.user.background_color }}
-                  className={`  border border-primary text-black font-medium`}>
-                    {getUserInitials(reply.user.name)}
-                  </AvatarFallback>
-                </Avatar>
+                  <UserAvatar user={reply.user}  size="xs" shape="rounded"/>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className="font-semibold text-sm">{reply.user.name || "Anonymous"}</span>

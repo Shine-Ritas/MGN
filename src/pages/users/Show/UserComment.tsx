@@ -85,7 +85,7 @@ export function UserComment({
       <ScrollArea className="w-full max-h-[60vh] overflow-y-scroll ">
         {/* Comment Input */}
         <CommentInput
-          authUser={authUser}
+          authUser={authUser as any}
           refetch={refetch}
           commentPayload={commentPayload}
         />

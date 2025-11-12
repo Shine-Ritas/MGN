@@ -1,4 +1,4 @@
-import { User } from "@/types/store/user-store-type";
+import { SubscribedUser } from "@/pages/admin/Users/types";
 
 export type Comment = {
     id : number,
@@ -7,7 +7,7 @@ export type Comment = {
     mogou_id?: number,
     sub_mogou_id?: number,
     parent_comment_id?: number,
-    user: User,
+    user: SubscribedUser,
     created_at?: string,
     updated_at?: string,
     child_comments?: Comment[],
