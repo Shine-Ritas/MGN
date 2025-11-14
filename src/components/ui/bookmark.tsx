@@ -2,7 +2,6 @@ import { Bookmark, BookmarkCheck } from 'lucide-react';
 import React from 'react'
 import { Button } from './button';
 import useMutate from '@/hooks/useMutate';
-import { TooltipTrigger } from './tooltip';
 
 const contentVariants = {
     default: {
@@ -15,18 +14,17 @@ const contentVariants = {
     },
 }
 
-interface BookMarkProps extends React.HTMLAttributes<HTMLDivElement> {
+interface BookMarkProps extends React.ComponentPropsWithoutRef<typeof Button> {
     mogou_id: number;
     user_id?: string;
-    className?: string;
     isBookMarked: boolean;
     variant?: keyof typeof contentVariants;
     isDisabled?: boolean;
 }
 
-const BookMark = ({
-    isBookMarked = false, className = '', variant = "default", isDisabled = false, mogou_id, user_id = undefined
-}: BookMarkProps) => {
+const BookMark = React.forwardRef<HTMLButtonElement, BookMarkProps>(({
+    isBookMarked = false, className = '', variant = "default", isDisabled = false, mogou_id, user_id = undefined, ...props
+}, ref) => {
 
     const [isMarked, setIsMarked] = React.useState(isBookMarked);
 
@@ -50,29 +48,20 @@ const BookMark = ({
     const markedColor = isMarked ? 'bg-primary' : contentVariants[variant].color;
 
     return (
-        (!isLoading && !isDisabled) ?
-            <Button
-                onClick={handleClick}
-                disabled={isLoading || isDisabled}
-                className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}>
-                {icon}
-                <span className='hidden md:inline'>
-                    {context}
-                </span>
-            </Button>
-            :
-            <TooltipTrigger>
-                <Button
-                    onClick={handleClick}
-                    disabled={isLoading || isDisabled}
-                    className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}>
-                    {icon}
-                    <span className='hidden md:inline'>
-                        {context}
-                    </span>
-                </Button>
-            </TooltipTrigger>
+        <Button
+            ref={ref}
+            onClick={handleClick}
+            disabled={isLoading || isDisabled}
+            className={`${className} ${markedColor} ${contentVariants[variant].text} ${className} flex items-center gap-1 transition-all`}
+            {...props}>
+            {icon}
+            <span className='hidden md:inline'>
+                {context}
+            </span>
+        </Button>
     )
-}
+})
+
+BookMark.displayName = "BookMark"
 
 export default BookMark

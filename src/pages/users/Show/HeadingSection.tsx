@@ -14,7 +14,7 @@ import DOMPurify from 'dompurify';
 
 import useReadChapter from "@/hooks/useReadChapter";
 import CategoryBadge from "@/components/ui/mogou-card/category-badge";
-import { Tooltip, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface HeadingSectionProps {
     mogous: any,
@@ -138,11 +138,13 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
 
                             <TooltipProvider delayDuration={300}   >
                             <Tooltip>
+                                <TooltipTrigger asChild>
                                     <BookMark
                                         mogou_id={mogou?.id}
                                         user_id={auth?.id}
                                         isDisabled={auth == null}
                                         isBookMarked={isFavorite} className=" py-6 text-lg" />
+                                </TooltipTrigger>
                                 <TooltipContent className="bg-secondary " >
                                     <p>Need Log In</p>
                                 </TooltipContent>

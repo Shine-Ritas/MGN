@@ -27,7 +27,7 @@ const DetailHeader = () => {
     const handlePrevChapter = () => {
       handleChapterSwitch("prev");
     };
-    
+
     const handleNextChapter = () => {
       handleChapterSwitch("next");
     };
@@ -42,7 +42,7 @@ const DetailHeader = () => {
             <div className="px-4 md:px-12 lg:px-24 flex flex-col">
               <span className="text-md md:text-lg">{chapter?.current_chapter?.title}</span>
               <Link
-              to={userRouteCollection.show.replace("{slug}", chapter?.mogou?.slug || "")}
+              to={userRouteCollection.show.replace(":slug", chapter?.mogou?.slug || "")}
               className="text-neon-primary">{chapter?.mogou.title}</Link>
             </div>
 

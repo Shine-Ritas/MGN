@@ -76,7 +76,7 @@ export const getRandomInterval = (min: number, max: number) => {
 };
 
 export const rTitle = (title: string, limit: number = 20) => {
-  return title.length > limit ? `${title.substring(0, limit)}...` : title;
+  return title?.length > limit ? `${title.substring(0, limit)}...` : title;
 };
 
 export const extractZip = async (file: File): Promise<File[]> => {
