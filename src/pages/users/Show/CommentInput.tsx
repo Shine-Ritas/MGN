@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
-import { ImageIcon, Send, X, LogIn } from "lucide-react"
+import {  Send, X, LogIn } from "lucide-react"
 import { Link } from "react-router-dom"
 import useMutate from "@/hooks/useMutate"
 import UserAvatar from "@/components/users/UserAvatar"
@@ -39,6 +39,8 @@ export function CommentInput({
       setImagePreview(URL.createObjectURL(file))
     }
   }
+
+  console.log(handleImageSelect,isLoading)
 
   const clearImage = () => {
     setSelectedImage(null)
@@ -123,7 +125,7 @@ export function CommentInput({
             </div>
           )}
           <div className="flex items-center justify-between gap-2">
-            <input
+            {/* <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
@@ -139,7 +141,7 @@ export function CommentInput({
             >
               <ImageIcon className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Add Image</span>
-            </Button>
+            </Button> */}
             <Button
               onClick={handleSubmit}
               disabled={(!newComment.trim() && !selectedImage) || isSubmitting}

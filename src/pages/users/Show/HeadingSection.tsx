@@ -135,21 +135,28 @@ const HeadingSection = ({ mogous, loading }: HeadingSectionProps) => {
                                 Start Reading <FaCaretRight className="text-2xl hidden md:flex" />
                             </Button>
 
-
-                            <TooltipProvider delayDuration={300}   >
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <BookMark
-                                        mogou_id={mogou?.id}
-                                        user_id={auth?.id}
-                                        isDisabled={auth == null}
-                                        isBookMarked={isFavorite} className=" py-6 text-lg" />
-                                </TooltipTrigger>
-                                <TooltipContent className="bg-secondary " >
-                                    <p>Need Log In</p>
-                                </TooltipContent>
-                            </Tooltip>
-                            </TooltipProvider>
+                            {!auth ? (
+                                <TooltipProvider delayDuration={300}>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <BookMark
+                                                mogou_id={mogou?.id}
+                                                user_id={undefined}
+                                                isDisabled={true}
+                                                isBookMarked={isFavorite} className=" py-6 text-lg" />
+                                        </TooltipTrigger>
+                                        <TooltipContent className="bg-secondary" side="top">
+                                            <p>Need Log In</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            ) : (
+                                <BookMark
+                                    mogou_id={mogou?.id}
+                                    user_id={auth.id}
+                                    isDisabled={false}
+                                    isBookMarked={isFavorite} className=" py-6 text-lg" />
+                            )}
                            
                         </div>
                         <div className={sharedClasses.metaInfo}>

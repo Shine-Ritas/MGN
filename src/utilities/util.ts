@@ -46,7 +46,7 @@ export const isSubscriptionExpired = (
   }
   return new Date(date) < new Date()
     ? { variant: "destructive", message: "Expired" }
-    : { variant: "gold", message: subscription_name! };
+    : { variant: "outline", message: "Member" };
 };
 
 export function prefixRoutes<T extends Record<string, any>>(

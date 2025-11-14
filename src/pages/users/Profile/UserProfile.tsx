@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Mail,UserRoundCog } from "lucide-react"
+import { Crown, Mail,UserRoundCog } from "lucide-react"
 import useQuery from "@/hooks/useQuery"
 import { UserSubscriptionHistoryType } from "@/pages/admin/Users/UserDetail"
 import UserSubscriptionHistory from "@/pages/admin/Users/UserSubscriptionHistory"
@@ -70,6 +70,10 @@ export default function UserProfile() {
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   <span className="text-muted-foreground">{storedUser?.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Crown className="w-4 h-4" />
+                  <span className="text-muted-foreground">{storedUser?.subscription_name}</span>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { ImageIcon, Send, X } from "lucide-react"
+import {  Send } from "lucide-react"
 import { User } from "@/types/store/user-store-type"
 
 interface ReplyInputProps {
@@ -44,6 +44,8 @@ export function ReplyInput({
       setReplyImagePreview(URL.createObjectURL(file))
     }
   }
+
+  console.log(handleImageSelect,replyImagePreview);
 
   const clearImage = () => {
     setReplyImage(null)
@@ -89,7 +91,7 @@ export function ReplyInput({
           disabled={isSubmitting}
           autoFocus
         />
-        {replyImagePreview && (
+        {/* {replyImagePreview && (
           <div className="relative inline-block">
             <img
               src={replyImagePreview || "/placeholder.svg"}
@@ -105,9 +107,9 @@ export function ReplyInput({
               <X className="h-3 w-3" />
             </Button>
           </div>
-        )}
+        )} */}
         <div className="flex items-center gap-2">
-          <input
+          {/* <input
             ref={replyFileInputRef}
             type="file"
             accept="image/*"
@@ -123,7 +125,7 @@ export function ReplyInput({
           >
             <ImageIcon className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">Image</span>
-          </Button>
+          </Button> */}
           <Button
             onClick={() => handleSubmit(0)} // parentId will be passed from parent
             disabled={(!replyContent.trim() && !replyImage) || isSubmitting}
