@@ -133,7 +133,7 @@ const Action = ({ isEdit = false }: ActionProps) => {
 
 
   if (isEdit && isLoading) {
-    return <div>Loading...</div>
+    return <div>Fetching Data...</div>
   }
 
   return (

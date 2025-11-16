@@ -11,6 +11,7 @@ import { useEffect, useState } from "react"
 import UserDetailHistory from "./UserDetailHistory"
 import { eventEmitter } from "@/utilities/event-emitter"
 import { rTitle } from "@/utilities/util"
+import UserDetailSkeleton from "./UserDetailSkeleton"
 
 export type UserLoginHistoryType = {
   location: string
@@ -59,9 +60,22 @@ export default function UserDetail() {
 
   }, [data, isLoading])
 
+  // Show loading skeleton while loading
+  if (isLoading) {
+    return <UserDetailSkeleton />
+  }
 
-  if (!currentUser) {
-    return <div>User not found</div>
+  // Show not found only after loading is complete
+  if (!isLoading && !currentUser) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] px-4">
+        <h2 className="text-2xl font-semibold text-muted-foreground">User Not Found</h2>
+        <p className="text-sm text-muted-foreground mt-2">The user you're looking for doesn't exist.</p>
+        <div className="mt-4">
+          <Goback to={-1} />
+        </div>
+      </div>
+    )
   }
 
   return (

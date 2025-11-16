@@ -51,6 +51,7 @@ const Show = () => {
     const adverties = useBanners();
 
 
+
     const { isLargeDesktop } = useScreenDetector();
 
     // Check if content has adult categories
