@@ -1,10 +1,10 @@
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { CardTitle, CardDescription, CardHeader, CardContent, Card, CardFooter } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/components/ui/use-toast"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Logo from "@/assets/imgs/logo.png"
 import { loginValidationSchema } from "./LoginValidation"
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ import { setAdmin } from "@/redux/slices/admin-auth-slice"
 import { adminRouteCollection } from "@/routes/data/admin_route"
 import useSecureStorage from "@/hooks/useSecureStorage"
 import config from "@/config"
+import { userRouteCollection } from "@/routes/data/user_route"
 interface loginSubmitForm {
     email: string,
     password: string
@@ -72,8 +73,8 @@ const Login = () => {
             <Card className="mx-auto max-w-sm">
                 
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold">Login</CardTitle>
-                    <CardDescription>Enter your email and password to login to your account</CardDescription>
+                    <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
+                    <CardDescription>Enter your admin email and password to login to your account</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,6 +98,10 @@ const Login = () => {
                     </div>
                 </form>
                 </CardContent>
+                <CardFooter className="flex flex-col">
+                    If you are normal user, please login to
+                    <Link to={userRouteCollection.login} className="text-neon-primary underline">User Login</Link>
+                </CardFooter>
             </Card>
             </div>
 
