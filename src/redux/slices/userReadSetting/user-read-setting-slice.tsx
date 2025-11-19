@@ -12,6 +12,15 @@ const saveToLocalStorage = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
+const getFromLocalStorage = (key: string) => {
+  const data = localStorage.getItem(key);
+  if (!data) {
+    return null;
+  }
+  return JSON.parse(data);
+}
+
+
 export const loadFromLocalStorage = (key: string, fallback: any): any => {
   const data = localStorage.getItem(key);
   if (!data) {
@@ -20,6 +29,28 @@ export const loadFromLocalStorage = (key: string, fallback: any): any => {
   const parsedData = data ? JSON.parse(data) : fallback;
   return validateUserReadSetting(parsedData) ? parsedData : fallback;
 };
+
+
+export const getDefaultStyle = (payload: { type: string }) => {
+  const { type } = payload;
+
+  const key = `${type}DefaultStyle`;          // e.g. mangaDefaultStyle / manhwaDefaultStyle
+  const defaultValue = getFromLocalStorage(key);
+
+  if (defaultValue === null) {
+    saveToLocalStorage(key, true);
+    return true;
+  }
+
+  return defaultValue;
+}
+
+export const setDefaultStyle = (payload: { type: string, value: boolean }) => {
+  const { type, value } = payload;
+  const key = `${type}DefaultStyle`;
+  saveToLocalStorage(key, value);
+}
+
 
 
 const getRotationKey = (collection: Record<string, any>, current: any) => {
@@ -84,6 +115,11 @@ export const userReadSettingSlice = createSlice({
         updateStateAndPersist(state, key, !state[key]);
       }
     },
+    mutateDefaultStyle: (state, { payload }: PayloadAction<{ key: string, value: boolean | null }>) => {  
+      const { key, value } = payload;
+      const keyName = `${key}DefaultStyle`;
+      value != null && saveToLocalStorage(keyName, value);
+    },
     setRotation: (state, { payload }: PayloadAction<{ key: SettingActionKey; value: keyof UserReadSetting }>) => {
       const { key, value } = payload;
       const collection = toggleActionCollection[key];
@@ -112,7 +148,7 @@ export const userReadSettingSlice = createSlice({
         case "decrease": {
           const prevPage = newPage - max;
           if (prevPage < 1 && newPage === 1) {
-            navigate!(state.prevUrl+"?last_page=true")
+            navigate!(state.prevUrl + "?last_page=true")
           }
           newPage = Math.max(prevPage, 1);
           break;
@@ -134,5 +170,5 @@ export const userReadSettingSlice = createSlice({
 
 export const selectSettingByKey = (state: any, key: SettingActionKey) => state.userReadSetting[key];
 
-export const { setUserReadSetting, toggleValue, setCurrentPage, setRotation, setField, clearOutUserReadSetting } = userReadSettingSlice.actions;
+export const { setUserReadSetting, toggleValue, setCurrentPage, setRotation, setField, clearOutUserReadSetting,mutateDefaultStyle } = userReadSettingSlice.actions;
 export default userReadSettingSlice.reducer;

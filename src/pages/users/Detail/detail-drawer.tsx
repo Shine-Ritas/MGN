@@ -52,6 +52,7 @@ const DetailDrawer = () => {
     const dispatch = useUserAppDispatch();
     const readSetting = useUserAppSelector(selectUserReadSetting);
     const { underDesktop } = useScreenDetector();
+    const [comicType,setComicType] = useState<string | null>(null);
     const content = underDesktop ? "content" : "description";
 
     const navigate = useNavigate();
@@ -70,6 +71,9 @@ const DetailDrawer = () => {
         value: chapter.chapter_number
     })) || [];
 
+    useEffect(() => {
+        setComicType(sr?.mogou?.mogou_type_name.toLowerCase() == 'manga' ? 'manga' : 'manhwa');
+    }, [sr?.mogou?.mogou_type_name]);
 
     const handleSetPage = useCallback(
         (action: "prefer" | "increase" | "decrease", value?: number) => {
@@ -169,12 +173,16 @@ const DetailDrawer = () => {
                             />
                             <MemoizedSettingButton
                                 settingActionKey={toggleActionCollectionKeys.readingStyle as SettingActionKey}
+                                comicType={comicType}
+                                comicTypeValue={false}
                             />
                             <MemoizedSettingButton
                                 settingActionKey={toggleActionCollectionKeys.readingDirection as SettingActionKey}
                             />
                             <MemoizedSettingButton
                                 settingActionKey={toggleActionCollectionKeys.imageFit as SettingActionKey}
+                                comicType={comicType}
+                                comicTypeValue={false}
                             />
                             <MemoizedSettingButton
                                 settingActionKey={toggleActionCollectionKeys.progressBar as SettingActionKey}

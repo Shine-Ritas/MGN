@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useUserAppDispatch, useUserAppSelector } from "@/redux/hooks";
 import { selectUserReadSetting } from "@/redux/slices/userReadSetting/selectors";
-import { setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
+import { getDefaultStyle, setCurrentPage, setField, toggleValue } from "@/redux/slices/userReadSetting/user-read-setting-slice";
 import readingStyleClasses from "@/utilities/read-helper";
 import { PageProgressBar } from "./page-progress";
 import ImageContainer from "./image-container";
@@ -24,6 +24,7 @@ import DetailHeader from "./detail-header";
 import { selectAuthUser } from "@/redux/slices/user-global";
 import { Lock, Crown } from "lucide-react";
 import Goback from "@/components/goback-btn";
+import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 // import { toggleActionCollection, toggleActionCollectionKeys } from "@/redux/slices/userReadSetting/constants";
 
 // Utility: prefetch images sequentially (one by one)
@@ -53,7 +54,6 @@ const prefetchImagesSequentially = (imagePaths: string[], onComplete?: () => voi
 
   prefetchNext(0);
 };
-
 
 const Detail = () => {
   // Always call hooks unconditionally
@@ -91,7 +91,7 @@ const Detail = () => {
 
   const chapterUrls = useMemo(() => {
     if (!data) return { nextUrl: "", prevUrl: "" };
-    const nextChapterUrl = data?.next_chapter 
+    const nextChapterUrl = data?.next_chapter   
       ? `/read/mogou/${data?.mogou?.slug}/chapters/${data?.next_chapter?.slug}` 
       : route(userRouteCollection.show, {slug: data?.mogou?.slug});
     const prevChapterUrl = data?.prev_chapter 
@@ -104,14 +104,15 @@ const Detail = () => {
   useEffect(() => {
     if (!chapterId) return;
 
-    // if(data?.mogou?.mogou_type_name == "Manhwa"){
-    //   dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['LongStrip']}));
-    //   dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Cover']}));
+    if(data?.mogou?.mogou_type_name == "Manhwa" && getDefaultStyle({type: "manhwa"})){
+      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['LongStrip']}));
+      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Cover']}));
+    }
 
-    // }else{
-    //   dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['SinglePage']}));
-    //   dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Contain']}));
-    // }
+    if(data?.mogou?.mogou_type_name == "Manga" && getDefaultStyle({type: "manga"})){
+      dispatch(setField({key: "readingStyle", value: toggleActionCollection[toggleActionCollectionKeys.readingStyle]['SinglePage']}));
+      dispatch(setField({key: "imageFit", value: toggleActionCollection[toggleActionCollectionKeys.imageFit]['Contain']}));
+    }
 
     // Check if chapter has changed
     if (readSetting.currentId !== chapterId) {
