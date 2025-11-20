@@ -110,7 +110,7 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
   }
 
   return (
-    <div className="py-4 space-y-4">
+    <div className="py-4 space-y-4 max-w-[90vw]">
       <Card>
         <CardHeader>
           <CardTitle className="flex justify-between items-center capitalize">
@@ -132,7 +132,7 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4 max-h-80 overflow-y-scroll">
+          <div className="space-y-4 max-h-80 overflow-y-scroll ">
             {carouselProducts.map(product => (
               <div key={product.id} className="flex items-center justify-between">
                 <div>
@@ -140,7 +140,7 @@ export default function EnhancedCarouselManager({type,carousel_type} : EnhancedC
                     {product.title}
                   </Label>
                   <p className="text-sm text-muted-foreground pe-10">
-                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description.length > 170 ? product.description.slice(0,170) + "..." : product.description) }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description.length > 120 ? product.description.slice(0,120) + "..." : product.description) }} />
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">

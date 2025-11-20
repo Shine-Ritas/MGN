@@ -17,7 +17,7 @@ const ChannelList = ({ bot }) => {
 
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[300px]">
+        <ScrollArea className="max-h-[300px] overflow-y-scroll">
           {bot?.channels.map((channel, index) => (
             <div key={index} className="mb-4 p-4 border rounded-lg">
               <div className="flex items-center justify-between gap-3 w-full">

@@ -9,7 +9,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { TablePagination } from "@/components/TablePagination"
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PostHistoryProps {
     posts: any;
@@ -51,8 +50,7 @@ const PostHistory = ({posts, currentPage, lastPage, setCurrentPage, isFetching =
                 <CardTitle>Post History</CardTitle>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="!max-h-[40vh] overflow-y-scroll">
-                <Table className="">
+                <Table className="whitespace-nowrap overflow-scroll max-h-[40vh]">
                     <TableHeader>
                         <TableRow>
                             <TableHead>Content</TableHead>
@@ -86,7 +84,6 @@ const PostHistory = ({posts, currentPage, lastPage, setCurrentPage, isFetching =
                         )}
                     </TableBody>
                 </Table>
-                </ScrollArea>
                 {postsData.length > 0 && (
                     <div className="mt-4">
                         <TablePagination

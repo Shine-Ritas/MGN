@@ -16,7 +16,7 @@ const MCardCarouselSlider = ({ isLoading, collection }) => {
                             <CarouselNext className='relative left-0' />
                         </span>
                     </CardTitle>
-                    <CarouselContent className="-ml-1 gap-4 mt-8">
+                    <CarouselContent className="-ml-1 gap-4 mt-8 max-w-[90vw] md:w-full">
                         {
                             !isLoading && collection?.map((mogou) =>
                                 (mogou?.is_visible !== false) && (

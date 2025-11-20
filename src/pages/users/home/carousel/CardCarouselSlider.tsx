@@ -14,7 +14,7 @@ const CardCarouselSlider = ({ isLoading, collection }) => {
             active: !isLoading,
           }),
         ]}
-        className="min-w-full overflow-hidden px-4 md:px-0"
+        className=" md:w-full overflow-hidden "
       >
         <CarouselContent
           className="gap-4 -ml-1"

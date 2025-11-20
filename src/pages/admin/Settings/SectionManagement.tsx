@@ -12,7 +12,7 @@ const tabs = [
     icon : <GalleryVerticalEnd />,
   },
   {
-    title: 'Home Page Recommended Slider',
+    title: 'Recommended Slider',
     key: 'home_page_recommanded_slider',
     icon : <GalleryVerticalEnd />,
 

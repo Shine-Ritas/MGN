@@ -73,7 +73,7 @@ const AdminsTable = () => {
                 </div>
             </CardHeader>
             <CardContent className="pb-0">
-                <Table >
+                <Table className="whitespace-nowrap" >
                     <TableHeader>
                         <TableRow className="">
                             <TableHead className="w-20">

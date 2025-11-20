@@ -51,7 +51,7 @@ const HomePage = () => {
         name="Home"
         type="Manga/Manwa" />
 
-      <div className="w-full flex justify-center pt-8">
+      <div className="w-full flex justify-center pt-8 px-4 md:px-0">
         <HeroCarousel />
       </div>
 
