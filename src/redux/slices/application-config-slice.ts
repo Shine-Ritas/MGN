@@ -38,7 +38,7 @@ export const getAppliactionConfig = createAsyncThunk(
 
             return result;  
         } catch (error) {
-            console.error("Failed to fetch admin permissions:", error);
+            console.error("Failed to fetch application config:", error);
             throw error;
         }
     }
